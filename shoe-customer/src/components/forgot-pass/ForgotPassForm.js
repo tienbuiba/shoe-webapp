@@ -1,9 +1,12 @@
 import React from 'react'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { Avatar, Grid, Link, Paper, Typography } from '@mui/material';
+import { Avatar, Grid, Paper, Typography } from '@mui/material';
 import AuthForgotPass from './AuthForgotPass';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 const ForgotPassForm = ({ handleChange }) => {
+  const { t } = useTranslation("translation");
   const paperStyle = { paddingTop: 20, height: '65vh', width: 430, margin: "0 auto", paddingLeft: 20, paddingRight: 20 }
   const avatarStyle = { backgroundColor: '#1bbd7e' }
 
@@ -14,23 +17,24 @@ const ForgotPassForm = ({ handleChange }) => {
           <Avatar style={avatarStyle}>
             <LockOutlinedIcon />
           </Avatar>
-          <h2>Forgot password</h2>
+          <h3>{t("Forgot password")}</h3>
           <Typography sx={{ mb: 6 }}></Typography>
         </Grid>
         <AuthForgotPass />
         <Grid sx={{ pt: 3 }}>
           <p style={{ paddingTop: 1, color: '#1e1e27' }}>
-            Back to
+            {t("Back to")}
             <span style={{ paddingTop: 1, color: '#1e1e27', marginLeft: 6 }}>
-              <Link href="/login" >
-                Sign In
+              <Link to="/login" >
+                {t("Sign In")}
               </Link>
             </span>
           </p>
-          <p style={{ paddingTop: 1, color: '#1e1e27' }} > Do you have an account ?
+          <p style={{ paddingTop: 1, color: '#1e1e27' }} >
+            {t("Do you have an account ?")}
             <span style={{ paddingTop: 1, color: '#1e1e27', marginLeft: 6 }}>
-              <Link href="/login" onClick={() => handleChange("event", 1)}>
-                Sign Up
+              <Link to="/login" onClick={() => handleChange("event", 1)}>
+                {t("Sign Up")}
               </Link>
             </span>
           </p>

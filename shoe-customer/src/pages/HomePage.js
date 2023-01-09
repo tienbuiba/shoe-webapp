@@ -30,7 +30,7 @@ const HomePage = () => {
                 <div className="main_slider_content">
                   <h6>Spring / Summer Collection 2021</h6>
                   <h1>Get up to 30% Off New Arrivals</h1>
-                  <div className="red_button shop_now_button"><a href="#">shop now</a></div>
+                  <div className="red_button shop_now_button"><Link to="/shop">shop now</Link></div>
                 </div>
               </div>
             </div>

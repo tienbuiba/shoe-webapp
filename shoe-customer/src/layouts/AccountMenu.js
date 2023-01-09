@@ -19,6 +19,7 @@ export default function AccountPopover() {
   const handleClose = () => {
     setOpen(null);
   };
+
   const profile = JSON.parse(TokenService.getLocalProfile('profile'));
   const handleLogout = () => {
     TokenService.removeAccessToken();
@@ -74,19 +75,23 @@ export default function AccountPopover() {
         <Divider sx={{ borderStyle: 'dashed' }} />
         <Stack sx={{ p: 1 }}>
           <MenuItem to="/account-profile" component={RouterLink} onClick={handleClose}>
-            Account Page <i class="fa fa-user" style={{ marginLeft: 4 }}></i>
+            {t("Account Page")}
+            <i class="fa fa-user" style={{ marginLeft: 4 }}></i>
           </MenuItem>
           <Divider sx={{ borderStyle: 'dashed' }} />
           <MenuItem to="/account-order" component={RouterLink} onClick={handleClose}>
-            Orders History <i class="fa fa-first-order" style={{ marginLeft: 4 }}></i>
+            {t("Orders History")}
+            <i class="fa fa-first-order" style={{ marginLeft: 4 }}></i>
           </MenuItem>
           <Divider sx={{ borderStyle: 'dashed' }} />
           <MenuItem to="/account-transaction" component={RouterLink} onClick={handleClose}>
-            Transaction History <i class="fa fa-money" style={{ marginLeft: 4 }}></i>
+            {t("Transaction History")}
+            <i class="fa fa-money" style={{ marginLeft: 4 }}></i>
           </MenuItem>
           <Divider sx={{ borderStyle: 'dashed' }} />
           <MenuItem onClick={handleLogout}>
-            Logout  <i className="fa fa-sign-out" aria-hidden="true" style={{ marginLeft: 4 }}></i>
+            {t("Logout")}
+            <i className="fa fa-sign-out" aria-hidden="true" style={{ marginLeft: 4 }}></i>
           </MenuItem>
         </Stack>
       </MenuPopover>

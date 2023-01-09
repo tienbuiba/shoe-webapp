@@ -2,7 +2,6 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 import useResponsive from 'src/hooks/useResponsive';
-import { Divider } from '@mui/material';
 import useScript from 'src/constants/useScript';
 import LanguagePopover from './LanguagePopover';
 import AccountPopover from './AccountMenu';
@@ -26,6 +25,7 @@ const Header = () => {
     TokenService.removeLocalProfile();
     navigate('/', { replace: true });
   };
+
   return (
     <div className="MainDiv">
       <header className="header trans_300">
@@ -33,7 +33,9 @@ const Header = () => {
           <div className="container">
             <div className="row">
               <div className="col-md-6">
-                <div className="top_nav_left">HOME: 319 - C16 Lý Thường Kiệt, P.15, Q.11, Tp.HCM</div>
+                <div className="top_nav_left">
+                  {t("HOME: 319 - C16 Ly Thuong Kiet, Ward 15, District 11, HCMC")}
+                </div>
               </div>
               <div className="col-md-6 text-right">
                 <div className="top_nav_right">
@@ -48,16 +50,20 @@ const Header = () => {
                     {token ? <>
                       <li className="account">
                         <a href="#">
-                          My Account
+                          {t("My Account")}
                           <i className="fa fa-angle-down"></i>
                         </a>
                         <ul className="account_selection">
-                          <li><a onClick={handleLogout}><i className="fa fa-sign-out" aria-hidden="true"></i>Logout</a></li>
+                          <li><a onClick={handleLogout}><i className="fa fa-sign-out" aria-hidden="true" style={{ marginRight: '2px'}}></i>
+                            {t("Logout")}
+                          </a></li>
                         </ul>
                       </li>
                     </> : (
                       <li className="account">
-                        <Link to="/login"><i className="fa fa-sign-in" aria-hidden="true"></i>Sign In</Link>
+                        <Link to="/login"><i className="fa fa-sign-in" aria-hidden="true" style={{ marginRight: '2px'}}></i>
+                          {t("Sign In")}
+                        </Link>
                       </li>
                     )}
                   </ul>
@@ -75,17 +81,29 @@ const Header = () => {
                 </div>
                 <nav className="navbar">
                   <ul className="navbar_menu">
-                    <li><Link to="/">Home Page</Link></li>
-                    <li><Link to="/introduction">Introduction</Link></li>
-                    <li><Link to="/shop">Shop</Link></li>
-                    <li><Link to="/news">News</Link></li>
-                    <li><Link to="/contact-us">Contact</Link></li>
-                    <li><Link to="/check-order">Check order</Link></li>
+                    <li><Link to="/">
+                      {t("Home Page")}
+                    </Link></li>
+                    <li><Link to="/introduction">
+                      {t("Introduction")}
+                    </Link></li>
+                    <li><Link to="/shop">
+                      {t("Shop")}
+                    </Link></li>
+                    <li><Link to="/news">
+                      {t("News")}
+                    </Link></li>
+                    <li><Link to="/contact-us">
+                      {t("Contact")}
+                    </Link></li>
+                    <li><Link to="/check-order">
+                      {t("Check order")}
+                    </Link></li>
                   </ul>
                   <ul className="navbar_user" >
                     <li><a href="#"><i className="fa fa-search" aria-hidden="true"></i></a></li>
                     {token ? <>
-                      <li style={{padding: '10px'}}>
+                      <li style={{ padding: '10px' }}>
                         <AccountPopover />
                       </li>
                     </> : <>
@@ -119,25 +137,33 @@ const Header = () => {
             </li>
             <li className="menu_item has-children">
               <a href="#">
-                My Account
+                {t("My Account")}
                 <i className="fa fa-angle-down"></i>
               </a>
               <ul className="menu_selection">
-                <li><Link to="/login"><i className="fa fa-sign-in" aria-hidden="true"></i>Sign In</Link></li>
-                <li><Link to="/register"><i className="fa fa-user-plus" aria-hidden="true"></i>Register</Link></li>
+                <li><Link to="/login"><i className="fa fa-sign-in" aria-hidden="true"></i>
+                  {t("Sign In")}
+                </Link></li>
               </ul>
             </li>
-            <li><Link to="/">Home Page</Link></li>
-            <Divider />
-            <li><Link to="/introduction">Introduction</Link></li>
-            <Divider />
-            <li><Link to="/shop">Shop</Link></li>
-            <Divider />
-            <li><Link to="/news">News</Link></li>
-            <Divider />
-            <li><Link to="/check-order">Check order</Link></li>
-            <Divider />
-            <li><Link to="/contact-us">Contact</Link></li>
+            <li><Link to="/">
+              {t("Home Page")}
+            </Link></li>
+            <li><Link to="/introduction">
+              {t("Introduction")}
+            </Link></li>
+            <li><Link to="/shop">
+              {t("Shop")}
+            </Link></li>
+            <li><Link to="/news">
+              {t("News")}
+            </Link></li>
+            <li><Link to="/contact-us">
+              {t("Contact")}
+            </Link></li>
+            <li><Link to="/check-order">
+              {t("Check order")}
+            </Link></li>
           </ul>
         </div>
       </div>

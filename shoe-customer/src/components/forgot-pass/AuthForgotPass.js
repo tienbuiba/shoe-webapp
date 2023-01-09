@@ -18,15 +18,15 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import { useDispatch } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { closeLoadingApi, openLoadingApi } from 'src/redux/creates-action/LoadingAction';
-import { apiUserLogin } from 'src/services/Authenticate';
-import TokenService from 'src/services/TokenService';
+import { openLoadingApi } from 'src/redux/creates-action/LoadingAction';
 import SendIcon from '@mui/icons-material/Send';
+import { useTranslation } from 'react-i18next';
 
 // ============================|| AuthForgotPass ||============================ //
 
 const AuthForgotPass = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation("translation");
 
   const options = {
     autoClose: 2000,
@@ -41,13 +41,13 @@ const AuthForgotPass = () => {
           submit: null
         }}
         validationSchema={Yup.object().shape({
-          email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+          email: Yup.string().email(t('Must be a valid email')).max(255).required(t('Email is required')),
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
             setStatus({ success: false });
             setSubmitting(false);
-            dispatch(openLoadingApi());       
+            dispatch(openLoadingApi());
           } catch (err) {
             setStatus({ success: false });
             setErrors({ submit: err.message });
@@ -60,7 +60,9 @@ const AuthForgotPass = () => {
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <Stack spacing={1}>
-                  <InputLabel htmlFor="email-login">Email Address*</InputLabel>
+                  <InputLabel htmlFor="email-login">
+                    {t("Email Address*")}
+                  </InputLabel>
                   <Input
                     id="email-login"
                     type="email"
@@ -100,7 +102,7 @@ const AuthForgotPass = () => {
                   color="primary"
                   endIcon={<SendIcon />}
                 >
-                  Send request
+                  {t("Send request")}
                 </Button>
               </Grid>
               <Grid item xs={12}>

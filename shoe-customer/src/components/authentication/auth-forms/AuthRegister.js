@@ -29,9 +29,12 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import ContactPhoneOutlinedIcon from '@mui/icons-material/ContactPhoneOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { useTranslation } from 'react-i18next';
+
 // ============================|| FIREBASE - REGISTER ||============================ //
 
 const AuthRegister = () => {
+    const { t } = useTranslation("translation");
     const [showPassword, setShowPassword] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -59,10 +62,10 @@ const AuthRegister = () => {
                     submit: null
                 }}
                 validationSchema={Yup.object().shape({
-                    username: Yup.string().max(255).required('User name is required'),
-                    phone: Yup.string().required('Phone is required'),
-                    email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-                    password: Yup.string().max(255).required('Password is required')
+                    username: Yup.string().max(255).required(t('User name is required')),
+                    phone: Yup.string().required(t('Phone is required')),
+                    email: Yup.string().email(t('Must be a valid email')).max(255).required(t('Email is required')),
+                    password: Yup.string().max(255).required(t('Password is required'))
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
@@ -72,7 +75,6 @@ const AuthRegister = () => {
                             dispatch(openLoadingApi());
                             apiUserRegister(values.username, values.password, values.email, values.phone).then(result => {
                                 const res = result.data;
-
                                 if (res.statusCode === 201) {
                                     dispatch(closeLoadingApi());
                                     toast.success(res.message, options)
@@ -106,7 +108,9 @@ const AuthRegister = () => {
                         <Grid container spacing={3}>
                             <Grid item xs={12}>
                                 <Stack spacing={1}>
-                                    <InputLabel htmlFor="username-signup">User name</InputLabel>
+                                    <InputLabel htmlFor="username-signup">
+                                        {t("User name")}
+                                    </InputLabel>
                                     <Input
                                         fullWidth
                                         variant="standard"
@@ -122,7 +126,7 @@ const AuthRegister = () => {
                                         placeholder="NguyenvanA"
                                         startAdornment={
                                             <InputAdornment position="start">
-                                                <AccountCircleOutlinedIcon />
+                                                <AccountCircleOutlinedIcon size="small" />
                                             </InputAdornment>
                                         }
                                     />
@@ -135,7 +139,9 @@ const AuthRegister = () => {
                             </Grid>
                             <Grid item xs={12}>
                                 <Stack spacing={1}>
-                                    <InputLabel htmlFor="phone-signup">Phone Number</InputLabel>
+                                    <InputLabel htmlFor="phone-signup">
+                                        {t("Phone Number")}
+                                    </InputLabel>
                                     <Input
                                         fullWidth
                                         variant="standard"
@@ -151,7 +157,7 @@ const AuthRegister = () => {
                                         placeholder="098654***"
                                         startAdornment={
                                             <InputAdornment position="start">
-                                                <ContactPhoneOutlinedIcon />
+                                                <ContactPhoneOutlinedIcon size="small" />
                                             </InputAdornment>
                                         }
                                     />
@@ -164,7 +170,9 @@ const AuthRegister = () => {
                             </Grid>
                             <Grid item xs={12}>
                                 <Stack spacing={1}>
-                                    <InputLabel htmlFor="email-signup">Email Address*</InputLabel>
+                                    <InputLabel htmlFor="email-signup">
+                                        {t("Email Address*")}
+                                    </InputLabel>
                                     <Input
                                         fullWidth
                                         variant="standard"
@@ -179,7 +187,7 @@ const AuthRegister = () => {
                                         inputProps={{}}
                                         startAdornment={
                                             <InputAdornment position="start">
-                                                <MailOutlineIcon />
+                                                <MailOutlineIcon size="small" />
                                             </InputAdornment>
                                         }
                                     />
@@ -192,7 +200,9 @@ const AuthRegister = () => {
                             </Grid>
                             <Grid item xs={12}>
                                 <Stack spacing={1}>
-                                    <InputLabel htmlFor="password-signup">Password</InputLabel>
+                                    <InputLabel htmlFor="password-signup">
+                                        {t("Password")}
+                                    </InputLabel>
                                     <Input
                                         fullWidth
                                         variant="standard"
@@ -207,7 +217,7 @@ const AuthRegister = () => {
                                         }}
                                         startAdornment={
                                             <InputAdornment position="start">
-                                                <LockOutlinedIcon />
+                                                <LockOutlinedIcon size="small" />
                                             </InputAdornment>
                                         }
                                         endAdornment={
@@ -217,11 +227,11 @@ const AuthRegister = () => {
                                                     onClick={handleClickShowPassword}
                                                     onMouseDown={handleMouseDownPassword}
                                                 >
-                                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                    {showPassword ? <VisibilityOff size="small" /> : <Visibility size="small" />}
                                                 </IconButton>
                                             </InputAdornment>
                                         }
-                                        placeholder="******"
+                                        placeholder="********"
                                         inputProps={{}}
                                     />
                                     {touched.password && errors.password && (
@@ -233,13 +243,14 @@ const AuthRegister = () => {
                             </Grid>
                             <Grid item xs={12}>
                                 <Typography variant="body2">
-                                    By Signing up, you agree to our &nbsp;
+                                    {t("By Signing up, you agree to our")}
+                                    &nbsp;
                                     <Link variant="subtitle2" component={RouterLink} to="#">
-                                        Terms of Service
+                                        {t("Terms of Service")}
                                     </Link>
                                     &nbsp; and &nbsp;
                                     <Link variant="subtitle2" component={RouterLink} to="#">
-                                        Privacy Policy
+                                        {t("Privacy Policy")}
                                     </Link>
                                 </Typography>
                             </Grid>
@@ -256,14 +267,16 @@ const AuthRegister = () => {
                                     size="large"
                                     type="submit"
                                     variant="contained"
-                                    color="primary"
+                                    className="red_button_auth"
                                 >
-                                    Create Account
+                                    {t("Create Account")}
                                 </Button>
                             </Grid>
                             <Grid item xs={12}>
                                 <Divider>
-                                    <Typography variant="caption">Sign up with</Typography>
+                                    <Typography variant="caption">
+                                        {t("Sign up with")}
+                                    </Typography>
                                 </Divider>
                             </Grid>
                             <Grid item xs={12}>

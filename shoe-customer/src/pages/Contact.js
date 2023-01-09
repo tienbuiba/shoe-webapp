@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from 'src/layouts/Header';
-import { Breadcrumbs, Button, Container, Grid, TextField, Typography } from "@mui/material";
+import { Breadcrumbs, Button, Grid, TextField } from "@mui/material";
 import Link from '@mui/material/Link';
 import Page from 'src/components/Page';
 import Footer from 'src/layouts/Footer';
@@ -8,12 +8,15 @@ import emailjs from '@emailjs/browser'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Map from 'src/components/Map';
+import { useTranslation } from 'react-i18next';
+import SendIcon from '@mui/icons-material/Send';
 
 const Contact = () => {
   const [subject, setSubject] = React.useState('');
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [message, setMessage] = React.useState('');
+  const { t } = useTranslation("translation");
 
   const form = React.useRef();
   var templateParams = {
@@ -40,7 +43,6 @@ const Contact = () => {
           setEmail('')
           setMessage('')
           setSubject('')
-          console.log('SUCCESS!', response.status, response.text);
         }, function (error) {
           console.log('FAILED...', error);
           setName('')
@@ -64,20 +66,24 @@ const Contact = () => {
   return (
     <Page title="Contact us">
       <Header />
-      <div className="newsletter" style={{ marginTop: '150px', marginBottom:  '70px' }}>
+      <div className="newsletter" style={{ marginTop: '150px', marginBottom: '70px' }}>
         <div className="container">
           <div className="row">
             <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
-              <h3>CONTACT</h3>
+              <h3>
+                {t("Contact")}
+              </h3>
               <Breadcrumbs aria-label="breadcrumb" >
                 <Link
                   underline="hover"
                   color="inherit"
                   href="/material-ui/getting-started/installation/"
                 >
-                  HOME PAGE
+                  {t("HOME PAGE")}
                 </Link>
-                <p>CONTACT</p>
+                <p>
+                  {t("CONTACT")}
+                </p>
               </Breadcrumbs>
             </div>
           </div>
@@ -87,23 +93,22 @@ const Contact = () => {
         <div className="row">
           <div className="col text-center">
             <div className="section_title">
-              <h2> CONTACT</h2>
+              <h2>{t("Contact")}</h2>
             </div>
           </div>
         </div>
         <Grid container spacing={4} sx={{ mb: 9, mt: 3 }}>
           <Grid item xs={12} md={6}>
-            <Typography component="h1" variant="h4" sx={{ fontWeight: "bold", wordSpacing: '0.1' }}>
-              Feel free to contact us.
-              We&apos;ll be glad to hear from you, buddy.
-            </Typography>
+            <p style={{ fontSize: '20px', color: '#999' }}>
+              {t("Feel free to contact us. We&apos;ll be glad to hear from you, buddy")}.
+            </p>
             <form ref={form} style={{ marginTop: '20px' }}>
               <Grid container spacing={2.8}>
                 <Grid item xs={12} >
                   <TextField
                     fullWidth
                     id="Name"
-                    label="Your name"
+                    label={t("Your name")}
                     name="Name"
                     value={name}
                     onChange={e => setName(e.target.value)}
@@ -114,7 +119,7 @@ const Contact = () => {
                   <TextField
                     fullWidth
                     id="email"
-                    label="Your email"
+                    label={t("Your email")}
                     name="email"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
@@ -125,7 +130,7 @@ const Contact = () => {
                   <TextField
                     fullWidth
                     name="Subject"
-                    label="Subject"
+                    label={t("Subject")}
                     type="text"
                     value={subject}
                     onChange={e => setSubject(e.target.value)}
@@ -135,15 +140,17 @@ const Contact = () => {
                   <TextField
                     fullWidth
                     name="Enter your message here"
-                    label="Enter your message here"
+                    label={t("Enter your message here")}
                     type="text"
                     value={message}
                     onChange={e => setMessage(e.target.value)}
                   />
                 </Grid>
-                <Grid item>
-                  <Button onClick={handleClick} variant="contained" size="large" sx={{ mt: 2 }}>
-                    Submit Now
+                <Grid item xs={6}>
+                </Grid>
+                <Grid item xs={6} sx={{ flexDirection: 'row', alignItems: 'right', justifyContent: 'flex-end' }}>
+                  <Button className="red_button" onClick={handleClick} variant="contained" size="large" sx={{ float: 'right', width: 100 }}>
+                    {t("Submit Now")}
                   </Button>
                 </Grid>
               </Grid>

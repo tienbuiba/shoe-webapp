@@ -4,8 +4,11 @@ import { Breadcrumbs } from "@mui/material";
 import Link from '@mui/material/Link';
 import Page from 'src/components/Page';
 import Footer from 'src/layouts/Footer';
+import { useTranslation } from 'react-i18next';
 
 const CheckOrder = () => {
+  const { t } = useTranslation("translation");
+
   return (
     <Page title="Check order">
       <Header />
@@ -26,6 +29,9 @@ const CheckOrder = () => {
           <div className="row">
             <div className="col-lg-6">
               <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
+              <h3>
+                  {t("Check order")}
+                </h3>
                 <Breadcrumbs aria-label="breadcrumb" >
                   <Link
                     underline="hover"

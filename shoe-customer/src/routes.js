@@ -13,6 +13,7 @@ import CheckOrder from './pages/CheckOrder';
 import Orders from './pages/Orders';
 import Profile from './pages/Profile';
 import ForgotPassword from './pages/ForgotPassword';
+import ProductDetail from './pages/ProductDetail';
 
 // ----------------------------------------------------------------------
 
@@ -20,27 +21,31 @@ export default function Router() {
   return useRoutes([
     {
       path: '/account-profile',
-      element: <Profile/>,   
+      element: <Profile />,
     },
     {
       path: '/shop',
-      element: <Shop/>,   
+      element: <Shop />,
+    },
+    {
+      path: '/product-detail/:productId',
+      element: <ProductDetail />
     },
     {
       path: '/contact-us',
-      element: <Contact/>,   
-    },    
+      element: <Contact />,
+    },
     {
       path: '/news',
-      element: <News/>,   
-    },    
+      element: <News />,
+    },
     {
       path: '/introduction',
-      element: <Introduction/>,   
+      element: <Introduction />,
     },
     {
       path: '/check-order',
-      element: <CheckOrder/>,   
+      element: <CheckOrder />,
     },
     {
       path: 'login',
@@ -58,11 +63,12 @@ export default function Router() {
       path: '/orders',
       element: <Orders />,
     },
+
     {
       path: '/',
       element: <LogoOnlyLayout />,
       children: [
-        { path: '/', element: <HomePage/> },
+        { path: '/', element: <HomePage /> },
         { path: 'forgot-password', element: <ForgotPass /> },
         { path: 'no-auth/forgot-password', element: <ResetPassword /> },
         { path: '404', element: <NotFound /> },
