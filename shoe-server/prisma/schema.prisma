@@ -1,0 +1,238 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum RoleEnum {
+  ADMIN
+  USER
+}
+
+enum UserStatusEnum {
+  ACTIVE
+  BLOCKED
+}
+
+enum ProductStatusEnum {
+  AVAILABLE
+  DELETED
+}
+
+enum OrderStatusEnum {
+  WAITING
+  ACCEPTED
+  DELIVERING
+  SUCCESS
+  CANCEL
+}
+
+enum TransactionType {
+  ADD_MOMO
+  ADD_BANK
+  ADD_PAYPAL
+  MINUS_MOMO
+  MINUS_BANK
+  MINUS_PAYPAL
+}
+
+model Role {
+  id    Int      @id @default(autoincrement())
+  name  RoleEnum
+  users User[]
+
+  @@map("roles")
+}
+
+model User {
+  id        Int            @id @default(autoincrement())
+  username  String         @unique
+  email     String         @unique
+  password  String
+  phone     String?
+  roleId    Int            @map("role_id")
+  status    UserStatusEnum
+  createdAt DateTime       @default(now()) @map("created_at")
+  updatedAt DateTime       @updatedAt @map("updated_at")
+
+  //relation fields
+  role              Role              @relation(fields: [roleId], references: [id])
+  carts             Cart[]
+  orders            Order[]
+  deliveryAddresses DeliveryAddress[]
+  transactions      Transaction[]
+  OtpToken          OtpToken[]
+
+  @@map("users")
+}
+
+model Category {
+  id        Int       @id @default(autoincrement())
+  name      String
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @default(now()) @updatedAt @map("updated_at")
+  products  Product[]
+
+  @@map("categories")
+}
+
+model Product {
+  id          Int               @id @default(autoincrement())
+  name        String
+  categoryId  Int               @map("category_id")
+  priceOrigin Float             @map("price_origin") @db.Float
+  priceSell   Float             @map("price_sell") @db.Float
+  shortDesc   String            @map("short_description") @db.VarChar(1000)
+  longDesc    String            @map("long_description") @db.Text
+  color       Json              @db.Json
+  size        Json              @db.Json
+  images      Json              @db.Json
+  status      ProductStatusEnum
+  sold        Int
+  available   Int
+  reviewCount Int               @default(0) @map("review_count")
+  ratingAvg   Float             @default(0) @map("rating_avg")
+  createdAt   DateTime          @default(now()) @map("created_at")
+  updatedAt   DateTime          @default(now()) @updatedAt @map("updated_at")
+
+  //relation fields
+  category Category @relation(fields: [categoryId], references: [id])
+  carts    Cart[]
+
+  @@map("products")
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  shortDesc String   @map("short_description") @db.VarChar(1000)
+  longDesc  String   @map("long_description") @db.Text
+  images    Json     @db.Json
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("posts")
+}
+
+model Cart {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @map("user_id")
+  productId Int      @map("product_id")
+  quantity  Int
+  size      String
+  color     String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  //relation fields
+  user    User    @relation(fields: [userId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+
+  @@map("carts")
+}
+
+model Order {
+  id         Int             @id @default(autoincrement())
+  userId     Int             @map("user_id")
+  items      Json            @db.Json
+  totalPrice Float           @map("total_price") @db.Float
+  status     OrderStatusEnum
+  code       String
+  address    String
+  createdAt  DateTime        @default(now()) @map("created_at")
+  updatedAt  DateTime        @updatedAt @map("updated_at")
+
+  //relation fields
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("orders")
+}
+
+model CityReference {
+  id                Int                 @id @default(autoincrement())
+  name              String
+  createdAt         DateTime            @default(now()) @map("created_at")
+  deliveryAddresses DeliveryAddress[]
+  DistrictReference DistrictReference[]
+
+  @@map("city_reference")
+}
+
+model DistrictReference {
+  id        Int      @id @default(autoincrement())
+  name      String
+  cityId    Int      @map("city_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  //reference fields
+  city              CityReference     @relation(fields: [cityId], references: [id])
+  deliveryAddresses DeliveryAddress[]
+  WardReference     WardReference[]
+
+  @@map("district_reference")
+}
+
+model WardReference {
+  id         Int      @id @default(autoincrement())
+  name       String
+  districtId Int      @map("district_id")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  //reference fields
+  district          DistrictReference @relation(fields: [districtId], references: [id])
+  deliveryAddresses DeliveryAddress[]
+
+  @@map("ward_reference")
+}
+
+model DeliveryAddress {
+  id         Int      @id @default(autoincrement())
+  userId     Int      @map("user_id")
+  fullname   String
+  phone      String
+  cityId     Int      @map("city_id")
+  districtId Int      @map("district_id")
+  wardId     Int      @map("ward_id")
+  detail     String
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  //relation fields
+  user     User              @relation(fields: [userId], references: [id])
+  city     CityReference     @relation(fields: [cityId], references: [id])
+  district DistrictReference @relation(fields: [districtId], references: [id])
+  ward     WardReference     @relation(fields: [wardId], references: [id])
+
+  @@map("delivery_addresses")
+}
+
+model Transaction {
+  id              Int             @id @default(autoincrement())
+  userId          Int             @map("user_id")
+  message         String
+  type            TransactionType
+  amount          Float
+  createdAt       DateTime        @default(now()) @map("created_at")
+  transactionCode String          @map("transaction_code")
+
+  //relation fields
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("transactions")
+}
+
+model OtpToken {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @map("user_id")
+  token     String
+  createdAt DateTime @default(now()) @map("created_at")
+  expiredAt DateTime @map("expired_at")
+  usedOk    Int      @map("use_ok") //1: used, 0: not use 
+
+  //reference fields
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("otp_tokens")
+}
