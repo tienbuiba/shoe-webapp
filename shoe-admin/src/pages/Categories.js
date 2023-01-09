@@ -1,115 +1,154 @@
-import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
 import { useEffect, useState } from 'react';
-import { Link, Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // material
 import {
   Card,
   Table,
+  Stack,
   TableRow,
   TableBody,
   TableCell,
   Container,
   Typography,
   TableContainer,
-  Stack,
-  Button,
+  TablePagination,
 } from '@mui/material';
-// components
 import Page from '../components/Page';
 import Scrollbar from '../components/Scrollbar';
-import ProductListHead from '../sections/@dashboard/products/ProductListHead';
-import ProductMoreMenu from '../sections/@dashboard/products/ProductMoreMenu';
-import Label from 'src/components/Label';
-import Iconify from 'src/components/Iconify';
-import { fNumber } from 'src/utils/formatNumber';
-import { useSelector } from 'react-redux';
-import { fDateLocal } from '../utils/formatTime';
-import { apiAdminGetListCategories } from 'src/services/Categories';
+import Iconify from '../components/Iconify';
+import { UserListHead, UserMoreMenu } from '../sections/@dashboard/user';
+import { useDispatch, useSelector } from 'react-redux';
+import { blockUserSuccessContinue } from 'src/redux/create-actions/UserAction';
+import { styled } from '@mui/material/styles';
+import { Toolbar, OutlinedInput, InputAdornment } from '@mui/material';
+import { fDateLocal } from 'src/utils/formatTime';
+import { apiAdminGetAllCategories } from 'src/services/Categories';
+import CategoryMoreMenu from 'src/sections/@dashboard/categories/CategoryMoreMenu';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'Tên', label: 'Tên', alignRight: false },
-  { id: 'F', label: 'Quốc gia', alignRight: false },
-  { id: 'Giá ', label: 'Giá ', alignRight: false },
-  { id: 'Tổng', label: 'Tổng', alignRight: false },
-  { id: 'Loai', label: 'Loại', alignRight: false },
-  { id: 'Thời gian cập nhật', label: 'Thời gian cập nhật', alignRight: false },
-  { id: 'ad', label: '', alignRight: false },
+  { id: 'ID', label: 'ID', alignRight: false },
+  { id: 'Email', label: 'Name', alignRight: false },
+  { id: 'Created at', label: 'Created at', alignRight: false },
+  { id: 'Created at', label: 'Updated at', alignRight: false },
+  { id: 'a', label: '', alignRight: false },
+
 ];
+const RootStyle = styled(Toolbar)(({ theme }) => ({
+  height: 96,
+  display: 'flex',
+  justifyContent: 'space-between',
+  padding: theme.spacing(0, 1, 0, 3),
+}));
+
+const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
+  width: 240,
+  transition: theme.transitions.create(['box-shadow', 'width'], {
+    easing: theme.transitions.easing.easeInOut,
+    duration: theme.transitions.duration.shorter,
+  }),
+  '&.Mui-focused': { width: 320, boxShadow: theme.customShadows.z8 },
+  '& fieldset': {
+    borderWidth: `1px !important`,
+    borderColor: `${theme.palette.grey[500_32]} !important`,
+  },
+}));
 
 export default function Categories() {
+  const [page, setPage] = useState(0);
+  const [order, setOrder] = useState('asc');
+  const [orderBy, setOrderBy] = useState('name');
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [data, setData] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [keyword, setKeyword] = useState('');
+  const dataUser = useSelector(state => state.user.data);
+  const dispatch = useDispatch()
 
-  const [data, setData] = useState([])
   const navigate = useNavigate();
-
-  const dataProduct = useSelector((state) => state.product.data);
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
     if (!token) {
       navigate('/login', { replace: true });
     }
-  }, []);
+  }, [])
+
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   useEffect(() => {
-    apiAdminGetListCategories().then(result => {
+    apiAdminGetAllCategories(rowsPerPage, page, keyword).then(result => {
       const res = result.data
-      setData(res.data)
+      setData(result.data.data.items)
+      setTotal(res.data.data.total)
     }).catch(err => {
       console.log(err)
     })
-  }, [dataProduct.delete])
+    dispatch(blockUserSuccessContinue())
+  }, [rowsPerPage, page, dataUser.block, keyword])
+
+  const handleSearchChange = (e) => {
+    setKeyword(e.target.value)
+  }
 
   return (
-    <Page title="Dashboard: Products">
+    <Page title="User">
       <Container>
-        <Typography variant="h4" sx={{ mb: 5 }}>
-         Categories
-        </Typography>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Button variant="contained" component={RouterLink} to="/dashboard/create-product" startIcon={<Iconify icon="eva:plus-fill" />}>
-            Create categories
-          </Button>      
+          <Typography variant="h4" gutterBottom>
+           Category List
+          </Typography>
         </Stack>
         <Card>
+          <RootStyle>
+            <SearchStyle
+              onChange={handleSearchChange}
+              placeholder="Search Category..."
+              startAdornment={
+                <InputAdornment position="start">
+                  <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />
+                </InputAdornment>
+              }
+            />
+          </RootStyle>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
-                <ProductListHead
+                <UserListHead
+                  order={order}
+                  orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={data.length}
+                  rowCount={total}
+                  onRequestSort={handleRequestSort}
                 />
                 <TableBody>
                   {data?.map((row) => {
                     return (
-                      <TableRow
-                        hover
-                        key={row.id}
-                      >
-                        <TableCell align="center"></TableCell>
-                        <TableCell align="center">
-                          {row.name}
-                        </TableCell>
-                        <TableCell align="center">
-                        <img src={   require(`../../public/static/images/${row.countryCode === null ? 'VN' : row.countryCode}.png`)} width='25px' height='20px' style={{ display: 'block', textAlign: 'center', borderRadius: '5px', justifySelf: 'flex-start' }} />
-                        </TableCell>
-                        <TableCell align="center">
-                          {fNumber(row.price)}
-                        </TableCell>
-                        <TableCell align="center">
-                          {fNumber(row.count)}
-                        </TableCell>
-                        <TableCell align="center">
-                          <Label variant="ghost" color={(row.isTrusted === true && 'success') || 'error'}>
-                            {(row.isTrusted === true && 'Trusted') || 'Not Trusted'}
-                          </Label>
-                        </TableCell>
-                        <TableCell align="center">
+                      <TableRow key={row.id} >
+                        <TableCell align="left"></TableCell>
+                        <TableCell align="left">{row.id}</TableCell>
+                        <TableCell align="left">{row.name}</TableCell>
+                        <TableCell align="left">
                           {fDateLocal(row.createdAt)}
                         </TableCell>
                         <TableCell align="left">
-                          <ProductMoreMenu id={row.id} price={row.price} type={row.name} status={row.isTrusted} time={row.timeExist}/>
+                          {fDateLocal(row.updatedAt)}
+                        </TableCell>
+                        <TableCell align="right">
+                          <CategoryMoreMenu id={row.id} name={row.name} />
                         </TableCell>
                       </TableRow>
                     );
@@ -118,6 +157,15 @@ export default function Categories() {
               </Table>
             </TableContainer>
           </Scrollbar>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 20, 35]}
+            component="div"
+            count={total}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
         </Card>
       </Container>
     </Page>

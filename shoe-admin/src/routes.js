@@ -17,6 +17,7 @@ import UpdateRentService from './pages/UpdateRentService';
 import Categories from './pages/Categories';
 import Posts from './pages/Posts';
 import CreatePost from './pages/CreatePost';
+import EditCategory from './pages/EditCategory';
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -28,6 +29,7 @@ export default function Router() {
         { path: 'home', element: <DashboardApp /> },
         { path: 'user', element: <User /> },
         { path: 'Categories', element: <Categories /> },
+        { path: 'edit-category', element: <EditCategory /> },
         { path: 'products', element: <Products /> },
         { path: 'posts', element: <Posts /> },
         { path: 'edit-product', element: <EditProduct /> },

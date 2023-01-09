@@ -16,6 +16,7 @@ import { apiAdminBlockUser } from 'src/services/User';
 import { blockUserSuccess } from 'src/redux/create-actions/UserAction';
 import { deleteProduct } from 'src/redux/create-actions/ProductAction';
 import { closeLoadingApi, openLoadingApi } from 'src/redux/create-actions/LoadingAction';
+import { apiAdminDeleteCategory } from 'src/services/Categories';
 
 export default function ConfirmModal() {
   const theme = useTheme();
@@ -50,7 +51,6 @@ export default function ConfirmModal() {
         })
         dispatch(closeConfirmModal())
         dispatch(closeLoadingApi());
-
         break
       case 'DELETE_PRODUCT':
         dispatch(openLoadingApi());
@@ -65,7 +65,6 @@ export default function ConfirmModal() {
             toast.error(res.message, options);
             dispatch(closeLoadingApi());
           }
-
         }).catch(err => {
           if (err.response.data.statusCode === 401) {
             dispatch(closeLoadingApi());
@@ -78,8 +77,31 @@ export default function ConfirmModal() {
         })
         dispatch(closeConfirmModal())
         dispatch(closeLoadingApi());
-
         break
+      case 'DELETE_CATEGORY':
+        dispatch(openLoadingApi());
+        apiAdminDeleteCategory(data.id).then(result => {
+          const res = result.data;
+          if (res.statusCode === 200) {
+            toast.success(res.message, options);
+            dispatch(closeLoadingApi());
+            dispatch(deleteProduct())
+          } else {
+            toast.error(res.message, options);
+            dispatch(closeLoadingApi());
+          }
+
+        }).catch(err => {
+          if (err.response.data.statusCode === 401) {
+            dispatch(closeLoadingApi());
+            toast.error(err.response.data.message, options);
+          } else {
+            dispatch(closeLoadingApi());
+            toast.error(err.response.data.message, options);
+          }
+        })
+        dispatch(closeConfirmModal())
+        dispatch(closeLoadingApi());
       default:
         break
     }
@@ -151,8 +173,8 @@ export default function ConfirmModal() {
                 color={theme.secondary}
                 onClick={handleConfirm}
               >
-                Confirm 
-                </Button>
+                Confirm
+              </Button>
             </Grid>
           </Grid>
         </DialogActions>

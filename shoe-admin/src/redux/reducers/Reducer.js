@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import categoryReducer from './CategoryReducer';
 import confirmReducer from './ConfirmReducer';
 import loadingReducer from './LoadingReducer';
 import orderReducer from './OrderReducer';
@@ -14,7 +15,8 @@ const Reducer = combineReducers({
     user:  userReducer,
     order: orderReducer,
     rent:rentProductReducer,
-    loading: loadingReducer
+    loading: loadingReducer,
+    category: categoryReducer
 });
 
 export default Reducer;

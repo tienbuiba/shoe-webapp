@@ -9,6 +9,8 @@ export const CLOSE_LOADING_API = 'CLOSE_LOADING_API';
 export const ORDER_ID = 'ORDER_ID';
 export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 export const RENT_PRODUCT_ID = 'RENT_PRODUCT_ID';
+export const CATEGORY_ID = 'CATEGORY_ID';
+
 
 
 
