@@ -5,6 +5,7 @@ import {
   Delete,
   Get,
   HttpStatus,
+  InternalServerErrorException,
   Param,
   Post,
   UseGuards,
@@ -23,6 +24,20 @@ import { PostsService } from './posts.service';
 @ApiTags('Posts')
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
+
+  @Get('/detail/:id')
+  @ApiOperation({ summary: 'Get detail post' })
+  async getPostById(@Param('id') id: number): Promise<IResponse> {
+    const post = await this.postsService.findOne({ id: id });
+    if (!post) {
+      throw new InternalServerErrorException('Post not found with id: ' + id);
+    }
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Get detail post successfully!',
+      data: post,
+    };
+  }
 
   @Get('list')
   @ApiOperation({ summary: 'Get list posts' })

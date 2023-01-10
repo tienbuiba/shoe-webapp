@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class PostDto {
   @IsString()
@@ -13,6 +13,6 @@ export class PostDto {
   longDesc: string;
 
   @IsArray()
-  @IsNotEmpty()
+  @IsOptional()
   images: any;
 }

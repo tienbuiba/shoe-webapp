@@ -81,4 +81,9 @@ export class UpdateProductDto {
   @IsNumber()
   @IsOptional()
   ratingAvg: number;
+
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  brand: string;
 }

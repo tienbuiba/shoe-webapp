@@ -16,9 +16,11 @@ import { JwtGuard } from 'src/auth/guards/jwt.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { IResponse } from 'src/common/dto/response.dto';
 import { parse } from 'path';
+import { ConfigService } from '@nestjs/config';
 @Controller('upload-files')
 @ApiTags('Upload files')
 export class UploadFilesController {
+  constructor(private readonly configService: ConfigService) {}
   @Post('/push')
   @ApiBearerAuth()
   @UseGuards(JwtGuard, RolesGuard)
@@ -49,7 +51,7 @@ export class UploadFilesController {
     return {
       statusCode: HttpStatus.OK,
       message: 'Upload file successfully!',
-      data: file.filename,
+      data: this.configService.get('IMAGE_SAVE_PRE_PATH') + file.filename,
     };
   }
 }
