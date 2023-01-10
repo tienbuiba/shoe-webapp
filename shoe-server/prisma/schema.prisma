@@ -17,6 +17,11 @@ enum UserStatusEnum {
   BLOCKED
 }
 
+enum UserTypeEnum {
+  GOOGLE
+  PASSWORD
+}
+
 enum ProductStatusEnum {
   AVAILABLE
   DELETED
@@ -49,11 +54,13 @@ model Role {
 
 model User {
   id        Int            @id @default(autoincrement())
-  username  String         @unique
+  username  String
   email     String         @unique
   password  String
   phone     String?
+  avatarUrl String         @default("default.png")
   roleId    Int            @map("role_id")
+  type      UserTypeEnum   @default(PASSWORD)
   status    UserStatusEnum
   createdAt DateTime       @default(now()) @map("created_at")
   updatedAt DateTime       @updatedAt @map("updated_at")

@@ -5,6 +5,7 @@ import {
   ForbiddenException,
   HttpStatus,
   InternalServerErrorException,
+  NotAcceptableException,
   Post,
   UnauthorizedException,
   UseGuards,
@@ -12,8 +13,9 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { RoleEnum, User, UserStatusEnum } from '@prisma/client';
+import { RoleEnum, User, UserStatusEnum, UserTypeEnum } from '@prisma/client';
 import { randomUUID } from 'crypto';
+import { OAuth2Client } from 'google-auth-library';
 import { IResponse } from 'src/common/dto/response.dto';
 import { OtpTokensService } from 'src/otp-tokens/otp-tokens.service';
 import { RolesService } from 'src/roles/roles.service';
@@ -104,6 +106,9 @@ export class AuthController {
     }
     if (userExisted.status === UserStatusEnum.BLOCKED) {
       throw new ForbiddenException('User is blocked!');
+    }
+    if (userExisted.type === UserTypeEnum.GOOGLE) {
+      throw new NotAcceptableException('Please try login with Google Account!');
     }
 
     const isMatch = await this.authService.comparePassword(
@@ -251,6 +256,62 @@ export class AuthController {
     return {
       statusCode: HttpStatus.OK,
       message: 'Set new password successfully.',
+    };
+  }
+
+  @Post('/login-with-google')
+  @ApiOperation({ summary: 'Login with Google API' })
+  async loginWithGoogle(
+    @Body('credential') credential: string,
+  ): Promise<IResponse> {
+    const client = new OAuth2Client(
+      this.configService.get('GOOGLE_CLIENT_ID'),
+      this.configService.get('GOOGLE_CLIENT_SECRET'),
+    );
+    const ticket = await client.verifyIdToken({
+      idToken: credential,
+      audience: this.configService.get('GOOGLE_CLIENT_ID'),
+    });
+    const { email, name, picture } = ticket.getPayload();
+    const existedUser = await this.usersService.findOne({
+      email: email,
+    });
+    let token: string;
+    if (!existedUser) {
+      //create new user
+      const role = await this.roleService.findOne({
+        name: RoleEnum.USER,
+      });
+      const newUser = await this.usersService.create({
+        data: {
+          email: email,
+          username: name,
+          avatarUrl: picture,
+          type: UserTypeEnum.GOOGLE,
+          password: '',
+          status: UserStatusEnum.ACTIVE,
+          role: {
+            connect: {
+              id: role.id,
+            },
+          },
+        },
+      });
+      token = this.jwtService.sign({
+        id: newUser.id,
+      });
+    } else {
+      token = this.jwtService.sign({
+        id: existedUser.id,
+      });
+    }
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Login successfully!',
+      data: {
+        accessToken: token,
+        expiresIn: this.configService.get('AUTH_JWT_TOKEN_EXPIRES_IN'),
+      },
     };
   }
 }
