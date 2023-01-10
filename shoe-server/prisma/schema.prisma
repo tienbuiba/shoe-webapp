@@ -96,6 +96,7 @@ model Product {
   longDesc    String            @map("long_description") @db.Text
   color       Json              @db.Json
   size        Json              @db.Json
+  brand       String            @default("NIKE")
   images      Json              @db.Json
   status      ProductStatusEnum
   sold        Int
@@ -116,7 +117,7 @@ model Post {
   id        Int      @id @default(autoincrement())
   shortDesc String   @map("short_description") @db.VarChar(1000)
   longDesc  String   @map("long_description") @db.Text
-  images    Json     @db.Json
+  images    Json?    @db.Json
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
