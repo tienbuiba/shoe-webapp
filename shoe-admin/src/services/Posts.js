@@ -12,12 +12,8 @@ export const apiAdminGetPostList = async () => {
 }
 
 
-export const apiAdminCreatePost = async (shortDesc, longDesc) => {
+export const apiAdminCreatePost = async (data) => {
   let url = userService + '/posts/create'
-  let data = {
-    shortDesc: shortDesc,
-    longDesc: longDesc
-  };
   let res;
   const accessToken = TokenService.getLocalAccessToken();
   res = await api.post(url, data, {

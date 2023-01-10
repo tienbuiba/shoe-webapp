@@ -36,26 +36,28 @@ export const apiAdminUpdateCategory = async (id, name) => {
 
   return res;
 }
+
 export const apiAdminDeleteCategory = async (id) => {
   let url = userService + `/categories/admin/delete/${id}`
   let res;
   const accessToken = TokenService.getLocalAccessToken();
-  res = await api.delete(url, {
-    headers: {
-      "Authorization": accessToken,
-    }
-  });
+  try {
+    res = await api.delete(url, {
+      headers: {
+        "Authorization": accessToken,
+      }
+    });
+  } catch (err) {
+console.log(err);
+  }
 
   return res;
 }
 
-export const apiUserCreateOrder = async (mailTypeId, orderType, totalPrice, amount) => {
-  const url = userService + '/orders/create';
+export const apiAdminCreateCategory = async (name) => {
+  const url = userService + '/categories/admin/create';
   const data = {
-    mailTypeId: mailTypeId,
-    orderType: orderType,
-    totalPrice: totalPrice,
-    amount: amount,
+    name: name,  
   };
   let res;
   const accessToken = TokenService.getLocalAccessToken();

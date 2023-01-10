@@ -15,9 +15,7 @@ import { apiAdminUpdateMailType } from 'src/services/Products';
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import Label from 'src/components/Label';
-import { fNumber } from 'src/utils/formatNumber';
 import { closeLoadingApi, openLoadingApi } from 'src/redux/create-actions/LoadingAction';
-
 
 export default function EditProduct() {
   const [type, setType] = useState('');
@@ -78,7 +76,7 @@ export default function EditProduct() {
 
   return (
     <Page title="Dashboard: Product">
-      <Container>
+      <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 10 }}>
           Chỉnh sửa sản phẩm
         </Typography>

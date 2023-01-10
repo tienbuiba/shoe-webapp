@@ -1,3 +1,2 @@
-
-export const userService = 'https://atroboticsvn.com/api-shoe/v1';
+export const userService = 'https://api.atroboticsvn.com/api/v1';
 

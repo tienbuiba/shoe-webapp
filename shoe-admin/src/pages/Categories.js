@@ -12,11 +12,12 @@ import {
   Typography,
   TableContainer,
   TablePagination,
+  Button,
 } from '@mui/material';
 import Page from '../components/Page';
 import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
-import { UserListHead, UserMoreMenu } from '../sections/@dashboard/user';
+import { UserListHead } from '../sections/@dashboard/user';
 import { useDispatch, useSelector } from 'react-redux';
 import { blockUserSuccessContinue } from 'src/redux/create-actions/UserAction';
 import { styled } from '@mui/material/styles';
@@ -29,9 +30,9 @@ import CategoryMoreMenu from 'src/sections/@dashboard/categories/CategoryMoreMen
 
 const TABLE_HEAD = [
   { id: 'ID', label: 'ID', alignRight: false },
-  { id: 'Email', label: 'Name', alignRight: false },
-  { id: 'Created at', label: 'Created at', alignRight: false },
-  { id: 'Created at', label: 'Updated at', alignRight: false },
+  { id: 'Email', label: 'NAME', alignRight: false },
+  { id: 'Created at', label: 'CREATION DATE', alignRight: false },
+  { id: 'Created at', label: 'UPDATION DATE', alignRight: false },
   { id: 'a', label: '', alignRight: false },
 
 ];
@@ -43,12 +44,12 @@ const RootStyle = styled(Toolbar)(({ theme }) => ({
 }));
 
 const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
-  width: 240,
+  width: 340,
   transition: theme.transitions.create(['box-shadow', 'width'], {
     easing: theme.transitions.easing.easeInOut,
     duration: theme.transitions.duration.shorter,
   }),
-  '&.Mui-focused': { width: 320, boxShadow: theme.customShadows.z8 },
+  '&.Mui-focused': { width: 400, boxShadow: theme.customShadows.z8 },
   '& fieldset': {
     borderWidth: `1px !important`,
     borderColor: `${theme.palette.grey[500_32]} !important`,
@@ -106,11 +107,14 @@ export default function Categories() {
 
   return (
     <Page title="User">
-      <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-           Category List
+      <Container maxWidth="xl">
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+          <Typography variant="h3" gutterBottom>
+            Category List
           </Typography>
+          <Button variant="contained" component={RouterLink} to="/dashboard/create-category" startIcon={<Iconify icon="eva:plus-fill" />}>
+            Create Category
+          </Button>
         </Stack>
         <Card>
           <RootStyle>
@@ -137,7 +141,7 @@ export default function Categories() {
                 <TableBody>
                   {data?.map((row) => {
                     return (
-                      <TableRow key={row.id} >
+                      <TableRow key={row.id} hover >
                         <TableCell align="left"></TableCell>
                         <TableCell align="left">{row.id}</TableCell>
                         <TableCell align="left">{row.name}</TableCell>

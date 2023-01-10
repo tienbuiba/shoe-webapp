@@ -21,13 +21,14 @@ import { initProduct } from 'src/utils/InitProductForm';
 import { uploadImage } from 'src/services/UploadImage';
 import { apiAdminCreateProduct } from 'src/services/Products';
 import { apiAdminGetAllCategories } from 'src/services/Categories';
+import Iconify from 'src/components/Iconify';
 
 const Input = styled('input')({
   display: 'none',
 });
 
 function CreateProduct() {
-  const initStateProductForm = initProduct('', '', '', '', [], [], '', '', '', 0, 0, 0, 0);
+  const initStateProductForm = initProduct('', [], '', '', [], [], '', '', '', 0, 0, 0, 0);
   const [productForm, setProductForm] = useState(initStateProductForm);
   const [images, setImages] = useState([]);
   const [listCategory, setListCategory] = useState([]);
@@ -110,7 +111,7 @@ function CreateProduct() {
     let data = event.target.value;
     setProductForm({
       ...productForm,
-      size: data,
+      size: data.replace(' ', '').split(','),
     });
   };
   const handleChangeProductSold = (event) => {
@@ -165,6 +166,7 @@ function CreateProduct() {
   };
 
   const handleSubmit = () => {
+    console.log(productForm);
     apiAdminCreateProduct(productForm)
       .then(res => {
         console.log(res?.data);
@@ -173,10 +175,9 @@ function CreateProduct() {
         console.log(err);
       })
   };
-  console.log(productForm);
   return (
     <Page title="Dashboard: Add product">
-      <Container>
+      <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
           Create Product Form
         </Typography>
@@ -332,10 +333,9 @@ function CreateProduct() {
         <Grid item xs={3} sx={{ pr: '24px', mt: '10px' }}>
           <Button
             variant="contained"
-            endIcon={<Save></Save>}
+            endIcon={<Iconify icon="eva:plus-fill" />}
             size="medium"
             component="span"
-            color="success"
             onClick={handleSubmit}
           >
             ADD Product

@@ -23,7 +23,7 @@ export default function Page404() {
   
   return (
     <Page title="404 Page Not Found">
-      <Container>
+       <Container maxWidth="xl">
         <ContentStyle sx={{ textAlign: 'center', alignItems: 'center' }}>
           <Typography variant="h3" paragraph>
             Sorry, page not found!

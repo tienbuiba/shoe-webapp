@@ -1,117 +1,152 @@
-import { useEffect, useState } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
-// material
-import { Container, Typography, Grid, TextField, Button} from '@mui/material';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import {
+  TextField,
+  Grid,
+  Container,
+  Typography,
+  Button,
+  Card
+} from '@mui/material';
+import { useState } from 'react';
 import Page from '../components/Page';
-import Iconify from 'src/components/Iconify';
-import { ToastContainer, toast } from 'react-toastify';
-import { apiAdminCreateRentMailService } from 'src/services/Products';
-import { closeLoadingApi, openLoadingApi } from 'src/redux/create-actions/LoadingAction';
-import { useDispatch } from 'react-redux';
+import { styled } from '@mui/material/styles';
+import { Save } from '@mui/icons-material';
+import { initPost } from 'src/utils/InitPostForm';
 import { apiAdminCreatePost } from 'src/services/Posts';
+import TokenService from 'src/services/TokenService';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-export default function CreatePost() {
-  const [price, setPrice] = useState('');
-  const [name, setName] = useState('');
-  const dispatch = useDispatch();
+const Input = styled('input')({
+  display: 'none',
+});
 
-  const navigate = useNavigate();
-  useEffect(() => {
-    const token = localStorage.getItem('accessToken');
-    if (!token) {
-      navigate('/login', { replace: true });
-    }
-  }, []);
-
-  const handleChangePrice = (e) => {
-    setPrice(e.target.value);
-  };
-  const handleChangeName = (e) => {
-    setName(e.target.value);
-  };
+function CreatePost() {
+  const initStatePostForm = initPost('', '');
+  const [postForm, setPostForm] = useState(initStatePostForm);
+  const API_URL = 'https://api.atroboticsvn.com';
+  const UPLOAD_ENDPOINT = 'api/v1/upload-files/push';
   const options = {
     autoClose: 2000,
     position: toast.POSITION.TOP_RIGHT,
   };
 
-  const handleClick = () => {
-    if (name !== '' && price !== '') {
-      dispatch(openLoadingApi());
-      apiAdminCreatePost(name,price)
-        .then((result) => {
-          let res = result.data;
-          dispatch(closeLoadingApi());
-          navigate('/dashboard/rent-mail', { replace: true });
-          toast.success(res.message, options);
-        })
-        .catch((err) => {
-          if (err.response.data.statusCode === 401) {
-            dispatch(closeLoadingApi());
-            toast.error(err.response.data.message, options);
-          } else if (err.response.data.statusCode === 400) {
-            dispatch(closeLoadingApi());
-            toast.error(err.response.data.message, options);
-          } else {
-            dispatch(closeLoadingApi());
-            toast.error(err.response.data.message, options);
-          }
+  function uploadAdapter(loader) {
+    const accessToken = TokenService.getLocalAccessToken();
+    return {
+      upload: () => {
+        return new Promise((resolve, reject) => {
+          const body = new FormData();
+          loader.file.then((file) => {
+            body.append('file', file);
+            fetch(`${API_URL}/${UPLOAD_ENDPOINT}`, {
+              method: 'post',
+              body: body,
+              headers: {
+                "Authorization": accessToken,
+              }
+            })
+              .then((res) => res.json())
+              .then((res) => {
+                console.log('Response from server: ', res);
+                resolve({
+                  default: res.data,
+                });
+              })
+              .catch((err) => {
+                reject(err);
+              });
+          });
         });
-    } else {
-      toast.error('Điền đầy đủ thông tin', options);
-    }
+      },
+    };
+  }
+  function uploadPlugin(editor) {
+    editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+      return uploadAdapter(loader);
+    };
+  }
+
+  const handleChangePostShortDesc = (event) => {
+    let data = event.target.value;
+    setPostForm({
+      ...postForm,
+      shortDesc: data,
+    });
   };
 
+  const handleCKeditor = (event, editor) => {
+    const data = editor.getData();
+    setPostForm({
+      ...postForm,
+      longDesc: data,
+    });
+  };
+
+  const handleSubmit = () => {
+    apiAdminCreatePost(postForm)
+      .then(res => {
+        console.log(res?.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  };
   return (
-    <Page title="Dashboard: Product">
-      <Container>
-        <Typography variant="h4" sx={{ mb: 10 }}>
-          Thêm bài viết mới
+    <Page title="Dashboard: Add Post">
+      <Container maxWidth="xl">
+        <Typography variant="h4" sx={{ mb: 5 }}>
+          Create Post
         </Typography>
-        <Grid container>
-          <Grid item xs={6}></Grid>
-          <Grid item xs={6} sx={{ textAlign: 'right' }}>
+        <Card sx={{ p: 5 }}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} sx={{ pl: '24px' }}>
+              <label>Post Short Description:</label>
+              <TextField
+                id="productShortDsc"
+                placeholder="Enter post short description"
+                value={postForm.shortDesc}
+                onChange={handleChangePostShortDesc}
+                required
+                fullWidth
+                multiline
+                rows={4}
+              />
+            </Grid>
+            <Grid item xs={12} sx={{ pl: '24px' }}>
+              <label>Post Long Description: </label>
+              <CKEditor
+                id="editor"
+                name="postLongDsc"
+                editor={ClassicEditor}
+                data={postForm.longDesc}
+                onReady={(editor) => {
+                  console.log('Editor is ready to use!', editor);
+                }}
+                config={{
+                  extraPlugins: [uploadPlugin],
+                }}
+                onChange={handleCKeditor}
+              />
+            </Grid>
+          </Grid>
+          <Grid item xs={3} sx={{ pr: '24px', mt: '10px' }}>
             <Button
               variant="contained"
-              component={RouterLink}
-              to="/dashboard/rent-mail"
-              startIcon={<Iconify icon="eva:arrow-back-outline" />}
+              endIcon={<Save></Save>}
+              size="medium"
+              component="span"
+              onClick={handleSubmit}
             >
-              Quay lại
+              Create Post
             </Button>
           </Grid>
-        </Grid>
-        <Page title="Create-product">
-          <Container maxWidth="md" sx={{ mt: 3 }}>
-            <Grid container spacing={3}>
-              <Grid container item>
-                <Grid item xs={6}>
-                  ShortDesc
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField label="Giá loại dịch vụ (ví dụ: 100...)" value={name} onChange={handleChangeName} fullWidth></TextField>
-                </Grid>
-              </Grid>
-              <Grid container item>
-                <Grid item xs={6}>
-                  LongDesc
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField label="Giá loại dịch vụ (ví dụ: 100...)" value={price} onChange={handleChangePrice} fullWidth></TextField>
-                </Grid>
-              </Grid>
-              <Grid container item>
-                <Grid item xs={6}></Grid>
-                <Grid item xs={6}>
-                  <Button variant="contained" onClick={handleClick} startIcon={<Iconify icon="eva:plus-fill" />}>
-                    Thêm
-                  </Button>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Container>
-        </Page>
+        </Card>
       </Container>
       <ToastContainer />
     </Page>
   );
 }
+
+export default CreatePost;

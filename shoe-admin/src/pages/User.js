@@ -13,6 +13,7 @@ import {
   Typography,
   TableContainer,
   TablePagination,
+  Box
 } from '@mui/material';
 import Page from '../components/Page';
 import Label from '../components/Label';
@@ -29,10 +30,11 @@ import { fDateLocal } from 'src/utils/formatTime';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'User name', alignRight: false },
-  { id: 'Email', label: 'Email', alignRight: false },
+  { id: 'name', label: 'NAME', alignRight: false },
+  { id: 'Email', label: 'EMAIL', alignRight: false },
+  { id: 'phone', label: 'PHONE', alignRight: false },
   { id: 'role', label: 'Status', alignRight: false },
-  { id: 'Created at', label: 'Created at', alignRight: false },
+  { id: 'Created at', label: 'REGISTRATION DATE', alignRight: false },
   { id: 'a', label: '', alignRight: false },
 
 ];
@@ -44,12 +46,12 @@ const RootStyle = styled(Toolbar)(({ theme }) => ({
 }));
 
 const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
-  width: 240,
+  width: 340,
   transition: theme.transitions.create(['box-shadow', 'width'], {
     easing: theme.transitions.easing.easeInOut,
     duration: theme.transitions.duration.shorter,
   }),
-  '&.Mui-focused': { width: 320, boxShadow: theme.customShadows.z8 },
+  '&.Mui-focused': { width: 400, boxShadow: theme.customShadows.z8 },
   '& fieldset': {
     borderWidth: `1px !important`,
     borderColor: `${theme.palette.grey[500_32]} !important`,
@@ -107,24 +109,26 @@ export default function User() {
 
   return (
     <Page title="User">
-      <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-            Users
+      <Container maxWidth="xl">
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+          <Typography variant="h3" gutterBottom>
+            Customers
           </Typography>
         </Stack>
         <Card>
-          <RootStyle>
-            <SearchStyle
-              onChange={handleSearchChange}
-              placeholder="Search user..."
-              startAdornment={
-                <InputAdornment position="start">
-                  <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />
-                </InputAdornment>
-              }
-            />
-          </RootStyle>
+          <Box sx={{ mt: 3 }}>
+            <RootStyle>
+              <SearchStyle
+                onChange={handleSearchChange}
+                placeholder="Search user..."
+                startAdornment={
+                  <InputAdornment position="start">
+                    <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />
+                  </InputAdornment>
+                }
+              />
+            </RootStyle>
+          </Box>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -138,10 +142,11 @@ export default function User() {
                 <TableBody>
                   {data?.map((row) => {
                     return (
-                      <TableRow key={row.id} >
+                      <TableRow key={row.id} hover>
                         <TableCell align="left"></TableCell>
                         <TableCell align="left">{row.username}</TableCell>
                         <TableCell align="left">{row.email}</TableCell>
+                        <TableCell align="left">{row.phone}</TableCell>
                         <TableCell align="left">
                           <Label variant="ghost" color={(row.status === 'ACTIVE' && 'success') || 'error'}>
                             {sentenceCase(row.status)}

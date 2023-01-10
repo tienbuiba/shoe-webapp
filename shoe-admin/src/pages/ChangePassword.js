@@ -43,7 +43,7 @@ const ChangePassword = () => {
 
   return (
     <Box>
-      <Container sx={{ padding: 2, backgroundColor: 'white' }}>
+       <Container maxWidth="xl">
         <Grid item xs={12}>
           <Stack direction="row" justifyContent="space-between" alignItems="baseline" sx={{ mb: { xs: -0.5, sm: 0.5 } }}>
             <Typography variant="h4" sx={{ mb: 4, marginLeft: 2, marginTop: 2 }}>Change password</Typography>

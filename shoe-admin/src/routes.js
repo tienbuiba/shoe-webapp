@@ -11,13 +11,13 @@ import EditProduct from './pages/EditProduct';
 import Transactions from './pages/Transactions';
 import Orders from './pages/Orders';
 import CreateProduct from './pages/CreateProduct';
-import CreateMailProduct from './pages/CreateMailProduct';
 import OrderDetails from './pages/OrderDetails';
 import UpdateRentService from './pages/UpdateRentService';
 import Categories from './pages/Categories';
 import Posts from './pages/Posts';
 import CreatePost from './pages/CreatePost';
 import EditCategory from './pages/EditCategory';
+import CreateCategory from './pages/CreateCategory';
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -29,6 +29,7 @@ export default function Router() {
         { path: 'home', element: <DashboardApp /> },
         { path: 'user', element: <User /> },
         { path: 'Categories', element: <Categories /> },
+        { path: 'create-category', element: <CreateCategory /> },
         { path: 'edit-category', element: <EditCategory /> },
         { path: 'products', element: <Products /> },
         { path: 'posts', element: <Posts /> },
@@ -36,7 +37,6 @@ export default function Router() {
         { path: 'transactions', element: <Transactions /> },
         { path: 'orders', element: <Orders /> },
         { path: 'create-product', element: <CreateProduct /> },
-        { path: 'create-mail-product', element: <CreateMailProduct /> },
         { path: 'order-details', element: <OrderDetails /> },
         { path: 'create-post', element: <CreatePost /> },
         { path: 'update-rent-product', element: <UpdateRentService /> },

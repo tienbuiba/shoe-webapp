@@ -81,7 +81,7 @@ export default function OrderDetails() {
 
   return (
     <Page title="Chi tiết đơn hàng">
-      <Container>
+         <Container maxWidth="xl">
         <Grid container sx={{ mb: 3 }}>
           <Grid container item xs={6}>
             <Grid>

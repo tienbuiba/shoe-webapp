@@ -74,7 +74,7 @@ export default function EditCategory() {
 
   return (
     <Page title="Dashboard: Product">
-      <Container>
+          <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 10 }}>
           Chỉnh sửa Category
         </Typography>
