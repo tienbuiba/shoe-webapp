@@ -23,8 +23,8 @@ export const ProfileDetails = (props) => {
       >
         <Card>
           <CardHeader
-            subheader={t("profile_detail_04")}
-            title={t("profile_detail_00")}
+            subheader="Details information"
+            title="Thông tin cá nhân"
           />
           <Divider />
           <CardContent sx={{ px: 5 }}>
@@ -47,14 +47,15 @@ export const ProfileDetails = (props) => {
                   md={6}
                   xs={6}
                 >
-                  <Typography variant="body2">
+                  <p>
                     {profile.username}
-                  </Typography>
+                  </p>
                 </Grid>
               </Grid>
               <Grid
                 container
-                item            >
+                item
+              >
                 <Grid
                   item
                   md={6}
@@ -69,9 +70,9 @@ export const ProfileDetails = (props) => {
                   md={6}
                   xs={6}
                 >
-                  <Typography variant="body2">
+                  <p >
                     {profile.email}
-                  </Typography>
+                  </p>
                 </Grid>
               </Grid>
               <Grid
@@ -91,9 +92,9 @@ export const ProfileDetails = (props) => {
                   md={6}
                   xs={6}
                 >
-                  <Typography variant="body2">
+                  <p >
                     {profile.phone}
-                  </Typography>
+                  </p>
                 </Grid>
               </Grid>
               <Grid

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-
 import {
     Button,
     Divider,
@@ -27,10 +26,12 @@ import { apiUserLogin, apiUserProfile } from 'src/services/Authenticate';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import TokenService from 'src/services/TokenService';
+import { useTranslation } from 'react-i18next';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const AuthLogin = () => {
+    const { t } = useTranslation("translation");
     const [showPassword, setShowPassword] = React.useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -43,12 +44,10 @@ const AuthLogin = () => {
         event.preventDefault();
     };
 
-
     const options = {
         autoClose: 2000,
         position: toast.POSITION.TOP_RIGHT,
     };
-
     return (
         <>
             <Formik
@@ -58,8 +57,8 @@ const AuthLogin = () => {
                     submit: null
                 }}
                 validationSchema={Yup.object().shape({
-                    email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-                    password: Yup.string().max(255).required('Password is required')
+                    email: Yup.string().email(t('Must be a valid email')).max(255).required(t('Email is required')),
+                    password: Yup.string().max(255).required(t('Password is required'))
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
@@ -104,7 +103,9 @@ const AuthLogin = () => {
                         <Grid container spacing={3}>
                             <Grid item xs={12}>
                                 <Stack spacing={1}>
-                                    <InputLabel htmlFor="email-login">Email Address*</InputLabel>
+                                    <InputLabel htmlFor="email-login">
+                                        {t("Email Address*")}
+                                    </InputLabel>
                                     <Input
                                         id="email-login"
                                         type="email"
@@ -117,7 +118,7 @@ const AuthLogin = () => {
                                         error={Boolean(touched.email && errors.email)}
                                         startAdornment={
                                             <InputAdornment position="start">
-                                                <MailOutlineIcon />
+                                                <MailOutlineIcon size="small" />
                                             </InputAdornment>
                                         }
                                     />
@@ -130,11 +131,13 @@ const AuthLogin = () => {
                             </Grid>
                             <Grid item xs={12}>
                                 <Stack spacing={1}>
-                                    <InputLabel htmlFor="password-login">Password*</InputLabel>
+                                    <InputLabel htmlFor="password-login">
+                                        {t("Password")}
+                                    </InputLabel>
                                     <Input
                                         fullWidth
                                         error={Boolean(touched.password && errors.password)}
-                                        id="-password-login"
+                                        id="password-login"
                                         type={showPassword ? 'text' : 'password'}
                                         value={values.password}
                                         name="password"
@@ -142,7 +145,7 @@ const AuthLogin = () => {
                                         onChange={handleChange}
                                         startAdornment={
                                             <InputAdornment position="start">
-                                                <LockOutlinedIcon />
+                                                <LockOutlinedIcon size="small" />
                                             </InputAdornment>
                                         }
                                         endAdornment={
@@ -154,7 +157,7 @@ const AuthLogin = () => {
                                                     edge="end"
                                                     size="large"
                                                 >
-                                                    {showPassword ? <VisibilityOutlinedIcon /> : <VisibilityOffOutlinedIcon />}
+                                                    {showPassword ? <VisibilityOutlinedIcon size="small" /> : <VisibilityOffOutlinedIcon size="small" />}
                                                 </IconButton>
                                             </InputAdornment>
                                         }
@@ -166,7 +169,7 @@ const AuthLogin = () => {
                                         </FormHelperText>
                                     )}
                                 </Stack>
-                            </Grid>                        
+                            </Grid>
                             {errors.submit && (
                                 <Grid item xs={12}>
                                     <FormHelperText error>{errors.submit}</FormHelperText>
@@ -174,20 +177,21 @@ const AuthLogin = () => {
                             )}
                             <Grid item xs={12}>
                                 <Button
-                                    disableElevation
                                     disabled={isSubmitting}
                                     fullWidth
                                     size="large"
                                     type="submit"
                                     variant="contained"
-                                    color="primary"
+                                    className="red_button_auth"
                                 >
-                                    Sign in
+                                    {t("Sign In")}
                                 </Button>
                             </Grid>
                             <Grid item xs={12}>
                                 <Divider>
-                                    <Typography variant="caption">  Sign in with</Typography>
+                                    <Typography variant="caption">
+                                        {t("Sign in with")}
+                                    </Typography>
                                 </Divider>
                             </Grid>
                             <Grid item xs={12}>

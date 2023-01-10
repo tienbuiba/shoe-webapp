@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { Box, Paper, Tab, Tabs, Typography } from '@mui/material';
+import { Box, Breadcrumbs, Paper, Tab, Tabs, Typography } from '@mui/material';
 import Header from 'src/layouts/Header';
 import Login from 'src/components/authentication/Login';
 import Register from 'src/components/authentication/Register';
 import Footer from 'src/layouts/Footer';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 const SignInOutContainer = () => {
+  const { t } = useTranslation("translation");
   const [value, setValue] = useState(0)
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -42,8 +45,8 @@ const SignInOutContainer = () => {
           variant="fullWidth"
           onChange={handleChange}
         >
-          <Tab label="Sign In" />
-          <Tab label="Sign Up" />
+          <Tab label={t("Sign In")} />
+          <Tab label={t("Sign Up")} />
         </Tabs>
         <TabPanel value={value} index={0}>
           <Login handleChange={handleChange} />

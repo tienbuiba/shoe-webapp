@@ -61,6 +61,7 @@ export default function Transaction() {
   const [keyword, setKeyword] = useState('')
   const dataLanguage = TokenService.getLocalLanguage();
   const [total, setTotal] = useState(0);
+
   const TABLE_HEAD = [
     { id: 'name', label: t('transaction_02'), alignRight: false },
     { id: 'role', label: t('transaction_03'), alignRight: false },
@@ -160,7 +161,7 @@ export default function Transaction() {
                           </Label>
                         </TableCell>
                         <TableCell align="left">
-                          {dataLanguage === 'eng' ?
+                          {/* {dataLanguage === 'eng' ?
                             <>
                               {(row.amount / 24000).toFixed(4)}
                             </>
@@ -168,7 +169,7 @@ export default function Transaction() {
                             <>
                               {fCurrency(row.amount)}
                             </>
-                          }
+                          } */}
                         </TableCell>
                         <TableCell align="left">{row.message}</TableCell>
                         <TableCell align="left">{row.type === 'MINUS' ? '' : row.type.substring(4)}</TableCell>

@@ -28,22 +28,4 @@ export const apiAdminBlockUser = async (id) => {
   return res;
 }
 
-export const apiAdminUpdateBalance = async (userId, type, amount,  message) => {
-  let url = userService + `/users/admin/update-balance`
-  let res;
-  let data = {
-    userId: userId,
-    type: type,
-    amount: amount,  
-    message: message
-  };
-  const accessToken = TokenService.getLocalAccessToken();
-  res = await api.post(url, data, {
-    headers: {
-      'Authorization': accessToken
-    }
-  }
-  );
-  return res;
-}
 

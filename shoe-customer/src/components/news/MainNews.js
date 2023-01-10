@@ -1,13 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 import useResponsive from 'src/hooks/useResponsive';
 import Page from '../Page';
+import { apiUserGetAllListPosts } from 'src/services/News';
 
 const MainNews = () => {
   const { t } = useTranslation("translation");
   const navigate = useNavigate();
+  const [dataPosts, setDataPosts] = useState([]);
+  const [page, setPage] = useState(0);
+  const [keyword, setKeyword] = useState('');
+  const [rowsPerPage, setRowsPerPage] = useState(1);
+
   const smUp = useResponsive('up', 'sm');
+
+  useEffect(() => {
+    apiUserGetAllListPosts(rowsPerPage, page, keyword).then(result => {
+      setDataPosts(result.data.data.items)
+    })
+  }, [])
+
+  console.log("hihi", dataPosts)
 
   return (
     <Page title="Home Page">

@@ -14,7 +14,7 @@ const Orders = () => {
           <div className="row">
             <div className="col-lg-6">
               <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
-                <h3>MY ACCOUNT</h3>
+                <h3>SHOPPING CART</h3>
                 <Breadcrumbs aria-label="breadcrumb" >
                   <Link
                     underline="hover"
@@ -23,14 +23,24 @@ const Orders = () => {
                   >
                     HOME PAGE
                   </Link>
-                  <p>ORDERS</p>
+                  <p>CARD</p>
                 </Breadcrumbs>
               </div>
             </div>
           </div>
         </div>
       </div>
-         <div style={{ marginBottom: '500px' }}>
+      <div style={{ textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '200px' }}>
+        <div>
+          <p>
+            Chưa có sản phẩm nào trong giỏ hàng.
+          </p>
+          <button href="/" className="button_back_homepage">
+            <a href="/">
+              QUAY TRỞ LẠI CỬA HÀNG
+            </a>
+          </button>
+        </div>
       </div>
       <Footer />
     </Page>
