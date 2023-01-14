@@ -18,20 +18,28 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import { useDispatch } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { openLoadingApi } from 'src/redux/creates-action/LoadingAction';
+import { closeLoadingApi, openLoadingApi } from 'src/redux/creates-action/LoadingAction';
 import SendIcon from '@mui/icons-material/Send';
 import { useTranslation } from 'react-i18next';
+import { apiUserForgotPassword } from 'src/services/ForgotPassword';
+import { useState } from 'react';
 
 // ============================|| AuthForgotPass ||============================ //
 
 const AuthForgotPass = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation("translation");
+  const [errorMessage, setErrorMessage] = useState('');
+  const [error, setError] = useState(false);
 
   const options = {
     autoClose: 2000,
     position: toast.POSITION.TOP_RIGHT,
   };
+
+  const handleChangeEmail = () => {
+    setError(false)
+  }
 
   return (
     <>
@@ -48,10 +56,20 @@ const AuthForgotPass = () => {
             setStatus({ success: false });
             setSubmitting(false);
             dispatch(openLoadingApi());
+            apiUserForgotPassword(values.email).then((res) => {
+              dispatch(closeLoadingApi());
+            }).catch(err => {
+              dispatch(closeLoadingApi());
+              if (err.response.data.statusCode === 400) {
+                setErrorMessage(err.response.data.message);
+                setError(true);
+              }
+            })
           } catch (err) {
             setStatus({ success: false });
             setErrors({ submit: err.message });
             setSubmitting(false);
+            dispatch(closeLoadingApi());
           }
         }}
       >
@@ -84,6 +102,11 @@ const AuthForgotPass = () => {
                       {errors.email}
                     </FormHelperText>
                   )}
+                  {error === true ? (
+                    <FormHelperText error id="standard-weight-helper-text-email-login">
+                      {errorMessage}
+                    </FormHelperText>
+                  ) : <></>}
                 </Stack>
               </Grid>
               {errors.submit && (

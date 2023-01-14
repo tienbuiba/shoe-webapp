@@ -49,7 +49,6 @@ const News = () => {
           </div>
         </div>
         <MainNews />
-        <MainNews />
       </div>
       <div style={{ marginBottom: '100px' }}></div>
       <Footer />

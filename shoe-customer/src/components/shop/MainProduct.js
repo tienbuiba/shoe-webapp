@@ -1,5 +1,5 @@
 import React from 'react';
-import {  Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 import useResponsive from 'src/hooks/useResponsive';
 import useScript from 'src/constants/useScript';
@@ -22,18 +22,38 @@ const MainProduct = () => {
   useScript('../assets/js/isotope.pkgd.min.js');
   useScript('../assets/js/custom.js');
   useScript('../assets/js/easing.js');
+  useScript('../assets/js/bootstrap.bundle.min.js');
+  useScript('../assets/js/script.js?v=2.0');
 
   useEffect(() => {
     apiUserGetAllProductByCategoryId(rowsPerPage, page, keyword, 19).then(result => {
       setDataProduct(result.data.data.items)
     })
   }, [])
-
   return (
     <div className="MainDiv">
+      <header className="border-bottom mb-4 pb-3" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+        <strong className="d-block py-2">32 Items found </strong>
+        <div className="ms-auto ">
+          <select className="form-select d-inline-block " style={{ padding: '10px' }}>
+            <option value="0">Best match</option>
+            <option value="1">Recommended</option>
+            <option value="2">High rated</option>
+            <option value="3">Randomly</option>
+          </select>
+          <div className="btn-group">
+            <a href="#" className="btn btn-light" data-bs-toggle="tooltip" title="List view">
+              <i className="fa fa-bars"></i>
+            </a>
+            <a href="#" className="btn btn-light active" data-bs-toggle="tooltip" title="Grid view">
+              <i className="fa fa-th"></i>
+            </a>
+          </div>
+        </div>
+      </header>
       <div className="new_arrivals">
         <div className="container">
-          <div className="row" style={{ marginTop: '70px' }}>
+          <div className="row" style={{ justifyContent: 'space-between'}}>
             {dataProduct?.map((row) => {
               return (
                 <div className="product-item accessories" key={row.id}>
@@ -73,6 +93,22 @@ const MainProduct = () => {
                 </div>
               )
             })}
+          </div>
+          <div className="row" style={{ borderTop: '1px solid rgba(0,0,0,.125)' }}>
+            <footer class="d-flex mt-4">
+              <nav class="ms-3">
+                <ul class="pagination">
+                  <li class="page-item"><a class="page-link" href="#">1</a></li>
+                  <li class="page-item active" aria-current="page">
+                    <span class="page-link">2</span>
+                  </li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                  </li>
+                </ul>
+              </nav>
+            </footer>
           </div>
         </div>
       </div>

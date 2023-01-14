@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Breadcrumbs, Paper, Tab, Tabs, Typography } from '@mui/material';
+import { Box,  Paper, Tab, Tabs, Typography } from '@mui/material';
 import Header from 'src/layouts/Header';
 import Login from 'src/components/authentication/Login';
 import Register from 'src/components/authentication/Register';
@@ -14,7 +14,7 @@ const SignInOutContainer = () => {
     setValue(newValue);
   };
 
-  const paperStyle = { width: 470, margin: "200px auto 200px" }
+  const paperStyle = { width: 470, margin: "200px auto 150px" }
   function TabPanel(props) {
     const { children, value, index, ...other } = props;
     return (

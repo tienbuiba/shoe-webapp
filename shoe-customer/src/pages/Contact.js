@@ -115,7 +115,7 @@ const Contact = () => {
                     autoComplete="family-name"
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={6}>
                   <TextField
                     fullWidth
                     id="email"
@@ -126,7 +126,7 @@ const Contact = () => {
                     autoComplete="email"
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={6}>
                   <TextField
                     fullWidth
                     name="Subject"
@@ -143,6 +143,8 @@ const Contact = () => {
                     label={t("Enter your message here")}
                     type="text"
                     value={message}
+                    multiline
+                    rows={5.5}
                     onChange={e => setMessage(e.target.value)}
                   />
                 </Grid>

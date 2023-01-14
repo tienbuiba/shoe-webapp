@@ -1,4 +1,4 @@
-import { Divider } from '@mui/material';
+import { Button } from '@mui/material';
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
@@ -13,22 +13,139 @@ const MainCategory = () => {
       setData(result.data.data.items)
     })
   }, [])
-  
+
   return (
-    <div style={{ marginTop: '53px' }}>
-      {data?.map((row) => {
-        return (
-          <div
-            key={row.id}
-            className="nav-category"
-            onClick={() => { setCategoryId(row.id) }}
-            style={{ width: '90%d'}}
-          >
-            <p style={{ padding: '1rem  1rem 1rem 0.5rem' }}>{row.name}</p>
-            <Divider />
-          </div>
-        );
-      })}
+    <div>
+
+      <aside class="col-lg-12">
+        <button class="btn btn-outline-secondary mb-3 w-100  d-lg-none" data-bs-toggle="collapse" data-bs-target="#aside_filter">Show filter</button>
+        <div id="aside_filter" class="collapse card d-lg-block mb-5">
+          <article class="filter-group">
+            <header class="card-header">
+              <a href="#" class="title" data-bs-toggle="collapse" data-bs-target="#collapse_aside1">
+                Related items
+                <i class="icon-control fa fa-chevron-down"></i>
+              </a>
+            </header>
+            <div class="collapse show" id="collapse_aside1">
+              <div class="card-body">
+                <ul class="list-menu">
+                  {data?.map((row) => {
+                    return (
+                      <div
+                        key={row.id}
+                        className="nav-category"
+                        onClick={() => { setCategoryId(row.id) }}
+                      >
+                        <li><a href="#">{row.name}  </a></li>
+                      </div>
+                    );
+                  })}
+                </ul>
+              </div>
+            </div>
+          </article>
+          <article class="filter-group">
+            <header class="card-header">
+              <a href="#" class="title" data-bs-toggle="collapse" data-bs-target="#collapse_aside_brands">
+                Brands    <i class="icon-control fa fa-chevron-down"></i>
+              </a>
+            </header>
+            <div class="collapse show" id="collapse_aside_brands">
+              <div class="card-body">
+                <label class="form-check mb-2">
+                  <input class="form-check-input" type="checkbox" value="" checked />
+                  <span class="form-check-label"> Mercedes </span>
+                  <b class="badge rounded-pill bg-gray-dark float-end">120</b>
+                </label>
+                <label class="form-check mb-2">
+                  <input class="form-check-input" type="checkbox" value="" checked />
+                  <span class="form-check-label"> Toyota </span>
+                  <b class="badge rounded-pill bg-gray-dark float-end">15</b>
+                </label>
+                <label class="form-check mb-2">
+                  <input class="form-check-input" type="checkbox" value="" checked />
+                  <span class="form-check-label"> Mitsubishi </span>
+                  <b class="badge rounded-pill bg-gray-dark float-end">35</b>
+                </label>
+                <label class="form-check mb-2">
+                  <input class="form-check-input" type="checkbox" value="" checked />
+                  <span class="form-check-label"> Nissan </span>
+                  <b class="badge rounded-pill bg-gray-dark float-end">89</b>
+                </label>
+                <label class="form-check mb-2">
+                  <input class="form-check-input" type="checkbox" value="" />
+                  <span class="form-check-label"> Honda </span>
+                  <b class="badge rounded-pill bg-gray-dark float-end">30</b>
+                </label>
+                <label class="form-check mb-2">
+                  <input class="form-check-input" type="checkbox" value="" />
+                  <span class="form-check-label"> Honda accord </span>
+                  <b class="badge rounded-pill bg-gray-dark float-end">30</b>
+                </label>
+              </div>
+            </div>
+          </article>
+          <article class="filter-group">
+            <header class="card-header">
+              <a href="#" class="title" data-bs-toggle="collapse" data-bs-target="#collapse_aside3">
+                Size    <i class="icon-control fa fa-chevron-down"></i>
+              </a>
+            </header>
+            <div class="collapse show" id="collapse_aside3">
+              <div class="card-body">
+                <label class="checkbox-btn">
+                  <input type="checkbox" />
+                  <span class="btn btn-light"> XS </span>
+                </label>
+                <label class="checkbox-btn">
+                  <input type="checkbox" />
+                  <span class="btn btn-light"> SM </span>
+                </label>
+                <label class="checkbox-btn">
+                  <input type="checkbox" />
+                  <span class="btn btn-light"> LG </span>
+                </label>
+                <label class="checkbox-btn">
+                  <input type="checkbox" />
+                  <span class="btn btn-light"> XXL </span>
+                </label>
+              </div>
+            </div>
+          </article>
+          <article class="filter-group">
+            <header class="card-header">
+              <a href="#" class="title" data-bs-toggle="collapse" data-bs-target="#collapse_aside2">
+                Price  <i class="icon-control fa fa-chevron-down"></i>
+              </a>
+            </header>
+            <div class="collapse show" id="collapse_aside2">
+              <div class="card-body">
+                <input type="range" class="form-range" min="0" max="100" />
+                <div class="row mb-3">
+                  <div class="col-6">
+                    <label for="min" class="form-label">Min</label>
+                    <input class="form-control" id="min" placeholder="$0" type="number" />
+                  </div>
+                  <div class="col-6">
+                    <label for="max" class="form-label">Max</label>
+                    <input class="form-control" id="max" placeholder="$1,0000" type="number" />
+                  </div>
+                </div>
+                <Button
+                  fullWidth
+                  size="large"
+                  type="submit"
+                  variant="contained"
+                  className="red_button_auth"
+                >
+                  Apply
+                </Button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </aside>
     </div>
   );
 };

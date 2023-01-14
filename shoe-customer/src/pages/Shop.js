@@ -40,12 +40,12 @@ const Shop = () => {
           </div>
         </div>
       </div>
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" sx={{ mt: 10 }}>
         <Grid container  >
-          <Grid item xs={3}>
+          <Grid item xs={12} md={3}>
             <MainCategory />
           </Grid>
-          <Grid item xs={9}>
+          <Grid item xs={12} md={9}>
             <MainProduct />
           </Grid>
         </Grid>

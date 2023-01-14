@@ -273,15 +273,15 @@ const AuthRegister = () => {
                                 </Button>
                             </Grid>
                             <Grid item xs={12}>
-                                <Divider>
-                                    <Typography variant="caption">
+                                {/* <Divider> */}
+                                    {/* <Typography variant="caption">
                                         {t("Sign up with")}
-                                    </Typography>
-                                </Divider>
+                                    </Typography> */}
+                                {/* </Divider> */}
                             </Grid>
-                            <Grid item xs={12}>
+                            {/* <Grid item xs={12}>
                                 <FirebaseSocial />
-                            </Grid>
+                            </Grid> */}
                         </Grid>
                     </form>
                 )}
