@@ -14,6 +14,9 @@ import Orders from './pages/Orders';
 import Profile from './pages/Profile';
 import ForgotPassword from './pages/ForgotPassword';
 import ProductDetail from './pages/ProductDetail';
+import Cart from './pages/Cart';
+import NewDetail from './pages/NewDetail';
+
 
 // ----------------------------------------------------------------------
 
@@ -28,7 +31,7 @@ export default function Router() {
       element: <Shop />,
     },
     {
-      path: '/product-detail/:productId',
+      path: '/product-detail/:id',
       element: <ProductDetail />
     },
     {
@@ -38,6 +41,10 @@ export default function Router() {
     {
       path: '/news',
       element: <News />,
+    },
+    {
+      path: '/new-detail/:id',
+      element: <NewDetail />
     },
     {
       path: '/introduction',
@@ -63,7 +70,10 @@ export default function Router() {
       path: '/orders',
       element: <Orders />,
     },
-
+    {
+      path: '/cart',
+      element: <Cart />,
+    },
     {
       path: '/',
       element: <LogoOnlyLayout />,

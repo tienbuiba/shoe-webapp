@@ -1,8 +1,6 @@
 import TokenService from './TokenService';
 import api from './Api';
-import { userService } from 'src/constant/Constants';
-
-
+import { userService } from 'src/constants/Constant';
 
 export const apiUserGetTransactionDetail = async (rowsPerPage, page,keyword) => {
   let url = userService + '/transactions/list-by-user'

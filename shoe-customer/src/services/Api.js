@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { userService } from 'src/constant/Constants';
+import { userService } from 'src/constants/Constant';
 import TokenService from './TokenService';
 
 const instance = axios.create({

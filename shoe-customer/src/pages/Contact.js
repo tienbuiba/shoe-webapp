@@ -9,7 +9,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Map from 'src/components/Map';
 import { useTranslation } from 'react-i18next';
-import SendIcon from '@mui/icons-material/Send';
+import { closeLoadingApi, openLoadingApi } from 'src/redux/creates-action/LoadingAction';
+import { useDispatch } from 'react-redux';
 
 const Contact = () => {
   const [subject, setSubject] = React.useState('');
@@ -17,6 +18,7 @@ const Contact = () => {
   const [email, setEmail] = React.useState('');
   const [message, setMessage] = React.useState('');
   const { t } = useTranslation("translation");
+  const dispatch = useDispatch();
 
   const form = React.useRef();
   var templateParams = {
@@ -28,8 +30,10 @@ const Contact = () => {
 
   const handleClick = (e) => {
     if (name !== '' && email !== '' && subject !== '' && message !== '') {
+      dispatch(openLoadingApi());
       emailjs.send('service_nryc0it', 'template_cq86nyh', templateParams, '4fIiSEc_2JNSoSB1q')
         .then(function (response) {
+          dispatch(closeLoadingApi());
           toast.success('We will send you our best offers, once a day', {
             position: "top-center",
             autoClose: 2000,
@@ -52,6 +56,7 @@ const Contact = () => {
         });
     }
     else {
+      dispatch(closeLoadingApi());
       toast.error('Please enter value', {
         position: "top-center",
         autoClose: 1000,

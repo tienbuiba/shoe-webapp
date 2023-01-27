@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 import useResponsive from 'src/hooks/useResponsive';
@@ -6,6 +6,7 @@ import useScript from 'src/constants/useScript';
 import LanguagePopover from './LanguagePopover';
 import AccountPopover from './AccountMenu';
 import TokenService from 'src/services/TokenService';
+import { apiUserGetAllCartItem } from 'src/services/Carts';
 
 const Header = () => {
   const { t } = useTranslation("translation");
@@ -19,12 +20,25 @@ const Header = () => {
   useScript('../assets/js/custom.js');
   useScript('../assets/js/easing.js');
 
+  const [dataCart, setDataCart] = useState([])
+
+  useEffect(() => {
+    apiUserGetAllCartItem().then((res) => {
+      setDataCart(res.data.data);
+    }).catch((err) => {
+      console.log(err)
+    })
+  }, [])
+
+
   const handleLogout = () => {
     TokenService.removeAccessToken();
     TokenService.removeLocalExpiresIn();
     TokenService.removeLocalProfile();
     navigate('/', { replace: true });
   };
+
+  console.log('hih', dataCart)
 
   return (
     <div className="MainDiv">
@@ -54,14 +68,14 @@ const Header = () => {
                           <i className="fa fa-angle-down"></i>
                         </a>
                         <ul className="account_selection">
-                          <li><a onClick={handleLogout}><i className="fa fa-sign-out" aria-hidden="true" style={{ marginRight: '2px'}}></i>
+                          <li><a onClick={handleLogout}><i className="fa fa-sign-out" aria-hidden="true" style={{ marginRight: '2px' }}></i>
                             {t("Logout")}
                           </a></li>
                         </ul>
                       </li>
                     </> : (
                       <li className="account">
-                        <Link to="/login"><i className="fa fa-sign-in" aria-hidden="true" style={{ marginRight: '2px'}}></i>
+                        <Link to="/login"><i className="fa fa-sign-in" aria-hidden="true" style={{ marginRight: '2px' }}></i>
                           {t("Sign In")}
                         </Link>
                       </li>
@@ -111,7 +125,12 @@ const Header = () => {
                     <li className="checkout">
                       <Link to="/orders">
                         <i className="fa fa-shopping-cart" aria-hidden="true"></i>
-                        <span id="checkout_items" className="checkout_items">2</span>
+                        {dataCart.length === 0 ? (<></>) : (
+                          <span id="checkout_items" className="checkout_items">
+                            {dataCart.length}
+                          </span>
+                        )
+                        }
                       </Link>
                     </li>
                   </ul>

@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { Box, Paper, Tab, Tabs, Typography } from '@mui/material';
-import MainProduct from '../shop/MainProduct';
+import ProductMen from '../shop/ProductMen';
+import ProductWomen from '../shop/ProductWomen';
+import ProductMain from '../shop/ProductMain';
+
 
 const NavTab = () => {
-  const [value, setValue] = useState(1)
+  const [value, setValue] = useState(1);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -44,13 +47,13 @@ const NavTab = () => {
         </Tabs>
       </Paper>
       <TabPanel value={value} index={0}>
-        <MainProduct />
+        <ProductMen />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <MainProduct />
+        <ProductMain />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <MainProduct />
+        <ProductWomen />
       </TabPanel>
     </div>
   )

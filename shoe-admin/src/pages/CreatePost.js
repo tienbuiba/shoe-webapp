@@ -87,7 +87,7 @@ function CreatePost() {
   const handleSubmit = () => {
     apiAdminCreatePost(postForm)
       .then(res => {
-        console.log(res?.data);
+        toast.success('Create Post Successfully', options);
       })
       .catch((err) => {
         console.log(err);
@@ -96,8 +96,8 @@ function CreatePost() {
   return (
     <Page title="Dashboard: Add Post">
       <Container maxWidth="xl">
-        <Typography variant="h4" sx={{ mb: 5 }}>
-          Create Post
+        <Typography variant="h3" sx={{ mb: 2 }}>
+          Create New Post
         </Typography>
         <Card sx={{ p: 5 }}>
           <Grid container spacing={3}>

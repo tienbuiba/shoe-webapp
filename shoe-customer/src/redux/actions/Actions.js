@@ -6,6 +6,10 @@ export const PAYPAL = 'PAYPAL';
 export const CLOSE_PAYPAL = 'CLOSE_PAYPAL';
 export const ORDER_ID = 'ORDER_ID';
 export const STATE_LANGUAGE = 'STATE_LANGUAGE';
+export const ADD_TO_CART = 'ADD_TO_CART';
+export const REMOVE_ADD_TO_CART = 'REMOVE_ADD_TO_CART';
+export const NEW_ID= 'NEW_ID';
+
 
 
 

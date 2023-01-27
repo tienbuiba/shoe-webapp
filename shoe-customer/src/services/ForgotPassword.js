@@ -1,6 +1,5 @@
-import api from './Api';
-import { userService } from 'src/constant/Constants';
 import axios from 'axios';
+import { userService } from 'src/constants/Constant';
 
 export const apiUserForgotPassword = async (email) => {
   const url = userService + `/auth/forgot-password`;

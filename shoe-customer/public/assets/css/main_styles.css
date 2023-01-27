@@ -1326,6 +1326,11 @@ section {
   font-weight: 500;
   line-height: 1.25;
   margin-bottom: 0px;
+  display: -webkit-box;
+-webkit-box-orient: vertical;
+-webkit-line-clamp:3;
+overflow:hidden;
+text-overflow:ellipsis;
 }
 .blog_meta {
   font-size: 12px;
@@ -1519,10 +1524,35 @@ section {
   color: #fe4c50;
   background-color: #fcf3f2;
 }
-/* sdsđ */
+/* ALOALO */
 
 .form-check-input {
-
-  margin-left: 0
+  margin-left: 0;
 }
 
+.title {
+  cursor: pointer;
+  color: #000;
+  font-weight: bold;
+}
+
+.prePost {
+  cursor: pointer;
+  color: #fe4c50;
+}
+
+.prePost span:hover {
+  color: #fe4c50;
+}
+
+.left-nav-new {
+  background-color: #f8f8f8;
+  padding: 5px 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

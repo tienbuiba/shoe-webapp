@@ -14,7 +14,7 @@ export function fDateTimeSuffix(date) {
   return format(new Date(date), 'dd/MM/yyyy hh:mm p');
 }
 export function fDateLocal(date) {
-  return format(new Date(date), 'dd/MM/yyyy hh:mm', { locale: vi })
+  return format(new Date(date), 'dd MMMM yyyy', { locale: vi })
 }
 export function fToNow(date) {
   return formatDistanceToNow(new Date(date), {

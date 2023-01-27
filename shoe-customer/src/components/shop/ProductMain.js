@@ -1,15 +1,15 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 import useResponsive from 'src/hooks/useResponsive';
+import useScript from 'src/constants/useScript';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { apiUserGetAllProductByCategoryId } from 'src/services/Product';
+import { Link } from 'react-router-dom';
 import { closeLoadingApi, openLoadingApi } from 'src/redux/creates-action/LoadingAction';
 import { useDispatch } from 'react-redux';
-import useScript from 'src/constants/useScript';
 
-const MainProduct = () => {
+const ProductMain = () => {
   const { t } = useTranslation("translation");
   const [dataProduct, setDataProduct] = useState([]);
   const [page, setPage] = useState(0);
@@ -17,16 +17,15 @@ const MainProduct = () => {
   const [rowsPerPage, setRowsPerPage] = useState(8);
   const dispatch = useDispatch();
 
-  const navigate = useNavigate();
   const smUp = useResponsive('up', 'sm');
-  useScript('../assets/js/jquery-3.2.1.min.js');
-  useScript('../assets/js/popper.js');
-  useScript('../assets/js/bootstrap.min.js');
-  useScript('../assets/js/isotope.pkgd.min.js');
-  useScript('../assets/js/custom.js');
-  useScript('../assets/js/easing.js');
-  useScript('../assets/js/bootstrap.bundle.min.js');
-  useScript('../assets/js/script.js?v=2.0');
+  // useScript('../assets/js/jquery-3.2.1.min.js');
+  // useScript('../assets/js/popper.js');
+  // useScript('../assets/js/bootstrap.min.js');
+  // useScript('../assets/js/isotope.pkgd.min.js');
+  // useScript('../assets/js/custom.js');
+  // useScript('../assets/js/easing.js');
+  // useScript('../assets/js/bootstrap.bundle.min.js');
+  // useScript('../assets/js/script.js?v=2.0');
 
   useEffect(() => {
     dispatch(openLoadingApi());
@@ -36,26 +35,13 @@ const MainProduct = () => {
     }).catch(err => {
       dispatch(closeLoadingApi());
     })
-  }, [keyword]);
-
-  const handleChange = (e) => {
-    setKeyword(e.target.value);
-  }
+  }, []);
 
   return (
     <div className="MainDiv">
-      <header className="border-bottom mb-4 pb-3" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-        <strong className="d-block py-2">{dataProduct.length} Items found </strong>
-        <div className="ms-auto ">
-          <input onChange={handleChange} value={keyword} className="form-control d-inline-block " style={{ width: '175px', marginRight: '20px' }} placeholder="Search" />
-          <div className="btn-group">
-            <a href="#" className="btn btn-light active" data-bs-toggle="tooltip" title="Sort">
-              <i className="fa fa-th"></i>
-            </a>
-          </div>
-        </div>
+      <header className="border-bottom mb-4 pb-3">
       </header>
-      <div className="new_arrivals">
+      <div className="new_arrivals" style={{ paddingBottom: '75px' }}>
         <div className="container">
           <div className="row">
             {dataProduct?.map((row) => {
@@ -92,30 +78,33 @@ const MainProduct = () => {
                       </div>
                     </div>
                   </Link>
-                  <div className="red_button add_to_cart_button"><a href="#">add to cart</a></div>
+                  <div className="red_button add_to_cart_button"><Link to="/cart">add to cart</Link></div>
                 </div>
               )
             })}
           </div>
-          <div className="row" style={{ borderTop: '1px solid rgba(0,0,0,.125)' }}>
-            <footer class="d-flex mt-4">
-              <nav class="ms-3">
-                <ul class="pagination">
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item active" aria-current="page">
-                    <span class="page-link">2</span>
-                  </li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item">
-                    <a class="page-link" href="#">Next</a>
-                  </li>
-                </ul>
-              </nav>
-            </footer>
-          </div>
+        </div>
+        <div
+          style={{ marginTop: '50px' }}
+        >
+          <Link to="/shop" style={{
+            backgroundColor: '#fe4c50',
+            width: '150px',
+            height: '45px',
+            color: 'white',
+            display: 'flex',
+            position: 'absolute',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transform: 'translateX(-50%)',
+            left: '50%',
+            border: ' 1px solid #rgba(0,0,0,0.05)',
+          }}>
+            View All <i className="fa fa-chevron-right" style={{ marginLeft: '10px'}}></i>
+          </Link>
         </div>
       </div>
     </div>
   )
 }
-export default MainProduct;
+export default ProductMain;

@@ -1,16 +1,94 @@
-import React from 'react';
-import Header from 'src/layouts/Header';
-import { Breadcrumbs } from "@mui/material";
-import Link from '@mui/material/Link';
-import Page from 'src/components/Page';
-import Footer from 'src/layouts/Footer';
-import useScript from 'src/constants/useScript';
+import styled from "styled-components";
+import Footer from "src/layouts/Footer";
+import { Breadcrumbs, Container, Divider, Link } from "@mui/material";
+import Header from "src/layouts/Header";
+import Page from "src/components/Page";
+import FormatPrice from "./FormatPrice";
+import { FaCheck } from "react-icons/fa";
+import Star from "./Star";
+import { NavLink, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { apiUserGetProductById } from "src/services/Product";
+import CartAmountToggle from "./CartAmountToggle";
+import { useDispatch } from "react-redux";
+import { addToCart } from "src/redux/creates-action/CartActions";
+import { apiUserCreateCart } from "src/services/Carts";
+
+const Button = styled.button`
+  text-decoration: none;
+  max-width: auto;
+  background-color: #fe4c50;
+  color: rgb(255 255 255);
+  padding: 1.4rem 2.4rem;
+  border: none;
+  text-transform: uppercase;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+
+  &:hover,
+  &:active {
+    box-shadow: 0 2rem 2rem 0 rgb(132 144 255 / 30%);
+    transform: scale(0.96);
+  }
+  a {
+    text-decoration: none;
+    color: rgb(255 255 255);
+    font-size: 1.8rem;
+  }
+`;
 
 const ProductDetail = () => {
-  
+  const { id } = useParams();
+  const [data, setData] = useState([]);
+  const [stock, setStock] = useState('12');
 
+  useEffect(() => {
+    apiUserGetProductById(id).then((res) => {
+      setData(res?.data?.data);
+      // setColor(res?.data?.data?.color[0]);
+      // setSize(res?.data?.data?.size[0]);
+      setMainImage(res?.data?.data?.images[0]);
+    }).catch((err) => {
+      console.log(err)
+    })
+  }, [])
 
-  return (
+  const dispatch = useDispatch();
+  const [amount, setAmount] = useState(1);
+  const [color, setColor] = useState('');
+  const [size, setSize] = useState("");
+
+  const [mainImage, setMainImage] = useState('');
+  const setDecrease = () => {
+    amount > 0 ? setAmount(amount - 1) : setAmount(0);
+  };
+  const setIncrease = () => {
+    amount < 100 ? setAmount(amount + 1) : setAmount(100);
+  };
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    if (id !== '' && size !== '' && color !== '') {
+      apiUserCreateCart(parseInt(id), amount, (size).toString(), color).then((res) => {
+        console.log(res)
+      }).catch((err) => {
+        console.log(err)
+      })
+      dispatch(addToCart(id, amount, size, color))
+      console.log('productId', id);
+      console.log('quality', amount);
+      console.log('size', size);
+      console.log('color', color)
+    } else {
+      alert('dadad')
+    }
+  }
+
+  return data && (
     <Page title="Product detail">
       <Header />
       <div className="newsletter" style={{ marginTop: '150px' }}>
@@ -18,386 +96,329 @@ const ProductDetail = () => {
           <div className="row">
             <div className="col-lg-6">
               <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
-                <h3>PRRODUCT DETAIL</h3>
+                {/* <h3> {data.name} </h3> */}
                 <Breadcrumbs aria-label="breadcrumb" >
                   <Link
                     underline="hover"
                     color="inherit"
-                    href="/material-ui/getting-started/installation/"
+                    href="/#"
                   >
                     HOME PAGE
                   </Link>
-                  <p>Product detail</p>
+                  <p>SHOP</p>
                 </Breadcrumbs>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div style={{ textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '200px' }}>
-        <div className="home-section">
-
-
-          <section class="bg-primary py-5">
-            <div class="container">
-              <h2 class="text-white">Men's wear</h2>
-              <ol class="breadcrumb ondark mb-0">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Library</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Data</li>
-              </ol>
-            </div>
-          </section>
-
-
-
-          <section class="padding-y">
-            <div class="container">
-
-              <div class="row">
-                <aside class="col-lg-3">
-
-                  <button class="btn btn-outline-secondary mb-3 w-100  d-lg-none" data-bs-toggle="collapse" data-bs-target="#aside_filter">Show filter</button>
-
-
-                  <div id="aside_filter" class="collapse card d-lg-block mb-5">
-
-                    <article class="filter-group">
-                      <header class="card-header">
-                        <a href="#" class="title" data-bs-toggle="collapse" data-bs-target="#collapse_aside1">
-                          <i class="icon-control fa fa-chevron-down"></i>   Related items
-                        </a>
-                      </header>
-                      <div class="collapse show" id="collapse_aside1">
-                        <div class="card-body">
-                          <ul class="list-menu">
-                            <li><a href="#">Electronics </a></li>
-                            <li><a href="#">Accessories  </a></li>
-                            <li><a href="#">Home items </a></li>
-                            <li><a href="#">Men's clothing </a></li>
-                            <li><a href="#">Interior items </a></li>
-                            <li><a href="#">Magazines </a></li>
-                            <li><a href="#">Category name </a></li>
-                            <li><a href="#">Home items </a></li>
-                          </ul>
-                        </div>
-                      </div>
-                    </article>
-
-                    <article class="filter-group">
-                      <header class="card-header">
-                        <a href="#" class="title" data-bs-toggle="collapse" data-bs-target="#collapse_aside_brands">
-                          <i class="icon-control fa fa-chevron-down"></i>  Brands
-                        </a>
-                      </header>
-                      <div class="collapse show" id="collapse_aside_brands">
-                        <div class="card-body">
-                          <label class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" value="" checked />
-                            <span class="form-check-label"> Mercedes </span>
-                            <b class="badge rounded-pill bg-gray-dark float-end">120</b>
-                          </label>
-
-                          <label class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" value="" checked />
-                            <span class="form-check-label"> Toyota </span>
-                            <b class="badge rounded-pill bg-gray-dark float-end">15</b>
-                          </label>
-
-                          <label class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" value="" checked />
-                            <span class="form-check-label"> Mitsubishi </span>
-                            <b class="badge rounded-pill bg-gray-dark float-end">35</b>
-                          </label>
-
-                          <label class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" value="" checked />
-                            <span class="form-check-label"> Nissan </span>
-                            <b class="badge rounded-pill bg-gray-dark float-end">89</b>
-                          </label>
-
-                          <label class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" value="" />
-                            <span class="form-check-label"> Honda </span>
-                            <b class="badge rounded-pill bg-gray-dark float-end">30</b>
-                          </label>
-
-                          <label class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" value="" />
-                            <span class="form-check-label"> Honda accord </span>
-                            <b class="badge rounded-pill bg-gray-dark float-end">30</b>
-                          </label>
-                        </div>
-                      </div>
-                    </article>
-
-                    <article class="filter-group">
-                      <header class="card-header">
-                        <a href="#" class="title" data-bs-toggle="collapse" data-bs-target="#collapse_aside2">
-                          <i class="icon-control fa fa-chevron-down"></i>  Price
-                        </a>
-                      </header>
-                      <div class="collapse show" id="collapse_aside2">
-                        <div class="card-body">
-                          <input type="range" class="form-range" min="0" max="100" />
-                          <div class="row mb-3">
-                            <div class="col-6">
-                              <label for="min" class="form-label">Min</label>
-                              <input class="form-control" id="min" placeholder="$0" type="number" />
-                            </div>
-
-                            <div class="col-6">
-                              <label for="max" class="form-label">Max</label>
-                              <input class="form-control" id="max" placeholder="$1,0000" type="number" />
-                            </div>
-                          </div>
-                          <button class="btn btn-light w-100" type="button">Apply</button>
-                        </div>
-                      </div>
-                    </article>
-
-                    <article class="filter-group">
-                      <header class="card-header">
-                        <a href="#" class="title" data-bs-toggle="collapse" data-bs-target="#collapse_aside3">
-                          <i class="icon-control fa fa-chevron-down"></i>  Size
-                        </a>
-                      </header>
-                      <div class="collapse show" id="collapse_aside3">
-                        <div class="card-body">
-                          <label class="checkbox-btn">
-                            <input type="checkbox" />
-                            <span class="btn btn-light"> XS </span>
-                          </label>
-
-                          <label class="checkbox-btn">
-                            <input type="checkbox" />
-                            <span class="btn btn-light"> SM </span>
-                          </label>
-
-                          <label class="checkbox-btn">
-                            <input type="checkbox" />
-                            <span class="btn btn-light"> LG </span>
-                          </label>
-
-                          <label class="checkbox-btn">
-                            <input type="checkbox" />
-                            <span class="btn btn-light"> XXL </span>
-                          </label>
-                        </div>
-                      </div>
-                    </article>
-
-
-
+      <div className="container" style={{ marginTop: '75px', marginBottom: '200px' }}>
+        <Wrapper>
+          <Container className="container">
+            <div style={{ display: 'flex', alignItems: 'stretch', justifyContent: 'space-between', gap: '10px' }}>
+              <div className="product_images">
+                <div>
+                  <div className="main-screen">
+                    <img src={mainImage} alt={mainImage.filename} className="main-image-preview" />
                   </div>
-
-
-                </aside>
-                <main class="col-lg-9">
-
-                  <header class="d-sm-flex align-items-center border-bottom mb-4 pb-3">
-                    <strong class="d-block py-2">32 Items found </strong>
-                    <div class="ms-auto ">
-                      <select class="form-select d-inline-block w-auto me-1">
-                        <option value="0">Best match</option>
-                        <option value="1">Recommended</option>
-                        <option value="2">High rated</option>
-                        <option value="3">Randomly</option>
-                      </select>
-                      <div class="btn-group">
-                        <a href="#" class="btn btn-light" data-bs-toggle="tooltip" title="List view">
-                          <i class="fa fa-bars"></i>
-                        </a>
-                        <a href="#" class="btn btn-light active" data-bs-toggle="tooltip" title="Grid view">
-                          <i class="fa fa-th"></i>
-                        </a>
-                      </div>
-                    </div>
-                  </header>
-
-
-                  <div class="row">
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                      <figure class="card card-product-grid">
-                        <div class="img-wrap">
-                          <img src="assets/images/items/10.webp" />
-                        </div>
-                        <figcaption class="info-wrap border-top">
-                          <div class="price-wrap">
-                            <strong class="price">$99.00</strong>
-                            <del class="price-old">$170.00</del>
-                          </div>
-                          <p class="title mb-2">T-shirts with multiple colors, for men and lady</p>
-
-                          <a href="#" class="btn btn-primary">Add to cart</a>
-                          <a href="#" class="btn btn-light btn-icon"> <i class="fa fa-heart"></i> </a>
-                        </figcaption>
-                      </figure>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                      <figure class="card card-product-grid">
-                        <div class="img-wrap">
-                          <img src="assets/images/items/11.webp" />
-                        </div>
-                        <figcaption class="info-wrap border-top">
-                          <div class="price-wrap">
-                            <strong class="price">$120.00</strong>
-                          </div>
-                          <p class="title mb-2">Winter Jacket for Men and Women, All sizes</p>
-
-                          <a href="#" class="btn btn-primary">Add to cart</a>
-                          <a href="#" class="btn btn-light btn-icon"> <i class="fa fa-heart"></i> </a>
-                        </figcaption>
-                      </figure>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                      <figure class="card card-product-grid">
-                        <div class="img-wrap">
-                          <img src="assets/images/items/12.webp" />
-                        </div>
-                        <figcaption class="info-wrap border-top">
-                          <div class="price-wrap">
-                            <strong class="price">$120.00</strong>
-                          </div>
-                          <p class="title mb-2">T-shirts with multiple colors, for men and lady</p>
-
-                          <a href="#" class="btn btn-primary">Add to cart</a>
-                          <a href="#" class="btn btn-light btn-icon"> <i class="fa fa-heart"></i> </a>
-                        </figcaption>
-                      </figure>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                      <figure class="card card-product-grid">
-                        <div class="img-wrap">
-                          <img src="assets/images/items/9.webp" />
-                        </div>
-                        <figcaption class="info-wrap border-top">
-                          <div class="price-wrap">
-                            <strong class="price">$120.00</strong>
-                          </div>
-                          <p class="title mb-2">T-shirts with multiple colors, for men and lady</p>
-
-                          <a href="#" class="btn btn-primary">Add to cart</a>
-                          <a href="#" class="btn btn-light btn-icon"> <i class="fa fa-heart"></i> </a>
-                        </figcaption>
-                      </figure>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                      <figure class="card card-product-grid">
-                        <div class="img-wrap">
-                          <img src="assets/images/items/14.webp" />
-                        </div>
-                        <figcaption class="info-wrap border-top">
-                          <div class="price-wrap">
-                            <strong class="price">$510.00</strong>
-                          </div>
-                          <p class="title mb-2">Blazer Suit Dress Jacket for Men, Blue color</p>
-
-                          <a href="#" class="btn btn-primary">Add to cart</a>
-                          <a href="#" class="btn btn-light btn-icon"> <i class="fa fa-heart"></i> </a>
-                        </figcaption>
-                      </figure>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                      <figure class="card card-product-grid">
-                        <div class="img-wrap">
-                          <img src="assets/images/items/10.webp" />
-                        </div>
-                        <figcaption class="info-wrap border-top">
-                          <div class="price-wrap">
-                            <strong class="price">$79.99</strong>
-                          </div>
-                          <p class="title mb-2">Rucksack Backpack The Bridge Large Line Mounts</p>
-
-                          <a href="#" class="btn btn-primary">Add to cart</a>
-                          <a href="#" class="btn btn-light btn-icon"> <i class="fa fa-heart"></i> </a>
-                        </figcaption>
-                      </figure>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                      <figure class="card card-product-grid">
-                        <div class="img-wrap">
-                          <img src="assets/images/items/11.webp" />
-                        </div>
-                        <figcaption class="info-wrap border-top">
-                          <div class="price-wrap">
-                            <strong class="price">$120.00</strong>
-                          </div>
-                          <p class="title mb-2">T-shirts with multiple colors, for men and lady</p>
-
-                          <a href="#" class="btn btn-primary">Add to cart</a>
-                          <a href="#" class="btn btn-light btn-icon"> <i class="fa fa-heart"></i> </a>
-                        </figcaption>
-                      </figure>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                      <figure class="card card-product-grid">
-                        <div class="img-wrap">
-                          <img src="assets/images/items/12.webp" />
-                        </div>
-                        <figcaption class="info-wrap border-top">
-                          <div class="price-wrap">
-                            <strong class="price">$120.00</strong>
-                          </div>
-                          <p class="title mb-2">T-shirts with multiple colors, for men and lady</p>
-                          <a href="#" class="btn btn-primary">Add to cart</a>
-                          <a href="#" class="btn btn-light btn-icon"> <i class="fa fa-heart"></i> </a>
-                        </figcaption>
-                      </figure>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                      <figure class="card card-product-grid">
-                        <div class="img-wrap">
-                          <img src="assets/images/items/9.webp" />
-                        </div>
-                        <figcaption class="info-wrap border-top">
-                          <div class="price-wrap">
-                            <strong class="price">$43.50</strong>
-                          </div>
-                          <p class="title mb-2">Summer New Men's Denim Jeans Shorts </p>
-                          <a href="#" class="btn btn-primary">Add to cart</a>
-                          <a href="#" class="btn btn-light btn-icon"> <i class="fa fa-heart"></i> </a>
-                        </figcaption>
-                      </figure>
-                    </div>
+                  <div style={{ display: 'flex', marginTop: '10px', justifyContent: 'center' }}>
+                    {data?.images?.map((curElm, index) => {
+                      return (
+                        <figure>
+                          <img
+                            src={curElm}
+                            alt={"curElm.filename"}
+                            className="img-box-style"
+                            key={index}
+                            onClick={() => setMainImage(curElm)}
+                          />
+                        </figure>
+                      );
+                    })}
                   </div>
-                  <hr />
-                  <footer class="d-flex mt-4">
-                    <nav class="ms-3">
-                      <ul class="pagination">
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item active" aria-current="page">
-                          <span class="page-link">2</span>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">Next</a>
-                        </li>
-                      </ul>
-                    </nav>
-                  </footer>
-                </main>
+                </div>
               </div>
-
+              <div className="product-data">
+                <h3>{data.name}</h3>
+                <Star stars={data.ratingAvg} reviews={data.reviewCount} />
+                <p style={{ color: '#000', marginBottom: '4px' }}>
+                  Price Origin:
+                  <del style={{ color: '#ccc' }}>
+                    <FormatPrice price={data.priceOrigin} />
+                  </del>
+                </p>
+                <p style={{ color: '#000', marginBottom: '4px' }}>
+                  Deal of the Day: <FormatPrice price={data.priceSell} />
+                </p>
+                <div className="product-data-info">
+                  <p style={{ marginBottom: '4px' }}>
+                    <p style={{ width: '150px', color: '#222', display: 'inline-block', marginBottom: '4px' }}>Available:</p>
+                    <span style={{ width: '150px', display: 'inline-block' }}> {data.status === "AVAILABLE" ? `${data.available} In Stock` : "Not Available"}</span>
+                  </p>
+                  <p style={{ marginBottom: '4px' }}>
+                    <p style={{ width: '150px', textAlign: 'left', color: '#222', display: 'inline-block', marginBottom: '4px' }}>Brand :</p>
+                    <span style={{ width: '150px', display: 'inline-block' }}> {data.brand} </span>
+                  </p>
+                </div>
+                <Wrapper>
+                  <div className="colors">
+                    <p style={{ color: '#000', marginBottom: '4px' }}>
+                      Size:
+                      {data?.size?.map((curSize, index) => {
+                        return (
+                          <btnSizeStyle
+                            key={index}
+                            className={size === curSize ? "btnSizeStyle active" : "btnSizeStyle"}
+                            onClick={() => setSize(curSize)}>
+                            <p style={{ textAlign: "center" }}>
+                              {size === curSize ? <span className="tickStyle">{curSize}</span> :
+                                <span className="okSize">{curSize}</span>
+                              }
+                            </p>
+                          </btnSizeStyle>
+                        );
+                      })}
+                    </p>
+                  </div>
+                </Wrapper>
+                <Wrapper>
+                  <div className="colors">
+                    <p style={{ color: '#000', marginBottom: '4px' }}>
+                      Color:
+                      {data?.color?.map((curColor, index) => {
+                        return (
+                          <btnStyle
+                            key={index}
+                            style={{ backgroundColor: curColor }}
+                            className={color === curColor ? "btnStyle active" : "btnStyle"}
+                            onClick={() => setColor(curColor)}>
+                            {color === curColor ? <FaCheck className="checkStyle" /> : null}
+                          </btnStyle>
+                        );
+                      })}
+                    </p>
+                  </div>
+                </Wrapper>
+                <hr />
+                {data.available > 0 && (
+                  <Wrapper>
+                    <CartAmountToggle
+                      amount={amount}
+                      setDecrease={setDecrease}
+                      setIncrease={setIncrease}
+                    />
+                    {/* <NavLink to="/cart"> */}
+                    <Button className="btn" onClick={handleClick}>Add To Cart</Button>
+                    {/* </NavLink> */}
+                  </Wrapper>
+                )}
+              </div>
             </div>
-          </section>
-
-
-        </div>
+            <div className="MainDiv mb-5" >
+              <div className="benefit">
+                <div className="container">
+                  <div className="row benefit_row" style={{ paddingLeft: '0px', paddingRight: '0px' }}>
+                    <div className="col-lg-3 benefit_col">
+                      <div className="benefit_item d-flex flex-row align-items-center">
+                        <div className="benefit_icon"><i className="fa fa-truck" aria-hidden="true"></i></div>
+                        <div className="benefit_content">
+                          <h6>free shipping</h6>
+                          <p>Suffered Alteration in Some Form</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-lg-3 benefit_col">
+                      <div className="benefit_item d-flex flex-row align-items-center">
+                        <div className="benefit_icon"><i className="fa fa-money" aria-hidden="true"></i></div>
+                        <div className="benefit_content">
+                          <h6>cach on delivery</h6>
+                          <p>The Internet Tend To Repeat</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-lg-3 benefit_col">
+                      <div className="benefit_item d-flex flex-row align-items-center">
+                        <div className="benefit_icon"><i className="fa fa-undo" aria-hidden="true"></i></div>
+                        <div className="benefit_content">
+                          <h6>45 days return</h6>
+                          <p>Making it Look Like Readable</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-lg-3 benefit_col">
+                      <div className="benefit_item d-flex flex-row align-items-center">
+                        <div className="benefit_icon"><i className="fa fa-clock-o" aria-hidden="true"></i></div>
+                        <div className="benefit_content">
+                          <h6>opening all week</h6>
+                          <p>8AM - 09PM</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <Divider />
+            </div>
+            <div className="row">
+              <h3>DESCRIPTION</h3>
+              <Divider sx={{ my: 5, border: '1px solid #000' }} />
+              <div dangerouslySetInnerHTML={{ __html: data.longDesc }} />
+            </div>
+          </Container>
+        </Wrapper>
       </div>
       <Footer />
     </Page>
   );
 };
 
+const Wrapper = styled.section`
+  .product_images {
+    width: 47%; 
+  }
+  .product-data {
+    display: flex;
+    width: 47%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2rem;   
+    .product-data-price {
+      font-weight: bold;
+    }
+    .product-data-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      font-size: 1.8rem;
+      span {
+        font-weight: bold;
+      }
+    }
+    hr {
+      max-width: 100%;
+      width: 90%;
+      border: 0.1rem solid #000;
+      color: red;
+    }
+  }
+  .product-images {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .page_loading {
+    font-size: 3.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }  
+    .colors p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .btnStyle {
+    width: 2rem;
+    height: 2rem;
+    background-color: red;
+    border-radius: 50%;
+    margin-left: 1rem;
+    border: none;
+    outline: none;
+    opacity: 0.5;
+    cursor: pointer;
+    &:hover {
+      opacity: 1;
+    }
+  }
+  .active {
+    opacity: 1;
+  }
+  .checkStyle {
+    font-size: 1rem;
+    height: 2rem;
+    text-align: center;
+    color: #fff;
+    line-height: 2rem;
+  }
+  .tickStyle {
+    font-size: 1rem;
+    height: 2rem;
+    width: 2rem;
+    background-color: red;
+    text-align: center;
+    color: #fff;
+    line-height: 2rem;
+    opacity: 1;
+  }
+
+  .okSize {
+    font-size: 1rem;
+    height: 2rem;
+    text-align: center;
+    color: #555;
+    ${'' /* background-color: #fff; */}
+    line-height: 2rem;
+  }  
+  .amount-toggle {
+    ${'' /* margin-top: 1rem; */}
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 1.4rem;
+    button {
+      border: none;
+      background-color: #fff;
+      cursor: pointer;
+    }
+    .amount-style {
+      font-size: 1.4rem;
+      color: #000;
+    }
+  }
+  .img-box-style {
+      max-width: 75px;
+      height: auto;
+      padding: 2px;
+      background-size: cover;
+      object-fit: contain;
+      cursor: pointer;
+    }
+    .main-image-preview {
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      object-fit: contain;
+      cursor: pointer;
+    }
+    .btnSizeStyle {
+    width: 2rem;
+    height: 2rem;
+    background-color: #999;
+    border: 1px solid #ccc;
+    border-radius: 10%;
+    color: #ccc;
+    margin-left: 1rem;
+    border: none;
+    outline: none;
+    opacity: 0.5;
+    cursor: pointer;
+    &:hover {
+      opacity: 1;
+    }
+  }
+  .active {
+    opacity: 1;
+  }
+
+  .product-data-real-price {
+    color: #222;
+  }
+`;
+
 export default ProductDetail;
+
 
 
 

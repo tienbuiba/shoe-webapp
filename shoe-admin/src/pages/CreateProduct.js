@@ -22,20 +22,20 @@ import { uploadImage } from 'src/services/UploadImage';
 import { apiAdminCreateProduct } from 'src/services/Products';
 import { apiAdminGetAllCategories } from 'src/services/Categories';
 import Iconify from 'src/components/Iconify';
+import TokenService from 'src/services/TokenService';
 
 const Input = styled('input')({
   display: 'none',
 });
 
 function CreateProduct() {
-  const initStateProductForm = initProduct('', [], '', '', [], [], '', '', '', 0, 0, 0, 0);
+  const initStateProductForm = initProduct('', [], '', '', [], [], '', '', '', 0, '');
   const [productForm, setProductForm] = useState(initStateProductForm);
   const [images, setImages] = useState([]);
   const [listCategory, setListCategory] = useState([]);
-  const API_URL = 'https://atroboticsvn.com';
-  const UPLOAD_ENDPOINT = 'api/v1/admin/auth/file-uploads/single-file';
-  const token = ('access_token');
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const API_URL = 'https://api.atroboticsvn.com';
+  const UPLOAD_ENDPOINT = 'api/v1/upload-files/push';
+  const [rowsPerPage, setRowsPerPage] = useState(100);
   const [page, setPage] = useState(0);
 
   useEffect(() => {
@@ -50,18 +50,19 @@ function CreateProduct() {
       });
   }, []);
   function uploadAdapter(loader) {
+    const accessToken = TokenService.getLocalAccessToken();
     return {
       upload: () => {
         return new Promise((resolve, reject) => {
           const body = new FormData();
           loader.file.then((file) => {
-            body.append('image', file);
+            body.append('file', file);
             fetch(`${API_URL}/${UPLOAD_ENDPOINT}`, {
               method: 'post',
               body: body,
               headers: {
-                Authorization: `Bearer ${token}`,
-              },
+                "Authorization": accessToken,
+              }
             })
               .then((res) => res.json())
               .then((res) => {
@@ -84,6 +85,14 @@ function CreateProduct() {
     };
   }
 
+
+  const handleChangeProductBrand = (event) => {
+    let data = event.target.value;
+    setProductForm({
+      ...productForm,
+      brand: data,
+    });
+  };
   const handleChangeProductName = (event) => {
     let data = event.target.value;
     setProductForm({
@@ -166,10 +175,12 @@ function CreateProduct() {
   };
 
   const handleSubmit = () => {
-    console.log(productForm);
     apiAdminCreateProduct(productForm)
       .then(res => {
-        console.log(res?.data);
+        console.log(res?.data.message);
+        setProductForm({
+          ...productForm,    
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -182,13 +193,24 @@ function CreateProduct() {
           Create Product Form
         </Typography>
         <Grid container spacing={3}>
-          <Grid item xs={12} sx={{ pl: '24px' }}>
+          <Grid item xs={6} sx={{ pl: '24px' }}>
             <TextField
               id="productName"
               label="Product Name"
               placeholder="Enter product name"
               value={productForm.name}
               onChange={handleChangeProductName}
+              required
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={6} sx={{ pl: '24px' }}>
+            <TextField
+              id="productBrand"
+              label="Product brand"
+              placeholder="Enter product brand"
+              value={productForm.brand}
+              onChange={handleChangeProductBrand}
               required
               fullWidth
             />
@@ -301,7 +323,7 @@ function CreateProduct() {
             </label>
           </Grid>
           <Grid item xs={12} sx={{ pl: '24px' }}>
-            <ImageList sx={{ width: 500, height: 450 }} cols={3} rowHeight={164}>
+            <ImageList sx={{ width: 500}} cols={3} rowHeight={104}>
               {images.map((item, index) => (
                 <ImageListItem key={index}>
                   <img
@@ -334,7 +356,7 @@ function CreateProduct() {
           <Button
             variant="contained"
             endIcon={<Iconify icon="eva:plus-fill" />}
-            size="medium"
+            size="large"
             component="span"
             onClick={handleSubmit}
           >

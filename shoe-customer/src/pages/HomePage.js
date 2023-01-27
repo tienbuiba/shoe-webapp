@@ -2,23 +2,27 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 import useResponsive from 'src/hooks/useResponsive';
-import useScript from 'src/constants/useScript';
 import Header from 'src/layouts/Header';
 import Page from 'src/components/Page';
 import NavTab from 'src/components/navtab/NavTab';
 import Footer from 'src/layouts/Footer';
 import MainNews from 'src/components/news/MainNews';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setNewId } from 'src/redux/creates-action/NewAction';
 
 const HomePage = () => {
   const { t } = useTranslation("translation");
   const navigate = useNavigate();
   const smUp = useResponsive('up', 'sm');
-  useScript('../assets/js/jquery-3.2.1.min.js');
-  useScript('../assets/js/popper.js');
-  useScript('../assets/js/bootstrap.min.js');
-  useScript('../assets/js/isotope.pkgd.min.js');
-  useScript('../assets/js/custom.js');
-  useScript('../assets/js/easing.js');
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // remove newID
+    dispatch(setNewId(''))
+  })
+
+
   return (
     <Page title="Home Page">
       <div className="MainDiv">
@@ -28,8 +32,8 @@ const HomePage = () => {
             <div className="row align-items-center fill_height">
               <div className="col">
                 <div className="main_slider_content">
-                  <h6>Spring / Summer Collection 2021</h6>
-                  <h1>Get up to 30% Off New Arrivals</h1>
+                  <h6>Spring / Summer Collection 2023</h6>
+                  <h1>Get up to 25% Off New Arrivals</h1>
                   <div className="red_button shop_now_button"><Link to="/shop">shop now</Link></div>
                 </div>
               </div>
@@ -43,8 +47,8 @@ const HomePage = () => {
                 <div className="benefit_item d-flex flex-row align-items-center">
                   <div className="benefit_icon"><i className="fa fa-truck" aria-hidden="true"></i></div>
                   <div className="benefit_content">
-                    <h6>free shipping</h6>
-                    <p>Suffered Alteration in Some Form</p>
+                    <h6>Miễn phí vận chuyển</h6>
+                    <p>Cho đơn hàng 500.000đ</p>
                   </div>
                 </div>
               </div>

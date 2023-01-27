@@ -6,6 +6,7 @@ import Page from 'src/components/Page';
 import MainNews from 'src/components/news/MainNews';
 import Footer from 'src/layouts/Footer';
 import { useTranslation } from 'react-i18next';
+import NewComponent from 'src/components/news/NewComponent';
 
 const News = () => {
   const { t } = useTranslation("translation");
@@ -39,7 +40,7 @@ const News = () => {
         </div>
       </div>
       <div className="container">
-        <div className="row">
+        <div className="row mb-5">
           <div className="col text-center">
             <div className="section_title">
               <h2>
@@ -48,7 +49,7 @@ const News = () => {
             </div>
           </div>
         </div>
-        <MainNews />
+        <NewComponent />
       </div>
       <div style={{ marginBottom: '100px' }}></div>
       <Footer />

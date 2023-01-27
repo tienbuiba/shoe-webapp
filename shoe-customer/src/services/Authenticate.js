@@ -1,7 +1,7 @@
 import TokenService from './TokenService';
 import api from './Api';
-import { userService } from 'src/constant/Constants';
 import axios from 'axios';
+import { userService } from 'src/constants/Constant';
 
 export const apiUserLogin = async (email, password) => {
   let url = userService + '/auth/login';

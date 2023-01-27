@@ -122,8 +122,8 @@ const AuthForgotPass = () => {
                   size="large"
                   type="submit"
                   variant="contained"
-                  color="primary"
-                  endIcon={<SendIcon />}
+                  sx={{ backgroundColor: 'red' }}
+                  className="red_button_auth"
                 >
                   {t("Send request")}
                 </Button>

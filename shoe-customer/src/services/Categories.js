@@ -1,6 +1,6 @@
 import TokenService from './TokenService';
 import api from './Api';
-import { userService } from 'src/constant/Constants';
+import { userService } from 'src/constants/Constant';
 
 export const apiUserGetAllCategories = async (rowsPerPage, page,keyword) => {
   const url = userService + `/categories/list`;
