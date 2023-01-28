@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import authenReducer from './AuthenReducer';
 import cartReducer from './CartReducer';
 import languageReducer from './languageReducer';
 import loadingReducer from './LoadingReducer';
@@ -12,7 +13,8 @@ const Reducer = combineReducers({
     order: orderReducer,
     language: languageReducer,
     cart: cartReducer,
-    new: newReducer
+    new: newReducer,
+    authen: authenReducer
 
 });
 

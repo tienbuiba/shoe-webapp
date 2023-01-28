@@ -28,6 +28,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import TokenService from 'src/services/TokenService';
 import { useTranslation } from 'react-i18next';
 
+
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const AuthLogin = () => {
@@ -50,6 +51,7 @@ const AuthLogin = () => {
     };
     return (
         <>
+        
             <Formik
                 initialValues={{
                     email: 'info@monoshoes.com',

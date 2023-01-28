@@ -11,12 +11,13 @@ import { Container, Grid, useMediaQuery } from '@mui/material';
 import { closeConfirmModal } from 'src/redux/create-actions/ConfirmAction';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { apiAdminDeleteMailType } from 'src/services/Products';
 import { apiAdminBlockUser } from 'src/services/User';
 import { blockUserSuccess } from 'src/redux/create-actions/UserAction';
 import { deleteProduct } from 'src/redux/create-actions/ProductAction';
 import { closeLoadingApi, openLoadingApi } from 'src/redux/create-actions/LoadingAction';
 import { apiAdminDeleteCategory } from 'src/services/Categories';
+import { apiAdminDeletePost } from 'src/services/Posts';
+import { deletePost } from 'src/redux/create-actions/PostAction';
 
 export default function ConfirmModal() {
   const theme = useTheme();
@@ -52,32 +53,6 @@ export default function ConfirmModal() {
         dispatch(closeConfirmModal())
         dispatch(closeLoadingApi());
         break
-      case 'DELETE_PRODUCT':
-        dispatch(openLoadingApi());
-
-        apiAdminDeleteMailType(data.id).then(result => {
-          const res = result.data;
-          if (res.statusCode === 200) {
-            toast.success(res.message, options);
-            dispatch(closeLoadingApi());
-            dispatch(deleteProduct())
-          } else {
-            toast.error(res.message, options);
-            dispatch(closeLoadingApi());
-          }
-        }).catch(err => {
-          if (err.response.data.statusCode === 401) {
-            dispatch(closeLoadingApi());
-
-            toast.error(err.response.data.message, options);
-          } else {
-            dispatch(closeLoadingApi());
-            toast.error(err.response.data.message, options);
-          }
-        })
-        dispatch(closeConfirmModal())
-        dispatch(closeLoadingApi());
-        break
       case 'DELETE_CATEGORY':
         dispatch(openLoadingApi());
         apiAdminDeleteCategory(data.id).then(result => {
@@ -90,7 +65,6 @@ export default function ConfirmModal() {
             toast.error(res.message, options);
             dispatch(closeLoadingApi());
           }
-
         }).catch(err => {
           if (err.response.data.statusCode === 401) {
             dispatch(closeLoadingApi());
@@ -102,6 +76,31 @@ export default function ConfirmModal() {
         })
         dispatch(closeConfirmModal())
         dispatch(closeLoadingApi());
+        break
+      case 'DELETE_POST':
+        dispatch(openLoadingApi());
+        apiAdminDeletePost(data.id).then(result => {
+          const res = result.data;
+          if (res.statusCode === 200) {
+            toast.success(res.message, options);
+            dispatch(closeLoadingApi());
+            dispatch(deletePost())
+          } else {
+            toast.error(res.message, options);
+            dispatch(closeLoadingApi());
+          }
+        }).catch(err => {
+          if (err.response.data.statusCode === 401) {
+            dispatch(closeLoadingApi());
+            toast.error(err.response.data.message, options);
+          } else {
+            dispatch(closeLoadingApi());
+            toast.error(err.response.data.message, options);
+          }
+        })
+        dispatch(closeConfirmModal())
+        dispatch(closeLoadingApi());
+        break
       default:
         break
     }
@@ -109,7 +108,6 @@ export default function ConfirmModal() {
 
   const handleClose = () => {
     dispatch(closeConfirmModal());
-    // dispatch(deleteProduct());
   }
   const renderConfirm = () => {
     return (

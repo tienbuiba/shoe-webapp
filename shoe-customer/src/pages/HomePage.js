@@ -107,7 +107,7 @@ const HomePage = () => {
                   <div className="section_title">
                     <h2>Deal Of The Week</h2>
                   </div>
-                  <div className="red_button deal_ofthe_week_button"><a href="#">shop now</a></div>
+                  <div className="red_button deal_ofthe_week_button"><a href="/shop">shop now</a></div>
                 </div>
               </div>
             </div>
@@ -122,6 +122,7 @@ const HomePage = () => {
                 </div>
               </div>
             </div>
+            <NavTab />
           </div>
         </div>
         <div className="blogs">

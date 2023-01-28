@@ -10,28 +10,70 @@ import {
   ImageListItem,
   ImageList
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Page from '../components/Page';
 import { styled } from '@mui/material/styles';
 import { PhotoCamera, Save } from '@mui/icons-material';
 import { initPost } from 'src/utils/InitPostForm';
-import { apiAdminCreatePost } from 'src/services/Posts';
+import { apiAdminGetPostById, apiAdminUpdatePostById } from 'src/services/Posts';
 import TokenService from 'src/services/TokenService';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { uploadImage } from 'src/services/UploadImage';
-import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { closeLoadingApi, openLoadingApi } from 'src/redux/create-actions/LoadingAction';
+import { Link, useParams } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import CloseIcon from '@mui/icons-material/Close';
 
 const Input = styled('input')({
   display: 'none',
 });
 
-function CreatePost() {
+function EditPost() {
   const initStatePostForm = initPost('', [], '');
   const [postForm, setPostForm] = useState(initStatePostForm);
   const [images, setImages] = useState([]);
+  const [data, setData] = useState();
+  const dispatch = useDispatch();
+  const { id } = useParams();
+
+  useEffect(() => {
+    dispatch(openLoadingApi())
+    apiAdminGetPostById(id).then((res) => {
+      dispatch(closeLoadingApi());
+      setData(res?.data?.data);
+      setImages(res?.data?.data.images);
+      setPostForm({
+        ...postForm,
+        shortDesc: res?.data?.data.shortDesc,
+        images: res?.data?.data.images,
+        longDesc: res?.data?.data.longDesc,
+      });
+    }).catch((err) => {
+      console.log(err);
+      dispatch(closeLoadingApi());
+    })
+  }, [])
+
+  useEffect(() => {
+    dispatch(openLoadingApi())
+    apiAdminGetPostById(id).then((res) => {
+      dispatch(closeLoadingApi());
+      setData(res?.data?.data);
+      setImages(res?.data?.data.images);
+      setPostForm({
+        ...postForm,
+        shortDesc: res?.data?.data.shortDesc,
+        images: res?.data?.data.images,
+        longDesc: res?.data?.data.longDesc,
+      });
+    }).catch((err) => {
+      console.log(err);
+      dispatch(closeLoadingApi());
+    })
+  }, [])
 
   const API_URL = 'https://api.atroboticsvn.com';
   const UPLOAD_ENDPOINT = 'api/v1/upload-files/push';
@@ -104,7 +146,6 @@ function CreatePost() {
       })
       .catch((err) => {
         console.log(err);
-
       });
   };
 
@@ -117,16 +158,21 @@ function CreatePost() {
   }
 
   const handleSubmit = () => {
-    apiAdminCreatePost(postForm)
+    apiAdminUpdatePostById(id, postForm)
       .then(res => {
+        let shortDesc = '';
+        let longDesc = '';
         setPostForm({
           ...postForm,
+          shortDesc: shortDesc,
           images: [],
-          shortDesc: '',
-          longDesc: ''
+        });
+        setPostForm({
+          ...postForm,
+          longDesc: longDesc,
         });
         setImages([]);
-        toast.success('Create Post Successfully', options);
+        toast.success('Update Post Successfully', options);
       })
       .catch((err) => {
         console.log(err);
@@ -137,14 +183,15 @@ function CreatePost() {
     <Page title="Dashboard: Add Post">
       <Container maxWidth="xl">
         <Typography variant="h3" sx={{ mb: 2 }}>
-          Create New Post
+          Edit Post
         </Typography>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
           <Button component={Link} to="/dashboard/posts" startIcon={<ArrowBackIosIcon />} variant="contained">
             BACK
           </Button>
-          <div>
-          </div>
+          <Button component={Link} to={`/dashboard/post-detail/${id}`} startIcon={<VisibilityIcon />} variant="outlined">
+            View Post
+          </Button>
         </div>
         <Card sx={{ p: 5 }}>
           <Grid container spacing={3}>
@@ -204,13 +251,12 @@ function CreatePost() {
                     color: '#000',
                     fontSize: '12px',
                     cursor: 'pointer'
-                  }}><CloseIcon
-                    style={{
-                      color: '#000',
-                      fontSize: '14px',
-                      cursor: 'pointer'
-                    }}
-                  ></CloseIcon>Remove</div>
+                  }}><CloseIcon style={{
+
+                    color: '#000',
+                    fontSize: '14px',
+                    cursor: 'pointer'
+                  }}></CloseIcon>Remove</div>
               ) : <div></div>
               }
             </Grid>
@@ -231,7 +277,7 @@ function CreatePost() {
               />
             </Grid>
           </Grid>
-          <Grid item xs={3} sx={{ pr: '24px', mt: '30px' }}>
+          <Grid item xs={3} sx={{ pr: '24px', mt: '30px', }}>
             <Button
               variant="contained"
               endIcon={<Save></Save>}
@@ -239,7 +285,7 @@ function CreatePost() {
               component="span"
               onClick={handleSubmit}
             >
-              Create Post
+              Update Post
             </Button>
           </Grid>
         </Card>
@@ -249,4 +295,4 @@ function CreatePost() {
   );
 }
 
-export default CreatePost;
+export default EditPost;

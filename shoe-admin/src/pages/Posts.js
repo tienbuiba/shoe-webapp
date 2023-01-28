@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link, Link as RouterLink, useNavigate } from 'react-router-dom';
 // material
 import {
   Button,
@@ -14,8 +14,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { styled } from '@mui/material/styles';
 import { Toolbar, OutlinedInput, InputAdornment } from '@mui/material';
 import { apiAdminGetPostList } from 'src/services/Posts';
-import UpdateRentService from './UpdateRentService';
 import MainPost from 'src/components/post/MainPost';
+import { closeLoadingApi, openLoadingApi } from 'src/redux/create-actions/LoadingAction';
+
 
 // ----------------------------------------------------------------------
 
@@ -42,7 +43,10 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
 export default function Posts() {
   const [keyword, setKeyword] = useState('');
   const dispatch = useDispatch();
-  const [dataPost, setDataPost] = useState([])
+  const [dataPost, setDataPost] = useState([]);
+  const data = useSelector(state => state.post.data);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(20);
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -55,14 +59,17 @@ export default function Posts() {
   const handleSearchChange = (e) => {
     setKeyword(e.target.value)
   }
-
   useEffect(() => {
-    apiAdminGetPostList().then(res => {
-      setDataPost(res.data.data.items)
+    dispatch(openLoadingApi());
+    apiAdminGetPostList(rowsPerPage, page, keyword).then(res => {
+      setDataPost(res.data.data.items);
+      dispatch(closeLoadingApi());
     }).catch(err => {
-      console.log(err)
+      console.log(err);
+      dispatch(closeLoadingApi());
     })
-  }, [])
+  }, [data.delete, keyword]);
+
   return (
     <Page title="User">
       <Container maxWidth="xl">
@@ -77,6 +84,7 @@ export default function Posts() {
         <Card>
           <RootStyle>
             <SearchStyle
+              value={keyword}
               onChange={handleSearchChange}
               placeholder="Search post..."
               startAdornment={
@@ -86,8 +94,8 @@ export default function Posts() {
               }
             />
           </RootStyle>
+          <MainPost data={dataPost} />
         </Card>
-        <MainPost data={dataPost} />
       </Container>
     </Page>
   );

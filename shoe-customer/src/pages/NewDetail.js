@@ -54,7 +54,7 @@ const NewDetail = () => {
         dispatch(closeLoadingApi());
       })
     }
-  }, [dataNewId.id]
+  }, [dataNewId]
 
   )
   const dispatch = useDispatch();
@@ -65,13 +65,13 @@ const NewDetail = () => {
   }
 
   const handleClick = () => {
-    dispatch(setNewId(id - 1))
+    dispatch(setNewId(id - 1));
   }
 
   const [dataPosts, setDataPosts] = useState([]);
   const [page, setPage] = useState(0);
   const [keyword, setKeyword] = useState('');
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(40);
 
   useEffect(() => {
     dispatch(openLoadingApi());
@@ -150,28 +150,30 @@ const NewDetail = () => {
             </aside>
           </Grid>
           <Grid item xs={12} md={9}>
-            <Card className="container" sx={{ p: 2 }}>
-              <div style={{ color: '#000', fontSize: '14px', marginBottom: '12px' }}>TIN TỨC</div>
+            <Card className="container" sx={{ px: 2, py: 3 }}>
+              <div style={{ color: '#000', fontSize: '16px', marginBottom: '12px', fontWeight: '550', }}>TIN TỨC</div>
               <div style={{ color: '#000', fontSize: '24px', fontWeight: 'bold', lineHeight: '1.6' }}>{data.shortDesc}</div>
               <div style={{
                 height: '3px',
                 display: 'block',
-                backgroandColor: 'rgba(0,0,0,0.1)',
+                backgroundColor: 'rgba(0,0,0,0.3)',
                 margin: ' 1em 0 1em',
                 width: '100%',
-                maxWidth: '30px'
+                maxWidth: '30px',
+                marginBottom: '20px'
               }}>
               </div>
               <div style={{
                 fontSize: '10px',
                 color: '#000',
+                marginBottom: '30px'
               }}>
                 POSTED ON
                 <span style={{
                   fontSize: '10px',
                   color: '#000',
                   marginRight: '5px',
-                  marginLeft: '5px'
+                  marginLeft: '5px',
                 }}>
                   {data.createdAt && (
                     fDateLocal(data?.createdAt)
@@ -188,8 +190,8 @@ const NewDetail = () => {
                   </div>
                 </div>
               </div>
-              <p dangerouslySetInnerHTML={{ __html: data.longDesc }} style={{ paddingTop: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#000', fontSize: '14px' }} />
-              <div style={{ display: 'flex', gap: '8px' }}>
+              <p dangerouslySetInnerHTML={{ __html: data.longDesc }} style={{ paddingTop: '50px', color: '#000', fontSize: '14px' }} />
+              <div style={{ display: 'flex', gap: '14px', marginTop: '30px' }}>
                 <FacebookShareButton
                   url={'https://www.example.com'}
                   quote={data.shortDesc}

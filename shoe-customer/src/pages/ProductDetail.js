@@ -119,7 +119,9 @@ const ProductDetail = () => {
               <div className="product_images">
                 <div>
                   <div className="main-screen">
-                    <img src={mainImage} alt={mainImage.filename} className="main-image-preview" />
+                    <img src={mainImage} alt={mainImage.filename} className="main-image-preview" style={{
+                      boxShadow: '0 6px 16px 0 rgb(0 0 0 / 20%)'
+                    }} />
                   </div>
                   <div style={{ display: 'flex', marginTop: '10px', justifyContent: 'center' }}>
                     {data?.images?.map((curElm, index) => {

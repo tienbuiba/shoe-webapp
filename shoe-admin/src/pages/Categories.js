@@ -30,7 +30,7 @@ import CategoryMoreMenu from 'src/sections/@dashboard/categories/CategoryMoreMen
 
 const TABLE_HEAD = [
   { id: 'ID', label: 'ID', alignRight: false },
-  { id: 'Email', label: 'NAME', alignRight: false },
+  { id: 'NAME', label: 'NAME', alignRight: false },
   { id: 'Created at', label: 'CREATION DATE', alignRight: false },
   { id: 'Created at', label: 'UPDATION DATE', alignRight: false },
   { id: 'a', label: '', alignRight: false },
@@ -58,14 +58,11 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
 
 export default function Categories() {
   const [page, setPage] = useState(0);
-  const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('name');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [data, setData] = useState([]);
-  const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState('');
   const [keyword, setKeyword] = useState('');
-  const dataUser = useSelector(state => state.user.data);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -74,12 +71,6 @@ export default function Categories() {
       navigate('/login', { replace: true });
     }
   }, [])
-
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -92,14 +83,12 @@ export default function Categories() {
 
   useEffect(() => {
     apiAdminGetAllCategories(rowsPerPage, page, keyword).then(result => {
-      const res = result.data
-      setData(result.data.data.items)
-      setTotal(res.data.data.total)
+      setData(result.data.data.items);
+      setTotal(result.data.data.total)
     }).catch(err => {
-      console.log(err)
+      console.log(err);
     })
-    dispatch(blockUserSuccessContinue())
-  }, [rowsPerPage, page, dataUser.block, keyword])
+  }, [rowsPerPage, page, keyword])
 
   const handleSearchChange = (e) => {
     setKeyword(e.target.value)
@@ -108,10 +97,12 @@ export default function Categories() {
   return (
     <Page title="User">
       <Container maxWidth="xl">
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={4}>
           <Typography variant="h3" gutterBottom>
             Category List
           </Typography>
+        </Stack>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
           <Button variant="contained" component={RouterLink} to="/dashboard/create-category" startIcon={<Iconify icon="eva:plus-fill" />}>
             Create Category
           </Button>
@@ -132,11 +123,8 @@ export default function Categories() {
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
                 <UserListHead
-                  order={order}
-                  orderBy={orderBy}
                   headLabel={TABLE_HEAD}
                   rowCount={total}
-                  onRequestSort={handleRequestSort}
                 />
                 <TableBody>
                   {data?.map((row) => {

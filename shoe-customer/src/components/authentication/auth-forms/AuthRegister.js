@@ -30,6 +30,7 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import ContactPhoneOutlinedIcon from '@mui/icons-material/ContactPhoneOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useTranslation } from 'react-i18next';
+import { changeLoginPage } from 'src/redux/creates-action/AuthenAction';
 
 // ============================|| FIREBASE - REGISTER ||============================ //
 
@@ -79,6 +80,7 @@ const AuthRegister = () => {
                                     dispatch(closeLoadingApi());
                                     toast.success(res.message, options)
                                     setTimeout(() => {
+                                        dispatch(changeLoginPage(0));
                                         navigate('/login', { replace: true });
                                     }, 2500)
                                 }
@@ -274,7 +276,7 @@ const AuthRegister = () => {
                             </Grid>
                             <Grid item xs={12}>
                                 {/* <Divider> */}
-                                    {/* <Typography variant="caption">
+                                {/* <Typography variant="caption">
                                         {t("Sign up with")}
                                     </Typography> */}
                                 {/* </Divider> */}

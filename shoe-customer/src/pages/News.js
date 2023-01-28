@@ -3,7 +3,6 @@ import Header from 'src/layouts/Header';
 import { Breadcrumbs } from "@mui/material";
 import Link from '@mui/material/Link';
 import Page from 'src/components/Page';
-import MainNews from 'src/components/news/MainNews';
 import Footer from 'src/layouts/Footer';
 import { useTranslation } from 'react-i18next';
 import NewComponent from 'src/components/news/NewComponent';

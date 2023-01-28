@@ -1,6 +1,7 @@
-export function initPost(productShortDesc, productLongDesc) {
+export function initPost(shortDesc, images, longDesc) {
   return {
-    shortDesc: productShortDesc,
-    longDesc: productLongDesc
+    shortDesc: shortDesc,
+    images: images,
+    longDesc: longDesc
   }
 };

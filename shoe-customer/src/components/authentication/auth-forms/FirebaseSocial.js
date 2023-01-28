@@ -1,63 +1,35 @@
 import { useTheme } from '@mui/material/styles';
-import { useMediaQuery, Button, Stack } from '@mui/material';
-import GoogleIcon from '@mui/icons-material/Google';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import FacebookIcon from '@mui/icons-material/Facebook';
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import axios from 'axios';
 
 // ==============================|| FIREBASE - SOCIAL BUTTON ||============================== //
 
 const FirebaseSocial = () => {
     const theme = useTheme();
-    const matchDownSM = useMediaQuery(theme.breakpoints.down('sm'));
-
-    const googleHandler = async () => {
-        // login || singup
-    };
-
-    const twitterHandler = async () => {
-        // login || singup
-    };
-
-    const facebookHandler = async () => {
-        // login || singup
-    };
 
     return (
-        <Stack
-            direction="row"
-            spacing={matchDownSM ? 1 : 2}
-            // justifyContent={matchDownSM ? 'space-around' : 'space-between'}
-            justifyContent={'center'}
-            sx={{ '& .MuiButton-startIcon': { mr: matchDownSM ? 0 : 1, ml: matchDownSM ? 0 : -0.5 } }}
-        >
-            <Button
-                variant="outlined"
-                color="secondary"
-                fullWidth={!matchDownSM}
-                startIcon={<GoogleIcon />}
-                onClick={googleHandler}
+
+        <div >
+            <GoogleOAuthProvider
+                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
             >
-                {!matchDownSM && 'Google'}
-            </Button>
-            {/* <Button
-                variant="outlined"
-                color="secondary"
-                fullWidth={!matchDownSM}
-                startIcon={<TwitterIcon />}
-                onClick={twitterHandler}
-            >
-                {!matchDownSM && 'Twitter'}
-            </Button> */}
-            {/* <Button
-                variant="outlined"
-                color="secondary"
-                fullWidth={!matchDownSM}
-                startIcon={<FacebookIcon />}
-                onClick={facebookHandler}
-            >
-                {!matchDownSM && 'Facebook'}
-            </Button> */}
-        </Stack>
+                <GoogleLogin
+                    useOneTap={true}
+                    onSuccess={async (credentialResponse) => {
+                        console.log(credentialResponse);
+                        const { data } = await axios.post(
+                            "https://api.atroboticsvn.com/api/v1/auth/login-with-google",
+                        );
+                        localStorage.setItem("AuthData", JSON.stringify(data));
+                        //    setAuthData(data);
+                        console.log("data", data)
+                    }}
+                    onError={() => {
+                        console.log("Login Failed");
+                    }}
+                />
+            </GoogleOAuthProvider>
+        </div>
     );
 };
 

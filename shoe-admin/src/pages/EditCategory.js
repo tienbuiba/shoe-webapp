@@ -7,15 +7,16 @@ import {
   Typography,
   Grid,
   TextField,
-  Button
+  Button,
+  Card
 } from '@mui/material';
 import Page from '../components/Page';
 import Iconify from 'src/components/Iconify';
-import { apiAdminUpdateMailType } from 'src/services/Products';
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import { closeLoadingApi, openLoadingApi } from 'src/redux/create-actions/LoadingAction';
 import { apiAdminUpdateCategory } from 'src/services/Categories';
+import SaveIcon from '@mui/icons-material/Save';
 
 
 export default function EditCategory() {
@@ -74,7 +75,7 @@ export default function EditCategory() {
 
   return (
     <Page title="Dashboard: Product">
-          <Container maxWidth="xl">
+      <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 10 }}>
           Chỉnh sửa Category
         </Typography>
@@ -83,38 +84,39 @@ export default function EditCategory() {
           </Grid>
           <Grid item xs={6} sx={{ textAlign: 'right' }}>
             <Button variant="contained" component={RouterLink} to="/dashboard/Categories" startIcon={<Iconify icon="eva:arrow-back-outline" />}>
-              Quay lại
+              Back
             </Button>
           </Grid>
         </Grid>
         <Page title="Edit-product">
-          <Container maxWidth="md" sx={{ mt: 3 }}>
-            <Grid container spacing={3}>
-              <Grid container item spacing={3}>
-                <Grid item xs={6}>
-                  Tên sản phẩm
+          <Container maxWidth="lg" sx={{ mt: 3 }}>
+            <Card sx={{ p: 5 }}>
+              <Grid container spacing={3}>
+                <Grid container item spacing={3}>
+                  <Grid item xs={6}>
+                    <Typography variant="h4">
+                      Category Name
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      label="Tên"
+                      value={type}
+                      onChange={handleChangeType}
+                    ></TextField>
+                  </Grid>
                 </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    label="Tên"
-                    value={type}
-                    onChange={handleChangeType}
-                  ></TextField>
-                </Grid>
-                <Grid item xs={6}>
-                  Giá
+                <Grid container item >
+                  <Grid item xs={6}>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Button variant="contained" onClick={handleClick} startIcon={<SaveIcon />}>
+                      Update
+                    </Button>
+                  </Grid>
                 </Grid>
               </Grid>
-              <Grid container item >
-                <Grid item xs={6}>
-                </Grid>
-                <Grid item xs={6}>
-                  <Button variant="contained" onClick={handleClick} startIcon={<Iconify icon="ic:round-update" />}>
-                    Sửa
-                  </Button>
-                </Grid>
-              </Grid>
-            </Grid>
+            </Card>
           </Container>
         </Page>
       </Container>

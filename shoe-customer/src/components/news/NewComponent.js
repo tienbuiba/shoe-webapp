@@ -7,7 +7,7 @@ import { apiUserGetAllListPosts } from 'src/services/News';
 import { fDateLocal } from 'src/utils/formatTime';
 import { useDispatch } from 'react-redux';
 import { closeLoadingApi, openLoadingApi } from 'src/redux/creates-action/LoadingAction';
-import { Divider, Grid } from '@mui/material';
+import { Card, Grid } from '@mui/material';
 
 const NewComponent = () => {
   const { t } = useTranslation("translation");
@@ -36,7 +36,7 @@ const NewComponent = () => {
 
   return (
     <Page title="Home Page">
-      <Grid container>
+      <Grid container sx={{ mt: 10 }}>
         <Grid item xs={12} md={3}>
           <aside class="col-lg-12">
             <div className="mb-3">
@@ -73,28 +73,30 @@ const NewComponent = () => {
           </aside>
         </Grid>
         <Grid item xs={12} md={9}>
-          <div className="MainDiv">
-            <div>
-              <div className="row">
-                {dataPosts.map((dataPost) => {
-                  return (
-                    <div className="col-lg-4 blog_item_col">
-                      <Link to={`/new-detail/${dataPost.id}`}>
-                        <div className="blog_item">
-                          <div className="blog_background" style={{ backgroundImage: "url(assets/images/blog_1.jpg)" }}></div>
-                          <div className="blog_content d-flex flex-column align-items-center justify-content-center text-center">
-                            <h4 className="blog_title">{dataPost.shortDesc}</h4>
-                            <span className="blog_meta">by admin |{fDateLocal(dataPost.createdAt)}</span>
-                            <a className="blog_more" href="#">Read more </a>
+          <Card sx={{ p: 2, borderRadius: '2px' }}>
+            <div className="MainDiv">
+              <div>
+                <div className="row">
+                  {dataPosts.map((dataPost) => {
+                    return (
+                      <div className="col-lg-4 blog_item_col">
+                        <Link to={`/new-detail/${dataPost.id}`}>
+                          <div className="blog_item">
+                            <div className="blog_background" style={{ backgroundImage: `url(${dataPost.images[0]})` }}></div>
+                            <div className="blog_content d-flex flex-column align-items-center justify-content-center text-center">
+                              <h4 className="blog_title">{dataPost.shortDesc}</h4>
+                              <span className="blog_meta">by admin |{fDateLocal(dataPost.createdAt)}</span>
+                              <a className="blog_more" href="#">Read more </a>
+                            </div>
                           </div>
-                        </div>
-                      </Link>
-                    </div>
-                  )
-                })}
+                        </Link>
+                      </div>
+                    )
+                  })}
+                </div>
               </div>
             </div>
-          </div>
+          </Card>
         </Grid>
       </Grid>
     </Page>

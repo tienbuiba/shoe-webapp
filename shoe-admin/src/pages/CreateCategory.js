@@ -13,6 +13,8 @@ import { apiAdminCreateCategory } from 'src/services/Categories';
 import { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Link } from 'react-router-dom';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 const Input = styled('input')({
   display: 'none',
@@ -47,6 +49,11 @@ function CreateCategory() {
         <Typography variant="h4" sx={{ mb: 5 }}>
           Create Category
         </Typography>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+          <Button component={Link} to="/dashboard/Categories" startIcon={<ArrowBackIosIcon />} variant="contained">
+            BACK
+          </Button>
+        </div>
         <Grid container spacing={3}>
           <Grid item xs={6} sx={{ pl: '24px' }}>
             <TextField

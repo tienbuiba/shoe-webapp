@@ -18,6 +18,8 @@ import Posts from './pages/Posts';
 import CreatePost from './pages/CreatePost';
 import EditCategory from './pages/EditCategory';
 import CreateCategory from './pages/CreateCategory';
+import PostDetail from './pages/PostDetail';
+import EditPost from './pages/EditPost';
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -39,13 +41,14 @@ export default function Router() {
         { path: 'create-product', element: <CreateProduct /> },
         { path: 'order-details', element: <OrderDetails /> },
         { path: 'create-post', element: <CreatePost /> },
+        { path: 'edit-post/:id', element: <EditPost /> },
         { path: 'update-rent-product', element: <UpdateRentService /> },
+        { path: 'post-detail/:id', element: <PostDetail /> },
       ],
     },
     {
       path: 'login',
       element: <Login />,
-
     },
     {
       path: '/dashboard', element: <DashboardLayout />,

@@ -11,7 +11,6 @@ import {
 } from '@mui/material';
 import Page from '../components/Page';
 import Iconify from 'src/components/Iconify';
-import { apiAdminUpdateMailType } from 'src/services/Products';
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import Label from 'src/components/Label';
@@ -49,30 +48,30 @@ export default function EditProduct() {
     position: toast.POSITION.TOP_RIGHT,
   };
 
-  const handleClick = () => {
-    if (price !== '' && type !== '') {
-      dispatch(openLoadingApi());
-      apiAdminUpdateMailType(data.id, parseInt(price), type)
-        .then(result => {
-          let res = result.data;
-          dispatch(closeLoadingApi());
-          navigate('/dashboard/products', { replace: true });
-          toast.success(res.message, options);
-        })
-        .catch(err => {
-          if (err.response.data.statusCode === 401) {
-            dispatch(closeLoadingApi());
-            toast.error(err.response.data.message, options);
-          } else if (err.response.data.statusCode === 400) {
-            dispatch(closeLoadingApi());
-            toast.error(err.response.data.message[0], options);
-          } else {
-            dispatch(closeLoadingApi());
-            toast.error(err.response.data.message, options);
-          }
-        })
-    }
-  }
+  // const handleClick = () => {
+  //   if (price !== '' && type !== '') {
+  //     dispatch(openLoadingApi());
+  //     apiAdminUpdateMailType(data.id, parseInt(price), type)
+  //       .then(result => {
+  //         let res = result.data;
+  //         dispatch(closeLoadingApi());
+  //         navigate('/dashboard/products', { replace: true });
+  //         toast.success(res.message, options);
+  //       })
+  //       .catch(err => {
+  //         if (err.response.data.statusCode === 401) {
+  //           dispatch(closeLoadingApi());
+  //           toast.error(err.response.data.message, options);
+  //         } else if (err.response.data.statusCode === 400) {
+  //           dispatch(closeLoadingApi());
+  //           toast.error(err.response.data.message[0], options);
+  //         } else {
+  //           dispatch(closeLoadingApi());
+  //           toast.error(err.response.data.message, options);
+  //         }
+  //       })
+  //   }
+  // }
 
   return (
     <Page title="Dashboard: Product">
@@ -126,9 +125,9 @@ export default function EditProduct() {
                 <Grid item xs={6}>
                 </Grid>
                 <Grid item xs={6}>
-                  <Button variant="contained" onClick={handleClick} startIcon={<Iconify icon="ic:round-update" />}>
+                  {/* <Button variant="contained" onClick={handleClick} startIcon={<Iconify icon="ic:round-update" />}>
                     Sửa
-                  </Button>
+                  </Button> */}
                 </Grid>
               </Grid>
             </Grid>

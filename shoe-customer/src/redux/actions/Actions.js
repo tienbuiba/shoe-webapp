@@ -8,7 +8,8 @@ export const ORDER_ID = 'ORDER_ID';
 export const STATE_LANGUAGE = 'STATE_LANGUAGE';
 export const ADD_TO_CART = 'ADD_TO_CART';
 export const REMOVE_ADD_TO_CART = 'REMOVE_ADD_TO_CART';
-export const NEW_ID= 'NEW_ID';
+export const NEW_ID = 'NEW_ID';
+export const CHANGE_LOGIN_PAGE = 'CHANGE_LOGIN_PAGE';
 
 
 
