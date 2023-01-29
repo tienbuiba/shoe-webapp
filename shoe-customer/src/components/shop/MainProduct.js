@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { apiUserGetAllProductByCategoryId } from 'src/services/Product';
 import { closeLoadingApi, openLoadingApi } from 'src/redux/creates-action/LoadingAction';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import useScript from 'src/constants/useScript';
 
 const MainProduct = () => {
@@ -14,8 +14,10 @@ const MainProduct = () => {
   const [dataProduct, setDataProduct] = useState([]);
   const [page, setPage] = useState(0);
   const [keyword, setKeyword] = useState('');
-  const [rowsPerPage, setRowsPerPage] = useState(8);
+  const [rowsPerPage, setRowsPerPage] = useState(12);
   const dispatch = useDispatch();
+
+  const id = 16;
 
   const navigate = useNavigate();
   const smUp = useResponsive('up', 'sm');
@@ -27,16 +29,31 @@ const MainProduct = () => {
   useScript('../assets/js/easing.js');
   useScript('../assets/js/bootstrap.bundle.min.js');
   useScript('../assets/js/script.js?v=2.0');
+  const dataCategoryId = useSelector(state => state.category.data);
+
+  console.log(dataCategoryId.id)
 
   useEffect(() => {
-    dispatch(openLoadingApi());
-    apiUserGetAllProductByCategoryId(rowsPerPage, page, keyword, 16).then(result => {
-      setDataProduct(result.data.data.items);
-      dispatch(closeLoadingApi());
-    }).catch(err => {
-      dispatch(closeLoadingApi());
-    })
-  }, [keyword]);
+    dispatch(openLoadingApi())
+    if (dataCategoryId.id !== '') {
+      let id = dataCategoryId.id;
+      dispatch(openLoadingApi());
+      apiUserGetAllProductByCategoryId(rowsPerPage, page, keyword, id).then(result => {
+        setDataProduct(result.data.data.items);
+        dispatch(closeLoadingApi());
+      }).catch(err => {
+        dispatch(closeLoadingApi());
+      })
+    } else {
+      dispatch(openLoadingApi());
+      apiUserGetAllProductByCategoryId(rowsPerPage, page, keyword, id).then(result => {
+        setDataProduct(result.data.data.items);
+        dispatch(closeLoadingApi());
+      }).catch(err => {
+        dispatch(closeLoadingApi());
+      })
+    }
+  }, [dataCategoryId, keyword])
 
   const handleChange = (e) => {
     setKeyword(e.target.value);

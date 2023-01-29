@@ -21,26 +21,6 @@ export const apiUserGetAllListPosts = async (rowsPerPage, page, keyword) => {
   return res;
 }
 
-export const apiUserCreateOrder = async (mailTypeId, orderType, totalPrice, amount) => {
-  const url = userService + '/orders/create';
-  const data = {
-    mailTypeId: mailTypeId,
-    orderType: orderType,
-    totalPrice: totalPrice,
-    amount: amount,
-  };
-  let res;
-  const accessToken = TokenService.getLocalAccessToken();
-  res = await api.post(url, data, {
-    headers: {
-      Authorization: accessToken,
-      'Content-Type': 'application/json',
-    },
-  });
-
-  return res;
-};
-
 export const apiUserExportOrder = async (orderID) => {
   const url = userService + `/orders/export-mail?orderId=${orderID}`;
   let res;
@@ -56,10 +36,22 @@ export const apiUserExportOrder = async (orderID) => {
   return res;
 }
 
-
-
-export const apiUserGetNewById = async (id) => {
+export const apiUserGetNewsById = async (id) => {
   const url = userService + `/posts/detail/${id}`;
+  let res;
+  const accessToken = TokenService.getLocalAccessToken();
+  res = await api.get(url, {
+    headers: {
+      "Authorization": accessToken,
+      "Content-Type": "application/json"
+    }
+  }
+  );
+  return res;
+}
+
+export const apiUserGetNewsCommentById = async (id) => {
+  const url = userService + `/comment-posts/list-comment?postId=${id}`;
   let res;
   const accessToken = TokenService.getLocalAccessToken();
   res = await api.get(url, {

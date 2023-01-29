@@ -2,7 +2,6 @@ import { Navigate, useRoutes } from 'react-router-dom';
 import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 import NotFound from './pages/Page404';
 import HomePage from './pages/HomePage';
-import ForgotPass from './pages/ForgotPass';
 import ResetPassword from './pages/ResetPassword';
 import SignInOutContainer from './containers';
 import Shop from './pages/Shop';
@@ -79,7 +78,6 @@ export default function Router() {
       element: <LogoOnlyLayout />,
       children: [
         { path: '/', element: <HomePage /> },
-        { path: 'forgot-password', element: <ForgotPass /> },
         { path: 'no-auth/forgot-password', element: <ResetPassword /> },
         { path: '404', element: <NotFound /> },
         { path: '*', element: <Navigate to="/404" /> }

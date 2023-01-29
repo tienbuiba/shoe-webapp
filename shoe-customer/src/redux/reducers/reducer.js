@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import authenReducer from './AuthenReducer';
 import cartReducer from './CartReducer';
+import categoryReducer from './CategoryReducer';
 import languageReducer from './languageReducer';
 import loadingReducer from './LoadingReducer';
 import newReducer from './NewReducer';
@@ -14,8 +15,8 @@ const Reducer = combineReducers({
     language: languageReducer,
     cart: cartReducer,
     new: newReducer,
-    authen: authenReducer
-
+    authen: authenReducer,
+    category: categoryReducer
 });
 
 export default Reducer;

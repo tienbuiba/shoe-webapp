@@ -1,16 +1,17 @@
 import Footer from "src/layouts/Footer";
-import { Breadcrumbs, Card, Container, Divider, Grid, Link } from "@mui/material";
+import { Breadcrumbs, Button, Card, Container, Divider, Grid, Link, Typography } from "@mui/material";
 import Header from "src/layouts/Header";
 import Page from "src/components/Page";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { apiUserGetAllListPosts, apiUserGetNewById } from "src/services/News";
+import { apiUserGetAllListPosts, apiUserGetNewsById, apiUserGetNewsCommentById } from "src/services/News";
 import { closeLoadingApi, openLoadingApi } from "src/redux/creates-action/LoadingAction";
 import { format } from 'date-fns';
-import { vi } from 'date-fns/locale'
+import { vi } from 'date-fns/locale';
 import { FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon, PinterestIcon, PinterestShareButton, WhatsappIcon, WhatsappShareButton } from 'react-share';
 import { setNewId } from "src/redux/creates-action/NewAction";
+import { urlWebsite } from "src/constants/Constant";
 
 const NewDetail = () => {
   const { id } = useParams();
@@ -22,7 +23,7 @@ const NewDetail = () => {
     dispatch(openLoadingApi())
     if (dataNewId.id !== '') {
       const id = dataNewId.id;
-      apiUserGetNewById(id).then((res) => {
+      apiUserGetNewsById(id).then((res) => {
         dispatch(closeLoadingApi());
         setData(res?.data?.data);
         setMainImage(res?.data?.data?.images[0]);
@@ -30,7 +31,7 @@ const NewDetail = () => {
         console.log(err);
         dispatch(closeLoadingApi());
       })
-      apiUserGetNewById(id - 1).then((res) => {
+      apiUserGetNewsById(id - 1).then((res) => {
         dispatch(closeLoadingApi());
         setDataPre(res?.data?.data);
       }).catch((err) => {
@@ -38,7 +39,7 @@ const NewDetail = () => {
         dispatch(closeLoadingApi());
       })
     } else {
-      apiUserGetNewById(id).then((res) => {
+      apiUserGetNewsById(id).then((res) => {
         dispatch(closeLoadingApi());
         setData(res?.data?.data);
         setMainImage(res?.data?.data?.images[0]);
@@ -46,7 +47,7 @@ const NewDetail = () => {
         console.log(err);
         dispatch(closeLoadingApi());
       })
-      apiUserGetNewById(id - 1).then((res) => {
+      apiUserGetNewsById(id - 1).then((res) => {
         dispatch(closeLoadingApi());
         setDataPre(res?.data?.data);
       }).catch((err) => {
@@ -54,9 +55,18 @@ const NewDetail = () => {
         dispatch(closeLoadingApi());
       })
     }
-  }, [dataNewId]
+  }, [dataNewId])
 
-  )
+  useEffect(() => {
+    apiUserGetNewsCommentById(id).then((res) => {
+      dispatch(closeLoadingApi());
+      console.log(res.data)
+    }).catch((err) => {
+      console.log(err);
+      dispatch(closeLoadingApi());
+    })
+  }, [])
+
   const dispatch = useDispatch();
   const [mainImage, setMainImage] = useState('');
 
@@ -193,7 +203,7 @@ const NewDetail = () => {
               <p dangerouslySetInnerHTML={{ __html: data.longDesc }} style={{ paddingTop: '50px', color: '#000', fontSize: '14px' }} />
               <div style={{ display: 'flex', gap: '14px', marginTop: '30px' }}>
                 <FacebookShareButton
-                  url={'https://www.example.com'}
+                  url={urlWebsite}
                   quote={data.shortDesc}
                   hashtag="#shoe"
                 >
@@ -201,7 +211,7 @@ const NewDetail = () => {
                 </FacebookShareButton>
 
                 <TwitterShareButton
-                  url={'https://www.example.com'}
+                  url={urlWebsite}
                   quote={data.shortDesc}
                   hashtag="#shoe"
                 >
@@ -209,7 +219,7 @@ const NewDetail = () => {
                 </TwitterShareButton>
 
                 <PinterestShareButton
-                  url={'https://www.example.com'}
+                  url={urlWebsite}
                   quote={data.shortDesc}
                   hashtag="#shoe"
                 >
@@ -217,7 +227,7 @@ const NewDetail = () => {
                 </PinterestShareButton>
 
                 <WhatsappShareButton
-                  url={'https://www.example.com'}
+                  url={urlWebsite}
                   quote={data.shortDesc}
                   hashtag="#shoe"
                 >
@@ -231,6 +241,21 @@ const NewDetail = () => {
                   {dataPre.shortDesc}
                 </span>
               </Link>
+              <form style={{ marginTop: '20px', backgroundColor: 'rgba(0,0,0,0.05)', padding: '30px' }}>
+                <Typography sx={{ mb: 3, color: "#000" }}> Tra Loi</Typography>
+                <Grid container spacing={2.8}>
+                  <Grid item xs={12} >
+                    <input onChange={handleChange} value={keyword} className="form-control d-inline-block " placeholder="Binh Luan" />
+                  </Grid>
+                  <Grid item xs={6}>
+                  </Grid>
+                  <Grid item xs={6} sx={{ flexDirection: 'row', alignItems: 'right', justifyContent: 'flex-end' }}>
+                    <Button className="red_button" onClick={handleClick} variant="contained" size="large" sx={{ float: 'right', width: 100 }}>
+                      Binh Luan
+                    </Button>
+                  </Grid>
+                </Grid>
+              </form>
             </Card>
           </Grid>
         </Grid>

@@ -1327,10 +1327,10 @@ section {
   line-height: 1.25;
   margin-bottom: 0px;
   display: -webkit-box;
--webkit-box-orient: vertical;
--webkit-line-clamp:3;
-overflow:hidden;
-text-overflow:ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .blog_meta {
   font-size: 12px;
@@ -1497,10 +1497,20 @@ text-overflow:ellipsis;
 .footer_social ul li a:hover {
   color: #fe4c50;
 }
+.nav-category {
+  cursor: pointer;
+  margin-bottom: 5px;
+}
 
-.nav-category p:hover {
+.nav-category li:hover {
   color: #fff;
   background-color: #fe4c50;
+  cursor: pointer;
+}
+.nav-category li:focus {
+  color: #fff;
+  background-color: #fe4c50;
+  cursor: pointer;
 }
 .button_back_homepage {
   color: #fff;

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 import useResponsive from 'src/hooks/useResponsive';
-import Page from '../Page';
 import { apiUserGetAllListPosts } from 'src/services/News';
 import { fDateLocal } from 'src/utils/formatTime';
 
@@ -27,7 +26,7 @@ const MainNews = () => {
         <div className="row blogs_container">
           {dataPosts.map((dataPost) => {
             return (
-              <div className="col-lg-3 blog_item_col mb-4">
+              <div className="col-lg-4 blog_item_col mb-4">
                 <Link to={`/new-detail/${dataPost.id}`}>
                   <div className="blog_item">
                     <div className="blog_background" style={{ backgroundImage: `url(${dataPost.images[0]})` }}></div>

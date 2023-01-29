@@ -10,6 +10,8 @@ export const ADD_TO_CART = 'ADD_TO_CART';
 export const REMOVE_ADD_TO_CART = 'REMOVE_ADD_TO_CART';
 export const NEW_ID = 'NEW_ID';
 export const CHANGE_LOGIN_PAGE = 'CHANGE_LOGIN_PAGE';
+export const CATEGORY_ID = 'CATEGORY_ID';
+
 
 
 

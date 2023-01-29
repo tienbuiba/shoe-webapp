@@ -2,11 +2,13 @@ import { Button } from '@mui/material';
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setCategoryId } from 'src/redux/creates-action/CategoryAction';
 import { apiUserGetAllCategories } from 'src/services/Categories';
 
 const MainCategory = () => {
   const [data, setData] = useState([]);
-  const [categoryId, setCategoryId] = useState('');
+  const dispatch = useDispatch();
 
   useEffect(() => {
     apiUserGetAllCategories().then(result => {
@@ -36,9 +38,9 @@ const MainCategory = () => {
                       <div
                         key={row.id}
                         className="nav-category"
-                        onClick={() => { setCategoryId(row.id) }}
+                        onClick={() => { dispatch(setCategoryId(row.id)) }}
                       >
-                        <li><a >{row.name}</a></li>
+                        <li><a>{row.name}</a></li>
                       </div>
                     );
                   })}

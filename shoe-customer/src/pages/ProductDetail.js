@@ -6,13 +6,17 @@ import Page from "src/components/Page";
 import FormatPrice from "./FormatPrice";
 import { FaCheck } from "react-icons/fa";
 import Star from "./Star";
-import { NavLink, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { apiUserGetProductById } from "src/services/Product";
 import CartAmountToggle from "./CartAmountToggle";
 import { useDispatch } from "react-redux";
 import { addToCart } from "src/redux/creates-action/CartActions";
 import { apiUserCreateCart } from "src/services/Carts";
+import Slider from 'react-slick'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
+import { apiUserGetCategoryById } from "src/services/Categories";
 
 const Button = styled.button`
   text-decoration: none;
@@ -44,7 +48,17 @@ const Button = styled.button`
 const ProductDetail = () => {
   const { id } = useParams();
   const [data, setData] = useState([]);
+  const [dataCategory, setDataCategory] = useState([]);
+
   const [stock, setStock] = useState('12');
+
+  var settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1
+  };
 
   useEffect(() => {
     apiUserGetProductById(id).then((res) => {
@@ -52,6 +66,12 @@ const ProductDetail = () => {
       // setColor(res?.data?.data?.color[0]);
       // setSize(res?.data?.data?.size[0]);
       setMainImage(res?.data?.data?.images[0]);
+      apiUserGetCategoryById(res?.data?.data?.categoryId).then((res) => {
+        setDataCategory(res?.data.data.name);
+        console.log(res.data)
+      }).catch((err) => {
+        console.log(err)
+      })
     }).catch((err) => {
       console.log(err)
     })
@@ -96,7 +116,7 @@ const ProductDetail = () => {
           <div className="row">
             <div className="col-lg-6">
               <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
-                {/* <h3> {data.name} </h3> */}
+                <h3> {dataCategory} </h3>
                 <Breadcrumbs aria-label="breadcrumb" >
                   <Link
                     underline="hover"
@@ -123,20 +143,22 @@ const ProductDetail = () => {
                       boxShadow: '0 6px 16px 0 rgb(0 0 0 / 20%)'
                     }} />
                   </div>
-                  <div style={{ display: 'flex', marginTop: '10px', justifyContent: 'center' }}>
-                    {data?.images?.map((curElm, index) => {
-                      return (
-                        <figure>
-                          <img
-                            src={curElm}
-                            alt={"curElm.filename"}
-                            className="img-box-style"
-                            key={index}
-                            onClick={() => setMainImage(curElm)}
-                          />
-                        </figure>
-                      );
-                    })}
+                  <div style={{}}>
+                    <Slider {...settings} style={{ display: 'flex', marginTop: '10px', justifyContent: 'center', alignItems: 'center' }}>
+                      {data?.images?.map((curElm, index) => {
+                        return (
+                          <figure>
+                            <img
+                              src={curElm}
+                              alt={"curElm.filename"}
+                              className="img-box-style"
+                              key={index}
+                              onClick={() => setMainImage(curElm)}
+                            />
+                          </figure>
+                        );
+                      })}
+                    </Slider>
                   </div>
                 </div>
               </div>
@@ -266,8 +288,29 @@ const ProductDetail = () => {
               <Divider sx={{ my: 5, border: '1px solid #000' }} />
               <div dangerouslySetInnerHTML={{ __html: data.longDesc }} />
             </div>
+
           </Container>
         </Wrapper>
+      </div>
+      <div className="newsletter">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-6">
+              <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
+                <h4>Newsletter</h4>
+                <p>Subscribe to our newsletter and get 20% off your first purchase</p>
+              </div>
+            </div>
+            <div className="col-lg-6">
+              <form action="post">
+                <div className="newsletter_form d-flex flex-md-row flex-column flex-xs-column align-items-center justify-content-lg-end justify-content-center">
+                  <input id="newsletter_email" type="email" placeholder="Your email" required="required" data-error="Valid email is required." />
+                  <button id="newsletter_submit" type="submit" className="newsletter_submit_btn trans_300" value="Submit">subscribe</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
       <Footer />
     </Page>
@@ -329,6 +372,7 @@ const Wrapper = styled.section`
     outline: none;
     opacity: 0.5;
     cursor: pointer;
+    box-shadow: 0 6px 16px 0 rgb(0 0 0 / 20%);
     &:hover {
       opacity: 1;
     }
@@ -339,6 +383,7 @@ const Wrapper = styled.section`
   .checkStyle {
     font-size: 1rem;
     height: 2rem;
+    width:2rem;
     text-align: center;
     color: #fff;
     line-height: 2rem;
