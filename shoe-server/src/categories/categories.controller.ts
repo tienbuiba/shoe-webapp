@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   HttpStatus,
   Param,
   Post,
@@ -43,6 +44,20 @@ export class CategoriesController {
         items: categories,
         total: numberRecords,
       },
+    };
+  }
+
+  @Get('/detail/:id')
+  @ApiOperation({ summary: 'Get detail category' })
+  async detailCategory(@Param('id') id: number): Promise<IResponse> {
+    const existCategory = await this.categoriesService.findOne({ id: id });
+    if (!existCategory) {
+      throw new BadRequestException(`Category not found with id: ${id}`);
+    }
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Get detail category successfully!',
+      data: existCategory,
     };
   }
 

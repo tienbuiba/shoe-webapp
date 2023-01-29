@@ -13,6 +13,17 @@ export class CartsService {
     });
   }
 
+  async findAllByIds(ids: Array<number>, userId: number) {
+    return await this.prisma.cart.findMany({
+      where: {
+        id: {
+          in: ids,
+        },
+        userId: userId,
+      },
+    });
+  }
+
   async create(cartCreateArgs: Prisma.CartCreateArgs) {
     return await this.prisma.cart.create(cartCreateArgs);
   }
