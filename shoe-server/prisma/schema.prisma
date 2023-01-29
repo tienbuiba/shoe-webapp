@@ -72,6 +72,8 @@ model User {
   deliveryAddresses DeliveryAddress[]
   transactions      Transaction[]
   OtpToken          OtpToken[]
+  CommentProduct    CommentProduct[]
+  CommentPost       CommentPost[]
 
   @@map("users")
 }
@@ -107,19 +109,21 @@ model Product {
   updatedAt   DateTime          @default(now()) @updatedAt @map("updated_at")
 
   //relation fields
-  category Category @relation(fields: [categoryId], references: [id])
-  carts    Cart[]
+  category       Category         @relation(fields: [categoryId], references: [id])
+  carts          Cart[]
+  CommentProduct CommentProduct[]
 
   @@map("products")
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
-  shortDesc String   @map("short_description") @db.VarChar(1000)
-  longDesc  String   @map("long_description") @db.Text
-  images    Json?    @db.Json
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id          Int           @id @default(autoincrement())
+  shortDesc   String        @map("short_description") @db.VarChar(1000)
+  longDesc    String        @map("long_description") @db.Text
+  images      Json?         @db.Json
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+  CommentPost CommentPost[]
 
   @@map("posts")
 }
@@ -142,15 +146,16 @@ model Cart {
 }
 
 model Order {
-  id         Int             @id @default(autoincrement())
-  userId     Int             @map("user_id")
-  items      Json            @db.Json
-  totalPrice Float           @map("total_price") @db.Float
-  status     OrderStatusEnum
-  code       String
-  address    String
-  createdAt  DateTime        @default(now()) @map("created_at")
-  updatedAt  DateTime        @updatedAt @map("updated_at")
+  id           Int             @id @default(autoincrement())
+  userId       Int             @map("user_id")
+  items        Json            @db.Json
+  totalPrice   Float           @map("total_price") @db.Float
+  status       OrderStatusEnum
+  code         String
+  address      String
+  cancelReason String?         @map("cancel_reason") @db.VarChar(1000)
+  createdAt    DateTime        @default(now()) @map("created_at")
+  updatedAt    DateTime        @updatedAt @map("updated_at")
 
   //relation fields
   user User @relation(fields: [userId], references: [id])
@@ -243,4 +248,33 @@ model OtpToken {
   user User @relation(fields: [userId], references: [id])
 
   @@map("otp_tokens")
+}
+
+model CommentProduct {
+  id         Int      @id @default(autoincrement())
+  userId     Int      @map("user_id")
+  productId  Int      @map("product_id")
+  content    String?
+  ratingStar Int      @map("rating_star")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  //relation fields
+  user    User    @relation(fields: [userId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+
+  @@map("comment_product")
+}
+
+model CommentPost {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @map("user_id")
+  postId    Int      @map("post_id")
+  content   String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  //relation fields
+  user User @relation(fields: [userId], references: [id])
+  post Post @relation(fields: [postId], references: [id])
 }

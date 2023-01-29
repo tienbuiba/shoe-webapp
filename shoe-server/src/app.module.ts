@@ -18,6 +18,9 @@ import { CartsModule } from './carts/carts.module';
 import { UploadFilesModule } from './upload-files/upload-files.module';
 import { OtpTokensModule } from './otp-tokens/otp-tokens.module';
 import { SendMailModule } from './send-mail/send-mail.module';
+import { CommentPostsModule } from './comment-posts/comment-posts.module';
+import { CommentProductsModule } from './comment-products/comment-products.module';
+import { OrdersModule } from './orders/orders.module';
 
 @Module({
   imports: [
@@ -41,6 +44,9 @@ import { SendMailModule } from './send-mail/send-mail.module';
     UploadFilesModule,
     OtpTokensModule,
     SendMailModule,
+    CommentPostsModule,
+    CommentProductsModule,
+    OrdersModule,
   ],
   providers: [
     {
