@@ -5,15 +5,15 @@ export class UpdateCartDto {
   @ApiPropertyOptional()
   @IsNumber()
   @IsOptional()
-  quantity: number;
+  quantity?: number;
 
   @ApiPropertyOptional()
   @IsString()
   @IsOptional()
-  size: string;
+  size?: string;
 
   @ApiPropertyOptional()
   @IsString()
   @IsOptional()
-  color: string;
+  color?: string;
 }

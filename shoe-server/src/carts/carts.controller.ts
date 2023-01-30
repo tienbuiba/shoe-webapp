@@ -46,17 +46,30 @@ export class CartsController {
         `Product not found with id: ${createDto.productId}`,
       );
     }
-    const cart = await this.cartsService.create({
-      data: {
-        ...createDto,
-        userId: user.id,
-      },
+    //check exist cart with same item
+    const existCart = await this.cartsService.findOne({
+      userId: user.id,
+      productId: createDto.productId,
+      size: createDto.size,
+      color: createDto.color,
     });
-
+    let cartCreate: any;
+    if (existCart) {
+      cartCreate = await this.cartsService.update(existCart.id, {
+        quantity: existCart.quantity + createDto.quantity,
+      });
+    } else {
+      cartCreate = await this.cartsService.create({
+        data: {
+          ...createDto,
+          userId: user.id,
+        },
+      });
+    }
     return {
       statusCode: HttpStatus.OK,
       message: 'Add to cart successfully!',
-      data: cart,
+      data: cartCreate,
     };
   }
 
