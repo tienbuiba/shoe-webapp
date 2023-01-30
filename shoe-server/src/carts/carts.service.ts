@@ -52,4 +52,14 @@ export class CartsService {
       },
     });
   }
+
+  async deleteMany(ids: Array<number>) {
+    return await this.prisma.cart.deleteMany({
+      where: {
+        id: {
+          in: ids,
+        },
+      },
+    });
+  }
 }

@@ -90,6 +90,11 @@ export class OrdersController {
       },
     });
 
+    // if create order success => delete carts
+    if (order) {
+      await this.cartService.deleteMany(createDto.cartIds);
+    }
+
     return {
       statusCode: HttpStatus.OK,
       message: 'Order successfully!',
