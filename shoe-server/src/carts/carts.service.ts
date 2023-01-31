@@ -33,6 +33,9 @@ export class CartsService {
       where: {
         userId: userId,
       },
+      include: {
+        product: true,
+      },
     });
   }
 

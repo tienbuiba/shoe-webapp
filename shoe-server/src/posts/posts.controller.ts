@@ -39,7 +39,7 @@ export class PostsController {
     };
   }
 
-  @Get('list')
+  @Post('list')
   @ApiOperation({ summary: 'Get list posts' })
   async getListPost(@Body() query: GetListQueryDto): Promise<IResponse> {
     query.limit = isNaN(query.limit) ? 10 : query.limit;
