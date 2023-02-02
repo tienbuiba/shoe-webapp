@@ -3,13 +3,10 @@ import Footer from "src/layouts/Footer";
 import { Breadcrumbs, Container, Divider, Link } from "@mui/material";
 import Header from "src/layouts/Header";
 import Page from "src/components/Page";
-import FormatPrice from "./FormatPrice";
 import { FaCheck } from "react-icons/fa";
-import Star from "./Star";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { apiUserGetProductById } from "src/services/Product";
-import CartAmountToggle from "./CartAmountToggle";
 import { useDispatch } from "react-redux";
 import { addToCart } from "src/redux/creates-action/CartActions";
 import { apiUserCreateCart } from "src/services/Carts";
@@ -17,6 +14,10 @@ import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { apiUserGetCategoryById } from "src/services/Categories";
+import { ToastContainer, toast } from 'react-toastify';
+import FormatPrice from "../utils/FormatPrice";
+import CartAmountToggle from "../components/cart/CartAmountToggle";
+import Star from "src/components/cart/Star";
 
 const Button = styled.button`
   text-decoration: none;
@@ -32,7 +33,6 @@ const Button = styled.button`
   -webkit-transition: all 0.3s ease 0s;
   -moz-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;
-
   &:hover,
   &:active {
     box-shadow: 0 2rem 2rem 0 rgb(132 144 255 / 30%);
@@ -49,8 +49,13 @@ const ProductDetail = () => {
   const { id } = useParams();
   const [data, setData] = useState([]);
   const [dataCategory, setDataCategory] = useState([]);
-
   const [stock, setStock] = useState('12');
+  const navigate = useNavigate();
+
+  const options = {
+    autoClose: 2000,
+    position: toast.POSITION.TOP_RIGHT,
+  };
 
   var settings = {
     dots: true,
@@ -94,17 +99,17 @@ const ProductDetail = () => {
     e.preventDefault();
     if (id !== '' && size !== '' && color !== '') {
       apiUserCreateCart(parseInt(id), amount, (size).toString(), color).then((res) => {
-        console.log(res)
+        toast.success(res.data.message, options);
+        dispatch(addToCart());
+        setSize('');
+        setColor('');
+        setAmount(1);
+        // navigate("/cart");
       }).catch((err) => {
-        console.log(err)
+        toast.error(err.response.data.message[0], options);
       })
-      dispatch(addToCart(id, amount, size, color))
-      console.log('productId', id);
-      console.log('quality', amount);
-      console.log('size', size);
-      console.log('color', color)
     } else {
-      alert('dadad')
+      alert('Chọn các tùy chọn cho sản phẩm trước khi cho sản phẩm vào giỏ hàng của bạn.')
     }
   }
 
@@ -139,7 +144,7 @@ const ProductDetail = () => {
               <div className="product_images">
                 <div>
                   <div className="main-screen">
-                    <img src={mainImage} alt={mainImage.filename} className="main-image-preview" style={{
+                    <img src={mainImage} alt={"product-image"} className="main-image-preview" style={{
                       boxShadow: '0 6px 16px 0 rgb(0 0 0 / 20%)'
                     }} />
                   </div>
@@ -231,9 +236,7 @@ const ProductDetail = () => {
                       setDecrease={setDecrease}
                       setIncrease={setIncrease}
                     />
-                    {/* <NavLink to="/cart"> */}
-                    <Button className="btn" onClick={handleClick}>Add To Cart</Button>
-                    {/* </NavLink> */}
+                    <Button className="btn" component={Link} to={"/cart"} size="small" onClick={handleClick}>Add To Cart</Button>
                   </Wrapper>
                 )}
               </div>
@@ -312,6 +315,7 @@ const ProductDetail = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
       <Footer />
     </Page>
   );
@@ -404,7 +408,6 @@ const Wrapper = styled.section`
     height: 2rem;
     text-align: center;
     color: #555;
-    ${'' /* background-color: #fff; */}
     line-height: 2rem;
   }  
   .amount-toggle {

@@ -2,14 +2,12 @@ import TokenService from './TokenService';
 import api from './Api';
 import { userService } from 'src/constants/Constant';
 
-export const apiUserCreateOrder = async (mailTypeId, orderType, totalPrice, amount) => {
+export const apiUserCreateOrder = async (cartIds, addressId) => {
   const url = userService + '/orders/create';
   const data = {
-    mailTypeId: mailTypeId,
-    orderType: orderType,
-    totalPrice: totalPrice,
-    amount: amount,
-  };
+    cartIds: cartIds,
+    addressId: addressId
+  }
   let res;
   const accessToken = TokenService.getLocalAccessToken();
   res = await api.post(url, data, {
@@ -23,20 +21,21 @@ export const apiUserCreateOrder = async (mailTypeId, orderType, totalPrice, amou
 };
 
 
-export const apiUserGetAllOrder = async (rowsPerPage, page,keyword) => {
+export const apiUserGetAllOrder = async (rowsPerPage, page, keyword) => {
   const url = userService + `/orders/list`;
   const data = {
     limit: rowsPerPage,
-    offset: page, 
+    offset: page,
     keyword: keyword
   }
   let res;
   const accessToken = TokenService.getLocalAccessToken();
-  res = await api.post(url,data, {
+  res = await api.post(url, data, {
     headers: {
       "Authorization": accessToken,
       "Content-Type": "application/json"
-    }}
+    }
+  }
   );
   return res;
 }
@@ -46,7 +45,7 @@ export const apiUserExportOrder = async (orderID) => {
   const url = userService + `/orders/export-mail?orderId=${orderID}`;
   let res;
   const accessToken = TokenService.getLocalAccessToken();
-  res = await api.get(url,  {
+  res = await api.get(url, {
     headers: {
       "Authorization": accessToken,
       "Content-Type": "application/json"
@@ -56,20 +55,3 @@ export const apiUserExportOrder = async (orderID) => {
 
   return res;
 }
-
-
-
-export const apiUserGetDetailsMail = async (id) => {
-  const url = userService + `/orders/detail/${id}`;
-  let res;
-  const accessToken = TokenService.getLocalAccessToken();
-  res = await api.get(url, {
-    headers: {
-      Authorization: accessToken,
-      'Content-Type': 'application/json',
-    }
-  },  {}
-  
-  );
-  return res;
-};

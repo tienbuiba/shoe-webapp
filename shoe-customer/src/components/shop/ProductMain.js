@@ -1,7 +1,6 @@
 import React from 'react';
 import { useTranslation } from "react-i18next";
 import useResponsive from 'src/hooks/useResponsive';
-import useScript from 'src/constants/useScript';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { apiUserGetAllProductByCategoryId } from 'src/services/Product';

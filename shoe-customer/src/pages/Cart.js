@@ -1,32 +1,56 @@
-import { Breadcrumbs, Link } from "@mui/material";
-import { useState } from "react";
+import { Breadcrumbs, Button, Divider, Grid } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Page from "src/components/Page";
 import Footer from "src/layouts/Footer";
 import Header from "src/layouts/Header";
+import { apiUserGetAllCartItem } from "src/services/Carts";
 import styled from "styled-components";
-import CartItem from "./CartItem";
-
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import { Link, NavLink } from "react-router-dom";
+import CartTotalItem from "../components/cart/CartTotalItem";
+import CartItem from "../components/cart/CartItem";
 
 const Cart = () => {
-  const [cart, setCart] = useState([]);
-  const data = useSelector(state => state.cart.data);
+  const [dataCart, setDataCart] = useState([]);
+  const dataAddToCart = useSelector(state => state.cart.data);
+  const [hasCart, setHasCart] = useState(false);
+  const [total, setTotal] = useState(0);
 
-  console.log(data)
+  useEffect(() => {
+    apiUserGetAllCartItem().then((res) => {
+      setDataCart(res.data.data);
+      if (res.data.data?.length > 0) {
+        let total = 0;
+        for (let i = 0; i < res.data.data.length; i++) {
+          total += res.data.data[i].product.priceSell * res.data.data[i].quantity;
+        }
+        setTotal(total);
+        setHasCart(true);
+      } else {
+        setHasCart(false);
+      }
+    }).catch((err) => {
+      console.log(err)
+    })
+  }, [dataAddToCart])
 
-  return (
+
+
+  return dataCart && (
     <Page title="Product detail">
       <Header />
       <div className="newsletter" style={{ marginTop: '150px' }}>
         <div className="container">
           <div className="row">
             <div className="col-lg-6">
-              <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">                 <h3>PRRODUCT DETAIL</h3>
+              <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
+                <h3>Cart shopping</h3>
                 <Breadcrumbs aria-label="breadcrumb" >
                   <Link
                     underline="hover"
                     color="inherit"
-                    href="/material-ui/getting-started/installation/"
+                    to="/"
                   >
                     HOME PAGE
                   </Link>
@@ -38,32 +62,70 @@ const Cart = () => {
         </div>
       </div>
       <div>
-        <Wrapper>
-          <div className="container">
-            <div className="cart_heading" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)' }}>
-              <p>Item</p>
-              <p className="cart-hide">Price</p>
-              <p>Quantity</p>
-              <p className="cart-hide">Subtotal</p>
-              <p>Remove</p>
+        {hasCart === true ? (<>
+          <Wrapper>
+            <div className="container">
+              <Grid container>
+                <Grid item xs={8} sx={{ borderRight: '1px solid #E0E4E8', paddingRight: '20px' }}>
+                  <div className="cart_heading" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)' }}>
+                    <p className="cart-item-heading">Item</p>
+                    <p className="cart-price-heading">Price</p>
+                    <p className="cart-quantity-heading">Quantity</p>
+                    <p className="cart-subtotal-heading">Subtotal</p>
+                  </div>
+                  <Divider></Divider>
+                  <div className="cart-item">
+                    {dataCart.map((curElem) => {
+                      return <CartItem key={curElem.id} {...curElem}
+                      />;
+                    })}
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: '16px' }}>
+                    <Button
+                      style={{ width: '220px' }}
+                      className="redOutlined_button_auth"
+                      component={NavLink}
+                      to="/shop"
+                      startIcon={<KeyboardBackspaceIcon></KeyboardBackspaceIcon>}
+                    >
+                      TIẾP TỤC XEM SẢN PHẨM
+                    </Button>
+                  </div>
+                </Grid>
+                <Grid item xs={4} sx={{ paddingLeft: '20px' }}>
+                  <div className="cart_heading" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)' }}>
+                    <p className="cart-item-heading">TỔNG SỐ LƯỢNG</p>
+                  </div>
+                  <Divider></Divider>
+                  <div className="cart-item">
+                    <CartTotalItem total={total} />
+                  </div>
+                </Grid>
+              </Grid>
             </div>
-            <hr />
-            <div className="cart-item">
-              {cart.map((curElem) => {
-                return <CartItem key={curElem.id} {...curElem} />;
-              })}
+          </Wrapper>
+        </>) : (<>
+          <div style={{ textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '200px' }}>
+            <div>
+              <p>
+                Chưa có sản phẩm nào trong giỏ hàng.
+              </p>
+              <button href="/" className="button_back_homepage">
+                <Link to="/">
+                  QUAY TRỞ LẠI CỬA HÀNG
+                </Link>
+              </button>
             </div>
           </div>
-        </Wrapper>
+        </>)}
       </div>
       <Footer />
     </Page>
-
   );
 };
 
 const Wrapper = styled.section`
-  padding: 9rem 0;
+  padding: 7rem 0;
 
   .grid-four-column {
     grid-template-columns: repeat(4, 1fr);
@@ -82,10 +144,10 @@ const Wrapper = styled.section`
     margin-top: 1rem;
   }
   .cart-item {
-    padding: 3.2rem 0;
+    padding: 2rem 0;
     display: flex;
     flex-direction: column;
-    gap: 3.2rem;
+    gap: 2rem;
   }
 
   .cart-user--profile {
@@ -108,7 +170,6 @@ const Wrapper = styled.section`
     text-transform: capitalize;
   }
   .cart-image--name {
-    /* background-color: red; */
     align-items: center;
     display: grid;
     gap: 1rem;
@@ -161,7 +222,6 @@ const Wrapper = styled.section`
 
     .amount-style {
       font-size: 2.4rem;
-      ${'' /* color: ${({ theme }) => theme.colors.btn}; */}
     }
   }
 
@@ -199,7 +259,6 @@ const Wrapper = styled.section`
 
     div p:last-child {
       font-weight: bold;
-      ${'' /* color: ${({ theme }) => theme.colors.heading}; */}
     }
   }
 

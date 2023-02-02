@@ -36,29 +36,6 @@ export const apiUserGetProductById = async (id) => {
 }
 
 
-export const apiUserCreateOrder = async (mailTypeId, orderType, totalPrice, amount) => {
-  const url = userService + '/orders/create';
-  const data = {
-    mailTypeId: mailTypeId,
-    orderType: orderType,
-    totalPrice: totalPrice,
-    amount: amount,
-  };
-  let res;
-  const accessToken = TokenService.getLocalAccessToken();
-  res = await api.post(url, data, {
-    headers: {
-      Authorization: accessToken,
-      'Content-Type': 'application/json',
-    },
-  });
-
-  return res;
-};
-
-
-
-
 
 export const apiUserExportOrder = async (orderID) => {
   const url = userService + `/orders/export-mail?orderId=${orderID}`;

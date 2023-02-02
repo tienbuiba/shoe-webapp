@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { alpha } from '@mui/material/styles';
-import { Box, Divider, Typography, Stack, MenuItem, IconButton } from '@mui/material';
+import { Box, Divider, Typography, Stack, MenuItem, IconButton, Avatar } from '@mui/material';
 import TokenService from 'src/services/TokenService';
 import { useTranslation } from 'react-i18next';
 import MenuPopover from './MenuPopover';
@@ -48,7 +48,7 @@ export default function AccountPopover() {
           }),
         }}
       >
-        <a href="#"><i className="fa fa-user" aria-hidden="true"></i></a>
+        <Avatar src={profile.avatarUrl} sx={{ fontSize: '10px' }} size="small"></Avatar>
       </IconButton>
       <MenuPopover
         open={Boolean(open)}

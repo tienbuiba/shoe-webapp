@@ -25,8 +25,6 @@ import { useTranslation } from 'react-i18next';
 
 // ----------------------------------------------------------------------
 
-
-
 export default function OrderDetails() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');

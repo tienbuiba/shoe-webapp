@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 import useResponsive from 'src/hooks/useResponsive';
-import useScript from 'src/constants/useScript';
 import LanguagePopover from './LanguagePopover';
 import AccountPopover from './AccountMenu';
 import TokenService from 'src/services/TokenService';
 import { apiUserGetAllCartItem } from 'src/services/Carts';
+import { useSelector } from 'react-redux';
+import useScript from 'src/hooks/useScript';
 
 const Header = () => {
   const { t } = useTranslation("translation");
@@ -20,7 +21,8 @@ const Header = () => {
   useScript('../assets/js/custom.js');
   useScript('../assets/js/easing.js');
 
-  const [dataCart, setDataCart] = useState([])
+  const [dataCart, setDataCart] = useState([]);
+  const dataAddToCart = useSelector(state => state.cart.data);
 
   useEffect(() => {
     apiUserGetAllCartItem().then((res) => {
@@ -28,7 +30,7 @@ const Header = () => {
     }).catch((err) => {
       console.log(err)
     })
-  }, [])
+  }, [dataAddToCart])
 
 
   const handleLogout = () => {
@@ -38,7 +40,6 @@ const Header = () => {
     navigate('/', { replace: true });
   };
 
-  console.log('hih', dataCart)
 
   return (
     <div className="MainDiv">
@@ -115,7 +116,7 @@ const Header = () => {
                     </Link></li>
                   </ul>
                   <ul className="navbar_user" >
-                    <li><a href="#"><i className="fa fa-search" aria-hidden="true"></i></a></li>
+                    {/* <li><a href="#"><i className="fa fa-search" aria-hidden="true"></i></a></li> */}
                     {token ? <>
                       <li style={{ padding: '10px' }}>
                         <AccountPopover />
@@ -123,7 +124,7 @@ const Header = () => {
                     </> : <>
                     </>}
                     <li className="checkout">
-                      <Link to="/orders">
+                      <Link to="/cart">
                         <i className="fa fa-shopping-cart" aria-hidden="true"></i>
                         {dataCart.length === 0 ? (<></>) : (
                           <span id="checkout_items" className="checkout_items">

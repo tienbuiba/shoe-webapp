@@ -15,7 +15,6 @@ import {
 
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-import FirebaseSocial from './FirebaseSocial';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
@@ -27,9 +26,10 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import TokenService from 'src/services/TokenService';
 import { useTranslation } from 'react-i18next';
+import LoginWithGoogle from './LoginWithGoogle';
 
 
-// ============================|| FIREBASE - LOGIN ||============================ //
+// ============================|| LOGIN ||============================ //
 
 const AuthLogin = () => {
     const { t } = useTranslation("translation");
@@ -51,7 +51,7 @@ const AuthLogin = () => {
     };
     return (
         <>
-        
+
             <Formik
                 initialValues={{
                     email: 'info@monoshoes.com',
@@ -78,7 +78,7 @@ const AuthLogin = () => {
                                         TokenService.updateLocalProfile(JSON.stringify(result.data));
                                         navigate('/', { replace: true });
                                         toast.success(res.message, options);
-                                    }).then(error => {
+                                    }).catch(error => {
                                         console.log(error);
                                         dispatch(closeLoadingApi());
                                     })
@@ -197,7 +197,7 @@ const AuthLogin = () => {
                                 </Divider>
                             </Grid>
                             <Grid item xs={12}>
-                                <FirebaseSocial />
+                                <LoginWithGoogle />
                             </Grid>
                         </Grid>
                     </form>

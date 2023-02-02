@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { apiUserGetAllProductByCategoryId } from 'src/services/Product';
 import { closeLoadingApi, openLoadingApi } from 'src/redux/creates-action/LoadingAction';
 import { useDispatch, useSelector } from 'react-redux';
-import useScript from 'src/constants/useScript';
+import useScript from 'src/hooks/useScript';
 
 const MainProduct = () => {
   const { t } = useTranslation("translation");
@@ -16,7 +16,6 @@ const MainProduct = () => {
   const [keyword, setKeyword] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(12);
   const dispatch = useDispatch();
-
   const id = 16;
 
   const navigate = useNavigate();
@@ -31,7 +30,6 @@ const MainProduct = () => {
   useScript('../assets/js/script.js?v=2.0');
   const dataCategoryId = useSelector(state => state.category.data);
 
-  console.log(dataCategoryId.id)
 
   useEffect(() => {
     dispatch(openLoadingApi())
@@ -109,7 +107,7 @@ const MainProduct = () => {
                       </div>
                     </div>
                   </Link>
-                  <div className="red_button add_to_cart_button"><a href="#">add to cart</a></div>
+                  <div className="red_button add_to_cart_button"><Link to={`/product-detail/${row.id}`}>add to cart</Link></div>
                 </div>
               )
             })}

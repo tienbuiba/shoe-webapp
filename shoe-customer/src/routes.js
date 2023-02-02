@@ -9,13 +9,16 @@ import Contact from './pages/Contact';
 import Introduction from './pages/Introduction';
 import News from './pages/News';
 import CheckOrder from './pages/CheckOrder';
-import Orders from './pages/Orders';
+import Orders from './pages/AccountOrder';
 import Profile from './pages/Profile';
 import ForgotPassword from './pages/ForgotPassword';
 import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart';
 import NewDetail from './pages/NewDetail';
-
+import PaymentInformation from './pages/PaymentInformation';
+import OrderReceived from './pages/OrderReceived';
+import ChangePassword from './pages/ChangePassword';
+import AccountOrder from './pages/AccountOrder';
 
 // ----------------------------------------------------------------------
 
@@ -24,6 +27,14 @@ export default function Router() {
     {
       path: '/account-profile',
       element: <Profile />,
+    },
+    {
+      path: '/change-password',
+      element: <ChangePassword />,
+    }, {
+
+      path: '/account-order',
+      element: <AccountOrder />,
     },
     {
       path: '/shop',
@@ -70,8 +81,16 @@ export default function Router() {
       element: <Orders />,
     },
     {
+      path: '/order-received',
+      element: <OrderReceived />,
+    },
+    {
       path: '/cart',
       element: <Cart />,
+    },
+    {
+      path: '/payment-infor',
+      element: <PaymentInformation />,
     },
     {
       path: '/',

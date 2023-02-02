@@ -1,12 +1,13 @@
-import { Breadcrumbs, Container, Grid } from '@mui/material';
+import { Box, Breadcrumbs, Button, Container, Grid, Typography } from '@mui/material';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import Page from 'src/components/Page';
-import { ProfileDetails } from 'src/components/profile/ProfileDetails';
 import Footer from 'src/layouts/Footer';
 import Header from 'src/layouts/Header';
-import ChangePassword from './ChangePassword';
+import AccountProfile from '../components/profile/AccountProfile';
+import { AccountProfileDetails } from '../components/profile/AccountProfileDetails';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 const Profile = () => {
   const { t } = useTranslation("translation");
@@ -39,16 +40,59 @@ const Profile = () => {
           </div>
         </div>
       </div>
-      <Container maxWidth="lg" sx={{ mt: '50px' }}>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <ProfileDetails ></ProfileDetails>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          py: 8
+        }}
+      >
+        <Container maxWidth="lg">
+          <Grid container>
+            <Grid item xs={6}>
+              <Typography
+                sx={{ mb: 3 }}
+                variant="h4"
+              >
+                Account
+              </Typography>
+            </Grid>
+            <Grid item xs={6} textAlign="right">
+              <Button
+                component={Link}
+                variant="contained"
+                style={{ width: '180px' }}
+                className="redOutlined_button_auth"
+                endIcon={<ChevronRightIcon></ChevronRightIcon>}
+                to="/change-password"
+              >
+                Change Password
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item xs={12} sx={{ mb: 5 }}>
-            <ChangePassword />
+          <Grid
+            container
+            spacing={3}
+          >
+            <Grid
+              item
+              lg={4}
+              md={6}
+              xs={12}
+            >
+              <AccountProfile />
+            </Grid>
+            <Grid
+              item
+              lg={8}
+              md={6}
+              xs={12}
+            >
+              <AccountProfileDetails />
+            </Grid>
           </Grid>
-        </Grid>
-      </Container>
+        </Container>
+        <Box></Box></Box>
       <Footer />
     </Page>
   );

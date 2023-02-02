@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 const Login = ({ handleChange }) => {
     const { t } = useTranslation("translation");
-    const paperStyle = { paddingTop: 20, height: '65vh', width: 430, margin: "0 auto", paddingLeft: 20, paddingRight: 20 }
+    const paperStyle = { paddingTop: 20, height: '105vh', width: 430, margin: "0 auto", paddingLeft: 20, paddingRight: 20 }
     const avatarStyle = { backgroundColor: '#1bbd7e' }
 
     return (

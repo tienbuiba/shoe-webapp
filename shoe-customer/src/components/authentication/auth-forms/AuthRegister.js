@@ -18,7 +18,6 @@ import {
 // third party
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-import FirebaseSocial from './FirebaseSocial';
 import { useDispatch } from 'react-redux';
 import { closeLoadingApi, openLoadingApi } from 'src/redux/creates-action/LoadingAction';
 import { apiUserRegister } from 'src/services/Authenticate';
@@ -31,8 +30,11 @@ import ContactPhoneOutlinedIcon from '@mui/icons-material/ContactPhoneOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useTranslation } from 'react-i18next';
 import { changeLoginPage } from 'src/redux/creates-action/AuthenAction';
+import LoginWithGoogle from './LoginWithGoogle';
 
-// ============================|| FIREBASE - REGISTER ||============================ //
+
+
+// ============================|| REGISTER ||============================ //
 
 const AuthRegister = () => {
     const { t } = useTranslation("translation");
@@ -275,15 +277,13 @@ const AuthRegister = () => {
                                 </Button>
                             </Grid>
                             <Grid item xs={12}>
-                                {/* <Divider> */}
-                                {/* <Typography variant="caption">
-                                        {t("Sign up with")}
-                                    </Typography> */}
-                                {/* </Divider> */}
+                                <Typography variant="caption">
+                                    {t("Sign up with")}
+                                </Typography>
                             </Grid>
-                            {/* <Grid item xs={12}>
-                                <FirebaseSocial />
-                            </Grid> */}
+                            <Grid item xs={12}>
+                                <LoginWithGoogle />
+                            </Grid>
                         </Grid>
                     </form>
                 )}

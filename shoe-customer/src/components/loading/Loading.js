@@ -15,17 +15,20 @@ export default function Loading() {
 
   const renderLoadingComponent = (load) => {
     return load === true ? (
-      <div className="divLoader" style={{ 
-        opacity: `${data.isLoading ? 0.9 : 1}`
-      }}>
-        <FadeLoader type="bars" color="#000000" height={5} width={2}/>
+      <div className="divLoader"
+        style={{
+          backgroundColor: '#000',
+          opacity: `${data.isLoading ? 0.1 : 1}`
+        }}
+      >
+        <FadeLoader type="bars" color="#000000" height={5} width={2} />
       </div>
     ) : (<div></div>)
   }
 
   return (
     <React.Fragment>
-      { renderLoadingComponent(isLoading) }
+      {renderLoadingComponent(isLoading)}
     </React.Fragment>
   );
 }

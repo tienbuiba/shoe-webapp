@@ -5,7 +5,6 @@ import {
   Grid,
   InputLabel,
   OutlinedInput,
-  Paper,
   Stack,
   Typography
 } from '@mui/material';
