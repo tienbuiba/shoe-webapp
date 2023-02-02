@@ -1,34 +1,6 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString } from 'class-validator';
+import { PartialType } from '@nestjs/swagger';
+import { CreateDeliveryAddressDto } from './create-delivery-address-dto';
 
-export class UpdateDeliveryAddressDto {
-  @ApiProperty()
-  @IsString()
-  @IsOptional()
-  fullname: string;
-
-  @ApiProperty()
-  @IsString()
-  @IsOptional()
-  phone: string;
-
-  @ApiProperty()
-  @IsString()
-  @IsOptional()
-  cityId: number;
-
-  @ApiProperty()
-  @IsString()
-  @IsOptional()
-  wardId: number;
-
-  @ApiProperty()
-  @IsString()
-  @IsOptional()
-  districtId: number;
-
-  @ApiProperty()
-  @IsString()
-  @IsOptional()
-  detail: string;
-}
+export class UpdateDeliveryAddressDto extends PartialType(
+  CreateDeliveryAddressDto,
+) {}

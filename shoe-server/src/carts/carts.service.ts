@@ -33,6 +33,9 @@ export class CartsService {
       where: {
         userId: userId,
       },
+      include: {
+        product: true,
+      },
     });
   }
 
@@ -49,6 +52,16 @@ export class CartsService {
     return await this.prisma.cart.delete({
       where: {
         id: id,
+      },
+    });
+  }
+
+  async deleteMany(ids: Array<number>) {
+    return await this.prisma.cart.deleteMany({
+      where: {
+        id: {
+          in: ids,
+        },
       },
     });
   }

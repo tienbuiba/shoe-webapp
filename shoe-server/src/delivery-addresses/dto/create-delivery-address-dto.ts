@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateDeliveryAddressDto {
   @ApiProperty()
@@ -13,17 +13,17 @@ export class CreateDeliveryAddressDto {
   phone: string;
 
   @ApiProperty()
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
   cityId: number;
 
   @ApiProperty()
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
   wardId: number;
 
   @ApiProperty()
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
   districtId: number;
 
