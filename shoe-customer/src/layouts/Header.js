@@ -32,14 +32,12 @@ const Header = () => {
     })
   }, [dataAddToCart])
 
-
   const handleLogout = () => {
     TokenService.removeAccessToken();
     TokenService.removeLocalExpiresIn();
     TokenService.removeLocalProfile();
     navigate('/', { replace: true });
   };
-
 
   return (
     <div className="MainDiv">
@@ -125,13 +123,12 @@ const Header = () => {
                     </>}
                     <li className="checkout">
                       <Link to="/cart">
-                        <i className="fa fa-shopping-cart" aria-hidden="true"></i>
+                        <i className="fa fa-shopping-cart" aria-hidden="true" style={{ fontSize: '32px'}} ></i>
                         {dataCart.length === 0 ? (<></>) : (
                           <span id="checkout_items" className="checkout_items">
                             {dataCart.length}
                           </span>
-                        )
-                        }
+                        )}
                       </Link>
                     </li>
                   </ul>

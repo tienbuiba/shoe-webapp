@@ -49,7 +49,6 @@ const ProductDetail = () => {
   const { id } = useParams();
   const [data, setData] = useState([]);
   const [dataCategory, setDataCategory] = useState([]);
-  const [stock, setStock] = useState('12');
   const navigate = useNavigate();
 
   const options = {
@@ -61,6 +60,7 @@ const ProductDetail = () => {
     dots: true,
     infinite: true,
     speed: 500,
+    autoplay: true,
     slidesToShow: 3,
     slidesToScroll: 1
   };
@@ -104,7 +104,7 @@ const ProductDetail = () => {
         setSize('');
         setColor('');
         setAmount(1);
-        // navigate("/cart");
+        navigate("/cart");
       }).catch((err) => {
         toast.error(err.response.data.message[0], options);
       })
@@ -144,9 +144,14 @@ const ProductDetail = () => {
               <div className="product_images">
                 <div>
                   <div className="main-screen">
-                    <img src={mainImage} alt={"product-image"} className="main-image-preview" style={{
-                      boxShadow: '0 6px 16px 0 rgb(0 0 0 / 20%)'
-                    }} />
+                    <img
+                      src={mainImage}
+                      alt="product"
+                      className="main-image-preview"
+                      style={{
+                        boxShadow: '0 6px 16px 0 rgb(0 0 0 / 20%)',
+                        borderRadius: '4px'
+                      }} />
                   </div>
                   <div style={{}}>
                     <Slider {...settings} style={{ display: 'flex', marginTop: '10px', justifyContent: 'center', alignItems: 'center' }}>
@@ -229,15 +234,15 @@ const ProductDetail = () => {
                   </div>
                 </Wrapper>
                 <hr />
-                {data.available > 0 && (
-                  <Wrapper>
+                {data?.available > 0 && (
+                  <div>
                     <CartAmountToggle
                       amount={amount}
                       setDecrease={setDecrease}
                       setIncrease={setIncrease}
                     />
                     <Button className="btn" component={Link} to={"/cart"} size="small" onClick={handleClick}>Add To Cart</Button>
-                  </Wrapper>
+                  </div>
                 )}
               </div>
             </div>

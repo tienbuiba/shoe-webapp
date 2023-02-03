@@ -9,12 +9,13 @@ import {
   Input,
   InputAdornment,
   IconButton,
-  Breadcrumbs
+  Breadcrumbs,
+  Link
 } from '@mui/material';
 
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-import { Link, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { apiUserChangePassword } from 'src/services/Authenticate';
 import { ToastContainer, toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
@@ -74,7 +75,7 @@ const ChangePassword = () => {
                   <Link
                     underline="hover"
                     color="inherit"
-                    to="/"
+                    href="/"
                   >
                     {t("HOME PAGE")}
                   </Link>
@@ -107,7 +108,7 @@ const ChangePassword = () => {
             <Grid item xs={6} textAlign="right">
               <Button
                 sx={{ mb: 3 }}
-                component={Link}
+                component={NavLink}
                 variant="contained"
                 style={{ width: '180px' }}
                 className="redOutlined_button_auth"

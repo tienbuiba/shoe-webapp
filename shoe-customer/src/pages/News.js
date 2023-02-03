@@ -25,7 +25,7 @@ const News = () => {
                   <Link
                     underline="hover"
                     color="inherit"
-                    href="/material-ui/getting-started/installation/"
+                    href="/"
                   >
                     {t("HOME PAGE")}
                   </Link>

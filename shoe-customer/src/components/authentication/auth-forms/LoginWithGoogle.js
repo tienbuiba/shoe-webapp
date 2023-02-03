@@ -5,10 +5,11 @@ import { apiUserProfile } from 'src/services/Authenticate';
 import TokenService from 'src/services/TokenService';
 
 function LoginWithGoogle() {
+
     const navigate = useNavigate();
     const handleLogin = async (credential) => {
         try {
-            const response = await axios.post(process.env.URL_SERVICE_GOOGLE_AUTH,
+            const response = await axios.post("https://api.atroboticsvn.com/api/v1/auth/login-with-google",
                 { credential: credential },
             );
             if (true) {
@@ -26,7 +27,7 @@ function LoginWithGoogle() {
         }
     };
     return (
-        <GoogleOAuthProvider clientId={process.env.KEY_CLIENT_ID}>
+        <GoogleOAuthProvider clientId={"10239177832-9iaplfgg6uqohtsga13l2bs3d540vi24.apps.googleusercontent.com"}>
             <GoogleLogin
                 onSuccess={async (credentialResponse) => {
                     handleLogin(credentialResponse.credential);

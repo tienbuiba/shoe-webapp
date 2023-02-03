@@ -5,6 +5,7 @@ import { Box, Divider, Typography, Stack, MenuItem, IconButton, Avatar } from '@
 import TokenService from 'src/services/TokenService';
 import { useTranslation } from 'react-i18next';
 import MenuPopover from './MenuPopover';
+import account from 'src/_mock/account';
 
 export default function AccountPopover() {
   const anchorRef = useRef(null);
@@ -48,7 +49,7 @@ export default function AccountPopover() {
           }),
         }}
       >
-        <Avatar src={profile.avatarUrl} sx={{ fontSize: '10px' }} size="small"></Avatar>
+        <Avatar src={profile.avatarUrl === 'default.png' ? account.photoURL : profile.avatarUrl} sx={{ fontSize: '10px', boxShadow: '0 6px 16px 0 rgb(0 0 0 / 20%)', border: '1px solid #f4f8fa' }} size="small"></Avatar>
       </IconButton>
       <MenuPopover
         open={Boolean(open)}

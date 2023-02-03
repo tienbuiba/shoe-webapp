@@ -111,7 +111,7 @@ const NewDetail = () => {
                   <Link
                     underline="hover"
                     color="inherit"
-                    href="/#"
+                    href="/"
                   >
                     HOME PAGE
                   </Link>

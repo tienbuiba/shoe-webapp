@@ -77,3 +77,26 @@ export const apiUserGetDeliveryAddress = async () => {
   return res;
 };
 
+
+
+export const apiUserUpdateDeliveryAddress = async (id,fullname, phone, cityId, wardId, districtId, detail) => {
+  let url = userService + `/delivery-addresses/user/update/${id}`;
+  let data = {
+    fullname: fullname,
+    phone: phone,
+    cityId: cityId,
+    wardId: wardId,
+    districtId: districtId,
+    detail: detail
+  }
+  let res;
+  const accessToken = TokenService.getLocalAccessToken();
+  res = await api.post(url, data, {
+    headers: {
+      Authorization: accessToken,
+      'Content-Type': 'application/json',
+    },
+  });
+
+  return res;
+};

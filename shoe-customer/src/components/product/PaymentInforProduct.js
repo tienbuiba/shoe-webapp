@@ -14,11 +14,10 @@ import { apiUserCreateOrder } from "src/services/Order";
 import { useNavigate } from "react-router-dom";
 import FormatPrice from "src/utils/FormatPrice";
 
-const PaymentInforProduct = () => {
+const PaymentInforProduct = ({ hasAddress, dataListAddress }) => {
   const [dataCart, setDataCart] = useState([]);
   const dataAddToCart = useSelector(state => state.cart.data);
   const [total, setTotal] = useState(0);
-  const [addressId, setAddressId] = useState(1);
   const [cartIds, setCartIds] = useState([]);
   const navigate = useNavigate();
 
@@ -48,13 +47,17 @@ const PaymentInforProduct = () => {
   }, [dataAddToCart])
 
   const handleOrderClick = () => {
-    apiUserCreateOrder(cartIds, addressId).then((res) => {
-      toast.success(res.data.message, options);
-      navigate('/order-received', { replace: true });
+    if (hasAddress === true) {
+      apiUserCreateOrder(cartIds, dataListAddress[0].id).then((res) => {
+        toast.success(res.data.message, options);
+        navigate('/order-received', { replace: true });
+      }
+      ).catch((err) => {
+        console.log(err);
+      })
+    } else {
+      toast.error('Please fill in form payment information!', options);
     }
-    ).catch((err) => {
-      console.log(err);
-    })
   }
 
   return (

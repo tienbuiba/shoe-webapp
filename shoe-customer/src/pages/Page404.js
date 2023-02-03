@@ -2,6 +2,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import { Button, Typography, Container, Box } from '@mui/material';
 import Page from '../components/Page';
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 
 // ----------------------------------------------------------------------
 
@@ -18,7 +19,6 @@ const ContentStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function Page404() {
-  // const token = localStorage.getItem('accessToken');
   return (
     <Page title="404 Page Not Found">
       <Container>
@@ -35,10 +35,15 @@ export default function Page404() {
             src="/static/illustrations/illustration_404.svg"
             sx={{ height: 260, mx: 'auto', my: { xs: 5, sm: 10 } }}
           />
-          <Button 
-          // to={token ? "/" : "/"} 
-          to="/"
-          size="large" variant="contained" component={RouterLink}>
+          <Button
+            to="/"
+            className="redOutlined_button_auth"
+            sx={{ width: '150px' }}
+            size="large"
+            variant="contained"
+            component={RouterLink}
+            startIcon={<KeyboardReturnIcon></KeyboardReturnIcon>}
+          >
             Go to Home
           </Button>
         </ContentStyle>

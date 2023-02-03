@@ -1,17 +1,16 @@
-import { Box, Breadcrumbs, Button, Container, Grid, Typography } from '@mui/material';
+import { Box, Breadcrumbs, Button, Container, Grid, Typography, Link } from '@mui/material';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
 import Page from 'src/components/Page';
 import Footer from 'src/layouts/Footer';
 import Header from 'src/layouts/Header';
 import AccountProfile from '../components/profile/AccountProfile';
 import { AccountProfileDetails } from '../components/profile/AccountProfileDetails';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { NavLink } from 'react-router-dom';
 
 const Profile = () => {
   const { t } = useTranslation("translation");
-
   return (
     <Page>
       <Header />
@@ -27,7 +26,7 @@ const Profile = () => {
                   <Link
                     underline="hover"
                     color="inherit"
-                    to="/"
+                    href="/"
                   >
                     {t("HOME PAGE")}
                   </Link>
@@ -59,7 +58,7 @@ const Profile = () => {
             </Grid>
             <Grid item xs={6} textAlign="right">
               <Button
-                component={Link}
+                component={NavLink}
                 variant="contained"
                 style={{ width: '180px' }}
                 className="redOutlined_button_auth"

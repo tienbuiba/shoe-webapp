@@ -17,11 +17,11 @@ export default function Loading() {
     return load === true ? (
       <div className="divLoader"
         style={{
-          backgroundColor: '#000',
-          opacity: `${data.isLoading ? 0.1 : 1}`
+          // backgroundColor: 'rgba(0, 0, 0, 0.1)',
+          opacity: `${data.isLoading ? 0.9 : 1}`
         }}
       >
-        <FadeLoader type="bars" color="#000000" height={5} width={2} />
+        <FadeLoader type="bars" color="#000000" height={5} width={3} />
       </div>
     ) : (<div></div>)
   }

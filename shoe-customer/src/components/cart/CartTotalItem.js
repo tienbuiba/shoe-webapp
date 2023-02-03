@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Typography } from "@mui/material";
 import { ToastContainer, toast } from 'react-toastify';
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
 import { apiUserGetDeliveryAddress } from "../../services/Address";
@@ -45,8 +45,8 @@ const CartTotalItem = ({ id, quantity, total }) => {
                   {dataListAddress[0]?.detail}, {dataListAddress[0].city.name}
                 </span>
               </Typography>
-              <Typography style={{ color: '#000', fontSize: '12px', padding: '8px 0px' }} >
-                Đổi địa chỉ</Typography>
+              <Link to="/update-delivery-address" className="address-change-heading" style={{ color: '#000', fontSize: '12px', padding: '8px 0px' }} >
+                Đổi địa chỉ</Link>
             </div>
           </div>
         ) : (

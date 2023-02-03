@@ -1,4 +1,4 @@
-import { Breadcrumbs, Button, Divider, Grid } from "@mui/material";
+import { Breadcrumbs, Button, Divider, Grid, Link } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Page from "src/components/Page";
@@ -7,7 +7,7 @@ import Header from "src/layouts/Header";
 import { apiUserGetAllCartItem } from "src/services/Carts";
 import styled from "styled-components";
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import CartTotalItem from "../components/cart/CartTotalItem";
 import CartItem from "../components/cart/CartItem";
 
@@ -35,10 +35,8 @@ const Cart = () => {
     })
   }, [dataAddToCart])
 
-
-
   return dataCart && (
-    <Page title="Product detail">
+    <Page title="Cart">
       <Header />
       <div className="newsletter" style={{ marginTop: '150px' }}>
         <div className="container">
@@ -50,7 +48,7 @@ const Cart = () => {
                   <Link
                     underline="hover"
                     color="inherit"
-                    to="/"
+                    href="/"
                   >
                     HOME PAGE
                   </Link>
@@ -66,7 +64,7 @@ const Cart = () => {
           <Wrapper>
             <div className="container">
               <Grid container>
-                <Grid item xs={8} sx={{ borderRight: '1px solid #E0E4E8', paddingRight: '20px' }}>
+                <Grid item xs={12} md={8} sx={{ borderRight: '1px solid #E0E4E8', paddingRight: '20px' }}>
                   <div className="cart_heading" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)' }}>
                     <p className="cart-item-heading">Item</p>
                     <p className="cart-price-heading">Price</p>
@@ -92,7 +90,7 @@ const Cart = () => {
                     </Button>
                   </div>
                 </Grid>
-                <Grid item xs={4} sx={{ paddingLeft: '20px' }}>
+                <Grid item xs={12} md={4} sx={{ paddingLeft: '20px' }}>
                   <div className="cart_heading" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)' }}>
                     <p className="cart-item-heading">TỔNG SỐ LƯỢNG</p>
                   </div>
@@ -110,11 +108,14 @@ const Cart = () => {
               <p>
                 Chưa có sản phẩm nào trong giỏ hàng.
               </p>
-              <button href="/" className="button_back_homepage">
-                <Link to="/">
-                  QUAY TRỞ LẠI CỬA HÀNG
-                </Link>
-              </button>
+              <Button
+                style={{ width: '250px'}}
+                className="redOutlined_button_auth"
+                component={NavLink}
+                to="/shop"
+                startIcon={<KeyboardBackspaceIcon></KeyboardBackspaceIcon>}>
+                QUAY TRỞ LẠI CỬA HÀNG
+              </Button>
             </div>
           </div>
         </>)}

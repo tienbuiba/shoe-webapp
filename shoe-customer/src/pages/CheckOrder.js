@@ -36,7 +36,7 @@ const CheckOrder = () => {
                   <Link
                     underline="hover"
                     color="inherit"
-                    href="/material-ui/getting-started/installation/"
+                    href="/"
                   >
                     HOME PAGE
                   </Link>

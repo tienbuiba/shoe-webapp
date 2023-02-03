@@ -19,6 +19,7 @@ import PaymentInformation from './pages/PaymentInformation';
 import OrderReceived from './pages/OrderReceived';
 import ChangePassword from './pages/ChangePassword';
 import AccountOrder from './pages/AccountOrder';
+import UpdateDeliveryAddress from './pages/UpdateDeliveryAddress';
 
 // ----------------------------------------------------------------------
 
@@ -91,6 +92,10 @@ export default function Router() {
     {
       path: '/payment-infor',
       element: <PaymentInformation />,
+    },
+    {
+      path: '/update-delivery-address',
+      element: <UpdateDeliveryAddress />,
     },
     {
       path: '/',

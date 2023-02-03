@@ -1,4 +1,4 @@
-import { Autocomplete, Breadcrumbs, Button, Divider, FormControl, Grid, Link, TextField } from "@mui/material";
+import { Autocomplete, Breadcrumbs, Button, Divider, FormControl, Grid, TextField } from "@mui/material";
 import { useState } from "react";
 import { useEffect } from "react";
 import Page from "src/components/Page";
@@ -9,6 +9,7 @@ import styled from "styled-components";
 import SaveIcon from '@mui/icons-material/Save';
 import { ToastContainer, toast } from 'react-toastify';
 import PaymentInforProduct from "src/components/product/PaymentInforProduct";
+import { Link } from "react-router-dom";
 
 const PaymentInformation = () => {
   const [cities, setCities] = useState([]);
@@ -23,7 +24,7 @@ const PaymentInformation = () => {
   const [fullname, setFullName] = useState('');
   const [phone, setPhone] = useState('');
   const [detail, setDetail] = useState('');
-  const [dataListAddress, setDataListAddress] = useState('');
+  const [dataListAddress, setDataListAddress] = useState(null);
   const [hasAddress, setHasAddress] = useState(false);
   const [call, setCall] = useState(false);
 
@@ -79,10 +80,6 @@ const PaymentInformation = () => {
 
   }, [call])
 
-  const handleChangeAddress = () => {
-    alert('change address')
-  }
-
   const handleClick = () => {
     apiUserCreateDeliveryAddress(fullname, phone, cityId, wardId, districtId, detail).then((res) => {
       toast.success(res.data.message, options);
@@ -105,7 +102,7 @@ const PaymentInformation = () => {
                   <Link
                     underline="hover"
                     color="inherit"
-                    href="/"
+                    to="/"
                   >
                     HOME PAGE
                   </Link>
@@ -124,7 +121,7 @@ const PaymentInformation = () => {
                 <Grid item xs={8} sx={{ borderRight: '1px solid #E0E4E8', paddingRight: '20px', paddingTop: '20px' }}>
                   <div className="cart_heading" style={{ display: 'flex', justifyContent: "space-between", alignItems: 'center' }}>
                     <p className="cart-item-heading">THÔNG TIN THANH TOÁN</p>
-                    <p className="address-change-heading" style={{ textAlign: 'end' }} onClick={handleChangeAddress}>Đổi địa chỉ</p>
+                    <Link to="/update-delivery-address" className="address-change-heading" style={{ textAlign: 'end' }}>Đổi địa chỉ</Link>
                   </div>
                   <Grid container spacing={3} sx={{ my: 4 }}>
                     <Grid item xs={12} md={6} sx={{ mb: 1 }}>
@@ -199,6 +196,7 @@ const PaymentInformation = () => {
                           setFullName(e.target.value);
                         }}
                         variant="filled"
+                        placeholder="Enter your name"
                         fullWidth
                       ></TextField>
                     </Grid>
@@ -209,6 +207,7 @@ const PaymentInformation = () => {
                         onChange={(e) => {
                           setPhone(e.target.value);
                         }}
+                        placeholder="Enter your phone"
                         variant="filled"
                         fullWidth
                       ></TextField>
@@ -279,6 +278,7 @@ const PaymentInformation = () => {
                         }}
                         variant="filled"
                         fullWidth
+                        placeholder="Enter your address detail"
                       ></TextField>
                     </Grid>
                   </Grid>
@@ -301,7 +301,7 @@ const PaymentInformation = () => {
                 </div>
                 <Divider></Divider>
                 <div className="cart-item">
-                  <PaymentInforProduct/>
+                  <PaymentInforProduct hasAddress={hasAddress} dataListAddress={dataListAddress} />
                 </div>
               </Grid>
             </Grid>
