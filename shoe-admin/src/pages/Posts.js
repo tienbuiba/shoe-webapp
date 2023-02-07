@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link, Link as RouterLink, useNavigate } from 'react-router-dom';
-// material
 import {
   Button,
   Card,
   Container,
   Stack,
+  TablePagination,
   Typography
 } from '@mui/material';
 import Page from '../components/Page';
@@ -47,6 +47,8 @@ export default function Posts() {
   const data = useSelector(state => state.post.data);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(20);
+  const [total, setTotal] = useState(0);
+
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -63,6 +65,7 @@ export default function Posts() {
     dispatch(openLoadingApi());
     apiAdminGetPostList(rowsPerPage, page, keyword).then(res => {
       setDataPost(res.data.data.items);
+      setTotal(res.data.data.total);
       dispatch(closeLoadingApi());
     }).catch(err => {
       console.log(err);
@@ -70,31 +73,52 @@ export default function Posts() {
     })
   }, [data.delete, keyword]);
 
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
   return (
     <Page title="User">
       <Container maxWidth="xl">
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={4}>
           <Typography variant="h3" gutterBottom>
-            Posts
+            DANH SÁCH BÀI VIẾT
           </Typography>
-          <Button variant="contained" component={RouterLink} to="/dashboard/create-post" startIcon={<Iconify icon="eva:plus-fill" />}>
-            Create posts
-          </Button>
         </Stack>
         <Card>
-          <RootStyle>
-            <SearchStyle
-              value={keyword}
-              onChange={handleSearchChange}
-              placeholder="Search post..."
-              startAdornment={
-                <InputAdornment position="start">
-                  <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />
-                </InputAdornment>
-              }
-            />
-          </RootStyle>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+            <Button variant="outlined" component={RouterLink} to="/dashboard/create-post" startIcon={<Iconify icon="eva:plus-fill" />}>
+              Thêm bài viết
+            </Button>
+            <RootStyle>
+              <SearchStyle
+                value={keyword}
+                onChange={handleSearchChange}
+                placeholder="Tìm kiếm bài viết..."
+                startAdornment={
+                  <InputAdornment position="start">
+                    <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />
+                  </InputAdornment>
+                }
+              />
+            </RootStyle>
+          </Stack>
           <MainPost data={dataPost} />
+          <TablePagination
+            rowsPerPageOptions={[10, 20, 30]}
+            component="div"
+            count={total}
+            sx={{ fontSize: '18px' }}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
         </Card>
       </Container>
     </Page>

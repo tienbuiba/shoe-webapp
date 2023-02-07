@@ -18,6 +18,8 @@ import { closeLoadingApi, openLoadingApi } from 'src/redux/create-actions/Loadin
 import { apiAdminDeleteCategory } from 'src/services/Categories';
 import { apiAdminDeletePost } from 'src/services/Posts';
 import { deletePost } from 'src/redux/create-actions/PostAction';
+import { apiAdminDeleteProduct } from 'src/services/Products';
+import { deleteCategory } from 'src/redux/create-actions/CategoryAction';
 
 export default function ConfirmModal() {
   const theme = useTheme();
@@ -28,6 +30,8 @@ export default function ConfirmModal() {
     autoClose: 2000,
     position: toast.POSITION.TOP_RIGHT,
   };
+
+  
   const handleConfirm = () => {
     switch (data.feature) {
       case 'BLOCK_USER':
@@ -60,7 +64,7 @@ export default function ConfirmModal() {
           if (res.statusCode === 200) {
             toast.success(res.message, options);
             dispatch(closeLoadingApi());
-            dispatch(deleteProduct())
+            dispatch(deleteCategory())
           } else {
             toast.error(res.message, options);
             dispatch(closeLoadingApi());
@@ -85,6 +89,30 @@ export default function ConfirmModal() {
             toast.success(res.message, options);
             dispatch(closeLoadingApi());
             dispatch(deletePost())
+          } else {
+            toast.error(res.message, options);
+            dispatch(closeLoadingApi());
+          }
+        }).catch(err => {
+          if (err.response.data.statusCode === 401) {
+            dispatch(closeLoadingApi());
+            toast.error(err.response.data.message, options);
+          } else {
+            dispatch(closeLoadingApi());
+            toast.error(err.response.data.message, options);
+          }
+        })
+        dispatch(closeConfirmModal())
+        dispatch(closeLoadingApi());
+        break
+      case 'DELETE_PRODUCT':
+        dispatch(openLoadingApi());
+        apiAdminDeleteProduct(data.id).then(result => {
+          const res = result.data;
+          if (res.statusCode === 200) {
+            toast.success(res.message, options);
+            dispatch(closeLoadingApi());
+            dispatch(deleteProduct())
           } else {
             toast.error(res.message, options);
             dispatch(closeLoadingApi());
@@ -161,7 +189,7 @@ export default function ConfirmModal() {
                 color='error'
                 onClick={handleClose}
               >
-                Cancel
+                Hủy
               </Button>
             </Grid>
             <Grid item>
@@ -171,7 +199,7 @@ export default function ConfirmModal() {
                 color={theme.secondary}
                 onClick={handleConfirm}
               >
-                Confirm
+                Xác nhận
               </Button>
             </Grid>
           </Grid>

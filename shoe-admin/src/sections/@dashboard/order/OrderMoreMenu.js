@@ -30,11 +30,17 @@ export default function OrderMoreMenu(props) {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <MenuItem component={RouterLink} to="/dashboard/order-details" sx={{ color: 'text.secondary' }} onClick={e => dispatch(orderId(orderDetails, orderCode,orderID))}>
+        <MenuItem component={RouterLink} to="/dashboard/order-details" sx={{ color: 'text.secondary' }} onClick={e => dispatch(orderId(orderDetails, orderCode, orderID))}>
           <ListItemIcon>
-            <Iconify icon="ic:round-update" width={20} height={24} />
+            <Iconify icon="ic:twotone-remove-red-eye" width={20} height={24} />
           </ListItemIcon>
           <ListItemText primary="Xem chi tiết đơn hàng" primaryTypographyProps={{ variant: 'body2' }} />
+        </MenuItem>
+        <MenuItem component={RouterLink} to="/dashboard/order-update" sx={{ color: 'text.secondary' }} onClick={e => dispatch(orderId(orderDetails, orderCode, orderID))}>
+          <ListItemIcon>
+            <Iconify icon="material-symbols:edit" width={20} height={24} />
+          </ListItemIcon>
+          <ListItemText primary="Cập nhật trạng thái" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
       </Menu>
     </React.Fragment>

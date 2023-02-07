@@ -134,14 +134,14 @@ function CreatePost() {
       })
   };
   return (
-    <Page title="Dashboard: Add Post">
+    <Page title="Thêm bài viết mới">
       <Container maxWidth="xl">
         <Typography variant="h3" sx={{ mb: 2 }}>
-          Create New Post
+          Thêm bài viết mới
         </Typography>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px'}}>
           <Button component={Link} to="/dashboard/posts" startIcon={<ArrowBackIosIcon />} variant="contained">
-            BACK
+            Quay lại
           </Button>
           <div>
           </div>
@@ -149,10 +149,10 @@ function CreatePost() {
         <Card sx={{ p: 5 }}>
           <Grid container spacing={3}>
             <Grid item xs={12} sx={{ pl: '24px' }}>
-              <label>Post Short Description:</label>
+              <label>Mô tả ngắn bài viết:</label>
               <TextField
                 id="productShortDsc"
-                placeholder="Enter post short description"
+                placeholder="Nhập mô tả ngắn bài viết"
                 value={postForm.shortDesc}
                 onChange={handleChangePostShortDesc}
                 required
@@ -177,7 +177,7 @@ function CreatePost() {
                   component="span"
                   color="error"
                 >
-                  Upload Thumbnail
+                  Tải lên hình thu nhỏ
                 </Button>
               </label>
             </Grid>
@@ -210,12 +210,12 @@ function CreatePost() {
                       fontSize: '14px',
                       cursor: 'pointer'
                     }}
-                  ></CloseIcon>Remove</div>
+                  ></CloseIcon>Xóa</div>
               ) : <div></div>
               }
             </Grid>
             <Grid item xs={12} sx={{ pl: '24px' }}>
-              <label>Post Long Description: </label>
+              <label>Mô tả bài viết:</label>
               <CKEditor
                 id="editor"
                 name="postLongDsc"
@@ -239,7 +239,7 @@ function CreatePost() {
               component="span"
               onClick={handleSubmit}
             >
-              Create Post
+              Tạo bài viết
             </Button>
           </Grid>
         </Card>

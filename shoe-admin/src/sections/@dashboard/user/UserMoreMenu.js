@@ -12,7 +12,7 @@ export default function UserMoreMenu(props) {
   const [isOpen, setIsOpen] = useState(false);
   const { id, status } = props;
   const dispatch = useDispatch();
-  
+
   return (
     <React.Fragment>
       <IconButton ref={ref} onClick={() => setIsOpen(true)}>
@@ -30,21 +30,21 @@ export default function UserMoreMenu(props) {
       >
         {status === 'BLOCKED' ?
           <div>
-            <MenuItem sx={{ color: 'text.secondary' }} onClick={(e) => dispatch(showConfirmModal('Are you sure?', 'Do you want to unlock this account?', id, "BLOCK_USER"))}>
+            <MenuItem sx={{ color: 'text.secondary' }} onClick={(e) => dispatch(showConfirmModal('Bạn chắc chắn ?', 'Muốn khóa tài khoản này?', id, "BLOCK_USER"))}>
               <ListItemIcon>
                 <Iconify icon="bi:unlock-fill" color="blue" width={24} height={24} />
               </ListItemIcon>
-              <ListItemText primary="Unlock account" primaryTypographyProps={{ variant: 'body2', color: '#2065D1' }} />
+              <ListItemText primary="Mở khóa tài khoản" primaryTypographyProps={{ variant: 'body2', color: '#2065D1' }} />
             </MenuItem>
           </div> : <div>
-            <MenuItem sx={{ color: 'text.secondary' }} onClick={(e) => dispatch(showConfirmModal('Are you sure?', 'Do you want to unlock this account?', id, "BLOCK_USER"))}>
+            <MenuItem sx={{ color: 'text.secondary' }} onClick={(e) => dispatch(showConfirmModal('Bạn chắc chắn ?', 'Muốn mở khóa tài khoản này?', id, "BLOCK_USER"))}>
               <ListItemIcon>
                 <Iconify icon="charm:block" color="red" width={24} height={24} />
               </ListItemIcon>
-              <ListItemText primary="Lock account" primaryTypographyProps={{ variant: 'body2', color: 'red' }} />
+              <ListItemText primary="Khóa tài khoản" primaryTypographyProps={{ variant: 'body2', color: 'red' }} />
             </MenuItem>
           </div>}
-        <Divider />   
+        <Divider />
       </Menu>
     </React.Fragment>
   );

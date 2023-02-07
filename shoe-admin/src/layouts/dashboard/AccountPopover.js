@@ -5,11 +5,11 @@ import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton } from '@
 import MenuPopover from '../../components/MenuPopover';
 import account from '../../_mock/account';
 import TokenService from 'src/services/TokenService';
-
+import { Icon } from '@iconify/react';
 
 const MENU_OPTIONS = [
   {
-    label: 'Change password',
+    label: 'Thay đổi mật khẩu',
     icon: 'eva:home-fill',
     linkTo: '/dashboard/change-password',
   }
@@ -80,19 +80,18 @@ export default function AccountPopover() {
             {profile.username}
           </Typography>
         </Box>
-        <Divider/>
+        <Divider />
         <Stack sx={{ p: 1 }}>
           {MENU_OPTIONS.map((option) => (
-            <>
             <MenuItem key={option.label} to={option.linkTo} component={RouterLink} onClick={handleClose}>
               {option.label}
             </MenuItem>
-            </>        
           ))}
         </Stack>
-        <Divider/>
+        <Divider />
         <MenuItem onClick={handleLogout} sx={{ m: 1 }}>
-         Logout
+          Đăng xuất
+          <Icon icon="material-symbols:logout-rounded" style={{ marginLeft: '5px' }} />
         </MenuItem>
       </MenuPopover>
     </>

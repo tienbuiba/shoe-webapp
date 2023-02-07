@@ -29,7 +29,7 @@ export default function ProductMoreMenu(props) {
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
         {status === false ? <>
-          <MenuItem component={RouterLink} to="/dashboard/edit-product" sx={{ color: 'text.secondary' }} onClick={e => dispatch(productId(id, price, type,time))}>
+          <MenuItem component={RouterLink} to="/dashboard/edit-product" sx={{ color: 'text.secondary' }} onClick={e => dispatch(productId(id, price, type, time))}>
             <ListItemIcon>
               <Iconify icon="ic:round-update" width={20} height={24} />
             </ListItemIcon>
@@ -38,13 +38,13 @@ export default function ProductMoreMenu(props) {
         </> : <>
           <MenuItem sx={{ color: 'text.secondary' }} onClick={(e) => dispatch(showConfirmModal('Are you sure?', 'Do you want to delete this product?', id, "DELETE_PRODUCT"))}>
             <ListItemIcon>
-              <Iconify icon="eva:trash-2-outline" width={24} height={24} />
+              <Iconify icon="eva:trash-2-outline" width={24} height={24} style={{ color: 'red' }} />
             </ListItemIcon>
-            <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
+            <ListItemText primary="Xóa" primaryTypographyProps={{ variant: 'body2', color: 'red' }} />
           </MenuItem>
           <MenuItem component={RouterLink} to="/dashboard/edit-product" sx={{ color: 'text.secondary' }} onClick={e => dispatch(productId(id, price, type, time))}>
             <ListItemIcon>
-              <Iconify icon="ic:round-update" width={20} height={24} />
+              <Iconify icon="material-symbols:edit" width={20} height={24} />
             </ListItemIcon>
             <ListItemText primary="Cập nhật sản phẩm" primaryTypographyProps={{ variant: 'body2' }} />
           </MenuItem>

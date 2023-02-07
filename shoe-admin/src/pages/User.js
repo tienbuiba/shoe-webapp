@@ -26,15 +26,16 @@ import { blockUserSuccessContinue } from 'src/redux/create-actions/UserAction';
 import { styled } from '@mui/material/styles';
 import { Toolbar, OutlinedInput, InputAdornment } from '@mui/material';
 import { fDateLocal } from 'src/utils/formatTime';
+import { closeLoadingApi, openLoadingApi } from 'src/redux/create-actions/LoadingAction';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'NAME', alignRight: false },
+  { id: 'name', label: 'TÊN', alignRight: false },
   { id: 'Email', label: 'EMAIL', alignRight: false },
-  { id: 'phone', label: 'PHONE', alignRight: false },
-  { id: 'role', label: 'Status', alignRight: false },
-  { id: 'Created at', label: 'REGISTRATION DATE', alignRight: false },
+  { id: 'phone', label: 'ĐIỆN THOẠI', alignRight: false },
+  { id: 'role', label: 'TRẠNG THÁI', alignRight: false },
+  { id: 'Created at', label: 'NGÀY ĐĂNG KÝ', alignRight: false },
   { id: 'a', label: '', alignRight: false },
 
 ];
@@ -60,8 +61,6 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
 
 export default function User() {
   const [page, setPage] = useState(0);
-  const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('name');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [data, setData] = useState([]);
   const [total, setTotal] = useState(0);
@@ -77,11 +76,7 @@ export default function User() {
     }
   }, [])
 
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
+
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -93,12 +88,15 @@ export default function User() {
   };
 
   useEffect(() => {
+    dispatch(openLoadingApi());
     apiAdminGetListUser(rowsPerPage, page, keyword).then(result => {
       const res = result.data
-      setData(res.data.items)
-      setTotal(res.data.total)
+      setData(res.data.items);
+      setTotal(res.data.total);
+      dispatch(closeLoadingApi());
     }).catch(err => {
-      console.log(err)
+      console.log(err);
+      dispatch(closeLoadingApi());
     })
     dispatch(blockUserSuccessContinue())
   }, [rowsPerPage, page, dataUser.block, keyword])
@@ -108,41 +106,46 @@ export default function User() {
   }
 
   return (
-    <Page title="User">
+    <Page title="Khách hàng">
       <Container maxWidth="xl">
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
-          <Typography variant="h3" gutterBottom>
-            Customers
+          <Typography variant="h4" gutterBottom>
+            DANH SÁCH KHÁCH HÀNG
           </Typography>
         </Stack>
         <Card>
           <Box sx={{ mt: 3 }}>
-            <RootStyle>
-              <SearchStyle
-                onChange={handleSearchChange}
-                placeholder="Search user..."
-                startAdornment={
-                  <InputAdornment position="start">
-                    <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />
-                  </InputAdornment>
-                }
-              />
-            </RootStyle>
+            <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+              <Typography variant="h4" gutterBottom>
+              </Typography>
+              <RootStyle>
+                <SearchStyle
+                  onChange={handleSearchChange}
+                  placeholder="Tìm kiếm khách hàng"
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />
+                    </InputAdornment>
+                  }
+                />
+              </RootStyle>
+            </Stack>
+
           </Box>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
                 <UserListHead
-                  order={order}
-                  orderBy={orderBy}
                   headLabel={TABLE_HEAD}
                   rowCount={total}
-                  onRequestSort={handleRequestSort}
                 />
                 <TableBody>
                   {data?.map((row) => {
                     return (
-                      <TableRow key={row.id} hover>
+                      <TableRow
+                        key={row.id}
+                        hover={true}
+                      >
                         <TableCell align="left"></TableCell>
                         <TableCell align="left">{row.username}</TableCell>
                         <TableCell align="left">{row.email}</TableCell>

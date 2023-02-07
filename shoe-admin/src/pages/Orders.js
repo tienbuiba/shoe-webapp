@@ -18,23 +18,26 @@ import Scrollbar from '../components/Scrollbar';
 import { UserListHead } from '../sections/@dashboard/user';
 import { useDispatch } from 'react-redux';
 import { blockUserSuccessContinue } from 'src/redux/create-actions/UserAction';
-import { apiAminGetAllOrder } from 'src/services/Order';
+import { apiAdminGetAllOrder } from 'src/services/Order';
 import { fNumber } from 'src/utils/formatNumber';
 import OrderMoreMenu from 'src/sections/@dashboard/order/OrderMoreMenu';
 import { fDateLocal } from '../utils/formatTime';
 import { Toolbar, OutlinedInput, InputAdornment } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Iconify from '../components/Iconify';
+import { closeLoadingApi, openLoadingApi } from 'src/redux/create-actions/LoadingAction';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'id', label: 'Loại', alignRight: false },
-  { id: 'username', label: 'Khách hàng', alignRight: false },
-  { id: 'đơn hàng số', label: 'Đơn hàng số', alignRight: false },
-  { id: 'số lượng', label: 'Tổng Tiền', alignRight: false },
-  { id: 'loại mail', label: 'Số lượng', alignRight: false },
-  { id: 'phương thức giao dịch', label: 'Thời gian', alignRight: false },
+  { id: 'id', label: 'ID', alignRight: false },
+  { id: 'đơn hàng số', label: 'ĐƠN HÀNG SỐ', alignRight: false },
+  { id: 'số lượng', label: 'TỔNG TIỀN', alignRight: false },
+  { id: 'loại mail', label: 'THÔNG TIN KHÁCH HÀNG', alignRight: false },
+  { id: 'loại mail', label: 'ĐẠI CHỈ ĐƠN HÀNG', alignRight: false },
+  { id: 'số lượng', label: 'TRẠNG THÁI', alignRight: false },
+  { id: 'thời gian', label: 'TẠO LÚC', alignRight: false },
+  { id: 'thời gian', label: 'CẬP NHẬT LÚC', alignRight: false },
   { id: 'a', label: '', alignRight: false },
 ];
 const RootStyle = styled(Toolbar)(({ theme }) => ({
@@ -58,9 +61,7 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
 }));
 export default function Orders() {
   const [page, setPage] = useState(0);
-  const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('name');
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [data, setData] = useState([]);
   const [total, setTotal] = useState(0);
   const [keyword, setKeyword] = useState('');
@@ -74,12 +75,6 @@ export default function Orders() {
     }
   }, []);
 
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -90,14 +85,17 @@ export default function Orders() {
   };
 
   useEffect(() => {
-    apiAminGetAllOrder(rowsPerPage, page, keyword)
+    dispatch(openLoadingApi());
+    apiAdminGetAllOrder(rowsPerPage, page, keyword)
       .then((result) => {
         const res = result.data;
         setData(res.data.items);
         setTotal(res.data.total);
+        dispatch(closeLoadingApi());
       })
       .catch((err) => {
         console.log(err);
+        dispatch(closeLoadingApi());
       });
     dispatch(blockUserSuccessContinue());
   }, [rowsPerPage, page, keyword]);
@@ -107,33 +105,36 @@ export default function Orders() {
   };
 
   return (
-    <Page title="Order">
-          <Container maxWidth="xl">
+    <Page title="Đơn hàng">
+      <Container maxWidth="xl">
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-Orders          </Typography>
+            DANH SÁCH ĐƠN HÀNG
+          </Typography>
         </Stack>
         <Card>
-        <RootStyle>
-            <SearchStyle
-              onChange={handleSearchChange}
-              placeholder="Sreach order..."
-              startAdornment={
-                <InputAdornment position="start">
-                  <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />
-                </InputAdornment>
-              }
-            />
-          </RootStyle>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+            <Typography variant="h4" gutterBottom>
+            </Typography>
+            <RootStyle>
+              <SearchStyle
+                onChange={handleSearchChange}
+                placeholder="Tìm kiếm đơn hàng..."
+                startAdornment={
+                  <InputAdornment position="start">
+                    <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />
+                  </InputAdornment>
+                }
+              />
+            </RootStyle>
+          </Stack>
+
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
                 <UserListHead
-                  order={order}
-                  orderBy={orderBy}
                   headLabel={TABLE_HEAD}
                   rowCount={total}
-                  onRequestSort={handleRequestSort}
                 />
                 <TableBody>
                   {data?.map((row) => {
@@ -141,17 +142,22 @@ Orders          </Typography>
                       <TableRow key={row.id}>
                         <TableCell align="left"></TableCell>
                         <TableCell align="left">
-                          <Label variant="ghost" color={(row.type === 'BUY' && 'success') || 'warning'}>
-                            {row.orderType === 'BUY' ? 'Mua' : 'Thuê'}
+                          {row.id}
+                        </TableCell>
+                        <TableCell align="left">{row.code}</TableCell>
+                        <TableCell align="left">{fNumber(row.totalPrice)}</TableCell>
+                        <TableCell align="left">{(row.userId)}</TableCell>
+                        <TableCell align="left">{(row.address)}</TableCell>
+                        <TableCell align="left">
+                          <Label variant="ghost" color={(row.status === 'WAITING' && 'success') || 'warning'}>
+                            {row.status}
                           </Label>
                         </TableCell>
-                        <TableCell align="left">{row.user.username}</TableCell>
-                        <TableCell align="left">{row.orderCode}</TableCell>
-                        <TableCell align="left">{fNumber(row.totalPrice)}</TableCell>
-                        <TableCell align="left">{fNumber(row.amount)}</TableCell>
                         <TableCell align="left">{fDateLocal(row.createdAt)}</TableCell>
+                        <TableCell align="left">{fDateLocal(row.updatedAt)}</TableCell>
+                        <TableCell align="left">{(row.cancelReason)}</TableCell>
                         <TableCell align="left">
-                          <OrderMoreMenu orderDetails={row.sellMails} orderCode={row.orderCode} orderID={row.id} />
+                          <OrderMoreMenu orderId={row.id} userId={row.userId} />
                         </TableCell>
                       </TableRow>
                     );
@@ -161,7 +167,7 @@ Orders          </Typography>
             </TableContainer>
           </Scrollbar>
           <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
+            rowsPerPageOptions={[5, 10, 20]}
             component="div"
             count={total}
             rowsPerPage={rowsPerPage}

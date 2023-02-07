@@ -19,23 +19,23 @@ import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import { UserListHead } from '../sections/@dashboard/user';
 import { useDispatch, useSelector } from 'react-redux';
-import { blockUserSuccessContinue } from 'src/redux/create-actions/UserAction';
 import { styled } from '@mui/material/styles';
 import { Toolbar, OutlinedInput, InputAdornment } from '@mui/material';
 import { fDateLocal } from 'src/utils/formatTime';
 import { apiAdminGetAllCategories } from 'src/services/Categories';
 import CategoryMoreMenu from 'src/sections/@dashboard/categories/CategoryMoreMenu';
+import { closeLoadingApi, openLoadingApi } from 'src/redux/create-actions/LoadingAction';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: 'ID', label: 'ID', alignRight: false },
-  { id: 'NAME', label: 'NAME', alignRight: false },
-  { id: 'Created at', label: 'CREATION DATE', alignRight: false },
-  { id: 'Created at', label: 'UPDATION DATE', alignRight: false },
-  { id: 'a', label: '', alignRight: false },
-
+  { id: 'NAME', label: 'TÊN LOẠI', alignRight: false },
+  { id: 'Created at', label: 'THỜI GIAN TẠO', alignRight: false },
+  { id: 'Created at', label: 'THỜI GIAN CẬP NHẬT', alignRight: false },
+  { id: 'a', label: '', alignRight: false }
 ];
+
 const RootStyle = styled(Toolbar)(({ theme }) => ({
   height: 96,
   display: 'flex',
@@ -63,8 +63,9 @@ export default function Categories() {
   const [total, setTotal] = useState('');
   const [keyword, setKeyword] = useState('');
   const dispatch = useDispatch();
-
+  const dataDelete = useSelector(state => state.category.data);
   const navigate = useNavigate();
+
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
     if (!token) {
@@ -82,43 +83,46 @@ export default function Categories() {
   };
 
   useEffect(() => {
+    dispatch(openLoadingApi());
     apiAdminGetAllCategories(rowsPerPage, page, keyword).then(result => {
       setData(result.data.data.items);
-      setTotal(result.data.data.total)
+      setTotal(result.data.data.total);
+      dispatch(closeLoadingApi());
     }).catch(err => {
       console.log(err);
+      dispatch(closeLoadingApi());
     })
-  }, [rowsPerPage, page, keyword])
+  }, [rowsPerPage, page, keyword, dataDelete])
 
   const handleSearchChange = (e) => {
-    setKeyword(e.target.value)
+    setKeyword(e.target.value);
   }
 
   return (
     <Page title="User">
       <Container maxWidth="xl">
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={4}>
-          <Typography variant="h3" gutterBottom>
-            Category List
+          <Typography variant="h4" gutterBottom>
+            DANH SÁCH PHÂN LOẠI SẢN PHẨM
           </Typography>
         </Stack>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
-          <Button variant="contained" component={RouterLink} to="/dashboard/create-category" startIcon={<Iconify icon="eva:plus-fill" />}>
-            Create Category
-          </Button>
-        </Stack>
         <Card>
-          <RootStyle>
-            <SearchStyle
-              onChange={handleSearchChange}
-              placeholder="Search Category..."
-              startAdornment={
-                <InputAdornment position="start">
-                  <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />
-                </InputAdornment>
-              }
-            />
-          </RootStyle>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+            <Button variant="outlined" component={RouterLink} to="/dashboard/create-category" startIcon={<Iconify icon="eva:plus-fill" />}>
+              Thêm loại sản phẩm
+            </Button>
+            <RootStyle>
+              <SearchStyle
+                onChange={handleSearchChange}
+                placeholder="Tìm kiếm loại sản phẩm"
+                startAdornment={
+                  <InputAdornment position="start">
+                    <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />
+                  </InputAdornment>
+                }
+              />
+            </RootStyle>
+          </Stack>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -129,7 +133,9 @@ export default function Categories() {
                 <TableBody>
                   {data?.map((row) => {
                     return (
-                      <TableRow key={row.id} hover >
+                      <TableRow
+                        key={row.id}
+                        hover >
                         <TableCell align="left"></TableCell>
                         <TableCell align="left">{row.id}</TableCell>
                         <TableCell align="left">{row.name}</TableCell>

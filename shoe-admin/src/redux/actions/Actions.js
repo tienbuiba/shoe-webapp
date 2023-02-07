@@ -11,6 +11,7 @@ export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 export const RENT_PRODUCT_ID = 'RENT_PRODUCT_ID';
 export const CATEGORY_ID = 'CATEGORY_ID';
 export const DELETE_POST = 'DELETE_POST';
+export const DELETE_CATEGORY='DELETE_CATEGORY';
 
 
 

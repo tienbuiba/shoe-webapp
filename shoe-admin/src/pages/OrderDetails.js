@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   Card,
   Table,
@@ -32,8 +32,6 @@ const TABLE_HEAD = [
 
 export default function OrderDetails() {
   const [page, setPage] = useState(0);
-  const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('name');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [data, setData] = useState([]);
   const dataOrder = useSelector(state => state.order.data);
@@ -47,12 +45,6 @@ export default function OrderDetails() {
       navigate('/login', { replace: true });
     }
   }, [])
-
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -71,7 +63,7 @@ export default function OrderDetails() {
         setDataExport(decoded)
       }
 
-    }).catch(error =>console.log(error));
+    }).catch(error => console.log(error));
   }, [])
 
   function exportFile() {
@@ -81,7 +73,7 @@ export default function OrderDetails() {
 
   return (
     <Page title="Chi tiết đơn hàng">
-         <Container maxWidth="xl">
+      <Container maxWidth="xl">
         <Grid container sx={{ mb: 3 }}>
           <Grid container item xs={6}>
             <Grid>
@@ -103,20 +95,16 @@ export default function OrderDetails() {
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
                 <UserListHead
-                  order={order}
-                  orderBy={orderBy}
                   headLabel={TABLE_HEAD}
                   rowCount={data.length}
-                  onRequestSort={handleRequestSort}
                 />
                 <TableBody>
-                  {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row) => {
+                  {data.map((row) => {
                       return (
                         <TableRow key={row.id} hover >
                           <TableCell align="left"></TableCell>
-                          <TableCell align="left">{row.mail.username}</TableCell>
-                          <TableCell align="left">{(row.mail.password)}</TableCell>
+                          {/* <TableCell align="left">{row.mail.username}</TableCell>
+                          <TableCell align="left">{(row.mail.password)}</TableCell> */}
                         </TableRow>
                       );
                     })}

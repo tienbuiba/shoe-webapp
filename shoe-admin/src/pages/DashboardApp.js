@@ -23,7 +23,7 @@ export default function DashboardApp() {
   const [transactions, setTransaction] = useState();
   const [orders, setOrders] = useState();
   const [revenue, setRevenue] = useState();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const handleChange = (event) => {
     setDays(event.target.value);
@@ -59,8 +59,7 @@ export default function DashboardApp() {
     <Page title="Dashboard">
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 2 }}>
-        Welcome back Admin!
-        </Typography>
+          Chào mừng trở lại Quản trị viên!        </Typography>
         <Grid container sx={{ mb: 4 }}>
           <Grid item xs={10}>
           </Grid>
@@ -73,10 +72,10 @@ export default function DashboardApp() {
                   value={days}
                   onChange={handleChange}
                 >
-                  <MenuItem value={1}>Yesterday</MenuItem>
-                  <MenuItem value={7}>This week</MenuItem>
-                  <MenuItem value={30}>This month</MenuItem>
-                  <MenuItem value={90}>This quarter</MenuItem>
+                  <MenuItem value={1}>Hôm qua</MenuItem>
+                  <MenuItem value={7}>Tuần này</MenuItem>
+                  <MenuItem value={30}>Tháng này</MenuItem>
+                  <MenuItem value={90}>Qúy này</MenuItem>
                 </Select>
               </FormControl>
             </Box>
@@ -84,64 +83,58 @@ export default function DashboardApp() {
         </Grid>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="New customers" total={users} icon={'ant-design:user-add-outlined'} />
+            <AppWidgetSummary title="Khách hàng mới" total={users} icon={'ant-design:user-add-outlined'} />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="New orders" total={orders} color="error" icon={'icon-park-outline:transaction-order'} />
+            <AppWidgetSummary title="Đơn hàng mới" total={orders} color="error" icon={'icon-park-outline:transaction-order'} />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="New transaction" total={transactions} color="info" icon={'ant-design:transaction-outlined'} />
+            <AppWidgetSummary title="Giao dịch mới" total={transactions} color="info" icon={'ant-design:transaction-outlined'} />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Total revenue" total={revenue} color="warning" icon={'dashicons:money-alt'} />
+            <AppWidgetSummary title="Tổng doanh thu" total={revenue} color="warning" icon={'dashicons:money-alt'} />
           </Grid>
-          {/* <Grid item xs={12} md={6} lg={8}>
+          <Grid item xs={12} md={6} lg={8}>
             <AppWebsiteVisits
-              title="Website Visits"
-              subheader="(+43%) than last year"
+              title="Biểu đồ doanh thu các ngày trong tháng"
+              subheader=""
               chartLabels={[
-                '01/01/2003',
-                '02/01/2003',
-                '03/01/2003',
-                '04/01/2003',
-                '05/01/2003',
-                '06/01/2003',
-                '07/01/2003',
-                '08/01/2003',
-                '09/01/2003',
-                '10/01/2003',
-                '11/01/2003',
+                '03/01/2023',
+                '03/02/2023',
+                '03/03/2023',
+                '03/04/2023',
+                '03/05/2023',
+                '03/06/2023',
+                '03/07/2023',
+                '03/08/2023',
+                '03/09/2023',
+                '03/10/2023',
+                '03/11/2023'
               ]}
               chartData={[
                 {
-                  name: 'Team A',
+                  name: 'Orders',
                   type: 'column',
                   fill: 'solid',
                   data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
                 },
                 {
-                  name: 'Team B',
+                  name: 'Orders',
                   type: 'area',
                   fill: 'gradient',
                   data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
-                },
-                {
-                  name: 'Team C',
-                  type: 'line',
-                  fill: 'solid',
-                  data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
                 },
               ]}
             />
           </Grid>
           <Grid item xs={12} md={6} lg={4}>
             <AppCurrentVisits
-              title="Current Visits"
+              title="Thống kê trạng thái đơn hàng"
               chartData={[
-                { label: 'America', value: 4344 },
-                { label: 'Asia', value: 5435 },
-                { label: 'Europe', value: 1443 },
-                { label: 'Africa', value: 4443 },
+                { label: 'Hoàn tất', value: 4344 },
+                { label: 'Tiếp nhận', value: 5435 },
+                { label: 'Đang vận chuyển', value: 1443 },
+                { label: 'Hủy bỏ', value: 4443 },
               ]}
               chartColors={[
                 theme.palette.primary.main,
@@ -150,7 +143,7 @@ export default function DashboardApp() {
                 theme.palette.chart.yellow[0],
               ]}
             />
-          </Grid> */}
+          </Grid>
         </Grid>
       </Container>
     </Page>

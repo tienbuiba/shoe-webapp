@@ -180,26 +180,24 @@ function EditPost() {
       })
   };
   return (
-    <Page title="Dashboard: Add Post">
+    <Page title="Chỉnh sửa bài viết">
       <Container maxWidth="xl">
-        <Typography variant="h3" sx={{ mb: 2 }}>
-          Edit Post
-        </Typography>
+        <Typography variant="h4" sx={{ mb: 4 }}>
+          CHỈNH SỬA BÀI VIẾT        </Typography>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
           <Button component={Link} to="/dashboard/posts" startIcon={<ArrowBackIosIcon />} variant="contained">
-            BACK
-          </Button>
+            Quay lại          </Button>
           <Button component={Link} to={`/dashboard/post-detail/${id}`} startIcon={<VisibilityIcon />} variant="outlined">
-            View Post
+            Xem bài viết
           </Button>
         </div>
         <Card sx={{ p: 5 }}>
           <Grid container spacing={3}>
             <Grid item xs={12} sx={{ pl: '24px' }}>
-              <label>Post Short Description:</label>
+              <label>Mô tả ngắn bài viết:</label>
               <TextField
                 id="productShortDsc"
-                placeholder="Enter post short description"
+                placeholder="Nhập mô tả ngắn bài viết"
                 value={postForm.shortDesc}
                 onChange={handleChangePostShortDesc}
                 required
@@ -224,7 +222,7 @@ function EditPost() {
                   component="span"
                   color="error"
                 >
-                  Upload Thumbnail
+                  Tải lên hình thu nhỏ
                 </Button>
               </label>
             </Grid>
@@ -252,16 +250,15 @@ function EditPost() {
                     fontSize: '12px',
                     cursor: 'pointer'
                   }}><CloseIcon style={{
-
                     color: '#000',
                     fontSize: '14px',
                     cursor: 'pointer'
-                  }}></CloseIcon>Remove</div>
+                  }}></CloseIcon>Xóa</div>
               ) : <div></div>
               }
             </Grid>
             <Grid item xs={12} sx={{ pl: '24px' }}>
-              <label>Post Long Description: </label>
+              <label>Mô tả dài sản bài viết: </label>
               <CKEditor
                 id="editor"
                 name="postLongDsc"
@@ -285,7 +282,7 @@ function EditPost() {
               component="span"
               onClick={handleSubmit}
             >
-              Update Post
+              CẬP NHẬT BÀI VIẾT
             </Button>
           </Grid>
         </Card>

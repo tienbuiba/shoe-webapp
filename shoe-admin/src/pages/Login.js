@@ -43,15 +43,6 @@ const HeaderStyle = styled('header')(({ theme }) => ({
   },
 }));
 
-const SectionStyle = styled(Card)(({ theme }) => ({
-  width: '100%',
-  maxWidth: 464,
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  margin: theme.spacing(2, 0, 2, 2),
-}));
-
 const ContentStyle = styled('div')(({ theme }) => ({
   maxWidth: 480,
   margin: 'auto',
@@ -65,10 +56,10 @@ const ContentStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 const validationSchema = Yup.object().shape({
   email: Yup.string()
-    .required("Please provide a valid email"),
+    .required("Vui lòng cung cấp một email hợp lệ"),
   password: Yup.string()
-    .required("This field is required")
-    .min(8, 'Password is too short, should be at least 8 characters'),
+    .required("Trường này là bắt buộc")
+    .min(8, 'Mật khẩu quá ngắn, phải có ít nhất 8 ký tự'),
 });
 export default function Login() {
   const smUp = useResponsive('up', 'sm');
@@ -106,7 +97,7 @@ export default function Login() {
             console.log(error);
             dispatch(closeLoadingApi());
           })
-          toast.success(res.message, options);
+          toast.success("Đăng nhập thành công!", options);
         } else {
           dispatch(closeLoadingApi());
         }
@@ -139,96 +130,96 @@ export default function Login() {
         <HeaderStyle>
           <Logo />
         </HeaderStyle>
-          <Container maxWidth="sm">
-            <ContentStyle>
-              {mdUp && (
-                <>
-                  <Typography variant="h3" gutterBottom >
-                    Login
-                  </Typography>
-                  <Typography sx={{ color: 'text.secondary', mb: 3, }}>For Administrators</Typography>
-                </>
-              )}
-              {!smUp && (
-                <>
-                  <Typography variant="h3" gutterBottom sx={{ textAlign: 'center' }}>
-                    Login
-                  </Typography>
-                  <Typography sx={{ color: 'text.secondary', mb: 3, textAlign: 'center' }}>For Administrators</Typography>
-                </>
-              )}
-              <form onSubmit={formik.handleSubmit} noValidate>
-                <Grid sx={{ mb: 2 }} >
-                  <FormControl fullWidth
-                    error={formik.touched.email && Boolean(formik.errors.email)}>
-                    <Typography>Email *</Typography>
-                    <OutlinedInput
-                      id="email"
-                      fullWidth
-                      required
-                      size={matchDownSM ? 'small' : 'large'}
-                      value={formik.values.email}
-                      onChange={formik.handleChange}
-                      sx={{
-                        '& .MuiInputBase-input': {
-                          bgcolor: theme.palette.background.default
-                        },
-                        bgcolor: theme.palette.background.default,
-                      }}
-                    />
-                    {formik.touched.email && formik.errors.email && (
-                      <FormHelperText error id="standard-weight-helper">
-                        {formik.errors.email}
-                      </FormHelperText>
-                    )}
-                  </FormControl>
-                </Grid>
-                <Grid sx={{ mb: 2 }} >
-                  <FormControl fullWidth
-                    error={formik.touched.password && Boolean(formik.errors.password)}>
-                    <Typography>Password *</Typography>
-                    <OutlinedInput
-                      id="password"
-                      type={showPassword ? 'text' : 'password'}
-                      fullWidth
-                      required
-                      size={matchDownSM ? 'small' : 'large'}
-                      value={formik.values.password}
-                      onChange={formik.handleChange}
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={e => { setShowPassword(!showPassword) }}
-                            onMouseDown={(e) => e.preventDefault()}
-                            edge="end"
-                            size="small"
-                          >
-                            {showPassword ? <Visibility /> : <VisibilityOff />}
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                      inputProps={{}}
-                      sx={{
-                        '& .MuiInputBase-input': {
-                          bgcolor: theme.palette.background.default
-                        },
-                        bgcolor: theme.palette.background.default,
-                      }}
-                    />
-                    {formik.touched.password && formik.errors.password && (
-                      <FormHelperText error id="standard-weight-helper-text-email-login">
-                        {formik.errors.password}
-                      </FormHelperText>
-                    )}
-                  </FormControl>
-                </Grid>
-                <LoadingButton fullWidth size="large" type="submit" variant="contained">
-                  Login
-                </LoadingButton>
-              </form>
-            </ContentStyle>
-          </Container>
+        <Container maxWidth="sm">
+          <ContentStyle>
+            {mdUp && (
+              <>
+                <Typography variant="h3" gutterBottom >
+                  Đăng nhập
+                </Typography>
+                <Typography sx={{ color: 'text.secondary', mb: 3, }}>Dành cho Quản Trị Viên</Typography>
+              </>
+            )}
+            {!smUp && (
+              <>
+                <Typography variant="h3" gutterBottom sx={{ textAlign: 'center' }}>
+                  Đăng nhập
+                </Typography>
+                <Typography sx={{ color: 'text.secondary', mb: 3, textAlign: 'center' }}>Dành cho Quản Trị Viên</Typography>
+              </>
+            )}
+            <form onSubmit={formik.handleSubmit} noValidate>
+              <Grid sx={{ mb: 2 }} >
+                <FormControl fullWidth
+                  error={formik.touched.email && Boolean(formik.errors.email)}>
+                  <Typography>Email *</Typography>
+                  <OutlinedInput
+                    id="email"
+                    fullWidth
+                    required
+                    size={matchDownSM ? 'small' : 'large'}
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                    sx={{
+                      '& .MuiInputBase-input': {
+                        bgcolor: theme.palette.background.default
+                      },
+                      bgcolor: theme.palette.background.default,
+                    }}
+                  />
+                  {formik.touched.email && formik.errors.email && (
+                    <FormHelperText error id="standard-weight-helper">
+                      {formik.errors.email}
+                    </FormHelperText>
+                  )}
+                </FormControl>
+              </Grid>
+              <Grid sx={{ mb: 2 }} >
+                <FormControl fullWidth
+                  error={formik.touched.password && Boolean(formik.errors.password)}>
+                  <Typography>Mật khẩu *</Typography>
+                  <OutlinedInput
+                    id="password"
+                    type={showPassword ? 'text' : 'password'}
+                    fullWidth
+                    required
+                    size={matchDownSM ? 'small' : 'large'}
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={e => { setShowPassword(!showPassword) }}
+                          onMouseDown={(e) => e.preventDefault()}
+                          edge="end"
+                          size="small"
+                        >
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    inputProps={{}}
+                    sx={{
+                      '& .MuiInputBase-input': {
+                        bgcolor: theme.palette.background.default
+                      },
+                      bgcolor: theme.palette.background.default,
+                    }}
+                  />
+                  {formik.touched.password && formik.errors.password && (
+                    <FormHelperText error id="standard-weight-helper-text-email-login">
+                      {formik.errors.password}
+                    </FormHelperText>
+                  )}
+                </FormControl>
+              </Grid>
+              <LoadingButton fullWidth size="large" type="submit" variant="contained">
+                Đăng nhập
+              </LoadingButton>
+            </form>
+          </ContentStyle>
+        </Container>
       </RootStyle>
       <ToastContainer />
     </Page>

@@ -44,14 +44,14 @@ function CreateCategory() {
       })
   };
   return (
-    <Page title="Dashboard: Add product">
+    <Page title="Thêm loại sản phẩm">
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
-          Create Category
+         THÊM LOẠI SẢN PHẨM
         </Typography>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
           <Button component={Link} to="/dashboard/Categories" startIcon={<ArrowBackIosIcon />} variant="contained">
-            BACK
+           Quay lại
           </Button>
         </div>
         <Grid container spacing={3}>
@@ -76,7 +76,7 @@ function CreateCategory() {
               component="span"
               onClick={handleSubmit}
             >
-              ADD Category
+            Thêm Loại Sản Phẩm
             </Button>
           </Grid>
         </Grid>

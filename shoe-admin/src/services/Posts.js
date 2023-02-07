@@ -2,8 +2,6 @@ import TokenService from "./TokenService";
 import api from "./Api";
 import { userService } from "../constant/Constants";
 
-
-
 export const apiAdminGetPostList = async (rowsPerPage, page, keyword) => {
   let url = userService + '/posts/list'
   let res;
@@ -13,15 +11,14 @@ export const apiAdminGetPostList = async (rowsPerPage, page, keyword) => {
     keyword: keyword
   }
   const accessToken = TokenService.getLocalAccessToken();
-  res = await api.get(url, {
+  res = await api.post(url, data,{
     headers: {
       "Authorization": accessToken,
       "Content-Type": "application/json"
     }
-  }, data)
+  })
   return res;
 }
-
 
 
 export const apiAdminGetPostById = async (id) => {

@@ -2,7 +2,7 @@ import TokenService from "./TokenService";
 import api from "./Api"
 import { userService } from "../constant/Constants";
 
-export const apiAminGetAllOrder = async (rowsPerPage, page,keyword) => {
+export const apiAdminGetAllOrder = async (rowsPerPage, page,keyword) => {
   const url = userService + `/orders/list`;
   const data = {
     limit: rowsPerPage,

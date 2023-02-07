@@ -29,15 +29,15 @@ export default function MainPost(props) {
         <Container sx={{ py: 8 }} maxWidth="xl">
           <Grid container spacing={2}>
             {data?.map((card) => (
-              <Grid item key={card} xs={12} sm={6} md={3}>
+              <Grid item key={card} xs={12} sm={6} md={4}>
                 <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                   <CardMedia
                     component="img"
-                    sx={{ height: '50%' }}
+                    sx={{ height: '90%' }}
                     image={card.images === null ? `https:source.unsplash.com/random` : card.images}
                     alt="random"
                   />
-                  <CardContent sx={{ flexGrow: 1 }}>
+                  <CardContent sx={{ flexGrow: 1}}>
                     <Typography gutterBottom variant="h5" component="h2"
                       style={{
                         whiteSpace: 'nowrap',
@@ -81,29 +81,31 @@ export default function MainPost(props) {
                   <CardActions sx={{ display: 'flex', gap: '20px' }}>
                     <Button
                       size="small"
-                      variant='outlined'
+                      variant='contained'
                       color="info"
                       component={Link}
                       to={`/dashboard/post-detail/${card.id}`
                       }
                       startIcon={<VisibilityIcon></VisibilityIcon>}
                     >
-                      View
+                      Xem
                     </Button>
                     <Button
                       size="small"
-                      variant='outlined'
+                      variant='contained'
                       color="success"
                       component={Link} to={`/dashboard/edit-post/${card.id}`}
                       startIcon={<EditIcon></EditIcon>}
                     >
-                      Edit
+                     Sửa
                     </Button>
-                    <Button size="small" variant='outlined' color="error"
+                    <Button size="small"
+                      variant='contained'
+                      color="error"
                       onClick={(e) => dispatch(showConfirmModal('Are you sure?', 'Do you want to delete this post?', card.id, "DELETE_POST"))}
                       startIcon={<DeleteOutlineIcon></DeleteOutlineIcon>}
                     >
-                      Delete
+                      Xóa
                     </Button>
                   </CardActions>
                 </Card>

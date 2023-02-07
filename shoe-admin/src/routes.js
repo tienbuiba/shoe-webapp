@@ -12,7 +12,6 @@ import Transactions from './pages/Transactions';
 import Orders from './pages/Orders';
 import CreateProduct from './pages/CreateProduct';
 import OrderDetails from './pages/OrderDetails';
-import UpdateRentService from './pages/UpdateRentService';
 import Categories from './pages/Categories';
 import Posts from './pages/Posts';
 import CreatePost from './pages/CreatePost';
@@ -20,6 +19,8 @@ import EditCategory from './pages/EditCategory';
 import CreateCategory from './pages/CreateCategory';
 import PostDetail from './pages/PostDetail';
 import EditPost from './pages/EditPost';
+import ProductListDetail from './pages/ProductListDetail';
+import ProductSingleDetail from './pages/ProductSingleDetail';
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -35,15 +36,16 @@ export default function Router() {
         { path: 'edit-category', element: <EditCategory /> },
         { path: 'products', element: <Products /> },
         { path: 'posts', element: <Posts /> },
-        { path: 'edit-product', element: <EditProduct /> },
         { path: 'transactions', element: <Transactions /> },
         { path: 'orders', element: <Orders /> },
         { path: 'create-product', element: <CreateProduct /> },
+        { path: 'product/:id', element: <ProductListDetail /> },
+        { path: 'product-detail/:id', element: <ProductSingleDetail /> },
         { path: 'order-details', element: <OrderDetails /> },
         { path: 'create-post', element: <CreatePost /> },
         { path: 'edit-post/:id', element: <EditPost /> },
-        { path: 'update-rent-product', element: <UpdateRentService /> },
         { path: 'post-detail/:id', element: <PostDetail /> },
+        { path: 'edit-product/:id', element: <EditProduct /> },
       ],
     },
     {

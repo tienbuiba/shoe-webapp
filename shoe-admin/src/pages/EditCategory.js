@@ -18,13 +18,12 @@ import { closeLoadingApi, openLoadingApi } from 'src/redux/create-actions/Loadin
 import { apiAdminUpdateCategory } from 'src/services/Categories';
 import SaveIcon from '@mui/icons-material/Save';
 
-
 export default function EditCategory() {
   const [type, setType] = useState('');
   const data = useSelector(state => state.category.data);
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
+
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
     if (!token) {
@@ -33,11 +32,11 @@ export default function EditCategory() {
   }, [])
 
   useEffect(() => {
-    setType(data.name)
+    setType(data.name);
   }, [])
 
   const handleChangeType = (e) => {
-    setType(e.target.value)
+    setType(e.target.value);
   }
 
   const options = {
@@ -69,7 +68,6 @@ export default function EditCategory() {
         })
     } else {
       toast.error("lack field", options);
-
     }
   }
 
@@ -77,48 +75,46 @@ export default function EditCategory() {
     <Page title="Dashboard: Product">
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 10 }}>
-          Chỉnh sửa Category
+          CHỈNH SỬA DANH MỤC SẢN PHẨM
         </Typography>
         <Grid container>
           <Grid item xs={6}>
           </Grid>
           <Grid item xs={6} sx={{ textAlign: 'right' }}>
             <Button variant="contained" component={RouterLink} to="/dashboard/Categories" startIcon={<Iconify icon="eva:arrow-back-outline" />}>
-              Back
+              Quay lại
             </Button>
           </Grid>
         </Grid>
-        <Page title="Edit-product">
-          <Container maxWidth="lg" sx={{ mt: 3 }}>
-            <Card sx={{ p: 5 }}>
-              <Grid container spacing={3}>
-                <Grid container item spacing={3}>
-                  <Grid item xs={6}>
-                    <Typography variant="h4">
-                      Category Name
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <TextField
-                      label="Tên"
-                      value={type}
-                      onChange={handleChangeType}
-                    ></TextField>
-                  </Grid>
+        <Container maxWidth="lg" sx={{ mt: 3 }}>
+          <Card sx={{ p: 5 }}>
+            <Grid container spacing={3}>
+              <Grid container item spacing={3}>
+                <Grid item xs={6}>
+                  <Typography variant="h4">
+                    Tên danh mục sản phẩm
+                  </Typography>
                 </Grid>
-                <Grid container item >
-                  <Grid item xs={6}>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Button variant="contained" onClick={handleClick} startIcon={<SaveIcon />}>
-                      Update
-                    </Button>
-                  </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    label="Tên"
+                    value={type}
+                    onChange={handleChangeType}
+                  ></TextField>
                 </Grid>
               </Grid>
-            </Card>
-          </Container>
-        </Page>
+              <Grid container item >
+                <Grid item xs={6}>
+                </Grid>
+                <Grid item xs={6}>
+                  <Button variant="contained" onClick={handleClick} startIcon={<SaveIcon />}>
+                    Cập Nhật
+                  </Button>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Card>
+        </Container>
       </Container>
       <ToastContainer />
     </Page>

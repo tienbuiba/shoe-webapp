@@ -17,13 +17,17 @@ import {
 import { useState, useEffect } from 'react';
 import Page from '../components/Page';
 import { styled } from '@mui/material/styles';
-import { PhotoCamera, Save } from '@mui/icons-material';
+import { PhotoCamera } from '@mui/icons-material';
 import { initProduct } from 'src/utils/InitProductForm';
 import { uploadImage } from 'src/services/UploadImage';
 import { apiAdminCreateProduct } from 'src/services/Products';
 import { apiAdminGetAllCategories } from 'src/services/Categories';
 import AddIcon from '@mui/icons-material/Add';
 import TokenService from 'src/services/TokenService';
+import { closeLoadingApi, openLoadingApi } from 'src/redux/create-actions/LoadingAction';
+import { useDispatch } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const Input = styled('input')({
   display: 'none',
@@ -38,18 +42,24 @@ function CreateProduct() {
   const UPLOAD_ENDPOINT = 'api/v1/upload-files/push';
   const [rowsPerPage, setRowsPerPage] = useState(100);
   const [page, setPage] = useState(0);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const options = {
+    autoClose: 2000,
+    position: toast.POSITION.TOP_RIGHT,
+  };
 
   useEffect(() => {
     apiAdminGetAllCategories(rowsPerPage, page, '')
       .then((res) => {
-        console.log(res.data)
-        setListCategory(res.data.data.items)
-      }
-      )
+        setListCategory(res.data.data.items);
+      })
       .catch((err) => {
         console.log(err);
       });
   }, []);
+
   function uploadAdapter(loader) {
     const accessToken = TokenService.getLocalAccessToken();
     return {
@@ -175,30 +185,60 @@ function CreateProduct() {
   };
 
   const handleSubmit = () => {
+    dispatch(openLoadingApi());
     apiAdminCreateProduct(productForm)
       .then(res => {
-        console.log(res?.data.message);
+        dispatch(closeLoadingApi());
+        toast.success("Thêm sản phẩm thành công!", options);
+        setImages([]);
+        navigate('/dashboard/create-product');
         setProductForm({
           ...productForm,
+          productName: '',
+          productSize: [],
+          priceOrigin: '',
+          priceSell: '',
+          productColors: [],
+          productImages: [],
+          productShortDesc: '',
+          productLongDesc: '',
+          productCategoryId: '',
+          productSold: '',
+          available: 1,
+          reviewCount: 0,
+          ratingAvg: 0,
+          brand: ''
         });
       })
       .catch((err) => {
         console.log(err);
+        dispatch(closeLoadingApi());
+        if (err.response.data.statusCode === 401) {
+          dispatch(closeLoadingApi());
+          toast.error(err.response.data.message, options);
+        } else if (err.response.data.statusCode === 400) {
+          dispatch(closeLoadingApi());
+          toast.error(err.response.data.message[0], options);
+        } else {
+          dispatch(closeLoadingApi());
+          toast.error(err.response.data.message, options);
+        }
       })
   };
+
   return (
-    <Page title="Dashboard: Add product">
+    <Page title="Thêm sản phẩm mới">
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
-          Create Product Form
+          THÊM SẢN PHẨM MỚI
         </Typography>
         <Card sx={{ py: 4, px: 3 }}>
           <Grid container spacing={3}>
             <Grid item xs={6} sx={{ pl: '24px' }}>
               <TextField
                 id="productName"
-                label="Product Name"
-                placeholder="Enter product name"
+                label="Tên sản phẩm"
+                placeholder="Nhập tên sản phẩm"
                 value={productForm.name}
                 onChange={handleChangeProductName}
                 required
@@ -208,8 +248,8 @@ function CreateProduct() {
             <Grid item xs={6} sx={{ pl: '24px' }}>
               <TextField
                 id="productBrand"
-                label="Product brand"
-                placeholder="Enter product brand"
+                label="Thương hiệu sản phẩm"
+                placeholder="Nhập thương hiệu sản phẩm"
                 value={productForm.brand}
                 onChange={handleChangeProductBrand}
                 required
@@ -219,8 +259,8 @@ function CreateProduct() {
             <Grid item xs={6} sx={{ pl: '24px' }}>
               <TextField
                 id="productPrice"
-                label="Product Price Origin"
-                placeholder="Enter product price origin"
+                label="Giá gốc sản phẩm"
+                placeholder="Nhập giá gốc sản phẩm"
                 value={productForm.priceOrigin}
                 onChange={handleChangeProductPriceOrigin}
                 required
@@ -230,8 +270,8 @@ function CreateProduct() {
             <Grid item xs={6} sx={{ pl: '24px' }}>
               <TextField
                 id="productPrice"
-                label="Product Price Sell"
-                placeholder="Enter product price sell"
+                label="Giá bán sản phẩm"
+                placeholder="Nhập giá bán của sản phẩm"
                 value={productForm.priceSell}
                 onChange={handleChangeProductPriceSell}
                 required
@@ -241,8 +281,8 @@ function CreateProduct() {
             <Grid item xs={6} sx={{ pl: '24px' }}>
               <TextField
                 id="productSize"
-                label="Product Size"
-                placeholder="Enter product size"
+                label="Kích thước"
+                placeholder="Nhập kích thước sản phẩm"
                 value={productForm.size}
                 onChange={handleChangeProductSize}
                 required
@@ -252,8 +292,8 @@ function CreateProduct() {
             <Grid item xs={6} sx={{ pl: '24px' }}>
               <TextField
                 id="productColors"
-                label="Product Colors"
-                placeholder="Enter product color"
+                label="Màu sản phẩm"
+                placeholder="Nhập màu sản phẩm"
                 value={productForm.productColor}
                 onChange={handleChangeProductColors}
                 required
@@ -263,8 +303,8 @@ function CreateProduct() {
             <Grid item xs={6} sx={{ pl: '24px' }}>
               <TextField
                 id="productShortDsc"
-                label="Product Short Description"
-                placeholder="Enter product short description"
+                label="Mô tả ngắn về sản phẩm"
+                placeholder="Nhập mô tả ngắn về sản phẩm"
                 value={productForm.shortDesc}
                 onChange={handleChangeProductShortDesc}
                 required
@@ -275,11 +315,11 @@ function CreateProduct() {
             </Grid>
             <Grid item xs={6} sx={{ pl: '24px' }}>
               <FormControl fullWidth>
-                <InputLabel id="product-category">Product Category</InputLabel>
+                <InputLabel id="product-category">Danh mục sản phẩm</InputLabel>
                 <Select
                   labelId="product-category"
                   value={productForm.categoryId}
-                  label="Product Category"
+                  label="Chọn danh mục sản phẩm"
                   onChange={handleChangeProductCategoryId}
                 >
                   {listCategory.map((item, id) => {
@@ -295,8 +335,8 @@ function CreateProduct() {
             <Grid item xs={6} sx={{ pl: '24px' }}>
               <TextField
                 id="productSold"
-                label="Product Sold"
-                placeholder="Enter number of product sold"
+                label="Số sản phẩm đã bán"
+                placeholder="Nhập số lượng sản phẩm đã bán"
                 value={productForm.sold}
                 onChange={handleChangeProductSold}
                 required
@@ -319,7 +359,7 @@ function CreateProduct() {
                   component="span"
                   color="error"
                 >
-                  Upload Image
+                  Tải lên hình ảnh
                 </Button>
               </label>
             </Grid>
@@ -337,7 +377,7 @@ function CreateProduct() {
               </ImageList>
             </Grid>
             <Grid item xs={12} sx={{ pl: '24px' }}>
-              <label>Product Long Description: </label>
+              <label>Mô tả dài sản phẩm: </label>
               <CKEditor
                 id="editor"
                 name="productLongDsc"
@@ -361,11 +401,12 @@ function CreateProduct() {
               component="span"
               onClick={handleSubmit}
             >
-              ADD Product
+              Thêm sản phẩm
             </Button>
           </Grid>
         </Card>
       </Container>
+      <ToastContainer></ToastContainer>
     </Page>
   );
 }

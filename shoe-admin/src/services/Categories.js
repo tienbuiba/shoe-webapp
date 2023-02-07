@@ -72,3 +72,18 @@ export const apiAdminCreateCategory = async (name) => {
 };
 
 
+export const apiAdminGetCategoryById = async (id) => {
+  const url = userService + `/categories/detail/${id}`;
+
+  let res;
+  const accessToken = TokenService.getLocalAccessToken();
+  res = await api.get(url, {
+    headers: {
+      "Authorization": accessToken,
+      "Content-Type": "application/json"
+    }
+  }
+  );
+  return res;
+}
+

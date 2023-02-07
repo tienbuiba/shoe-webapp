@@ -43,7 +43,7 @@ const ChangePassword = () => {
       <Container maxWidth="md">
         <Grid item xs={12}>
           <Stack direction="row" justifyContent="space-between" alignItems="baseline" sx={{ mb: { xs: -0.5, sm: 0.5 } }}>
-            <Typography variant="h3" sx={{ mb: 4, marginLeft: 2, marginTop: 2 }}>Change password</Typography>
+            <Typography variant="h3" sx={{ mb: 4, marginLeft: 2, marginTop: 2 }}>Thay Đổi Mật Khẩu</Typography>
           </Stack>
         </Grid>
         <Card sx={{ px: 3, py: 4 }}>
@@ -84,8 +84,6 @@ const ChangePassword = () => {
                   } else if (err.response.data.statusCode === 400) {
                     dispatch(closeLoadingApi());
                     toast.error(err.response.data.message[0], options);
-
-                    console.log(err.response.data.message[0])
                   } else {
                     dispatch(closeLoadingApi());
                     toast.error(err.response.data.message, options);
@@ -98,7 +96,7 @@ const ChangePassword = () => {
                 <Grid container spacing={3.5} sx={{ paddingLeft: 2 }}>
                   <Grid item xs={12}>
                     <Stack spacing={0.7}>
-                      <InputLabel htmlFor="password">Old password*</InputLabel>
+                      <InputLabel htmlFor="password">Mật khẩu cũ *</InputLabel>
                       <Grid item xs={12}>
                         <OutlinedInput
                           fullWidth
@@ -126,7 +124,7 @@ const ChangePassword = () => {
                   </Grid>
                   <Grid item xs={12}>
                     <Stack spacing={0.7}>
-                      <InputLabel htmlFor="new-password">New password*</InputLabel>
+                      <InputLabel htmlFor="new-password">Mật khẩu mới *</InputLabel>
                       <Grid item xs={12}>
                         <OutlinedInput
                           fullWidth
@@ -154,7 +152,7 @@ const ChangePassword = () => {
                   </Grid>
                   <Grid item xs={12}>
                     <Stack spacing={0.7}>
-                      <InputLabel htmlFor="reTypeNewPassword">Retype a new password</InputLabel>
+                      <InputLabel htmlFor="reTypeNewPassword">Nhập lại mật khẩu mới *</InputLabel>
                       <Grid item xs={12}>
                         <OutlinedInput
                           fullWidth
@@ -188,7 +186,7 @@ const ChangePassword = () => {
                   <Grid container item xs={12} sx={{ textAlign: 'center', mb: 3 }} >
                     <Grid item xs={6} sm={6} >
                     </Grid>
-                    <Grid item xs={6} sm={6} >
+                    <Grid item xs={6} sm={6} sx={{ textAlign: 'center' }}>
                       <Button
                         disableElevation
                         type="submit"
@@ -196,7 +194,7 @@ const ChangePassword = () => {
                         variant="contained"
                         startIcon={<SaveIcon></SaveIcon>}
                       >
-                        SAVE
+                        LƯU
                       </Button>
                     </Grid>
                   </Grid>

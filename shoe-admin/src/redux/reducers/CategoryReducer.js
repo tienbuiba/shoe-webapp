@@ -18,7 +18,7 @@ const categoryReducer = (state = initialState, action) => {
           name: action.name
         }
       }
-    case actionTypes.DELETE_PRODUCT:
+    case actionTypes.DELETE_CATEGORY:
       return {
         ...state,
         data: {
