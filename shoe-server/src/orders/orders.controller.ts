@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Get,
   HttpStatus,
   Param,
   Post,
@@ -14,10 +15,11 @@ import {
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
-import { OrderStatusEnum, Role, RoleEnum, User } from '@prisma/client';
+import { OrderStatusEnum, Product, Role, RoleEnum, User } from '@prisma/client';
 import { GetUser } from 'src/auth/decorators/get-user.decorator';
 import { Roles } from 'src/auth/decorators/role.decorator';
 import { JwtGuard } from 'src/auth/guards/jwt.guard';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { CartsService } from 'src/carts/carts.service';
 import { GetListQueryDto } from 'src/common/dto/get-list.dto';
 import { IResponse } from 'src/common/dto/response.dto';
@@ -71,7 +73,15 @@ export class OrdersController {
         const product = await this.productService.findOne({
           id: cart.productId,
         });
-        return product;
+        const orderInfo = {
+          quantity: cart.quantity,
+          color: cart.color,
+          size: cart.size,
+        };
+        return {
+          ...product,
+          orderInfo: orderInfo,
+        };
       }),
     );
 
@@ -83,10 +93,10 @@ export class OrdersController {
       data: {
         userId: user.id,
         address: getAddressOrderFromAddressDelivery(existAddress),
-        code: generateOrderCode(),
-        items: JSON.stringify(listItems),
+        code: generateOrderCode(user.id),
+        items: JSON.parse(JSON.stringify(listItems)),
         totalPrice: totalPrice,
-        status: OrderStatusEnum.WAITING,
+        status: OrderStatusEnum.NOT_PAY,
       },
     });
 
@@ -209,6 +219,71 @@ export class OrdersController {
       statusCode: HttpStatus.OK,
       message: 'Update order status successfully!',
       data: updateOrder,
+    };
+  }
+
+  @Post('/submit-success-order')
+  @Roles(RoleEnum.USER)
+  @UseGuards(JwtGuard, RolesGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Submit success order' })
+  async submitSuccesOrder(
+    @Query('order_id') orderId: number,
+  ): Promise<IResponse> {
+    let order = await this.ordersService.findOne({
+      id: orderId,
+      status: {
+        in: [OrderStatusEnum.PAIED, OrderStatusEnum.DELIVERING],
+      },
+    });
+    if (!order) {
+      throw new BadRequestException(`Not found order in to submit success`);
+    }
+    // update order status
+    order = await this.ordersService.update(orderId, {
+      status: OrderStatusEnum.SUCCESS,
+    });
+    // update sold of product
+    const listItems: (Product & {
+      orderInfo: { quantity: number; size: string; color: string };
+    })[] = JSON.parse(JSON.stringify(order.items));
+    listItems.map(async (value) => {
+      const currentProduct = await this.productService.findOne({
+        id: value.id,
+      });
+      if (currentProduct) {
+        await this.productService.update(value.id, {
+          sold: currentProduct.sold + value.orderInfo.quantity,
+        });
+      }
+    });
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Submit successfully!',
+    };
+  }
+
+  @Get('/check-order-paied')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Check order is paied' })
+  @Roles(RoleEnum.USER)
+  @UseGuards(JwtGuard, RolesGuard)
+  @ApiQuery({ name: 'orderCode', required: true })
+  async checkOrderPaied(
+    @Query('order_code') orderCode: string,
+    @GetUser() user: User,
+  ): Promise<IResponse> {
+    const existOrder = await this.ordersService.findOne({
+      userId: user.id,
+      code: orderCode,
+      status: OrderStatusEnum.PAIED,
+    });
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Check successfully!',
+      data: {
+        isSuccess: existOrder ? true : false,
+      },
     };
   }
 }

@@ -13,77 +13,77 @@ export class UpdateProductDto {
   @ApiPropertyOptional()
   @IsString()
   @IsOptional()
-  name: string;
+  name?: string;
 
   @ApiPropertyOptional()
   @IsNumber()
   @IsOptional()
-  categoryId: number;
+  categoryId?: number;
 
   @ApiPropertyOptional()
   @IsNumber()
   @IsOptional()
-  priceOrigin: number;
+  priceOrigin?: number;
 
   @ApiPropertyOptional()
   @IsNumber()
   @Min(0)
   @IsOptional()
-  priceSell: number;
+  priceSell?: number;
 
   @ApiPropertyOptional()
   @IsString()
   @IsOptional()
-  shortDesc: string;
+  shortDesc?: string;
 
   @ApiPropertyOptional()
   @IsString()
   @IsOptional()
-  longDesc: string;
+  longDesc?: string;
 
   @ApiPropertyOptional()
   @IsJSON()
   @IsOptional()
-  color: Array<string>;
+  color?: Array<string>;
 
   @ApiPropertyOptional()
   @IsJSON()
   @IsOptional()
-  size: Array<string>;
+  size?: Array<string>;
 
   @ApiPropertyOptional()
   @IsJSON()
   @IsOptional()
-  images: Array<string>;
+  images?: Array<string>;
 
   @ApiPropertyOptional()
   @IsNumber()
   @IsOptional()
-  sold: number;
+  sold?: number;
 
   @ApiPropertyOptional()
   @IsNumber()
   @IsOptional()
   @IsOptional()
-  available: number;
+  available?: number;
 
   @ApiPropertyOptional()
   @IsEnum(ProductStatusEnum)
   @IsOptional()
-  status: ProductStatusEnum;
+  status?: ProductStatusEnum;
 
   @ApiPropertyOptional()
   @IsNumber()
   @IsOptional()
-  reviewCount: number;
+  reviewCount?: number;
 
   @ApiPropertyOptional()
   @IsNumber()
   @IsOptional()
-  ratingAvg: number;
+  ratingAvg?: number;
 
   @ApiPropertyOptional()
   @IsString()
   @IsOptional()
-  brand: string;
+  brand?: string;
 }

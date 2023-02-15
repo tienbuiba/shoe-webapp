@@ -21,6 +21,8 @@ import { SendMailModule } from './send-mail/send-mail.module';
 import { CommentPostsModule } from './comment-posts/comment-posts.module';
 import { CommentProductsModule } from './comment-products/comment-products.module';
 import { OrdersModule } from './orders/orders.module';
+import { StatisticModule } from './statistic/statistic.module';
+import { CronJobModule } from './cron-job/cron-job.module';
 
 @Module({
   imports: [
@@ -47,6 +49,8 @@ import { OrdersModule } from './orders/orders.module';
     CommentPostsModule,
     CommentProductsModule,
     OrdersModule,
+    StatisticModule,
+    CronJobModule,
   ],
   providers: [
     {

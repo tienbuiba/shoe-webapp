@@ -28,20 +28,16 @@ enum ProductStatusEnum {
 }
 
 enum OrderStatusEnum {
-  WAITING
-  ACCEPTED
+  NOT_PAY
+  PAIED
   DELIVERING
   SUCCESS
   CANCEL
 }
 
 enum TransactionType {
-  ADD_MOMO
-  ADD_BANK
-  ADD_PAYPAL
-  MINUS_MOMO
-  MINUS_BANK
-  MINUS_PAYPAL
+  MOMO
+  BANK
 }
 
 model Role {
@@ -277,4 +273,6 @@ model CommentPost {
   //relation fields
   user User @relation(fields: [userId], references: [id])
   post Post @relation(fields: [postId], references: [id])
+
+  @@map("comment_post")
 }

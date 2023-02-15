@@ -6,4 +6,14 @@ export class UpdateUserDto {
   @IsOptional()
   @ApiPropertyOptional()
   phone?: string;
+
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  username?: string;
+
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  avartarUrl?: string;
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma, RoleEnum, UserStatusEnum } from '@prisma/client';
+import { getPreviousDayWithArgFromToday } from 'src/common/helper';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 
@@ -125,6 +126,17 @@ export class UsersService {
       where: {
         role: {
           name: role,
+        },
+      },
+    });
+  }
+
+  async countNewUser(day: number) {
+    const timeline = getPreviousDayWithArgFromToday(day);
+    return await this.prisma.user.count({
+      where: {
+        createdAt: {
+          gte: timeline,
         },
       },
     });

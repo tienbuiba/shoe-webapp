@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
+import { getPreviousDayWithArgFromToday } from 'src/common/helper';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
@@ -14,6 +15,15 @@ export class CommentPostsService {
   async findAll(commenPostWhereInput?: Prisma.CommentPostWhereInput) {
     return await this.prismaService.commentPost.findMany({
       where: commenPostWhereInput,
+      include: {
+        user: {
+          select: {
+            username: true,
+            avatarUrl: true,
+            phone: true,
+          },
+        },
+      },
     });
   }
   async create(commentPostCreateArgs: Prisma.CommentPostCreateArgs) {
@@ -38,5 +48,27 @@ export class CommentPostsService {
         id: id,
       },
     });
+  }
+
+  async findTop10MostCommendPostInWeek() {
+    const timeline = getPreviousDayWithArgFromToday(7);
+    const counts = await this.prismaService.commentPost.groupBy({
+      by: ['postId'],
+      _count: {
+        id: true,
+      },
+      where: {
+        createdAt: {
+          gte: timeline,
+        },
+      },
+      orderBy: {
+        _count: {
+          id: 'desc',
+        },
+      },
+      take: 10,
+    });
+    return counts;
   }
 }

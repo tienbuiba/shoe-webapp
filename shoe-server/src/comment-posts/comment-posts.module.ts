@@ -8,5 +8,6 @@ import { PostsModule } from 'src/posts/posts.module';
   controllers: [CommentPostsController],
   providers: [CommentPostsService],
   imports: [PrismaModule, PostsModule],
+  exports: [CommentPostsService],
 })
 export class CommentPostsModule {}

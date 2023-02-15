@@ -130,4 +130,18 @@ export class CommentPostsController {
       message: 'Delete comment successfully!',
     };
   }
+
+  @Get('/top10')
+  @ApiOperation({ summary: 'Top 10 most commented posts in this week' })
+  async getTop10Post(): Promise<IResponse> {
+    const counts =
+      await this.commentPostsService.findTop10MostCommendPostInWeek();
+    const postIds = counts.map(({ postId }) => postId);
+    const posts = await this.postService.findAllByIds(postIds);
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Get top 10 posts successfully!',
+      data: posts,
+    };
+  }
 }
