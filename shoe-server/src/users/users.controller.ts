@@ -16,6 +16,7 @@ import { JwtGuard } from 'src/auth/guards/jwt.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { GetListQueryDto } from 'src/common/dto/get-list.dto';
 import { IResponse } from 'src/common/dto/response.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -79,6 +80,24 @@ export class UsersController {
         items: listUser,
         total: numRecords,
       },
+    };
+  }
+
+  @Post('/update-profile')
+  @ApiOperation({ summary: 'Update information api' })
+  @ApiBearerAuth()
+  @Roles(RoleEnum.USER)
+  @UseGuards(JwtGuard, RolesGuard)
+  async updateProfile(
+    @Body() updateDto: UpdateUserDto,
+    @GetUser() user: User,
+  ): Promise<IResponse> {
+    const updateUser = await this.usersService.update(user.id, updateDto);
+    updateUser.password = '';
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Update profile successfully',
+      data: updateUser,
     };
   }
 }

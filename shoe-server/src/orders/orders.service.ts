@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
-import { existKeywordInQuery } from 'src/common/helper';
+import { Order, OrderStatusEnum, Prisma } from '@prisma/client';
+import {
+  existKeywordInQuery,
+  getPreviousDayWithArgFromToday,
+} from 'src/common/helper';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
@@ -120,5 +123,34 @@ export class OrdersService {
         id: id,
       },
     });
+  }
+
+  async countNewOrder(day: number) {
+    const timeline = getPreviousDayWithArgFromToday(day);
+
+    return await this.prismaService.order.count({
+      where: {
+        createdAt: {
+          gte: timeline,
+        },
+        status: OrderStatusEnum.SUCCESS,
+      },
+    });
+  }
+
+  async countTotalRevenue(day: number) {
+    const timeline = getPreviousDayWithArgFromToday(day);
+    const listOrder = await this.prismaService.order.findMany({
+      where: {
+        createdAt: {
+          gte: timeline,
+        },
+        status: OrderStatusEnum.SUCCESS,
+      },
+    });
+    const revenue = listOrder.reduce((total: number, order: Order): number => {
+      return total + order.totalPrice;
+    }, 0);
+    return revenue;
   }
 }

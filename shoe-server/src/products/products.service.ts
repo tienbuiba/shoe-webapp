@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { existKeywordInQuery } from 'src/common/helper';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateProductDto } from './dto/create-product.dto';
+import { UpdateProductDto } from './dto/update-product-dto';
 
 @Injectable()
 export class ProductsService {
@@ -18,7 +18,7 @@ export class ProductsService {
     return await this.prisma.product.create(productCreateArgs);
   }
 
-  async update(id: number, productDto: CreateProductDto) {
+  async update(id: number, productDto: UpdateProductDto) {
     return await this.prisma.product.update({
       where: {
         id: id,
@@ -160,5 +160,13 @@ export class ProductsService {
       }
     }
     return listProducts;
+  }
+  async findTop10ProductBestSeller() {
+    return await this.prisma.product.findMany({
+      orderBy: {
+        sold: 'desc',
+      },
+      take: 10,
+    });
   }
 }

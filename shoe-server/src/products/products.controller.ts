@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   HttpStatus,
   Param,
   Post,
@@ -157,6 +158,17 @@ export class ProductsController {
       statusCode: HttpStatus.OK,
       message: 'Delete product successfully!',
       data: product,
+    };
+  }
+
+  @Get('/top-10-best-seller')
+  @ApiOperation({ summary: 'Get top 10 best seller products' })
+  async top10BestSeller(): Promise<IResponse> {
+    const products = await this.productsService.findTop10ProductBestSeller();
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Get top 10 best seller product successfully!',
+      data: products,
     };
   }
 }

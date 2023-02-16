@@ -15,6 +15,15 @@ export class CommentProductsService {
   async findAll(commentProductWhereInput?: Prisma.CommentProductWhereInput) {
     return await this.prismaService.commentProduct.findMany({
       where: commentProductWhereInput,
+      include: {
+        user: {
+          select: {
+            username: true,
+            phone: true,
+            avatarUrl: true,
+          },
+        },
+      },
     });
   }
 

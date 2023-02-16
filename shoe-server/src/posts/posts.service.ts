@@ -90,4 +90,14 @@ export class PostsService {
     }
     return count;
   }
+
+  async findAllByIds(postIds: number[]) {
+    return await this.prisma.post.findMany({
+      where: {
+        id: {
+          in: postIds,
+        },
+      },
+    });
+  }
 }
