@@ -784,12 +784,7 @@ section {
 }
 
 .redOutlined_button_auth {
-  /* display: -webkit-inline-box;
-  display: -moz-inline-box;
-  display: -ms-inline-flexbox;
-  display: -webkit-inline-flex; */
-  /* display: inline-flex; */
-  /* flex-direction: column; */
+
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -833,6 +828,35 @@ section {
   background: #fe7c7f !important;
 }
 .red_button a {
+  display: block;
+  color: #ffffff;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  line-height: 40px;
+  width: 100%;
+}
+
+
+.yellow_button_auth {
+  display: block;
+  width: 150px;
+  background: #fe4c50;
+  border-radius: 3px;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.yellow_button_auth:hover {
+  background: #fe7c7f !important;
+}
+.yellow_button:hover {
+  background: #fe7c7f !important;
+}
+.yellow_button a {
   display: block;
   color: #ffffff;
   text-transform: uppercase;
@@ -1678,4 +1702,102 @@ section {
 .address-change-heading:hover {
   cursor: pointer;
   color: #fe4c50;
+}
+
+
+/*  comment*/
+
+.navbar-nav{
+  width: 100%;
+}
+
+@media(min-width:568px){
+  .end{
+      margin-left: auto;
+  }
+}
+
+@media(max-width:768px){
+  #post{
+      width: 100%;
+  }
+}
+#clicked{
+  padding-top: 1px;
+  padding-bottom: 1px;
+  text-align: center;
+  width: 100%;
+  background-color: #ecb21f;
+  border-color: #a88734 #9c7e31 #846a29;
+  color: black;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 13px; 
+}
+
+#profile{
+  background-color: unset;
+  
+} 
+
+#post{
+  margin: 10px;
+  padding: 6px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  text-align: center;
+  background-color: #ecb21f;
+  border-color: #a88734 #9c7e31 #846a29;
+  color: black;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 13px;
+  width: 50%;
+}
+
+
+.comments{
+  margin-top: 5%;
+  margin-left: 20px;
+}
+
+
+
+.comment{
+  border: 1px solid rgba(16, 46, 46, 1);
+  float: left;
+  border-radius: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;  
+}
+
+label{
+  color: rgb(212, 208, 208);
+}
+
+#align-form{
+  margin-top: 20px;
+}
+.form-group p a{
+  color: white;
+}
+
+#darker img{
+  margin-right: 15px;
+  position: static;
+}
+
+.css-w7tncj-MuiTablePagination-selectLabel {
+  /* display:none; */
+  margin-bottom: 0;
+
+}
+.css-jr9x4l-MuiTablePagination-displayedRows {
+  margin-bottom: 0;
+}
+
+.css-hrm44d-MuiButtonBase-root-MuiIconButton-root {
+  padding:  '10px';
+  background-color: '#000'
 }

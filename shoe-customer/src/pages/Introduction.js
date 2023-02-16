@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 
 const Introduction = () => {
   const { t } = useTranslation("translation");
+
   return (
     <Page title="Introduction">
       <Header />
@@ -27,9 +28,13 @@ const Introduction = () => {
                   >
                     {t("HOME PAGE")}
                   </Link>
-                  <p>
-                    {t("INTRODUCTION")}
-                  </p>
+                  <Link
+                    underline="hover"
+                    color="inherit"
+                    href="/introduction"
+                  >
+                    {t("Introduction")}
+                  </Link>
                 </Breadcrumbs>
               </div>
             </div>

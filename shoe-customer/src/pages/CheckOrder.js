@@ -29,7 +29,7 @@ const CheckOrder = () => {
           <div className="row">
             <div className="col-lg-6">
               <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
-              <h3>
+                <h3>
                   {t("Check order")}
                 </h3>
                 <Breadcrumbs aria-label="breadcrumb" >
@@ -40,7 +40,13 @@ const CheckOrder = () => {
                   >
                     HOME PAGE
                   </Link>
-                  <p>CHECK ORDER</p>
+                  <Link
+                    underline="hover"
+                    color="inherit"
+                    href="/"
+                  >
+                    Check Order
+                  </Link>
                 </Breadcrumbs>
               </div>
             </div>

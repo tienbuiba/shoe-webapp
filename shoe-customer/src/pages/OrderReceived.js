@@ -1,9 +1,8 @@
-import { Autocomplete, Breadcrumbs, Button, Divider, FormControl, Grid, Link, TextField, Typography } from "@mui/material";
+import { Autocomplete, Breadcrumbs, Divider, FormControl, Grid, Link, Typography } from "@mui/material";
 import Page from "src/components/Page";
 import Footer from "src/layouts/Footer";
 import Header from "src/layouts/Header";
 import styled from "styled-components";
-import SaveIcon from '@mui/icons-material/Save';
 import { ToastContainer, toast } from 'react-toastify';
 
 const OrderReceived = () => {
@@ -12,6 +11,7 @@ const OrderReceived = () => {
     autoClose: 2000,
     position: toast.POSITION.TOP_RIGHT,
   };
+  // "SOD21676451283"
 
   return (
     <Page title="Order received">
@@ -30,7 +30,13 @@ const OrderReceived = () => {
                   >
                     HOME PAGE
                   </Link>
-                  <p>Cart</p>
+                  <Link
+                    underline="hover"
+                    color="inherit"
+                    href="/cart"
+                  >
+                    Cart
+                  </Link>
                 </Breadcrumbs>
               </div>
             </div>
@@ -53,18 +59,12 @@ const OrderReceived = () => {
                       TỔNG</Typography>
                   </div>
                   <div>
-                    {/* {dataCart.map((curElem) => {
-                 return <PaymentItem key={curElem.id} {...curElem}
-                  total={total}
-                  />;
-                  })} */}
                   </div>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #e4e8e0', padding: '15px 0' }}>
                   <Typography style={{ color: '#000', fontSize: '14px', width: '250px' }}>
                     Tổng
                   </Typography>
-                  {/* <FormatPrice price={total} /> */}
                 </div>
                 <Divider sx={{ mb: 3 }}></Divider>
                 <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: '16px' }}>

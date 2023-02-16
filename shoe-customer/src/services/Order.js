@@ -55,3 +55,21 @@ export const apiUserExportOrder = async (orderID) => {
 
   return res;
 }
+
+
+export const apiUserCancelOrder = async (id, reason) => {
+  const url = userService + `/orders/cancel/${id}`;
+  const data = {
+    reason: reason
+  }
+  let res;
+  const accessToken = TokenService.getLocalAccessToken();
+  res = await api.post(url, data, {
+    headers: {
+      "Authorization": accessToken,
+      "Content-Type": "application/json"
+    }
+  }
+  );
+  return res;
+}

@@ -86,9 +86,13 @@ const Contact = () => {
                 >
                   {t("HOME PAGE")}
                 </Link>
-                <p>
-                  {t("CONTACT")}
-                </p>
+                <Link
+                  underline="hover"
+                  color="inherit"
+                  href="/"
+                >
+                  {t("Contact")}
+                </Link>
               </Breadcrumbs>
             </div>
           </div>

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Header from 'src/layouts/Header';
-import { Breadcrumbs, Button, Card, InputAdornment, OutlinedInput, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Toolbar, Typography } from "@mui/material";
+import { Breadcrumbs, Card, InputAdornment, OutlinedInput, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Toolbar, Typography } from "@mui/material";
 import Link from '@mui/material/Link';
 import Page from 'src/components/Page';
 import Footer from 'src/layouts/Footer';
-import { fDateLocal, fDateTimeSuffix } from '../utils/formatTime';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { fDateTimeSuffix } from '../utils/formatTime';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { closeLoadingApi, openLoadingApi } from '../redux/creates-action/LoadingAction';
@@ -17,6 +17,7 @@ import Iconify from 'src/components/Iconify';
 import { fNumber } from 'src/utils/formatNumber';
 import Label from 'src/components/Label';
 import OrderMoreMenu from 'src/components/order/OrderMoreMenu';
+import { apiUserGetTransactionList } from 'src/services/Transaction';
 
 const RootStyle = styled(Toolbar)(({ theme }) => ({
   height: 96,
@@ -40,14 +41,15 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
 
 const TABLE_HEAD = [
   { id: 'thời gian', label: 'THỜI GIAN', alignRight: false },
-  { id: 'đơn hàng số', label: 'MÃ ĐƠN HÀNG', alignRight: false },
+  { id: 'đơn hàng số', label: 'MÃ GIAO DỊCH', alignRight: false },
+  { id: 'loại mail', label: 'NỘI DUNG', alignRight: false },
   { id: 'số lượng', label: 'TỔNG TIỀN', alignRight: false },
-  { id: 'loại mail', label: 'ĐỊA CHỈ NHẬN HÀNG', alignRight: false },
   { id: 'số lượng', label: 'TRẠNG THÁI', alignRight: false },
   { id: 'a', label: '', alignRight: false },
 ];
 
-const AccountOrder = () => {
+const AccountTransaction = () => {
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [data, setData] = useState([]);
@@ -68,7 +70,7 @@ const AccountOrder = () => {
 
   useEffect(() => {
     dispatch(openLoadingApi());
-    apiUserGetAllOrder(rowsPerPage, page, keyword)
+    apiUserGetTransactionList(rowsPerPage, page, keyword)
       .then((result) => {
         const res = result.data;
         setData(res.data.items);
@@ -93,7 +95,7 @@ const AccountOrder = () => {
           <div className="row">
             <div className="col-lg-6">
               <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
-                <h3>Account Order</h3>
+                <h3>Account Transaction</h3>
                 <Breadcrumbs aria-label="breadcrumb" >
                   <Link
                     underline="hover"
@@ -107,7 +109,7 @@ const AccountOrder = () => {
                     color="inherit"
                     href="/account-order"
                   >
-                    Order
+                    Transaction
                   </Link>
                 </Breadcrumbs>
               </div>
@@ -123,7 +125,7 @@ const AccountOrder = () => {
             <RootStyle>
               <SearchStyle
                 onChange={handleSearchChange}
-                placeholder="Tìm kiếm đơn hàng..."
+                placeholder="Tìm kiếm giao dịch..."
                 startAdornment={
                   <InputAdornment position="start">
                     <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />
@@ -133,7 +135,7 @@ const AccountOrder = () => {
             </RootStyle>
           </Stack>
           <Scrollbar>
-            <TableContainer>
+            <TableContainer sx={{ minWidth: 800 }}>
               <Table>
                 <UserListHead
                   headLabel={TABLE_HEAD}
@@ -142,9 +144,9 @@ const AccountOrder = () => {
                 <TableBody>
                   {data?.map((row) => {
                     return (
-                      <TableRow key={row.id} hover sx={{ boxShadow: '20px 3px 20px rgb(0 0 0 / 4%)' }}>
+                      <TableRow key={row.id}>
                         <TableCell align="left"></TableCell>
-                        <TableCell align="left" sx={{ color: '#000', fontWeight: 500 }}>{fDateTimeSuffix(row.createdAt)}</TableCell>
+                        <TableCell align="left">{fDateTimeSuffix(row.createdAt)}</TableCell>
                         <TableCell align="left">{row.code}</TableCell>
                         <TableCell align="left">{fNumber(row.totalPrice)}</TableCell>
                         <TableCell align="left">{(row.address)}</TableCell>
@@ -154,13 +156,6 @@ const AccountOrder = () => {
                           </Label>
                         </TableCell>
                         <TableCell align="left">{(row.cancelReason)}</TableCell>
-                        <Button align="left"
-                          fullWidth
-                          size="large"
-                          type="submit"
-                          variant="contained"
-                          className="redOutlined_button_auth"
-                          component={NavLink} to={`/payment-autobank/${row.code}`}>Thanh toán</Button>
                         <TableCell align="left">
                           <OrderMoreMenu id={row.id} />
                         </TableCell>
@@ -183,11 +178,11 @@ const AccountOrder = () => {
         </Card>
       </div>
       <Footer />
-    </Page >
+    </Page>
   );
 };
 
-export default AccountOrder;
+export default AccountTransaction;
 
 
 

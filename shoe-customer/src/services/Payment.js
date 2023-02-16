@@ -36,3 +36,20 @@ export const apiUserCheckPayPal = async () => {
 
   return res;
 };
+
+
+
+export const apiUserCheckOrderPaid = async (orderCode) => {
+  const url = userService + `/orders/check-order-paied?order_code=${orderCode}`;
+  let res;
+  const accessToken = TokenService.getLocalAccessToken();
+  res = await api.get(url, {
+    headers: {
+      "Authorization": accessToken,
+      "Content-Type": "application/json"
+    }
+  },
+  );
+
+  return res;
+}

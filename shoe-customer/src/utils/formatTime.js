@@ -11,7 +11,7 @@ export function fDateTime(date) {
 }
 
 export function fDateTimeSuffix(date) {
-  return format(new Date(date), 'dd/MM/yyyy hh:mm p');
+  return format(new Date(date), 'dd/MM/yyyy hh:mm');
 }
 export function fDateLocal(date) {
   return format(new Date(date), 'dd MMMM yyyy', { locale: vi })

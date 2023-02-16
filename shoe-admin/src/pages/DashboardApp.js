@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import AppWidgetSummary from 'src/sections/@dashboard/app/AppWidgetSummary';
 import { AppCurrentVisits, AppWebsiteVisits } from 'src/sections/@dashboard/app';
-import { apiAdminGetCalculateRevenue, apiAdminGetCountNewOrders, apiAdminGetCountNewTransactions, apiAdminGetCountNewUsers } from 'src/services/Dashboard';
+import { apiAdminGetAllStatistic, } from 'src/services/Dashboard';
 import Box from '@mui/material/Box';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -36,30 +36,27 @@ export default function DashboardApp() {
     }
   }, [])
 
-  // useEffect(() => {
-  //   apiAdminGetCountNewUsers(days).then(result => {
-  //     setUsers(result.data.data.count);
-  //   }).catch(err => {
-  //   })
-  //   apiAdminGetCountNewTransactions(days).then(result => {
-  //     setTransaction(result.data.data.count);
-  //   }).catch(err => {
-  //   })
-  //   apiAdminGetCountNewOrders(days).then(result => {
-  //     setOrders(result.data.data.count);
-  //   }).catch(err => {
-  //   })
-  //   apiAdminGetCalculateRevenue(days).then(result => {
-  //     setRevenue(result.data.data.revenue);
-  //   }).catch(err => {
-  //   })
-  // }, [days]);
+  useEffect(() => {
+    dispatch(openLoadingApi());
+    apiAdminGetAllStatistic(days).then((result) => {
+      setUsers(result.data.data.newUsers);
+      setTransaction(result.data.data.newTransactions);
+      setOrders(result.data.data.newOrders);
+      setRevenue(result.data.data.totalRevenue);
+    }).catch(err => {
+      console.log(err)
+    }).finally(() => {
+      dispatch(closeLoadingApi());
+    })
+
+  }, [days])
 
   return (
     <Page title="Dashboard">
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 2 }}>
-          Chào mừng trở lại Quản trị viên!        </Typography>
+          Chào mừng trở lại Quản trị viên! 
+         </Typography>
         <Grid container sx={{ mb: 4 }}>
           <Grid item xs={10}>
           </Grid>

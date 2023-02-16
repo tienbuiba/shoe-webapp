@@ -10,40 +10,57 @@ import {
   TextField
 } from '@mui/material';
 import TokenService from '../../services/TokenService';
+import { useEffect } from 'react';
+import { apiUserUpdateProfile } from 'src/services/User';
+import { closeLoadingApi, openLoadingApi } from 'src/redux/creates-action/LoadingAction';
+import { useDispatch } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
 
-const states = [
-  {
-    value: 'alabama',
-    label: 'Alabama'
-  },
-  {
-    value: 'new-york',
-    label: 'New York'
-  },
-  {
-    value: 'san-francisco',
-    label: 'San Francisco'
-  }
-];
 
 export const AccountProfileDetails = (props) => {
+  const { images } = props;
   const profile = JSON.parse(TokenService.getLocalProfile('profile'));
+  const dispatch = useDispatch();
+  useEffect(() => {
+    setUserName(profile.username);
+    setPhone(profile.phone);
+  }, [])
 
-  const [values, setValues] = useState({
-    firstName: 'Katarina',
-    lastName: 'Smith',
-    email: 'demo@devias.io',
-    phone: '',
-    state: 'Alabama',
-    country: 'USA'
-  });
 
-  const handleChange = (event) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value
-    });
+  const options = {
+    autoClose: 2000,
+    position: toast.POSITION.TOP_RIGHT,
   };
+
+  const [userName, setUserName] = useState(null);
+  const [phone, setPhone] = useState(null);
+
+  const handleUsernameChange = (e) => {
+    setUserName(e.target.value)
+
+  }
+
+  const handlePhoneChange = (e) => {
+    setPhone(e.target.value)
+  }
+
+  const handleUpdateInfor = (e) => {
+
+    dispatch(openLoadingApi());
+    if (phone !== null && userName !== null && images !== null) {
+      apiUserUpdateProfile(phone, userName, images).then(res => {
+        console.log(res);
+        toast.success(res.data.data.message, options);
+      }).catch(err => {
+        console.log(err);
+        toast.error(err.response.data.message, options);
+      }).finally(() => {
+        dispatch(closeLoadingApi());
+      })
+    } else {
+      alert("nhap du truong")
+    }
+  }
 
   return (
     <form
@@ -64,29 +81,13 @@ export const AccountProfileDetails = (props) => {
           >
             <Grid
               item
-              md={6}
-              xs={12}
-            >
-              <TextField
-                fullWidth
-                label="User name"
-                name="userName"
-                onChange={handleChange}
-                required
-                value={profile.username}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid
-              item
-              md={6}
               xs={12}
             >
               <TextField
                 fullWidth
                 label="Email Address"
                 name="email"
-                onChange={handleChange}
+                disabled
                 required
                 value={profile.email}
                 variant="outlined"
@@ -99,14 +100,15 @@ export const AccountProfileDetails = (props) => {
             >
               <TextField
                 fullWidth
-                label="Phone Number"
-                name="phone"
-                onChange={handleChange}
-                type="number"
-                value={profile.phone}
+                label="User name"
+                name="userName"
+                onChange={handleUsernameChange}
+                required
+                value={userName}
                 variant="outlined"
               />
             </Grid>
+
             <Grid
               item
               md={6}
@@ -114,10 +116,11 @@ export const AccountProfileDetails = (props) => {
             >
               <TextField
                 fullWidth
-                label="Status"
-                name="Status"
-                required
-                value={profile.status}
+                label="Phone Number"
+                name="phone"
+                onChange={handlePhoneChange}
+                type="number"
+                value={phone}
                 variant="outlined"
               />
             </Grid>
@@ -136,11 +139,13 @@ export const AccountProfileDetails = (props) => {
             variant="contained"
             style={{ width: '150px' }}
             className="red_button_auth"
+            onClick={handleUpdateInfor}
           >
             Save details
           </Button>
         </Box>
       </Card>
+      <ToastContainer></ToastContainer>
     </form>
   );
 };

@@ -26,6 +26,7 @@ export default function AccountPopover() {
     TokenService.removeAccessToken();
     TokenService.removeLocalExpiresIn();
     TokenService.removeLocalProfile();
+    localStorage.clear();
     navigate('/', { replace: true });
   };
 

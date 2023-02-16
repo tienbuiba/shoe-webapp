@@ -20,11 +20,22 @@ import OrderReceived from './pages/OrderReceived';
 import ChangePassword from './pages/ChangePassword';
 import AccountOrder from './pages/AccountOrder';
 import UpdateDeliveryAddress from './pages/UpdateDeliveryAddress';
+import AccountTransaction from './pages/AccountTransaction';
+import PaymentAutoBank from './pages/PaymentAutoBank';
 
 // ----------------------------------------------------------------------
 
 export default function Router() {
   return useRoutes([
+
+    {
+      path: '/payment-autobank/:code',
+      element: <PaymentAutoBank />,
+    },
+    {
+      path: '/account-transaction',
+      element: <AccountTransaction />,
+    },
     {
       path: '/account-profile',
       element: <Profile />,

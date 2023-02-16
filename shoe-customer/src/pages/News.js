@@ -29,9 +29,13 @@ const News = () => {
                   >
                     {t("HOME PAGE")}
                   </Link>
-                  <p>
-                    {t("NEWS")}
-                  </p>
+                  <Link
+                    underline="hover"
+                    color="inherit"
+                    href="/"
+                  >
+                    {t("News")}
+                  </Link>
                 </Breadcrumbs>
               </div>
             </div>

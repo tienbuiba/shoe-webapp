@@ -5,7 +5,6 @@ import {
   InputLabel,
   Stack,
   Typography,
-  Container,
   Input,
   InputAdornment,
   IconButton,
@@ -69,9 +68,8 @@ const ChangePassword = () => {
             <div className="col-lg-6">
               <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
                 <h3>
-                  {t("Account")}
-                </h3>
-                <Breadcrumbs aria-label="breadcrumb" >
+                  Change Password                </h3>
+                <Breadcrumbs aria-label="breadcrumb">
                   <Link
                     underline="hover"
                     color="inherit"
@@ -79,9 +77,12 @@ const ChangePassword = () => {
                   >
                     {t("HOME PAGE")}
                   </Link>
-                  <p>
-                    {t("ACCOUNT")}
-                  </p>
+                  <Link
+                    underline="hover"
+                    color="inherit"
+                    href="/"
+                  >
+                    Change Password                     </Link>
                 </Breadcrumbs>
               </div>
             </div>
@@ -95,7 +96,7 @@ const ChangePassword = () => {
           py: 8
         }}
       >
-        <Container sx={{ padding: 2, backgroundColor: 'white' }} maxWidth="lg">
+        <div className="container">
           <Grid container>
             <Grid item xs={6}>
               <Typography
@@ -322,7 +323,7 @@ const ChangePassword = () => {
               </form>
             )}
           </Formik>
-        </Container>
+        </div>
       </Box>
       <Footer />
       <ToastContainer />

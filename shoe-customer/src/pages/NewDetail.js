@@ -1,5 +1,5 @@
 import Footer from "src/layouts/Footer";
-import { Breadcrumbs, Button, Card, Container, Divider, Grid, Link, Typography } from "@mui/material";
+import { Avatar, Breadcrumbs, Button, Card, Container, Divider, Grid, Link, Typography } from "@mui/material";
 import Header from "src/layouts/Header";
 import Page from "src/components/Page";
 import { useParams } from "react-router-dom";
@@ -12,12 +12,24 @@ import { vi } from 'date-fns/locale';
 import { FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon, PinterestIcon, PinterestShareButton, WhatsappIcon, WhatsappShareButton } from 'react-share';
 import { setNewId } from "src/redux/creates-action/NewAction";
 import { urlWebsite } from "src/constants/Constant";
+import { apiUserCommentPostById, apiUserCreateComment, apiUserEditCommentById } from "src/services/Comment";
+import { deleteCommentPost } from "src/redux/creates-action/CommentAction";
+import TokenService from "src/services/TokenService";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import CloseIcon from '@mui/icons-material/Close';
+
 
 const NewDetail = () => {
   const { id } = useParams();
   const [data, setData] = useState([]);
-  const [dataPre, setDataPre] = useState([]);
   const dataNewId = useSelector(state => state.new.data);
+  const [content, setContent] = useState('');
+  const [contentEdit, setContentEdit] = useState('');
+  const [dataComment, setDataComment] = useState([]);
+  const deletecmtPost = useSelector(state => state.comment.data);
+  const profile = JSON.parse(TokenService.getLocalProfile('profile'));
+  const [edit, setEdit] = useState(false);
 
   useEffect(() => {
     dispatch(openLoadingApi())
@@ -31,25 +43,11 @@ const NewDetail = () => {
         console.log(err);
         dispatch(closeLoadingApi());
       })
-      apiUserGetNewsById(id - 1).then((res) => {
-        dispatch(closeLoadingApi());
-        setDataPre(res?.data?.data);
-      }).catch((err) => {
-        console.log(err);
-        dispatch(closeLoadingApi());
-      })
     } else {
       apiUserGetNewsById(id).then((res) => {
         dispatch(closeLoadingApi());
         setData(res?.data?.data);
         setMainImage(res?.data?.data?.images[0]);
-      }).catch((err) => {
-        console.log(err);
-        dispatch(closeLoadingApi());
-      })
-      apiUserGetNewsById(id - 1).then((res) => {
-        dispatch(closeLoadingApi());
-        setDataPre(res?.data?.data);
       }).catch((err) => {
         console.log(err);
         dispatch(closeLoadingApi());
@@ -60,22 +58,18 @@ const NewDetail = () => {
   useEffect(() => {
     apiUserGetNewsCommentById(id).then((res) => {
       dispatch(closeLoadingApi());
-      console.log(res.data)
+      setDataComment(res?.data?.data)
     }).catch((err) => {
       console.log(err);
       dispatch(closeLoadingApi());
     })
-  }, [])
+  }, [deletecmtPost])
 
   const dispatch = useDispatch();
   const [mainImage, setMainImage] = useState('');
 
   function fDateLocal(date) {
-    return format(new Date(date), 'dd MMMM yyyy', { locale: vi })
-  }
-
-  const handleClick = () => {
-    dispatch(setNewId(id - 1));
+    return format(new Date(date), 'dd MMMM yyyy hh:mm', { locale: vi })
   }
 
   const [dataPosts, setDataPosts] = useState([]);
@@ -95,7 +89,7 @@ const NewDetail = () => {
   }, [keyword])
 
   const handleChange = (e) => {
-    setKeyword(e.target.value);
+    setContent(e.target.value);
   }
 
   return data && (
@@ -195,7 +189,7 @@ const NewDetail = () => {
                 <div className="product_images">
                   <div>
                     <div className="main-screen">
-                      <img src={mainImage} alt={mainImage.filename} className="main-image-preview" />
+                      <img src={mainImage} alt={mainImage.filename} style={{ height: '50%', display: 'block' }} />
                     </div>
                   </div>
                 </div>
@@ -209,7 +203,6 @@ const NewDetail = () => {
                 >
                   <FacebookIcon size={32} round />
                 </FacebookShareButton>
-
                 <TwitterShareButton
                   url={urlWebsite}
                   quote={data.shortDesc}
@@ -217,7 +210,6 @@ const NewDetail = () => {
                 >
                   <TwitterIcon size={32} round />
                 </TwitterShareButton>
-
                 <PinterestShareButton
                   url={urlWebsite}
                   quote={data.shortDesc}
@@ -234,28 +226,140 @@ const NewDetail = () => {
                   <WhatsappIcon size={32} round />
                 </WhatsappShareButton>
               </div>
-              <Divider sx={{ mt: 3, mb: 1 }} />
-              <Link to="" className="prePost" onClick={handleClick}>
-                <span>
-                  <i class="fa fa-chevron-left" style={{ marginRight: 4, fontSize: '14px' }}></i>
-                  {dataPre.shortDesc}
-                </span>
-              </Link>
-              <form style={{ marginTop: '20px', backgroundColor: 'rgba(0,0,0,0.05)', padding: '30px' }}>
-                <Typography sx={{ mb: 3, color: "#000" }}> Tra Loi</Typography>
-                <Grid container spacing={2.8}>
-                  <Grid item xs={12} >
-                    <input onChange={handleChange} value={keyword} className="form-control d-inline-block " placeholder="Binh Luan" />
+              <Divider sx={{ mt: 3}} />         
+              {dataComment?.length > 0 ?
+                <div style={{backgroundColor: 'rgba(0,0,0,0.05)', marginTop: '30px', padding: '50px 0px 0px 20px'}}>
+                  <Grid container>
+                    <Grid item xs={7} sx={{ paddingRight: '20px'}}>
+                      <h4 style={{ color: '#000', marginBottom: '20px' }}>Recent Comments</h4>
+                      {dataComment?.map(item => {
+                          return (
+                            <div
+                              style={{
+                                display: 'flex',
+                                alignItems: `${edit === false ? 'center' : 'flex-start'}`,
+                                justifyContent: 'space-between',
+                                flexDirection: `${edit === false ? 'row' : 'column'}`,
+                                border: '1px solid #ccc',
+                                padding: '10px 15px',
+                                width: '100%',
+                                borderRadius: '5px',
+                                marginBottom: '20px'
+                              }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                                <Avatar src={item.user.avatarUrl} />
+                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                  <div style={{ color: '#428bca', fontSize: '16px' }}>{item.content}</div>
+                                  <div style={{ fontSize: '12px' }}>
+                                    By:
+                                    <span style={{ color: '#428bca', margin: '0 5px' }}>
+                                      {item.user.username}
+                                    </span>
+                                    {fDateLocal(item.createdAt)}</div>
+                                </div>
+                              </div>
+                              {item?.userId === profile?.id ?
+                                (<div>
+                                  {edit === true ? (
+                                    <div style={{ marginTop: '10px' }}>
+                                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                        <label htmlFor="message">Message</label>
+                                        <CloseIcon size="small" onClick={() => { setEdit(false) }} sx={{ fontSize: '14px', cursor: 'pointer' }} />
+                                      </div>
+                                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                        <input value={contentEdit} onChange={(e) => { setContentEdit(e.target.value) }} className="form-control d-inline-block" />
+                                        <Button
+                                          variant="contained"
+                                          className="yellow_button_auth"
+                                          onClick={() => {
+                                            apiUserEditCommentById(item.id, contentEdit).then(res => {
+                                              setEdit(false);
+                                              dispatch(deleteCommentPost());
+                                              setContent('');
+                                              setContentEdit('');
+                                            }).catch(err => {
+                                              console.log(err);
+                                            })
+                                          }}>Edit</Button>
+                                      </div>
+                                    </div>
+                                  ) : (
+                                    <div style={{ display: 'flex', alignItem: 'center', gap: '10px' }}>
+                                      <EditIcon
+                                        color="infor"
+                                        sx={{ cursor: 'pointer', fontSize: '16px' }}
+                                        onClick={() => {
+                                          setEdit(true);
+                                        }} />
+                                      <DeleteIcon
+                                        color="error"
+                                        sx={{ cursor: 'pointer', fontSize: '16px' }}
+                                        onClick={() => {
+                                          apiUserCommentPostById(item.id).then((res) => {
+                                            dispatch(deleteCommentPost());
+                                          }).catch(err => {
+                                            console.log(err);
+                                          })
+                                        }}
+                                      />
+                                    </div>
+                                  )
+                                  }
+                                </div>
+                                ) : (<div></div>)}
+                            </div>)
+                        })
+                      }
+                    </Grid>
+                    <Grid item xs={5} sx={{ border: '1px solid #ccc', padding: '20px 0px 20px 20px', borderRadius: '5px', backgroundColor: 'rgba(0,0,0,0.05)'}}>
+                      <div >
+                        <h4>Leave a comment</h4>
+                        <label htmlFor="message">Message</label>
+                        <textarea value={content} onChange={handleChange} rows={5} className="form-control d-inline-block " />
+                      </div>
+                      <div >
+                        <Button
+                          variant="contained"
+                          className="yellow_button_auth"
+                          onClick={() => {
+                            apiUserCreateComment(id, content).then(res => {
+                              dispatch(deleteCommentPost());
+                              setContent('');
+                            }).catch(err => {
+                              console.log(err);
+                            })
+                          }}>Post Comment</Button>
+                      </div>
+                    </Grid>
                   </Grid>
-                  <Grid item xs={6}>
-                  </Grid>
-                  <Grid item xs={6} sx={{ flexDirection: 'row', alignItems: 'right', justifyContent: 'flex-end' }}>
-                    <Button className="red_button" onClick={handleClick} variant="contained" size="large" sx={{ float: 'right', width: 100 }}>
-                      Binh Luan
-                    </Button>
-                  </Grid>
-                </Grid>
-              </form>
+                </div>
+                :
+                <>
+                  <div style={{ marginTop: '20px', backgroundColor: 'rgba(0,0,0,0.05)', padding: '30px' }}>
+                    <form id="algin-form">
+                      <div className="form-group">
+                        <h4>Leave a comment</h4>
+                        <label htmlFor="message">Message</label>
+                        <textarea value={content} onChange={handleChange} rows={5} className="form-control d-inline-block " />
+                      </div>
+                      <div className="form-group">
+                        <Button
+                          size="large"
+                          variant="contained"
+                          className="yellow_button_auth"
+                          onClick={() => {
+                            apiUserCreateComment(id, content).then(res => {
+                              dispatch(deleteCommentPost());
+                              setContent('');
+                            }).catch(err => {
+                              console.log(err);
+                            })
+                          }}>Post Comment</Button>
+                      </div>
+                    </form>
+                  </div>
+                </>
+              }
             </Card>
           </Grid>
         </Grid>

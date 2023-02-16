@@ -5,7 +5,6 @@ import { apiUserProfile } from 'src/services/Authenticate';
 import TokenService from 'src/services/TokenService';
 
 function LoginWithGoogle() {
-
     const navigate = useNavigate();
     const handleLogin = async (credential) => {
         try {

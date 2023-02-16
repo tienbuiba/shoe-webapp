@@ -3,7 +3,7 @@ import api from "./Api";
 import { userService } from "../constant/Constants";
 
 export const apiAdminGetListTransaction = async (rowsPerPage, page,keyword) => {
-  let url = userService + '/transactions/list-by-user'
+  let url = userService + '/transactions/list'
 
   let res;
   let data = {

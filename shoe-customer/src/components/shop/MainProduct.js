@@ -8,6 +8,7 @@ import { apiUserGetAllProductByCategoryId } from 'src/services/Product';
 import { closeLoadingApi, openLoadingApi } from 'src/redux/creates-action/LoadingAction';
 import { useDispatch, useSelector } from 'react-redux';
 import useScript from 'src/hooks/useScript';
+import { TablePagination } from '@mui/material';
 
 const MainProduct = () => {
   const { t } = useTranslation("translation");
@@ -16,9 +17,9 @@ const MainProduct = () => {
   const [keyword, setKeyword] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(12);
   const dispatch = useDispatch();
+  const [total, setTotal] = useState(0);
   const id = 16;
 
-  const navigate = useNavigate();
   const smUp = useResponsive('up', 'sm');
   useScript('../assets/js/jquery-3.2.1.min.js');
   useScript('../assets/js/popper.js');
@@ -30,6 +31,14 @@ const MainProduct = () => {
   useScript('../assets/js/script.js?v=2.0');
   const dataCategoryId = useSelector(state => state.category.data);
 
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   useEffect(() => {
     dispatch(openLoadingApi())
@@ -38,6 +47,7 @@ const MainProduct = () => {
       dispatch(openLoadingApi());
       apiUserGetAllProductByCategoryId(rowsPerPage, page, keyword, id).then(result => {
         setDataProduct(result.data.data.items);
+        setTotal(result?.data?.data?.total);
         dispatch(closeLoadingApi());
       }).catch(err => {
         dispatch(closeLoadingApi());
@@ -47,11 +57,12 @@ const MainProduct = () => {
       apiUserGetAllProductByCategoryId(rowsPerPage, page, keyword, id).then(result => {
         setDataProduct(result.data.data.items);
         dispatch(closeLoadingApi());
+        setTotal(result?.data?.data?.total);
       }).catch(err => {
         dispatch(closeLoadingApi());
       })
     }
-  }, [dataCategoryId, keyword])
+  }, [dataCategoryId, keyword, rowsPerPage, page])
 
   const handleChange = (e) => {
     setKeyword(e.target.value);
@@ -60,7 +71,7 @@ const MainProduct = () => {
   return (
     <div className="MainDiv">
       <header className="border-bottom mb-4 pb-3" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-        <strong className="d-block py-2">{dataProduct.length} Items found </strong>
+        <strong className="d-block py-2">{total} Items found </strong>
         <div className="ms-auto ">
           <input onChange={handleChange} value={keyword} className="form-control d-inline-block " style={{ width: '175px', marginRight: '20px' }} placeholder="Search" />
           <div className="btn-group">
@@ -112,22 +123,46 @@ const MainProduct = () => {
               )
             })}
           </div>
-          <div className="row" style={{ borderTop: '1px solid rgba(0,0,0,.125)' }}>
-            <footer class="d-flex mt-4">
-              <nav class="ms-3">
-                <ul class="pagination">
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item active" aria-current="page">
-                    <span class="page-link">2</span>
-                  </li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item">
-                    <a class="page-link" href="#">Next</a>
-                  </li>
-                </ul>
-              </nav>
-            </footer>
-          </div>
+
+          {dataProduct?.length > 0 && total !== 0 && total > 12 ? (
+
+            <>
+              <div style={{ borderTop: '1px solid rgba(0,0,0,.125)' }}>
+                <TablePagination
+                  rowsPerPageOptions={[8, 12, 16]}
+                  component="div"
+                  sx={{
+                    height: '70px',
+                    '.MuiTablePagination-toolbar': {
+                      color: 'rgb(41, 39, 39)',
+                      height: '35px',
+                    },
+                    '.MuiBox-root': {
+                      backgroundColor: 'yellow',
+                      color: 'black',
+                      '& .MuiSvgIcon-root': {
+                        backgroundColor: 'purple',
+                        color: 'black',
+                        fontSize: '20px'
+                      },
+                    },
+                  }}
+                  style={{ color: "#b5b8c4", fontSize: "14px" }}
+                  count={total}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+
+              </div>
+            </>
+          ) : (
+            <>
+              <p style={{ textAlign: "center", marginTop: '20px' }}>
+              </p>
+            </>
+          )}
         </div>
       </div>
     </div>

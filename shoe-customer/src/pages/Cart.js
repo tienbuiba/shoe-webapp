@@ -43,7 +43,7 @@ const Cart = () => {
           <div className="row">
             <div className="col-lg-6">
               <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
-                <h3>Cart shopping</h3>
+                <h3>Cart Shopping</h3>
                 <Breadcrumbs aria-label="breadcrumb" >
                   <Link
                     underline="hover"
@@ -52,7 +52,13 @@ const Cart = () => {
                   >
                     HOME PAGE
                   </Link>
-                  <p>Cart</p>
+                  <Link
+                    underline="hover"
+                    color="inherit"
+                    href="/cart"
+                  >
+                    Cart
+                  </Link>
                 </Breadcrumbs>
               </div>
             </div>
@@ -109,7 +115,7 @@ const Cart = () => {
                 Chưa có sản phẩm nào trong giỏ hàng.
               </p>
               <Button
-                style={{ width: '250px'}}
+                style={{ width: '250px' }}
                 className="redOutlined_button_auth"
                 component={NavLink}
                 to="/shop"

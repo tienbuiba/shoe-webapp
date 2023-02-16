@@ -126,11 +126,17 @@ const ProductDetail = () => {
                   <Link
                     underline="hover"
                     color="inherit"
-                    href="/#"
+                    href="/"
                   >
                     HOME PAGE
                   </Link>
-                  <p>SHOP</p>
+                  <Link
+                    underline="hover"
+                    color="inherit"
+                    href="/shop"
+                  >
+                    Shop
+                  </Link>
                 </Breadcrumbs>
               </div>
             </div>
@@ -153,7 +159,7 @@ const ProductDetail = () => {
                         borderRadius: '4px'
                       }} />
                   </div>
-                  <div style={{}}>
+                  <div>
                     <Slider {...settings} style={{ display: 'flex', marginTop: '10px', justifyContent: 'center', alignItems: 'center' }}>
                       {data?.images?.map((curElm, index) => {
                         return (
@@ -296,7 +302,6 @@ const ProductDetail = () => {
               <Divider sx={{ my: 5, border: '1px solid #000' }} />
               <div dangerouslySetInnerHTML={{ __html: data.longDesc }} />
             </div>
-
           </Container>
         </Wrapper>
       </div>

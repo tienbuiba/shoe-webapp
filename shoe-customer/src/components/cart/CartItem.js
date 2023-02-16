@@ -1,6 +1,6 @@
 import React from "react";
 import CartAmountToggle from "./CartAmountToggle";
-import { FaTrash } from "react-icons/fa";
+import CloseIcon from '@mui/icons-material/Close';
 import { useState } from "react";
 import { useEffect } from "react";
 import { Divider, Typography } from "@mui/material";
@@ -45,13 +45,20 @@ const CartItem = ({ id, quantity, color, size, product }) => {
 
   return dataProductId && (
     <>
-      <div className="cart_heading " style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '80px', }}>
+      <div className="cart_heading "
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          height: '80px',
+          position: 'relative'
+        }}>
         <div style={{ display: 'flex', alignItems: 'stretch', justifyContent: 'flex-start' }}>
           <div>
             <img src={dataProductId?.images[0]} alt={dataProductId.name} style={{ width: '75px', height: '75px', display: 'block', marginRight: '20px' }} />
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-            <Typography style={{ color: '#000', fontSize: '12px', width: '250px' }}>{dataProductId?.name}</Typography>
+            <Typography style={{ color: '#000', fontSize: '12px', width: '235px' }}>{dataProductId?.name}</Typography>
             <div style={{ display: 'flex', alignItems: 'center', }}>
               <div className="color-div" style={{ marginRight: '10px' }}>
                 <Typography sx={{ marginRight: '4px', fontSize: '12px' }}>SIZE:</Typography>
@@ -66,7 +73,7 @@ const CartItem = ({ id, quantity, color, size, product }) => {
             </div>
           </div>
         </div>
-        <div className="cart-hide" style={{ width: '80px' }}>
+        <div className="cart-hide" style={{ width: '80px', textAlign: 'center' }}>
           <FormatPrice price={dataProductId?.priceSell} />
         </div>
         <div style={{ border: '1px solid #ddd', color: '#666', textShadow: '1px 1px 1px #fff', padding: '5px' }}>
@@ -82,9 +89,13 @@ const CartItem = ({ id, quantity, color, size, product }) => {
         <div className="cart-hide">
           <FormatPrice price={dataProductId.priceSell * amount} />
         </div>
-        <div>
-          <FaTrash className="remove_icon"
-            style={{ fontSize: '14px' }}
+        <div style={{
+          position: 'absolute',
+          top: -10,
+          right: 5
+        }}>
+          <CloseIcon className="remove_icon"
+            style={{ fontSize: '18px' }}
             onClick={() => {
               apiUserDeleteCartById(id).then((res) => {
                 toast.success(res.data.message, options);

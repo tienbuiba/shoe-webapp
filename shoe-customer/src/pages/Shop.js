@@ -27,13 +27,17 @@ const Shop = () => {
                   <Link
                     underline="hover"
                     color="inherit"
-                    href="/material-ui/getting-started/installation/"
+                    href="/"
                   >
                     {t("HOME PAGE")}
                   </Link>
-                  <p>
-                    {t("SHOP")}
-                  </p>
+                  <Link
+                    underline="hover"
+                    color="inherit"
+                    href="/shop"
+                  >
+                    {t("Shop")}
+                  </Link>
                 </Breadcrumbs>
               </div>
             </div>

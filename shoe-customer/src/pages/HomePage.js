@@ -4,12 +4,13 @@ import { useTranslation } from "react-i18next";
 import useResponsive from 'src/hooks/useResponsive';
 import Header from 'src/layouts/Header';
 import Page from 'src/components/Page';
-import NavTab from 'src/components/navtab/NavTab';
 import Footer from 'src/layouts/Footer';
 import MainNews from 'src/components/news/MainNews';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setNewId } from 'src/redux/creates-action/NewAction';
+import Top12Sell from './Top12Sell';
+import NavTab from 'src/components/navtab/NavTab';
 
 const HomePage = () => {
   const { t } = useTranslation("translation");
@@ -18,7 +19,6 @@ const HomePage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // remove newID
     dispatch(setNewId(''))
   })
 
@@ -122,7 +122,7 @@ const HomePage = () => {
                 </div>
               </div>
             </div>
-            <NavTab />
+            <Top12Sell />
           </div>
         </div>
         <div className="blogs">
