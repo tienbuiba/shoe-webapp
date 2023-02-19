@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import Footer from "src/layouts/Footer";
-import { Breadcrumbs, Container, Divider, Link } from "@mui/material";
+import { Avatar, Breadcrumbs, Container, Divider, Grid, Link } from "@mui/material";
 import Header from "src/layouts/Header";
 import Page from "src/components/Page";
 import { FaCheck } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { apiUserGetProductById } from "src/services/Product";
+import { apiUseCreateProductCommentById, apiUserGetProductById, apiUserGetProductCommentById } from "src/services/Product";
 import { useDispatch } from "react-redux";
 import { addToCart } from "src/redux/creates-action/CartActions";
 import { apiUserCreateCart } from "src/services/Carts";
@@ -18,6 +18,12 @@ import { ToastContainer, toast } from 'react-toastify';
 import FormatPrice from "../utils/FormatPrice";
 import CartAmountToggle from "../components/cart/CartAmountToggle";
 import Star from "src/components/cart/Star";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import CloseIcon from '@mui/icons-material/Close';
+import { fDateLocal } from "src/utils/formatTime";
+import TokenService from "src/services/TokenService";
+import { closeLoadingApi, openLoadingApi } from "src/redux/creates-action/LoadingAction";
 
 const Button = styled.button`
   text-decoration: none;
@@ -50,6 +56,11 @@ const ProductDetail = () => {
   const [data, setData] = useState([]);
   const [dataCategory, setDataCategory] = useState([]);
   const navigate = useNavigate();
+
+
+  const edit = true;
+  const profile = JSON.parse(TokenService.getLocalProfile('profile'));
+  const [content, setContent] = useState('')
 
   const options = {
     autoClose: 2000,
@@ -87,6 +98,8 @@ const ProductDetail = () => {
   const [color, setColor] = useState('');
   const [size, setSize] = useState("");
 
+  const [dataComment, setDataComment] = useState('')
+
   const [mainImage, setMainImage] = useState('');
   const setDecrease = () => {
     amount > 0 ? setAmount(amount - 1) : setAmount(0);
@@ -112,6 +125,19 @@ const ProductDetail = () => {
       alert('Chọn các tùy chọn cho sản phẩm trước khi cho sản phẩm vào giỏ hàng của bạn.')
     }
   }
+
+
+  useEffect(() => {
+    dispatch(openLoadingApi());
+    apiUserGetProductCommentById(id).then((res) => {
+      setDataComment(res?.data?.data)
+    }).catch((err) => {
+      console.log(err);
+    })
+      .finally(() => {
+        dispatch(closeLoadingApi());
+      })
+  }, [])
 
   return data && (
     <Page title="Product detail">
@@ -302,6 +328,141 @@ const ProductDetail = () => {
               <Divider sx={{ my: 5, border: '1px solid #000' }} />
               <div dangerouslySetInnerHTML={{ __html: data.longDesc }} />
             </div>
+
+            {dataComment?.length > 0 ?
+              <div style={{ backgroundColor: 'rgba(0,0,0,0.05)', marginTop: '30px', padding: '50px 0px 0px 20px' }}>
+                <Grid container>
+                  <Grid item xs={7} sx={{ paddingRight: '20px' }}>
+                    <h4 style={{ color: '#000', marginBottom: '20px' }}>Recent Comments</h4>
+                    {dataComment?.map(item => {
+                      return (
+                        <div
+                          style={{
+                            display: 'flex',
+                            alignItems: `${edit === false ? 'center' : 'flex-start'}`,
+                            justifyContent: 'space-between',
+                            flexDirection: `${edit === false ? 'row' : 'column'}`,
+                            border: '1px solid #ccc',
+                            padding: '10px 15px',
+                            width: '100%',
+                            borderRadius: '5px',
+                            marginBottom: '20px'
+                          }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                            <Avatar src={item.user.avatarUrl} />
+                            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                              <div style={{ color: '#428bca', fontSize: '16px' }}>{item.content}</div>
+                              <div style={{ fontSize: '12px' }}>
+                                By:
+                                <span style={{ color: '#428bca', margin: '0 5px' }}>
+                                  {item.user.username}
+                                </span>
+                                {fDateLocal(item.createdAt)}</div>
+                            </div>
+                          </div>
+                          {item?.userId === profile?.id ?
+                            (<div>
+                              {edit === true ? (
+                                <div style={{ marginTop: '10px' }}>
+                                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <label htmlFor="message">Message</label>
+                                    {/* <CloseIcon size="small" onClick={() => { setEdit(false) }} sx={{ fontSize: '14px', cursor: 'pointer' }} /> */}
+                                  </div>
+                                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    {/* <input value={contentEdit} onChange={(e) => { setContentEdit(e.target.value) }} className="form-control d-inline-block" /> */}
+                                    <Button
+                                      variant="contained"
+                                      className="yellow_button_auth"
+                                    // onClick={() => {
+                                    //   apiUserEditCommentById(item.id, contentEdit).then(res => {
+                                    //     setEdit(false);
+                                    //     dispatch(deleteCommentPost());
+                                    //     setContent('');
+                                    //     setContentEdit('');
+                                    //   }).catch(err => {
+                                    //     console.log(err);
+                                    //   })
+                                    // }}
+                                    >Edit</Button>
+                                  </div>
+                                </div>
+                              ) : (
+                                <div style={{ display: 'flex', alignItem: 'center', gap: '10px' }}>
+                                  <EditIcon
+                                    color="infor"
+                                    sx={{ cursor: 'pointer', fontSize: '16px' }}
+                                  // onClick={() => {
+                                  //   setEdit(true);
+                                  // }}
+                                  />
+                                  <DeleteIcon
+                                    color="error"
+                                    sx={{ cursor: 'pointer', fontSize: '16px' }}
+                                  // onClick={() => {
+                                  //   apiUserCommentPostById(item.id).then((res) => {
+                                  //     dispatch(deleteCommentPost());
+                                  //   }).catch(err => {
+                                  //     console.log(err);
+                                  //   })
+                                  // }}
+                                  />
+                                </div>
+                              )
+                              }
+                            </div>
+                            ) : (<div></div>)}
+                        </div>)
+                    })
+                    }
+                  </Grid>
+                  <Grid item xs={5} sx={{ border: '1px solid #ccc', padding: '20px 0px 20px 20px', borderRadius: '5px', backgroundColor: 'rgba(0,0,0,0.05)' }}>
+                    <div >
+                      <h4>Leave a comment</h4>
+                      <label htmlFor="message">Message</label>
+                      {/* <textarea value={content} onChange={handleChange} rows={5} className="form-control d-inline-block " /> */}
+                    </div>
+                    <div >
+                      <Button
+                        variant="contained"
+                        className="yellow_button_auth"
+                      // onClick={() => {
+                      //   apiUserCreateComment(id, content).then(res => {
+                      //     dispatch(deleteCommentPost());
+                      //     setContent('');
+                      //   }).catch(err => {
+                      //     console.log(err);
+                      //   })
+                      // }}
+                      >Post Comment</Button>
+                    </div>
+                  </Grid>
+                </Grid>
+              </div>
+              :
+              <>
+                <div style={{ marginTop: '20px', backgroundColor: 'rgba(0,0,0,0.05)', padding: '30px' }}>
+                  <form id="algin-form">
+                    <div className="form-group">
+                      <h4>Leave a comment</h4>
+                      <label htmlFor="message">Message</label>
+                      <textarea value={content} onChange={(e) => { setContent(e.target.value) }} rows={5} className="form-control d-inline-block " />
+                    </div>
+                    <div className="form-group">
+                      <Button
+                        variant="contained"
+                        className="yellow_button_auth"
+                        onClick={() => {
+                          apiUseCreateProductCommentById(id, "adsasd", 5).then(res => {
+                          }).catch(err => {
+                            console.log(err);
+                          })
+                        }}
+                      >List Danh Gia</Button>
+                    </div>
+                  </form>
+                </div>
+              </>
+            }
           </Container>
         </Wrapper>
       </div>

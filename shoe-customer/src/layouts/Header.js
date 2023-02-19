@@ -90,7 +90,7 @@ const Header = () => {
             <div className="row">
               <div className="col-lg-12 text-right">
                 <div className="logo_container">
-                  <Link to="/">MO<span>NO</span></Link>
+                  <Link to="/">Me<span>Shoes</span></Link>
                 </div>
                 <nav className="navbar">
                   <ul className="navbar_menu">
@@ -109,12 +109,8 @@ const Header = () => {
                     <li><Link to="/contact-us">
                       {t("Contact")}
                     </Link></li>
-                    <li><Link to="/check-order">
-                      {t("Check order")}
-                    </Link></li>
                   </ul>
                   <ul className="navbar_user" >
-                    {/* <li><a href="#"><i className="fa fa-search" aria-hidden="true"></i></a></li> */}
                     {token ? <>
                       <li style={{ padding: '10px' }}>
                         <AccountPopover />
@@ -123,7 +119,7 @@ const Header = () => {
                     </>}
                     <li className="checkout">
                       <Link to="/cart">
-                        <i className="fa fa-shopping-cart" aria-hidden="true" style={{ fontSize: '32px'}} ></i>
+                        <i className="fa fa-shopping-cart" aria-hidden="true" style={{ fontSize: '32px' }} ></i>
                         {dataCart.length === 0 ? (<></>) : (
                           <span id="checkout_items" className="checkout_items">
                             {dataCart.length}
@@ -177,9 +173,6 @@ const Header = () => {
             </Link></li>
             <li><Link to="/contact-us">
               {t("Contact")}
-            </Link></li>
-            <li><Link to="/check-order">
-              {t("Check order")}
             </Link></li>
           </ul>
         </div>

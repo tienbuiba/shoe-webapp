@@ -19,7 +19,7 @@ const HeaderStyle = styled('header')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function LogoOnlyLayout() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   // useEffect(() => {
   //   const token = localStorage.getItem('accessToken');
   //   if (token) {

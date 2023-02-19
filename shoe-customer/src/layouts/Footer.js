@@ -41,14 +41,14 @@ const Footer = () => {
               </div>
               <div className="text-center">
                 <ul className="footer_nav">
-                  <li><a href="#">
+                  <li><Link to="/news">
                     {t("News")}
-                  </a></li>
-                  <li><a href="#">
+                  </Link></li>
+                  <li><Link to="#">
                     {t("FAQs")}
-                  </a></li>
+                  </Link></li>
                   <li><a href="#">
-                    {t("Check order")}
+                    {t("Products")}
                   </a></li>
                 </ul>
               </div>
@@ -62,13 +62,13 @@ const Footer = () => {
               <div className="text-center">
                 <ul className="footer_nav">
                   <li><a href="#">
-                    {t("Store Address: 319 - C16 Ly Thuong Kiet, Ward 15, District 11, HCMC")}
+                    {t("Store Address: 286 Thai Ha, Trung Liet Ward, Dong Da District, HNC")}
                   </a></li>
                   <li><a href="#">
-                    {t("Call Us: +84-456-7898")}
+                    {t("Call Us: +84-376-627-470")}
                   </a></li>
                   <li><a href="#">
-                    {t("Email Us: Support@mono.Com")}
+                    {t("Email Us: Support@meshoes.info")}
                   </a></li>
                 </ul>
               </div>

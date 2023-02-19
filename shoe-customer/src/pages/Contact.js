@@ -43,22 +43,22 @@ const Contact = () => {
             draggable: true,
             progress: undefined,
           });
-          setName('')
-          setEmail('')
-          setMessage('')
-          setSubject('')
+          setName('');
+          setEmail('');
+          setMessage('');
+          setSubject('');
         }, function (error) {
           console.log('FAILED...', error);
-          setName('')
-          setEmail('')
-          setMessage('')
-          setSubject('')
+          setName('');
+          setEmail('');
+          setMessage('');
+          setSubject('');
         });
     }
     else {
       dispatch(closeLoadingApi());
       toast.error('Please enter value', {
-        position: "top-center",
+        position: "top-right",
         autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -89,7 +89,7 @@ const Contact = () => {
                 <Link
                   underline="hover"
                   color="inherit"
-                  href="/"
+                  href="/contact"
                 >
                   {t("Contact")}
                 </Link>

@@ -68,7 +68,7 @@ const PaymentAutoBank = () => {
         <div className="container">
           <Paper style={{ marginBottom: '300px' }}>
             <div style={{ textAlign: 'center', marginBottom: '30px' }}>
-              <p style={{ color: '#000', fontSize: '22px', textAlign: 'center', marginBottom: '8px', fontWeight: 'bold', marginTop: '50px' }}>Chuyển khoản qua Ngân Hàng</p>
+              <p style={{ color: '#000', fontSize: '22px', textAlign: 'center', marginBottom: '8px', fontWeight: 'bold', marginTop: '50px', paddingTop:'20px' }}>Chuyển khoản qua Ngân Hàng</p>
               <p style={{ textAlign: 'center', color: '#000', margin: '0px 30px' }}>Thực hiện chuyển khoản ngân hàng vào số tài khoản bên dưới. Vui lòng nhập đúng nội dung chuyển khoản và chờ ở trang này cho đến khi hệ thống báo thành công.</p>
             </div>
             <Grid container spacing={2} >

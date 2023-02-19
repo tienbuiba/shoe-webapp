@@ -154,13 +154,13 @@ const AccountOrder = () => {
                           </Label>
                         </TableCell>
                         <TableCell align="left">{(row.cancelReason)}</TableCell>
-                        <Button align="left"
-                          fullWidth
-                          size="large"
-                          type="submit"
-                          variant="contained"
-                          className="redOutlined_button_auth"
-                          component={NavLink} to={`/payment-autobank/${row.code}`}>Thanh toán</Button>
+                        <TableCell align="left">
+                          <Button
+                            type="submit"
+                            sx={{ fontSize: '10px', bgcolor: '#fe4c50', color: '#fff', padding: '4px', textAlign: 'center' }}
+                            variant="contained"
+                            component={NavLink} to={`/payment-autobank/${row.code}`}>Thanh toán</Button>
+                        </TableCell>
                         <TableCell align="left">
                           <OrderMoreMenu id={row.id} />
                         </TableCell>
@@ -183,7 +183,7 @@ const AccountOrder = () => {
         </Card>
       </div>
       <Footer />
-    </Page >
+    </Page>
   );
 };
 

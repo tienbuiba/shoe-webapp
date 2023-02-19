@@ -20,6 +20,7 @@ const PaymentInforProduct = ({ hasAddress, dataListAddress }) => {
   const [total, setTotal] = useState(0);
   const [cartIds, setCartIds] = useState([]);
   const navigate = useNavigate();
+  const [option,setOption]=useState('1');
 
   const options = {
     autoClose: 2000,
@@ -50,7 +51,13 @@ const PaymentInforProduct = ({ hasAddress, dataListAddress }) => {
     if (hasAddress === true) {
       apiUserCreateOrder(cartIds, dataListAddress[0].id).then((res) => {
         toast.success(res.data.message, options);
-        navigate('/order-received', { replace: true });
+
+        if(option === 2){
+          navigate('/order-received', { replace: true });
+        }else{
+          navigate('/order-received', { replace: true });
+        }
+        
       }
       ).catch((err) => {
         console.log(err);
@@ -59,6 +66,12 @@ const PaymentInforProduct = ({ hasAddress, dataListAddress }) => {
       toast.error('Please fill in form payment information!', options);
     }
   }
+
+  const handleOptionChange =(e)=>{
+    setOption(e.target.value);
+  }
+
+  console.log(option)
 
   return (
     <>
@@ -86,9 +99,8 @@ const PaymentInforProduct = ({ hasAddress, dataListAddress }) => {
         </div>
         <FormControl sx={{ py: 1 }}>
           <RadioGroup
-            aria-labelledby="demo-radio-buttons-group-label"
-            defaultValue="1"
-            name="radio-buttons-group"
+          value={option}
+          onChange={handleOptionChange}
           >
             <FormControlLabel value="1" control={<Radio />} label="Trả tiền mặt khi nhận hàng" />
             <FormControlLabel value="2" control={<Radio />} label="Chuyển khoản ngân hàng" />

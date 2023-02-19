@@ -180,12 +180,12 @@ const PaymentInformation = () => {
                       ></TextField>
                     </Grid>
                   </Grid>
-                  <Divider sx={{ mb: 3 }}></Divider>
+                  <Divider sx={{mb: 3}}></Divider>
                 </Grid>
               ) : (
                 <Grid item xs={8} sx={{ borderRight: '1px solid #E0E4E8', paddingRight: '20px', paddingTop: '20px' }}>
                   <div className="cart_heading" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)' }}>
-                    <p className="cart-item-heading">THÔNG TIN THANH TOÁN</p>
+                    <p className="cart-item-heading">THÔNG TIN ĐẶT HÀNG</p>
                   </div>
                   <Grid container spacing={3} sx={{ my: 4 }}>
                     <Grid item xs={12} md={6} sx={{ mb: 1 }}>
