@@ -42,7 +42,7 @@ const Introduction = () => {
         </div>
       </div>
       <div className="container text-center mt-5">
-        <h4>MONO<span style={{ color: '#fe4c50', fontSize: '24px', fontWeight: '700' }}> SHOES</span></h4>
+        <h4>ME<span style={{ color: '#fe4c50', fontSize: '24px', fontWeight: '700' }}> SHOES</span></h4>
         <p>
           {t("More personality - More stylish - More love of life")}
         </p>
@@ -58,7 +58,7 @@ const Introduction = () => {
                     {t("free shipping")}
                   </h6>
                   <p>
-                    {t("Suffered Alteration in Some Form")}
+                    {t("For orders 500,000 VND")}
                   </p>
                 </div>
               </div>
@@ -71,7 +71,7 @@ const Introduction = () => {
                     {t("cach on delivery")}
                   </h6>
                   <p>
-                    {t("The Internet Tend To Repeat")}
+                    {t("Payment on delivery")}
                   </p>
                 </div>
               </div>
@@ -86,7 +86,7 @@ const Introduction = () => {
                     {t("45 days return")}
                   </h6>
                   <p>
-                    {t("Making it Look Like Readable")}
+                    {t("Refund 1 to 1 exchange")}
                   </p>
                 </div>
               </div>

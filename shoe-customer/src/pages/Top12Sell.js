@@ -7,6 +7,9 @@ import { Link } from 'react-router-dom';
 import { closeLoadingApi, openLoadingApi } from 'src/redux/creates-action/LoadingAction';
 import { useDispatch } from 'react-redux';
 import { apiUserGetAllTopProductSell } from 'src/services/Product';
+import Slider from 'react-slick'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
 
 const Top12Sell = () => {
   const { t } = useTranslation("translation");
@@ -17,11 +20,21 @@ const Top12Sell = () => {
   const dispatch = useDispatch();
   const smUp = useResponsive('up', 'sm');
 
+
+  var settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    autoplay: true,
+    slidesToShow: 4,
+    slidesToScroll: 1
+  };
+
   useEffect(() => {
     dispatch(openLoadingApi());
     apiUserGetAllTopProductSell().then(result => {
       setDataProduct(result.data.data);
-      console.log(result)
+      console.log(result);
       dispatch(closeLoadingApi());
     }).catch(err => {
       dispatch(closeLoadingApi());
@@ -32,12 +45,12 @@ const Top12Sell = () => {
     <div className="MainDiv">
       <header className="border-bottom mb-4 pb-3">
       </header>
-      <div className="new_arrivals" style={{ paddingBottom: '75px' }}>
+      <div className="new_arrivals" style={{ paddingBottom: '45px', paddingTop: '20px' }}>
         <div className="container">
-          <div className="row">
+          <Slider {...settings} style={{ display: 'flex', marginTop: '10px', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: '20px' }}>
             {dataProduct?.map((row) => {
               return (
-                <div className="product-item accessories" key={row.id}>
+                <div className="product-item" key={row.id}>
                   <Link to={`/product-detail/${row.id}`}>
                     <div className="product discount product_filter">
                       <div className="product_image">
@@ -73,27 +86,29 @@ const Top12Sell = () => {
                 </div>
               )
             })}
-          </div>
+          </Slider>
         </div>
-        <div
-          style={{ marginTop: '50px' }}
-        >
-          <Link to="/shop" style={{
-            backgroundColor: '#fe4c50',
-            width: '150px',
-            height: '45px',
-            color: 'white',
-            display: 'flex',
-            position: 'absolute',
-            alignItems: 'center',
-            justifyContent: 'center',
-            transform: 'translateX(-50%)',
-            left: '50%',
-            border: ' 1px solid #rgba(0,0,0,0.05)',
-          }}>
-            View All <i className="fa fa-chevron-right" style={{ marginLeft: '10px' }}></i>
-          </Link>
-        </div>
+      </div>
+      <div
+        style={{ marginBottom: '150px' }}
+      >
+        <Link to="/shop" style={{
+          backgroundColor: '#fe4c50',
+          width: '150px',
+          height: '45px',
+          color: 'white',
+          display: 'flex',
+          position: 'absolute',
+          alignItems: 'center',
+          justifyContent: 'center',
+          transform: 'translateX(-50%)',
+          left: '50%',
+          border: ' 1px solid #rgba(0,0,0,0.05)',
+        }}>
+
+          {t("View All")}
+          <i className="fa fa-chevron-right" style={{ marginLeft: '10px' }}></i>
+        </Link>
       </div>
     </div>
   )

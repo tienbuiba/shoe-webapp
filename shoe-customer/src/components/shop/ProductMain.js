@@ -17,14 +17,7 @@ const ProductMain = () => {
   const dispatch = useDispatch();
 
   const smUp = useResponsive('up', 'sm');
-  // useScript('../assets/js/jquery-3.2.1.min.js');
-  // useScript('../assets/js/popper.js');
-  // useScript('../assets/js/bootstrap.min.js');
-  // useScript('../assets/js/isotope.pkgd.min.js');
-  // useScript('../assets/js/custom.js');
-  // useScript('../assets/js/easing.js');
-  // useScript('../assets/js/bootstrap.bundle.min.js');
-  // useScript('../assets/js/script.js?v=2.0');
+
 
   useEffect(() => {
     dispatch(openLoadingApi());
@@ -99,7 +92,9 @@ const ProductMain = () => {
             left: '50%',
             border: ' 1px solid #rgba(0,0,0,0.05)',
           }}>
-            View All <i className="fa fa-chevron-right" style={{ marginLeft: '10px'}}></i>
+
+{t("View All")}
+            <i className="fa fa-chevron-right" style={{ marginLeft: '10px'}}></i>
           </Link>
         </div>
       </div>

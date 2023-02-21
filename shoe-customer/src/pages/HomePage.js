@@ -32,9 +32,16 @@ const HomePage = () => {
             <div className="row align-items-center fill_height">
               <div className="col">
                 <div className="main_slider_content">
-                  <h6>Spring / Summer Collection 2023</h6>
-                  <h1>Get up to 25% Off New Arrivals</h1>
-                  <div className="red_button shop_now_button"><Link to="/shop">shop now</Link></div>
+                  <h6>
+                    {t("Spring / Summer Collection 2023")}
+                  </h6>
+                  <h1>
+                    {t("Get up to 25% Off New Arrivals")}
+
+                  </h1>
+                  <div className="red_button shop_now_button"><Link to="/shop">
+                    {t("shop now")}
+                  </Link></div>
                 </div>
               </div>
             </div>
@@ -47,8 +54,12 @@ const HomePage = () => {
                 <div className="benefit_item d-flex flex-row align-items-center">
                   <div className="benefit_icon"><i className="fa fa-truck" aria-hidden="true"></i></div>
                   <div className="benefit_content">
-                    <h6>Miễn phí vận chuyển</h6>
-                    <p>Cho đơn hàng 500.000đ</p>
+                    <h6>
+                      {t("free shipping")}
+                    </h6>
+                    <p>
+                      {t("For orders 500,000 VND")}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -56,8 +67,12 @@ const HomePage = () => {
                 <div className="benefit_item d-flex flex-row align-items-center">
                   <div className="benefit_icon"><i className="fa fa-money" aria-hidden="true"></i></div>
                   <div className="benefit_content">
-                    <h6>cach on delivery</h6>
-                    <p>The Internet Tend To Repeat</p>
+                    <h6>
+                      {t("cach on delivery")}
+                    </h6>
+                    <p>
+                      {t("Payment on delivery")}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -65,8 +80,12 @@ const HomePage = () => {
                 <div className="benefit_item d-flex flex-row align-items-center">
                   <div className="benefit_icon"><i className="fa fa-undo" aria-hidden="true"></i></div>
                   <div className="benefit_content">
-                    <h6>45 days return</h6>
-                    <p>Making it Look Like Readable</p>
+                    <h6>
+                      {t("45 days return")}
+                    </h6>
+                    <p>
+                      {t("Refund 1 to 1 exchange")}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -74,8 +93,12 @@ const HomePage = () => {
                 <div className="benefit_item d-flex flex-row align-items-center">
                   <div className="benefit_icon"><i className="fa fa-clock-o" aria-hidden="true"></i></div>
                   <div className="benefit_content">
-                    <h6>opening all week</h6>
-                    <p>8AM - 09PM</p>
+                    <h6>
+                      {t("opening all week")}
+                    </h6>
+                    <p>
+                      {t("8AM - 09PM")}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -87,7 +110,9 @@ const HomePage = () => {
             <div className="row">
               <div className="col text-center">
                 <div className="section_title new_arrivals_title">
-                  <h2>New Arrivals</h2>
+                  <h2>
+                    {t("New Arrivals")}
+                  </h2>
                 </div>
               </div>
             </div>
@@ -105,9 +130,13 @@ const HomePage = () => {
               <div className="col-lg-6 text-right deal_ofthe_week_col">
                 <div className="deal_ofthe_week_content d-flex flex-column align-items-center float-right">
                   <div className="section_title">
-                    <h2>Deal Of The Week</h2>
+                    <h2>
+                      {t("Deal Of The Week")}
+                    </h2>
                   </div>
-                  <div className="red_button deal_ofthe_week_button"><a href="/shop">shop now</a></div>
+                  <div className="red_button deal_ofthe_week_button"><a href="/shop">
+                  {t("shop now")}                  
+                  </a></div>
                 </div>
               </div>
             </div>
@@ -118,7 +147,9 @@ const HomePage = () => {
             <div className="row">
               <div className="col text-center">
                 <div className="section_title new_arrivals_title">
-                  <h2>Super Promotion</h2>
+                  <h2>
+                    {t("top selling")}
+                  </h2>
                 </div>
               </div>
             </div>
@@ -130,7 +161,9 @@ const HomePage = () => {
             <div className="row">
               <div className="col text-center">
                 <div className="section_title">
-                  <h2>Latest Blogs</h2>
+                  <h2>
+                    {t("Latest Blogs")}
+                  </h2>
                 </div>
               </div>
             </div>
@@ -142,15 +175,21 @@ const HomePage = () => {
             <div className="row">
               <div className="col-lg-6">
                 <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
-                  <h4>Newsletter</h4>
-                  <p>Subscribe to our newsletter and get 20% off your first purchase</p>
+                  <h4>
+                    {t("Newsletter")}
+                  </h4>
+                  <p>
+                    {t("Subscribe to our newsletter and get 20% off your first purchase")}
+                  </p>
                 </div>
               </div>
               <div className="col-lg-6">
                 <form action="post">
                   <div className="newsletter_form d-flex flex-md-row flex-column flex-xs-column align-items-center justify-content-lg-end justify-content-center">
                     <input id="newsletter_email" type="email" placeholder="Your email" required="required" data-error="Valid email is required." />
-                    <button id="newsletter_submit" type="submit" className="newsletter_submit_btn trans_300" value="Submit">subscribe</button>
+                    <button id="newsletter_submit" type="submit" className="newsletter_submit_btn trans_300" value="Submit">
+                      {t("subscribe")}
+                    </button>
                   </div>
                 </form>
               </div>

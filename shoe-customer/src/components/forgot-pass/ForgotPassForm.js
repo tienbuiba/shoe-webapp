@@ -18,7 +18,7 @@ import TaskAltIcon from '@mui/icons-material/TaskAlt';
 const ForgotPassForm = ({ handleChange }) => {
   const { t } = useTranslation("translation");
 
-  const paperStyle = { paddingTop: 20, height: '65vh', width: 430, margin: "0 auto", paddingLeft: 20, paddingRight: 20 }
+  const paperStyle = { paddingTop: 20, height: '500px', width: 430, margin: "0 auto", paddingLeft: 20, paddingRight: 20 }
   const paperStyle2 = { paddingTop: 20, height: '35vh', width: 430, margin: "0 auto", paddingLeft: 20, paddingRight: 20 }
   const avatarStyle = { backgroundColor: '#1bbd7e' }
   const dispatch = useDispatch();

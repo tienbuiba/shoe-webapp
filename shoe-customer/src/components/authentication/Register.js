@@ -3,7 +3,6 @@ import React from 'react'
 import FirebaseRegister from './auth-forms/AuthRegister';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 

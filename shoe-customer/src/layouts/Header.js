@@ -47,7 +47,7 @@ const Header = () => {
             <div className="row">
               <div className="col-md-6">
                 <div className="top_nav_left">
-                  {t("HOME: 319 - C16 Ly Thuong Kiet, Ward 15, District 11, HCMC")}
+                  {t("HOME: 286 Thai Ha, Trung Liet Ward, Dong Da District, HNC")}
                 </div>
               </div>
               <div className="col-md-6 text-right">

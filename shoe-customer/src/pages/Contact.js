@@ -73,7 +73,6 @@ const Contact = () => {
       <Header />
       <div className="newsletter" style={{ marginTop: '150px', marginBottom: '70px' }}>
         <div className="container">
-          <div className="row">
             <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
               <h3>
                 {t("Contact")}
@@ -97,7 +96,6 @@ const Contact = () => {
             </div>
           </div>
         </div>
-      </div>
       <div className="container">
         <div className="row">
           <div className="col text-center">

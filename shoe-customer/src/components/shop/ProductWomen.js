@@ -90,7 +90,8 @@ const ProductWomen = () => {
             left: '50%',
             border: ' 1px solid #rgba(0,0,0,0.05)',
           }}>
-            View All <i className="fa fa-chevron-right" style={{ marginLeft: '10px' }}></i>
+             {t("View All")}
+            <i className="fa fa-chevron-right" style={{ marginLeft: '10px' }}></i>
           </Link>
         </div>
       </div>

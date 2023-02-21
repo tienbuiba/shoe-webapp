@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Paper } from '@mui/material';
 import Header from 'src/layouts/Header';
 import Footer from 'src/layouts/Footer';
@@ -6,7 +6,7 @@ import ForgotPassForm from 'src/components/forgot-pass/ForgotPassForm';
 
 const ForgotPassword = () => {
 
-  const paperStyle = { width: 470, margin: "200px auto 200px" };
+  const paperStyle = { width: 470, height: '500px', margin: "200px auto 200px" };
   
   return (
     <div>
