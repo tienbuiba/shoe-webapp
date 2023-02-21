@@ -23,6 +23,7 @@ import { CommentProductsModule } from './comment-products/comment-products.modul
 import { OrdersModule } from './orders/orders.module';
 import { StatisticModule } from './statistic/statistic.module';
 import { CronJobModule } from './cron-job/cron-job.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -51,6 +52,7 @@ import { CronJobModule } from './cron-job/cron-job.module';
     OrdersModule,
     StatisticModule,
     CronJobModule,
+    ScheduleModule.forRoot(),
   ],
   providers: [
     {

@@ -40,11 +40,13 @@ export class ProductsService {
     offset: number,
     keyword: string,
     categoryId: number,
+    filter: any,
   ) {
     let listProducts: any;
     if (categoryId === null) {
       if (!existKeywordInQuery(keyword)) {
         listProducts = await this.prisma.product.findMany({
+          where: filter,
           take: limit,
           skip: limit * offset,
           orderBy: {
@@ -54,6 +56,7 @@ export class ProductsService {
       } else {
         listProducts = await this.prisma.product.findMany({
           where: {
+            ...filter,
             OR: [
               {
                 name: { contains: keyword },
@@ -78,6 +81,7 @@ export class ProductsService {
         listProducts = await this.prisma.product.findMany({
           where: {
             categoryId: categoryId,
+            ...filter,
           },
           take: limit,
           skip: limit * offset,
@@ -100,6 +104,7 @@ export class ProductsService {
                 longDesc: { contains: keyword },
               },
             ],
+            ...filter,
           },
           take: limit,
           skip: limit * offset,
@@ -111,14 +116,15 @@ export class ProductsService {
     }
     return listProducts;
   }
-  async countNumberRecord(keyword: string, categoryId: number) {
+  async countNumberRecord(keyword: string, categoryId: number, filter: any) {
     let listProducts: any;
     if (categoryId === null) {
       if (!existKeywordInQuery(keyword)) {
-        listProducts = await this.prisma.product.count();
+        listProducts = await this.prisma.product.count({ where: filter });
       } else {
         listProducts = await this.prisma.product.count({
           where: {
+            ...filter,
             OR: [
               {
                 name: { contains: keyword },
@@ -138,11 +144,13 @@ export class ProductsService {
         listProducts = await this.prisma.product.count({
           where: {
             categoryId: categoryId,
+            ...filter,
           },
         });
       } else {
         listProducts = await this.prisma.product.count({
           where: {
+            ...filter,
             categoryId: categoryId,
             OR: [
               {
@@ -168,5 +176,15 @@ export class ProductsService {
       },
       take: 10,
     });
+  }
+
+  async getListBrand() {
+    const brands = await this.prisma.product.findMany({
+      select: {
+        brand: true,
+      },
+      distinct: ['brand'],
+    });
+    return brands.map(({ brand }) => brand);
   }
 }

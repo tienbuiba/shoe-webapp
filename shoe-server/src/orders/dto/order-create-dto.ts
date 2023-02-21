@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsNumber } from 'class-validator';
+import { PaymentMethod } from '@prisma/client';
+import { IsArray, IsEnum, IsNumber } from 'class-validator';
 
 export class CreateOrderDto {
   @IsArray()
@@ -9,4 +10,8 @@ export class CreateOrderDto {
   @IsNumber()
   @ApiProperty({ type: Number })
   addressId: number;
+
+  @IsEnum(PaymentMethod)
+  @ApiProperty()
+  paymentMethod: PaymentMethod;
 }

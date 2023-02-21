@@ -38,11 +38,19 @@ export class ProductsController {
 
   @Post('/list')
   @ApiOperation({ summary: 'Get list product with filter' })
-  @ApiBody({ required: false })
+  @ApiBody({ required: false, type: GetListQueryDto })
   @ApiQuery({ required: false, name: 'categoryId' })
+  @ApiQuery({ required: false, name: 'brand' })
+  @ApiQuery({ required: false, name: 'size' })
+  @ApiQuery({ required: false, name: 'price' })
+  @ApiQuery({ required: false, name: 'color' })
   async getListProduct(
     @Body() query: GetListQueryDto,
     @Query('categoryId') categoryId: number,
+    @Query('brand') brand: string,
+    @Query('size') size: string,
+    @Query('price') price: string,
+    @Query('color') color: string,
   ): Promise<IResponse> {
     const limit = isNaN(query.limit) ? 10 : query.limit;
     const offset = isNaN(query.offset) ? 0 : query.offset;
@@ -58,15 +66,54 @@ export class ProductsController {
     } else {
       categoryId = null;
     }
+    let filter = {};
+    const brands = brand
+      ? brand.includes(',')
+        ? brand.split(',')
+        : [brand]
+      : [];
+    const sizes = size
+      ? size.includes(',')
+        ? size.split(',').map((value) => parseInt(value))
+        : [parseInt(size)]
+      : [];
+    const prices = price
+      ? price.includes(',')
+        ? price.split(',').map((value) => parseInt(value))
+        : [parseInt(price)]
+      : [];
+    const colors = color
+      ? color.includes(',')
+        ? color.split(',')
+        : [color]
+      : [];
+    if (brands.length > 0) {
+      filter = { ...filter, brand: { in: brands } };
+    }
+    if (sizes.length > 0) {
+      filter = { ...filter, size: { array_contains: sizes } };
+    }
+    if (prices.length > 0) {
+      if (prices.length === 1) {
+        filter = { ...filter, priceSell: { gte: prices[0] } };
+      } else {
+        filter = { ...filter, priceSell: { gte: prices[0], lte: prices[1] } };
+      }
+    }
+    if (colors.length > 0) {
+      filter = { ...filter, color: { array_contains: colors } };
+    }
     const listProducts = await this.productsService.findAll(
       limit,
       offset,
       query.keyword,
       categoryId,
+      filter,
     );
     const numberRecords = await this.productsService.countNumberRecord(
       query.keyword,
       categoryId,
+      filter,
     );
     return {
       statusCode: HttpStatus.OK,
@@ -169,6 +216,17 @@ export class ProductsController {
       statusCode: HttpStatus.OK,
       message: 'Get top 10 best seller product successfully!',
       data: products,
+    };
+  }
+
+  @Get('/list-brand')
+  @ApiOperation({ summary: 'Get list brand of products' })
+  async getListBrand(): Promise<IResponse> {
+    const brands = await this.productsService.getListBrand();
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Get list brand successfully!',
+      data: brands,
     };
   }
 }

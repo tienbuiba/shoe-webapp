@@ -1,23 +1,31 @@
 import {
+  BadRequestException,
   Body,
   Controller,
+  Get,
   HttpStatus,
   Post,
   Query,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiQuery } from '@nestjs/swagger';
-import { Role, RoleEnum, User } from '@prisma/client';
+import { OrderStatusEnum, Role, RoleEnum, User } from '@prisma/client';
 import { GetUser } from 'src/auth/decorators/get-user.decorator';
+import { Roles } from 'src/auth/decorators/role.decorator';
 import { JwtGuard } from 'src/auth/guards/jwt.guard';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { GetListQueryDto } from 'src/common/dto/get-list.dto';
 import { IResponse } from 'src/common/dto/response.dto';
 import { getPreviousDayWithArgFromToday } from 'src/common/helper';
+import { OrdersService } from 'src/orders/orders.service';
 import { TransactionsService } from './transactions.service';
 
 @Controller('transactions')
 export class TransactionsController {
-  constructor(private readonly transactionsService: TransactionsService) {}
+  constructor(
+    private readonly transactionsService: TransactionsService,
+    private readonly orderService: OrdersService,
+  ) {}
 
   @Post('/list')
   @UseGuards(JwtGuard)
@@ -59,6 +67,58 @@ export class TransactionsController {
         items: listTransactions,
         total: countRecords,
       },
+    };
+  }
+  @Get('/check-order-paied')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Check order is paied' })
+  @Roles(RoleEnum.USER)
+  @UseGuards(JwtGuard, RolesGuard)
+  @ApiQuery({ name: 'orderCode', required: true })
+  async checkOrderPaied(
+    @Query('order_code') orderCode: string,
+    @GetUser() user: User,
+  ): Promise<IResponse> {
+    const existOrder = await this.orderService.findOne({
+      userId: user.id,
+      code: orderCode,
+    });
+    if (!existOrder) {
+      throw new BadRequestException('Order code not found!');
+    }
+    //check all transaction for this order
+    let result: any;
+    const transactions =
+      await this.transactionsService.findAllTransactionForOrder(orderCode);
+    if (transactions.length > 0) {
+      let currentPaid = 0;
+      for (const trans of transactions) {
+        currentPaid += trans.amount;
+      }
+      if (currentPaid >= existOrder.totalPrice) {
+        await this.orderService.update(existOrder.id, {
+          status: OrderStatusEnum.PAIED,
+        });
+        result = {
+          isSuccess: true,
+          modAmount: currentPaid - existOrder.totalPrice,
+        };
+      } else {
+        result = {
+          isSucess: false,
+          modAmount: currentPaid - existOrder.totalPrice,
+        };
+      }
+    } else {
+      result = {
+        isSucess: false,
+        modAmount: 0 - existOrder.totalPrice,
+      };
+    }
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Check successfully!',
+      data: result,
     };
   }
 }

@@ -15,5 +15,5 @@ export class UpdateUserDto {
   @IsString()
   @IsOptional()
   @ApiPropertyOptional()
-  avartarUrl?: string;
+  avatarUrl?: string;
 }

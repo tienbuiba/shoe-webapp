@@ -40,6 +40,11 @@ enum TransactionType {
   BANK
 }
 
+enum PaymentMethod {
+  CASH
+  TRANSFER
+}
+
 model Role {
   id    Int      @id @default(autoincrement())
   name  RoleEnum
@@ -142,16 +147,17 @@ model Cart {
 }
 
 model Order {
-  id           Int             @id @default(autoincrement())
-  userId       Int             @map("user_id")
-  items        Json            @db.Json
-  totalPrice   Float           @map("total_price") @db.Float
-  status       OrderStatusEnum
-  code         String
-  address      String
-  cancelReason String?         @map("cancel_reason") @db.VarChar(1000)
-  createdAt    DateTime        @default(now()) @map("created_at")
-  updatedAt    DateTime        @updatedAt @map("updated_at")
+  id            Int             @id @default(autoincrement())
+  userId        Int             @map("user_id")
+  items         Json            @db.Json
+  totalPrice    Float           @map("total_price") @db.Float
+  status        OrderStatusEnum
+  code          String
+  address       String
+  paymentMethod PaymentMethod   @default(CASH) @map("payment_method")
+  cancelReason  String?         @map("cancel_reason") @db.VarChar(1000)
+  createdAt     DateTime        @default(now()) @map("created_at")
+  updatedAt     DateTime        @updatedAt @map("updated_at")
 
   //relation fields
   user User @relation(fields: [userId], references: [id])
@@ -225,6 +231,7 @@ model Transaction {
   amount          Float
   createdAt       DateTime        @default(now()) @map("created_at")
   transactionCode String          @map("transaction_code")
+  orderCode       String          @default("") @map("order_code")
 
   //relation fields
   user User @relation(fields: [userId], references: [id])
