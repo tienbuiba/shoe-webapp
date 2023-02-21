@@ -1,7 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { OrderStatusEnum, Prisma, TransactionType } from '@prisma/client';
+import { Prisma, TransactionType } from '@prisma/client';
 import {
   existKeywordInQuery,
   getPreviousDayWithArgFromToday,
@@ -156,7 +156,7 @@ export class TransactionsService {
           transaction.description.length > 0
             ? transaction.description
                 .match(/PAYMENT ([A-Z0-9]{14})/g)[0]
-                .slice(-6)
+                .slice(-14)
             : null;
         if (!orderCode) {
           continue;
@@ -172,16 +172,22 @@ export class TransactionsService {
               userId: order.userId,
               createdAt: new Date(),
               transactionCode: transaction.transactionID.toString(),
+              orderCode: orderCode,
             },
-          });
-          // update order
-          await this.orderService.update(order.id, {
-            status: OrderStatusEnum.PAIED,
           });
         }
       }
     } catch (error) {
+      console.log('Get data bank err: ', error);
       // this.logger.debug(error);
     }
+  }
+
+  async findAllTransactionForOrder(orderCode: string) {
+    return await this.prisma.transaction.findMany({
+      where: {
+        orderCode: orderCode,
+      },
+    });
   }
 }

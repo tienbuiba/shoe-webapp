@@ -2,7 +2,6 @@ import {
   BadRequestException,
   Body,
   Controller,
-  Get,
   HttpStatus,
   Param,
   Post,
@@ -97,6 +96,7 @@ export class OrdersController {
         items: JSON.parse(JSON.stringify(listItems)),
         totalPrice: totalPrice,
         status: OrderStatusEnum.NOT_PAY,
+        paymentMethod: createDto.paymentMethod,
       },
     });
 
@@ -163,7 +163,7 @@ export class OrdersController {
   async cancelOrder(
     @GetUser() user: User,
     @Param('id') id: number,
-    @Query() reason: string,
+    @Query('reason') reason: string,
   ): Promise<IResponse> {
     const existOrder = await this.ordersService.findOne({
       id: id,
@@ -171,6 +171,13 @@ export class OrdersController {
     });
     if (!existOrder) {
       throw new BadRequestException(`Order not found with id: ${id}`);
+    }
+    if (
+      existOrder.status === OrderStatusEnum.PAIED ||
+      existOrder.status === OrderStatusEnum.SUCCESS ||
+      existOrder.status === OrderStatusEnum.DELIVERING
+    ) {
+      throw new BadRequestException('You cant cancel this order');
     }
     const cancelOrder = await this.ordersService.update(id, {
       status: OrderStatusEnum.CANCEL,
@@ -260,30 +267,6 @@ export class OrdersController {
     return {
       statusCode: HttpStatus.OK,
       message: 'Submit successfully!',
-    };
-  }
-
-  @Get('/check-order-paied')
-  @ApiBearerAuth()
-  @ApiOperation({ summary: 'Check order is paied' })
-  @Roles(RoleEnum.USER)
-  @UseGuards(JwtGuard, RolesGuard)
-  @ApiQuery({ name: 'orderCode', required: true })
-  async checkOrderPaied(
-    @Query('order_code') orderCode: string,
-    @GetUser() user: User,
-  ): Promise<IResponse> {
-    const existOrder = await this.ordersService.findOne({
-      userId: user.id,
-      code: orderCode,
-      status: OrderStatusEnum.PAIED,
-    });
-    return {
-      statusCode: HttpStatus.OK,
-      message: 'Check successfully!',
-      data: {
-        isSuccess: existOrder ? true : false,
-      },
     };
   }
 }

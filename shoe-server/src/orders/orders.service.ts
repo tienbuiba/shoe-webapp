@@ -30,6 +30,8 @@ export class OrdersService {
                     address: {
                       contains: keyword,
                     },
+                  },
+                  {
                     code: {
                       contains: keyword,
                     },
@@ -42,6 +44,8 @@ export class OrdersService {
                     address: {
                       contains: keyword,
                     },
+                  },
+                  {
                     code: {
                       contains: keyword,
                     },
@@ -77,6 +81,8 @@ export class OrdersService {
                     address: {
                       contains: keyword,
                     },
+                  },
+                  {
                     code: {
                       contains: keyword,
                     },
@@ -89,6 +95,8 @@ export class OrdersService {
                     address: {
                       contains: keyword,
                     },
+                  },
+                  {
                     code: {
                       contains: keyword,
                     },
@@ -130,7 +138,7 @@ export class OrdersService {
 
     return await this.prismaService.order.count({
       where: {
-        createdAt: {
+        updatedAt: {
           gte: timeline,
         },
         status: OrderStatusEnum.SUCCESS,
@@ -142,7 +150,7 @@ export class OrdersService {
     const timeline = getPreviousDayWithArgFromToday(day);
     const listOrder = await this.prismaService.order.findMany({
       where: {
-        createdAt: {
+        updatedAt: {
           gte: timeline,
         },
         status: OrderStatusEnum.SUCCESS,
