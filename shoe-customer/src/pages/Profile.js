@@ -1,4 +1,4 @@
-import { Box, Breadcrumbs, Button, Container, Grid, Typography, Link, CardContent, Card, Avatar, Input, CardActions, Divider } from '@mui/material';
+import { Box, Breadcrumbs, Button, Grid, Typography, Link, CardContent, Card, Avatar, Input, CardActions, Divider } from '@mui/material';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Page from 'src/components/Page';
@@ -14,11 +14,15 @@ import { uploadImage } from 'src/services/UploadImage';
 import { PhotoCamera } from '@mui/icons-material';
 import account from 'src/_mock/account';
 import { AccountProfileDetails } from 'src/components/profile/AccountProfileDetails';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 const Profile = () => {
   const { t } = useTranslation("translation");
-
+  const options = {
+    autoClose: 2000,
+    position: toast.POSITION.TOP_RIGHT,
+  };
   const profile = JSON.parse(TokenService.getLocalProfile('profile'));
   const [dataListAddress, setDataListAddress] = useState(null);
   const [images, setImages] = useState(null);
@@ -36,6 +40,7 @@ const Profile = () => {
     uploadImage(data)
       .then((res) => {
         setImages(res?.data?.data);
+        toast.success(res.data.message, options);
 
       })
       .catch((err) => {
@@ -133,15 +138,15 @@ const Profile = () => {
                           width: 64
                         }}
                       />) : (
-                        <Avatar
-                          src={images}
-                          sx={{
-                            height: 64,
-                            mb: 2,
-                            width: 64
-                          }}
-                        />
-                      )}
+                      <Avatar
+                        src={images}
+                        sx={{
+                          height: 64,
+                          mb: 2,
+                          width: 64
+                        }}
+                      />
+                    )}
                     <Typography
                       color="textPrimary"
                       gutterBottom
@@ -203,6 +208,7 @@ const Profile = () => {
         </div>
         <Box></Box></Box>
       <Footer />
+      <ToastContainer />
     </Page>
   );
 };

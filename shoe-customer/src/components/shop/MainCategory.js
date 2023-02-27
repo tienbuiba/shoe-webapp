@@ -1,13 +1,110 @@
-import { Button } from '@mui/material';
+import { Button, Checkbox, FormControl, InputLabel, ListItemText, MenuItem, Select } from '@mui/material';
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setCategoryId } from 'src/redux/creates-action/CategoryAction';
+import { setCategoryId, setFilter } from 'src/redux/creates-action/CategoryAction';
 import { apiUserGetAllCategories } from 'src/services/Categories';
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+
+const lteProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250
+    }
+  }
+};
+
+const brands = [{
+  id: 1,
+  name: 'NIKE',
+
+}, {
+  id: 2,
+  name: 'Adidas'
+},
+{
+  id: 3,
+  name: 'Puma'
+},
+{
+  id: 4,
+  name: '0dddd'
+},
+{
+  id: 5,
+  name: 'Converse'
+},
+{
+  id: 6,
+  name: 'Vans'
+}
+]
+
+const sizes = [{
+  id: 1,
+  name: '38',
+
+}, {
+  id: 2,
+  name: '39'
+},
+{
+  id: 3,
+  name: '40'
+},
+{
+  id: 4,
+  name: '41'
+},
+{
+  id: 5,
+  name: '42'
+},
+{
+  id: 6,
+  name: '43'
+}
+]
+
+const colors = [{
+  id: 1,
+  name: 'blue',
+
+}, {
+  id: 2,
+  name: 'red'
+},
+{
+  id: 3,
+  name: 'black'
+},
+{
+  id: 4,
+  name: 'white'
+},
+{
+  id: 5,
+  name: 'yellow'
+}
+]
 
 const MainCategory = () => {
   const [data, setData] = useState([]);
+  const [selectedBrand, setSelectedBrand] = useState([]);
+  const [selectedSize, setSelectedSize] = useState([]);
+  const [selectedColor, setSelectedColor] = useState([]);
+  const [selectedPrice, setSelectedPrice] = useState([]);
+  const [min, setMin] = useState('');
+  const [max, setMax] = useState('');
+
+  console.log(selectedBrand.toString())
+
+
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -17,6 +114,31 @@ const MainCategory = () => {
       console.log(err);
     })
   }, [])
+
+
+  const handleChangeBrand = (event) => {
+    const {
+      target: { value }
+    } = event;
+    setSelectedBrand(typeof value === "string" ? value.split(",") : value);
+  };
+
+  const handleChangeSize = (event) => {
+    const {
+      target: { value }
+    } = event;
+    setSelectedSize(typeof value === "string" ? value.split(",") : value);
+  };
+
+  const handleChangeColor = (event) => {
+    const {
+      target: { value }
+    } = event;
+    setSelectedColor(typeof value === "string" ? value.split(",") : value);
+  };
+
+  console.log(selectedBrand, selectedSize, selectedColor, min, max);
+
 
   return (
     <div>
@@ -51,20 +173,31 @@ const MainCategory = () => {
           <article class="filter-group">
             <header class="card-header">
               <a class="title" data-bs-toggle="collapse" data-bs-target="#collapse_aside_brands">
-                Brands    <i class="icon-control fa fa-chevron-down"></i>
+                Brands
+                <i class="icon-control fa fa-chevron-down"></i>
               </a>
             </header>
             <div class="collapse show" id="collapse_aside_brands">
               <div class="card-body">
-                {data?.map(item => {
-                  return (
-                    <label class="form-check mb-2">
-                      <input class="form-check-input" type="checkbox" value="" checked />
-                      <span class="form-check-label"> {item.name} </span>
-                      <b class="badge rounded-pill bg-gray-dark float-end">120</b>
-                    </label>
-                  )
-                })}
+                <FormControl fullWidth={true}>
+                  <InputLabel id="mutiple-select-label">Select Brand</InputLabel>
+                  <Select
+                    labelId="mutiple-select-label"
+                    multiple
+                    MenuProps={lteProps}
+                    label="Select Brand"
+                    value={selectedBrand}
+                    onChange={handleChangeBrand}
+                    renderValue={(selected) => selected.join(", ")}
+                  >
+                    {brands.map((item) => (
+                      <MenuItem key={item.id} value={item.name}>
+                        <Checkbox checked={selectedBrand.indexOf(item.name) > -1} />
+                        <ListItemText primary={item.name} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </div>
             </div>
           </article>
@@ -77,22 +210,58 @@ const MainCategory = () => {
             </header>
             <div class="collapse show" id="collapse_aside3">
               <div class="card-body">
-                <label class="checkbox-btn">
-                  <input type="checkbox" />
-                  <span class="btn btn-light"> 38</span>
-                </label>
-                <label class="checkbox-btn">
-                  <input type="checkbox" />
-                  <span class="btn btn-light"> 39</span>
-                </label>
-                <label class="checkbox-btn">
-                  <input type="checkbox" />
-                  <span class="btn btn-light"> 40</span>
-                </label>
-                <label class="checkbox-btn">
-                  <input type="checkbox" />
-                  <span class="btn btn-light"> 41</span>
-                </label>
+                <FormControl fullWidth={true}>
+                  <InputLabel id="mutiple-select-label">Select Size</InputLabel>
+                  <Select
+                    labelId="mutiple-select-label"
+                    multiple
+                    MenuProps={lteProps}
+                    
+                    label="Select Size"
+                    value={selectedSize}
+                    onChange={handleChangeSize}
+                    renderValue={(selected) => selected.join(", ")}
+                  >
+                    {sizes.map((item) => (
+                      <MenuItem key={item.id} value={item.name}>
+                        <Checkbox checked={selectedSize.indexOf(item.name) > -1} />
+                        <ListItemText primary={item.name} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+            </div>
+          </article>
+
+          <article class="filter-group">
+            <header class="card-header">
+              <a class="title" data-bs-toggle="collapse" data-bs-target="#collapse_aside3">
+                Colors
+                <i class="icon-control fa fa-chevron-down"></i>
+              </a>
+            </header>
+            <div class="collapse show" id="collapse_aside3">
+              <div class="card-body">
+                <FormControl fullWidth={true}>
+                  <InputLabel id="mutiple-select-label">Select Colors</InputLabel>
+                  <Select
+                    labelId="mutiple-select-label"
+                    multiple
+                    MenuProps={lteProps}
+                    label="Select Colors"
+                    value={selectedColor}
+                    onChange={handleChangeColor}
+                    renderValue={(selected) => selected.join(", ")}
+                  >
+                    {colors.map((item) => (
+                      <MenuItem key={item.id} value={item.name}>
+                        <Checkbox checked={selectedColor.indexOf(item.name) > -1} />
+                        <ListItemText primary={item.name} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </div>
             </div>
           </article>
@@ -107,19 +276,21 @@ const MainCategory = () => {
                 <div class="row mb-3">
                   <div class="col-6">
                     <label for="min" class="form-label">Min</label>
-                    <input class="form-control" id="min" placeholder="$0" type="number" />
+                    <input class="form-control" id="min" placeholder="$0" value={min} type="number" onChange={e => setMin(e.target.value)} />
                   </div>
                   <div class="col-6">
                     <label for="max" class="form-label">Max</label>
-                    <input class="form-control" id="max" placeholder="$1,0000" type="number" />
+                    <input class="form-control" id="max" placeholder="$1,0000" value={max} type="number" onChange={e => setMax(e.target.value)} />
                   </div>
                 </div>
                 <Button
                   fullWidth
                   size="large"
-                  type="submit"
                   variant="contained"
                   className="red_button_auth"
+                  onClick={ ()=>{       
+                  dispatch(setFilter(selectedBrand,selectedSize,selectedColor,min,max))  
+                  }}
                 >
                   Apply
                 </Button>

@@ -28,6 +28,7 @@ const CartItem = ({ id, quantity, color, size, product }) => {
   };
 
   const setDecrease = () => {
+    dispatch(addToCart());
     if (amount > 1) {
       setAmount(amount - 1);
     } else {
@@ -36,6 +37,7 @@ const CartItem = ({ id, quantity, color, size, product }) => {
   };
 
   const setIncrease = () => {
+    dispatch(addToCart());
     if (amount < stock) {
       setAmount(amount + 1);
     } else {

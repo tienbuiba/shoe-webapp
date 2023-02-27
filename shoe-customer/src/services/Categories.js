@@ -70,3 +70,19 @@ export const apiUserGetDetailsMail = async (id) => {
   );
   return res;
 };
+
+// BRAND
+export const apiUserGetBrand = async () => {
+  const url = userService + `/products/list-brand`;
+
+  let res;
+  const accessToken = TokenService.getLocalAccessToken();
+  res = await api.get(url, {
+    headers: {
+      "Authorization": accessToken,
+      "Content-Type": "application/json"
+    }
+  },
+  );
+  return res;
+}

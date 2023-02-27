@@ -7,7 +7,8 @@ export const initialState = {
     name: null,
     orderDetails: [],
     orderCode: '',
-    orderID: ''
+    orderID: '',
+    details: null
   },
 };
 
@@ -44,6 +45,15 @@ const orderReducer = (state = initialState, action) => {
           orderDetails: action.orderDetails,
           orderCode: action.orderCode,
           orderID: action.orderID
+        }
+      }
+
+    case actionTypes.ORDER_DETAIL:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          details: action.details
         }
       }
     default:

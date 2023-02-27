@@ -20,7 +20,6 @@ import CartAmountToggle from "../components/cart/CartAmountToggle";
 import Star from "src/components/cart/Star";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import CloseIcon from '@mui/icons-material/Close';
 import { fDateLocal } from "src/utils/formatTime";
 import TokenService from "src/services/TokenService";
 import { closeLoadingApi, openLoadingApi } from "src/redux/creates-action/LoadingAction";

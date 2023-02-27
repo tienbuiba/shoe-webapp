@@ -7,12 +7,20 @@ import Header from "src/layouts/Header";
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate, useParams } from "react-router-dom";
 import { apiUserCheckOrderPaid } from "src/services/Payment";
+import FormatPrice from "src/utils/FormatPrice";
 
 const PaymentAutoBank = () => {
-  const [money, setMoney] = useState("10000");
-  const { code } = useParams();
+  const { code, amount } = useParams();
+  const [money, setMoney] = useState("");
+  const [codeOrder, setCodeOrder] = useState("");
   const navigate = useNavigate();
   const [seconds, setSeconds] = useState(600);
+  const [textError, setTextError] = useState("")
+
+  useEffect(() => {
+    setMoney(amount);
+    setCodeOrder(code);
+  }, [])
 
   const options = {
     autoClose: 2000,
@@ -20,7 +28,7 @@ const PaymentAutoBank = () => {
   };
 
   const URL = 'https://img.vietqr.io/';
-  const SubUrl = `image/mbbank-0376624470-compact2.jpg?amount=${money}\&addInfo=PAYMENT%20${code}\&accountName=BUI%20BA%20TIEN`
+  const SubUrl = `image/mbbank-0376624470-compact2.jpg?amount=${money}\&addInfo=PAYMENT%20${codeOrder}\&accountName=BUI%20BA%20TIEN`
 
   useEffect(() => {
     if (seconds > 0) {
@@ -36,6 +44,11 @@ const PaymentAutoBank = () => {
       if (res.data.data.isSuccess === true) {
         toast.success("Payment successfully!", options);
         navigate('/account-order');
+      }
+      else if (Math.abs(res.data.data.modAmount) - (amount) < 1) {
+        const moneyGave = Math.abs(res.data.data.modAmount);
+        const continueAmount = amount - Math.abs(res.data.data.modAmount);
+        setTextError(`Chúng tôi đã nhận được số tiền: ${continueAmount}. Tiếp tục thanh toán số tiền còn lại: ${moneyGave}`)
       }
     })
   }, [seconds])
@@ -68,12 +81,12 @@ const PaymentAutoBank = () => {
         <div className="container">
           <Paper style={{ marginBottom: '300px' }}>
             <div style={{ textAlign: 'center', marginBottom: '30px' }}>
-              <p style={{ color: '#000', fontSize: '22px', textAlign: 'center', marginBottom: '8px', fontWeight: 'bold', marginTop: '50px', paddingTop:'20px' }}>Chuyển khoản qua Ngân Hàng</p>
+              <p style={{ color: '#000', fontSize: '22px', textAlign: 'center', marginBottom: '8px', fontWeight: '600', marginTop: '50px', paddingTop: '20px' }}>Chuyển khoản qua Ngân Hàng</p>
               <p style={{ textAlign: 'center', color: '#000', margin: '0px 30px' }}>Thực hiện chuyển khoản ngân hàng vào số tài khoản bên dưới. Vui lòng nhập đúng nội dung chuyển khoản và chờ ở trang này cho đến khi hệ thống báo thành công.</p>
             </div>
-            <Grid container spacing={2} >
+            <Grid container spacing={2}>
               <Grid item xs={12} md={5}>
-                <Card sx={{ px: 4, py: 7, textAlign: 'center', boxShadow: '6px 6px 6px 6px rgb(0 0 0 / 20%)' }}>
+                <Card sx={{ px: 3, py: 4, textAlign: 'center', boxShadow: '6px 6px 6px 6px rgb(0 0 0 / 20%)' }}>
                   <div style={{
                     backgroundColor: 'rgba(115, 103, 240, 0.12)',
                     color: '#28c76f',
@@ -95,7 +108,7 @@ const PaymentAutoBank = () => {
                 </Card>
               </Grid>
               <Grid item xs={12} md={7} >
-                <Card sx={{ px: 4, py: 7, textAlign: 'center', boxShadow: '6px 6px 6px 6px rgb(0 0 0 / 20%)' }}>
+                <Card sx={{ px: 3, py: 4, textAlign: 'center', boxShadow: '6px 6px 6px 6px rgb(0 0 0 / 20%)' }}>
                   <div style={{
                     backgroundColor: 'rgba(115, 103, 240, 0.12)',
                     color: '#28c76f',
@@ -109,7 +122,7 @@ const PaymentAutoBank = () => {
                     <div style={{ color: '#000', fontSize: '18px', display: 'inline-block', marginLeft: '10px', }}>Chuyển khoản thủ công theo thông tin</div>
                   </div>
                   <div style={{ color: '#000', marginButton: '24px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <img src="../assets/images/mbbank.jpg" style={{ width: '200px', height: '150px' }} />
+                    <img src={require('../_mock/mbbank.jpg')} alt="mbbank_logo" style={{ width: '200px', height: '150px' }} />
                   </div>
                   <div style={{ color: '#000', fontSize: '14px', display: 'inline-block', marginBottom: '8px', }}>Chủ tài khoản:
                     <div style={{ color: '#000', fontSize: '16px', display: 'inline-block', marginLeft: '10px', fontWeight: 'bold' }}>BÙI BÁ TIẾN</div>
@@ -123,14 +136,20 @@ const PaymentAutoBank = () => {
                     <div style={{ color: 'red', fontSize: '16px', display: 'inline-block', marginLeft: '10px', fontWeight: 'bold' }}>PAYMENT {code}</div>
                   </div>
                   <Divider sx={{ marginBottom: '8px' }}></Divider>
-                  <div style={{ color: '#000', fontSize: '14px', display: 'inline-block', marginBottom: '8px', }}>Ngân hàng:
-                    <div style={{ color: '#000', fontSize: '16px', display: 'inline-block', marginLeft: '10px', fontWeight: 'bold' }}>MBBANK (MB)</div>
+                  <div style={{ color: '#000', fontSize: '14px', display: 'inline-block', marginBottom: '8px', }}>Số tiền cần chuyển:
+                    <div style={{ color: '#28c76f', fontSize: '16px', display: 'inline-block', marginLeft: '10px', fontWeight: 'bold' }}>
+                      <FormatPrice price={money} />
+                    </div>
                   </div>
-                  <Divider sx={{ marginBottom: '30px' }}></Divider>
+                  <Divider sx={{ marginBottom: '8px' }}></Divider>
+                  <div style={{ color: '#000', fontSize: '14px', display: 'inline-block', marginBottom: '8px'}}>
+                    {textError}
+                  </div>
+                  <Divider sx={{ marginBottom: '10px' }}></Divider>
                   <div style={{ color: '#000', fontSize: '16px', display: 'inline-block', marginBottom: '8px', }}>Đang chờ chuyển khoản
                   </div>
                   <div style={{ display: 'flex', alignItem: 'center', justifyContent: 'center' }}>
-                    <img src="../assets/images/loading.gif" style={{ display: 'flex', alignItem: 'center', justifyContent: 'center', width: '100px', height: '100px' }} />
+                    <img src={require('../_mock/loading.gif')} alt="loading.gif" style={{ display: 'flex', alignItem: 'center', justifyContent: 'center', width: '100px', height: '100px' }} />
                   </div>
                 </Card>
               </Grid>
@@ -140,7 +159,7 @@ const PaymentAutoBank = () => {
       </div>
       <Footer />
       <ToastContainer></ToastContainer>
-    </Page >
+    </Page>
   );
 };
 

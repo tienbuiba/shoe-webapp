@@ -50,7 +50,7 @@ export const AccountProfileDetails = (props) => {
     if (phone !== null && userName !== null && images !== null) {
       apiUserUpdateProfile(phone, userName, images).then(res => {
         console.log(res);
-        toast.success(res.data.data.message, options);
+        toast.success(res.data.message, options);
       }).catch(err => {
         console.log(err);
         toast.error(err.response.data.message, options);

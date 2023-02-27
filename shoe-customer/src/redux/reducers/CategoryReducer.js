@@ -2,7 +2,12 @@ import * as actionTypes from '../actions/Actions';
 
 export const initialState = {
   data: {
-    id: ''
+    id: '',
+    brands: '',
+    sizes: '',
+    colors: '',
+    min: '',
+    max: ''
   },
 };
 
@@ -16,6 +21,18 @@ const categoryReducer = (state = initialState, action) => {
         data: {
           ...state.data,
           id: action.id,
+        }
+      };
+    case actionTypes.SET_FILTER:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          brands: action.brands,
+          sizes: action.sizes,
+          colors: action.colors,
+          min: action.min,
+          max: action.max
         }
       };
     default:

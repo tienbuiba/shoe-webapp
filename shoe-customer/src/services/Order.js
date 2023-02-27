@@ -2,11 +2,12 @@ import TokenService from './TokenService';
 import api from './Api';
 import { userService } from 'src/constants/Constant';
 
-export const apiUserCreateOrder = async (cartIds, addressId) => {
+export const apiUserCreateOrder = async (cartIds, addressId,paymentMethod ) => {
   const url = userService + '/orders/create';
   const data = {
     cartIds: cartIds,
-    addressId: addressId
+    addressId: addressId,
+    paymentMethod :paymentMethod 
   }
   let res;
   const accessToken = TokenService.getLocalAccessToken();

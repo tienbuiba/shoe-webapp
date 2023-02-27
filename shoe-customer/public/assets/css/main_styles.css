@@ -1801,3 +1801,8 @@ label{
   padding:  '10px';
   background-color: '#000'
 }
+
+
+.css-ve0uex-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
+  border-radius: 4px !important;
+}

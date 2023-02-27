@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { Button, Divider, Typography } from "@mui/material";
 import { ToastContainer, toast } from 'react-toastify';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { apiUserGetAllCartItem } from "src/services/Carts";
 import { useEffect } from "react";
 import PaymentItem from "./PaymentItem";
@@ -13,6 +13,8 @@ import FormControl from '@mui/material/FormControl';
 import { apiUserCreateOrder } from "src/services/Order";
 import { useNavigate } from "react-router-dom";
 import FormatPrice from "src/utils/FormatPrice";
+import { orderDetail } from "src/redux/creates-action/OrderAction";
+import { closeLoadingApi, openLoadingApi } from "src/redux/creates-action/LoadingAction";
 
 const PaymentInforProduct = ({ hasAddress, dataListAddress }) => {
   const [dataCart, setDataCart] = useState([]);
@@ -20,7 +22,8 @@ const PaymentInforProduct = ({ hasAddress, dataListAddress }) => {
   const [total, setTotal] = useState(0);
   const [cartIds, setCartIds] = useState([]);
   const navigate = useNavigate();
-  const [option,setOption]=useState('1');
+  const [option, setOption] = useState(1);
+  const dispatch= useDispatch();
 
   const options = {
     autoClose: 2000,
@@ -47,31 +50,42 @@ const PaymentInforProduct = ({ hasAddress, dataListAddress }) => {
     })
   }, [dataAddToCart])
 
-  const handleOrderClick = () => {
+  const handleOrderClick = (e) => {
+    e.preventDefault();
     if (hasAddress === true) {
-      apiUserCreateOrder(cartIds, dataListAddress[0].id).then((res) => {
-        toast.success(res.data.message, options);
-
-        if(option === 2){
-          navigate('/order-received', { replace: true });
-        }else{
-          navigate('/order-received', { replace: true });
+      if (option === 1) {
+        dispatch(openLoadingApi());
+        apiUserCreateOrder(cartIds, dataListAddress[0].id, "CASH").then((res) => {
+          dispatch(orderDetail(res.data.data))
+          toast.success(res.data.message, options);
+          navigate(`/order-received`, { replace: true });    
+            }
+        ).catch((err) => {
+          console.log(err);
+        }).finally( ()=>{
+          dispatch(closeLoadingApi());
+        })
+      } 
+      else {
+        dispatch(openLoadingApi());
+        apiUserCreateOrder(cartIds, dataListAddress[0].id, "TRANSFER").then((res) => {
+          toast.success(res.data.message, options);
+          dispatch(orderDetail(res.data.data));
+          navigate(`/payment-autobank/${res.data.data.code}/${total}`, { replace: true });
         }
-        
+        ).catch((err) => {
+          console.log(err);
+        }).finally(()=> {
+          dispatch(closeLoadingApi());
+        })
       }
-      ).catch((err) => {
-        console.log(err);
-      })
     } else {
       toast.error('Please fill in form payment information!', options);
     }
   }
-
-  const handleOptionChange =(e)=>{
+  const handleOptionChange = (e) => {
     setOption(e.target.value);
   }
-
-  console.log(option)
 
   return (
     <>
@@ -99,11 +113,11 @@ const PaymentInforProduct = ({ hasAddress, dataListAddress }) => {
         </div>
         <FormControl sx={{ py: 1 }}>
           <RadioGroup
-          value={option}
-          onChange={handleOptionChange}
+            value={option}
+            onChange={handleOptionChange}
           >
-            <FormControlLabel value="1" control={<Radio />} label="Trả tiền mặt khi nhận hàng" />
-            <FormControlLabel value="2" control={<Radio />} label="Chuyển khoản ngân hàng" />
+            <FormControlLabel value={1} control={<Radio />} label="Trả tiền mặt khi nhận hàng" />
+            <FormControlLabel value={2} control={<Radio />} label="Chuyển khoản ngân hàng" />
           </RadioGroup>
         </FormControl>
         <Divider></Divider>
@@ -111,7 +125,6 @@ const PaymentInforProduct = ({ hasAddress, dataListAddress }) => {
           fullWidth
           size="large"
           onClick={handleOrderClick}
-          type="submit"
           variant="contained"
           className="black_button_auth">ĐẶT HÀNG</Button>
         <div>

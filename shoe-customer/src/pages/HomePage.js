@@ -37,7 +37,6 @@ const HomePage = () => {
                   </h6>
                   <h1>
                     {t("Get up to 25% Off New Arrivals")}
-
                   </h1>
                   <div className="red_button shop_now_button"><Link to="/shop">
                     {t("shop now")}

@@ -29,7 +29,7 @@ export default function Router() {
   return useRoutes([
 
     {
-      path: '/payment-autobank/:code',
+      path: '/payment-autobank/:code/:amount',
       element: <PaymentAutoBank />,
     },
     {

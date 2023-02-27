@@ -2,8 +2,18 @@ import TokenService from './TokenService';
 import api from './Api';
 import { userService } from 'src/constants/Constant';
 
-export const apiUserGetAllProductByCategoryId = async (rowsPerPage, page, keyword, categoryId) => {
-  const url = userService + `/products/list/?categoryId=${categoryId}`;
+export const apiUserGetAllProductByCategoryId = async (
+  rowsPerPage, page, keyword, categoryId,brand,size,price,color) => {
+ 
+  const params = new URLSearchParams({
+    categoryId:categoryId,
+    ...(brand? { brand: brand } : {}),
+    ...(size? { size: size } : {}),
+    ...(price? { price: price } : {}),
+    ...(color? { color: color } : {}),
+
+  }).toString();
+  const url = userService + `/products/list?` + params;
   const data = {
     limit: rowsPerPage,
     offset: page,

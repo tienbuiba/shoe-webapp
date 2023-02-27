@@ -1,23 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import Header from 'src/layouts/Header';
-import { Breadcrumbs, Card, InputAdornment, OutlinedInput, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Toolbar, Typography } from "@mui/material";
+import { Breadcrumbs, Button, Card, Grid, InputAdornment, OutlinedInput, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Toolbar, Typography } from "@mui/material";
 import Link from '@mui/material/Link';
 import Page from 'src/components/Page';
 import Footer from 'src/layouts/Footer';
 import { fDateTimeSuffix } from '../utils/formatTime';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { closeLoadingApi, openLoadingApi } from '../redux/creates-action/LoadingAction';
-import { apiUserGetAllOrder } from '../services/Order';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { styled } from '@mui/material/styles';
-import Scrollbar from '../components/Scrollbar';
 import UserListHead from '../components/transaction/UserHeadList';
 import Iconify from 'src/components/Iconify';
-import { fNumber } from 'src/utils/formatNumber';
 import Label from 'src/components/Label';
-import OrderMoreMenu from 'src/components/order/OrderMoreMenu';
 import { apiUserGetTransactionList } from 'src/services/Transaction';
+import FormatPrice from 'src/utils/FormatPrice';
 
 const RootStyle = styled(Toolbar)(({ theme }) => ({
   height: 96,
@@ -39,14 +37,7 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
   },
 }));
 
-const TABLE_HEAD = [
-  { id: 'thời gian', label: 'THỜI GIAN', alignRight: false },
-  { id: 'đơn hàng số', label: 'MÃ GIAO DỊCH', alignRight: false },
-  { id: 'loại mail', label: 'NỘI DUNG', alignRight: false },
-  { id: 'số lượng', label: 'TỔNG TIỀN', alignRight: false },
-  { id: 'số lượng', label: 'TRẠNG THÁI', alignRight: false },
-  { id: 'a', label: '', alignRight: false },
-];
+
 
 const AccountTransaction = () => {
 
@@ -58,6 +49,14 @@ const AccountTransaction = () => {
   const [total, setTotal] = useState(0);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const TABLE_HEAD = [
+    { id: 'thời gian', label: 'THỜI GIAN', alignRight: false },
+    { id: 'đơn hàng số', label: 'MÃ GIAO DỊCH', alignRight: false },
+    { id: 'loại mail', label: 'NỘI DUNG', alignRight: false },
+    { id: 'TOTAL', label: 'TỔNG TIỀN', alignRight: false },
+    { id: 'TYPE', label: 'LOẠI GIAO DỊCH', alignRight: false },
+  ];
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -88,36 +87,31 @@ const AccountTransaction = () => {
   };
 
   return (
-    <Page title="Account Order">
-      <Header />
-      <div className="newsletter" style={{ marginTop: '150px' }}>
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-6">
-              <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
-                <h3>Account Transaction</h3>
-                <Breadcrumbs aria-label="breadcrumb" >
-                  <Link
-                    underline="hover"
-                    color="inherit"
-                    href="/"
-                  >
-                    HOME PAGE
-                  </Link>
-                  <Link
-                    underline="hover"
-                    color="inherit"
-                    href="/account-order"
-                  >
-                    Transaction
-                  </Link>
-                </Breadcrumbs>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="container" style={{ marginTop: '150px', marginBottom: '150px' }}>
+    <Page title={t("Transaction History")}>
+      <Header />   
+      <div className="container" style={{ marginTop: '250px', marginBottom: '150px' }}>
+        <Grid container>
+          <Grid item xs={6}>
+            <Typography
+              sx={{ mb: 3 }}
+              variant="h4"
+            >
+            {t("Transaction History")}
+            </Typography>
+          </Grid>
+          <Grid item xs={6} textAlign="right">
+            <Button
+              component={NavLink}
+              variant="contained"
+              style={{ width: '200px' }}
+              className="redOutlined_button_auth"
+              endIcon={<ChevronRightIcon></ChevronRightIcon>}
+              to="/account-order"
+            >
+            {t("Order History")}          
+            </Button>
+          </Grid>
+        </Grid>
         <Card>
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
             <Typography variant="h4" gutterBottom>
@@ -125,7 +119,7 @@ const AccountTransaction = () => {
             <RootStyle>
               <SearchStyle
                 onChange={handleSearchChange}
-                placeholder="Tìm kiếm giao dịch..."
+                placeholder= {t("Search for deals...")}  
                 startAdornment={
                   <InputAdornment position="start">
                     <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />
@@ -134,38 +128,34 @@ const AccountTransaction = () => {
               />
             </RootStyle>
           </Stack>
-          <Scrollbar>
-            <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
-                <UserListHead
-                  headLabel={TABLE_HEAD}
-                  rowCount={total}
-                />
-                <TableBody>
-                  {data?.map((row) => {
-                    return (
-                      <TableRow key={row.id}>
-                        <TableCell align="left"></TableCell>
-                        <TableCell align="left">{fDateTimeSuffix(row.createdAt)}</TableCell>
-                        <TableCell align="left">{row.code}</TableCell>
-                        <TableCell align="left">{fNumber(row.totalPrice)}</TableCell>
-                        <TableCell align="left">{(row.address)}</TableCell>
-                        <TableCell align="left">
-                          <Label variant="ghost" color={(row.status === 'WAITING' && 'success') || 'warning'}>
-                            {row.status}
-                          </Label>
-                        </TableCell>
-                        <TableCell align="left">{(row.cancelReason)}</TableCell>
-                        <TableCell align="left">
-                          <OrderMoreMenu id={row.id} />
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Scrollbar>
+          <TableContainer>
+            <Table>
+              <UserListHead
+                headLabel={TABLE_HEAD}
+                rowCount={total}
+              />
+              <TableBody>
+                {data?.map((row) => {
+                  return (
+                    <TableRow key={row.id}>
+                      <TableCell align="left"></TableCell>
+                      <TableCell align="left">{fDateTimeSuffix(row.createdAt)}</TableCell>
+                      <TableCell align="left">{row.transactionCode}</TableCell>
+                      <TableCell align="left">{(row.message)}</TableCell>
+                      <TableCell align="left">
+                        <FormatPrice price={row.amount} />
+                      </TableCell>
+                      <TableCell align="left">
+                        <Label variant="ghost" color={(row.type === 'BANK' && 'error') || (row.status === 'TRANFER' && 'success')}>
+                          {row.type}
+                        </Label>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
           <TablePagination
             rowsPerPageOptions={[5, 10, 20]}
             component="div"

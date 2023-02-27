@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 import useResponsive from 'src/hooks/useResponsive';
 import { useEffect } from 'react';
@@ -18,8 +18,21 @@ const MainProduct = () => {
   const [rowsPerPage, setRowsPerPage] = useState(12);
   const dispatch = useDispatch();
   const [total, setTotal] = useState(0);
+  const dataCategoryId = useSelector(state => state.category.data);
   const id = 16;
+  const [color, setColor] = useState('');
+  const [price, setPrice] = useState('');
+  const [size, setSize] = useState('');
+  const [brand, setBrand] = useState('');
 
+  useEffect(() => {
+    setColor(dataCategoryId.colors.toString());
+    setSize(dataCategoryId.sizes.toString());
+    setBrand(dataCategoryId.brands.toString());
+    setPrice(dataCategoryId.max)
+  }, [dataCategoryId])
+
+  console.log(brand, size,price, color);
   const smUp = useResponsive('up', 'sm');
   useScript('../assets/js/jquery-3.2.1.min.js');
   useScript('../assets/js/popper.js');
@@ -29,7 +42,6 @@ const MainProduct = () => {
   useScript('../assets/js/easing.js');
   useScript('../assets/js/bootstrap.bundle.min.js');
   useScript('../assets/js/script.js?v=2.0');
-  const dataCategoryId = useSelector(state => state.category.data);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -45,7 +57,7 @@ const MainProduct = () => {
     if (dataCategoryId.id !== '') {
       let id = dataCategoryId.id;
       dispatch(openLoadingApi());
-      apiUserGetAllProductByCategoryId(rowsPerPage, page, keyword, id).then(result => {
+      apiUserGetAllProductByCategoryId(rowsPerPage, page, keyword, id,brand, size, price, color).then(result => {
         setDataProduct(result.data.data.items);
         setTotal(result?.data?.data?.total);
         dispatch(closeLoadingApi());
@@ -54,7 +66,7 @@ const MainProduct = () => {
       })
     } else {
       dispatch(openLoadingApi());
-      apiUserGetAllProductByCategoryId(rowsPerPage, page, keyword, id).then(result => {
+      apiUserGetAllProductByCategoryId(rowsPerPage, page, keyword, id, (brand), (size), price, (color)).then(result => {
         setDataProduct(result.data.data.items);
         dispatch(closeLoadingApi());
         setTotal(result?.data?.data?.total);
@@ -67,6 +79,8 @@ const MainProduct = () => {
   const handleChange = (e) => {
     setKeyword(e.target.value);
   }
+
+  // data.replace(' ', '').split(',')
 
   return (
     <div className="MainDiv">
@@ -123,9 +137,7 @@ const MainProduct = () => {
               )
             })}
           </div>
-
           {dataProduct?.length > 0 && total !== 0 && total > 12 ? (
-
             <>
               <div style={{ borderTop: '1px solid rgba(0,0,0,.125)' }}>
                 <TablePagination
@@ -154,7 +166,6 @@ const MainProduct = () => {
                   onPageChange={handleChangePage}
                   onRowsPerPageChange={handleChangeRowsPerPage}
                 />
-
               </div>
             </>
           ) : (
