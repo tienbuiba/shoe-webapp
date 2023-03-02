@@ -199,8 +199,8 @@ export class OrdersController {
   @ApiQuery({ required: true, name: 'status' })
   @ApiQuery({ required: false, name: 'reason' })
   async updateOrderStatus(
-    @Query() status: OrderStatusEnum,
-    @Query() reason: string,
+    @Query('status') status: OrderStatusEnum,
+    @Query('reason') reason: string,
     @Param('id') id: number,
   ): Promise<IResponse> {
     const existOrder = await this.ordersService.findOne({ id: id });
