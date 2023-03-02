@@ -21,6 +21,7 @@ import PostDetail from './pages/PostDetail';
 import EditPost from './pages/EditPost';
 import ProductListDetail from './pages/ProductListDetail';
 import ProductSingleDetail from './pages/ProductSingleDetail';
+import UpdateOrder from './pages/UpdateOrder';
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -46,6 +47,8 @@ export default function Router() {
         { path: 'edit-post/:id', element: <EditPost /> },
         { path: 'post-detail/:id', element: <PostDetail /> },
         { path: 'edit-product/:id', element: <EditProduct /> },
+        { path: 'update-order', element: <UpdateOrder /> },
+
       ],
     },
     {

@@ -145,19 +145,20 @@ export default function Orders() {
                           {row.id}
                         </TableCell>
                         <TableCell align="left">{row.code}</TableCell>
-                        <TableCell align="left">{fNumber(row.totalPrice)}</TableCell>
+                        <TableCell align="left">
+                        {row?.items.length >= 2 ? ((row?.items[0].priceSell * row?.items[0].orderInfo.quantity) + (row?.items[1].priceSell * row?.items[1].orderInfo.quantity)) : (row?.items[0].priceSell * row?.items[0].orderInfo.quantity)}
+                       </TableCell>
                         <TableCell align="left">{(row.userId)}</TableCell>
                         <TableCell align="left">{(row.address)}</TableCell>
                         <TableCell align="left">
-                          <Label variant="ghost" color={(row.status === 'WAITING' && 'success') || 'warning'}>
+                        <Label variant="ghost" color={(row.status === 'CANCEL' && 'error') || (row.status === 'SUCCESS' && 'success') || (row.status === 'PAIED' && 'info') || 'warning'}>
                             {row.status}
                           </Label>
                         </TableCell>
                         <TableCell align="left">{fDateLocal(row.createdAt)}</TableCell>
                         <TableCell align="left">{fDateLocal(row.updatedAt)}</TableCell>
-                        <TableCell align="left">{(row.cancelReason)}</TableCell>
                         <TableCell align="left">
-                          <OrderMoreMenu orderId={row.id} userId={row.userId} />
+                          <OrderMoreMenu orderId={row.id} userId={row.userId} dataOrder={row}/>
                         </TableCell>
                       </TableRow>
                     );

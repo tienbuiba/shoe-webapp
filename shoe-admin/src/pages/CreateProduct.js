@@ -28,6 +28,7 @@ import { closeLoadingApi, openLoadingApi } from 'src/redux/create-actions/Loadin
 import { useDispatch } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { API_URL } from 'src/constant/Constants';
 
 const Input = styled('input')({
   display: 'none',
@@ -38,7 +39,6 @@ function CreateProduct() {
   const [productForm, setProductForm] = useState(initStateProductForm);
   const [images, setImages] = useState([]);
   const [listCategory, setListCategory] = useState([]);
-  const API_URL = 'https://api.atroboticsvn.com';
   const UPLOAD_ENDPOINT = 'api/v1/upload-files/push';
   const [rowsPerPage, setRowsPerPage] = useState(100);
   const [page, setPage] = useState(0);
@@ -144,7 +144,7 @@ function CreateProduct() {
     let data = event.target.value;
     setProductForm({
       ...productForm,
-      productColor: data.replace(' ', '').split(','),
+      color: data.replace(' ', '').split(','),
     });
   };
   const handleChangeProductImages = (event) => {
@@ -154,7 +154,7 @@ function CreateProduct() {
         setImages([...images, res?.data?.data]);
         setProductForm({
           ...productForm,
-          productImages: [...images, res?.data?.data],
+          images: [...images, res?.data?.data],
         });
       })
       .catch((err) => {
@@ -191,19 +191,19 @@ function CreateProduct() {
         dispatch(closeLoadingApi());
         toast.success("Thêm sản phẩm thành công!", options);
         setImages([]);
-        navigate('/dashboard/create-product');
+        // navigate('/dashboard/products');
         setProductForm({
           ...productForm,
-          productName: '',
-          productSize: [],
+          name: '',
+          size: [],
           priceOrigin: '',
           priceSell: '',
-          productColors: [],
-          productImages: [],
-          productShortDesc: '',
-          productLongDesc: '',
-          productCategoryId: '',
-          productSold: '',
+          colors: [],
+          images: [],
+          shortDesc: '',
+          longDesc: '',
+          categoryId: '',
+          sold: '',
           available: 1,
           reviewCount: 0,
           ratingAvg: 0,
@@ -294,7 +294,7 @@ function CreateProduct() {
                 id="productColors"
                 label="Màu sản phẩm"
                 placeholder="Nhập màu sản phẩm"
-                value={productForm.productColor}
+                value={productForm.color}
                 onChange={handleChangeProductColors}
                 required
                 fullWidth

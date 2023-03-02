@@ -34,3 +34,17 @@ export const apiAdminExportOrder = async (orderID) => {
 
   return res;
 }
+
+export const apiAdminUpdateStatusOrder = async (id,reason,status) => {  
+  const url = userService + `/orders/admin/update-order-status/${id}?reason=${reason}&status=${status}`;
+  const data={}
+  let res;
+  const accessToken = TokenService.getLocalAccessToken();
+  res = await api.post(url,data, {
+    headers: {
+      "Authorization": accessToken,
+      "Content-Type": "application/json"
+    }}
+  );
+  return res;
+}

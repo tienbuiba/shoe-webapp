@@ -35,7 +35,7 @@ function CreateCategory() {
     apiAdminCreateCategory(categoryName)
       .then(res => {
         if (res?.data.statusCode === 200) {
-          toast.error("Create category successfully!", options);
+          toast.success("Create category successfully!", options);
           setCategoryName('')
         }
       })

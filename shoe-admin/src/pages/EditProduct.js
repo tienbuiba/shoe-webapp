@@ -18,9 +18,9 @@ import { useState, useEffect } from 'react';
 import Page from '../components/Page';
 import { styled } from '@mui/material/styles';
 import { PhotoCamera } from '@mui/icons-material';
-import { initProduct } from 'src/utils/InitProductForm';
+import { initEditProduct } from 'src/utils/InitProductForm';
 import { uploadImage } from 'src/services/UploadImage';
-import { apiAdminCreateProduct, apiAdminGetProductById } from 'src/services/Products';
+import { apiAdminGetProductById, apiAdminUpdateProduct } from 'src/services/Products';
 import { apiAdminGetAllCategories } from 'src/services/Categories';
 import AddIcon from '@mui/icons-material/Add';
 import TokenService from 'src/services/TokenService';
@@ -29,6 +29,7 @@ import { useDispatch } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
+import { API_URL } from 'src/constant/Constants';
 
 
 const Input = styled('input')({
@@ -36,11 +37,11 @@ const Input = styled('input')({
 });
 
 function EditProduct() {
-  const initStateProductForm = initProduct('', [], '', '', [], [], '', '', '', 0, '');
+  const initStateProductForm = initEditProduct('', [], '', '', [], [], '', '', '', 0, '');
   const [productForm, setProductForm] = useState(initStateProductForm);
   const [images, setImages] = useState([]);
   const [listCategory, setListCategory] = useState([]);
-  const API_URL = 'https://api.atroboticsvn.com';
+  // const API_URL = 'https://api.atroboticsvn.com';
   const UPLOAD_ENDPOINT = 'api/v1/upload-files/push';
   const [rowsPerPage, setRowsPerPage] = useState(100);
   const [page, setPage] = useState(0);
@@ -53,36 +54,38 @@ function EditProduct() {
     position: toast.POSITION.TOP_RIGHT,
   };
 
+
   useEffect(() => {
     dispatch(openLoadingApi());
     apiAdminGetProductById(id).then((res) => {
       const result = res?.data?.data;
-      dispatch(closeLoadingApi());
       setImages(res?.data?.data.images);
-      setProductForm({
-        ...productForm,
-        productName: result.name,
-        productSize: result.size,
-        priceOrigin: result.priceOrigin,
-        priceSell: result.priceSell,
-        productColors: result.color,
-        productImages: result.images,
-        productShortDesc: result.shortDesc,
-        productLongDesc: result.longDesc,
-        productCategoryId: result.categoryId,
-        productSold: result.sold,
-        available: result.available,
-        reviewCount: result.reviewCount,
-        ratingAvg: result.ratingAvg,
-        brand: result.brand,
-      });
+      if( result){
+        setProductForm({
+          ...productForm,
+          name: result?.name,
+          size: result?.size,
+          priceOrigin: result?.priceOrigin,
+          priceSell: result?.priceSell,
+          color: result?.color,
+          images: result?.images,
+          shortDesc: result?.shortDesc,
+          longDesc: result?.longDesc,
+          categoryId: result?.categoryId,
+          sold: result?.sold,
+          available: result?.available,
+          reviewCount: result?.reviewCount,
+          ratingAvg: result?.ratingAvg,
+          brand: result?.brand,
+        });
+      }
+    
     }).catch((err) => {
       console.log(err)
+    }).finally(() => {
+      dispatch(closeLoadingApi());
+
     })
-  }, [])
-
-
-  useEffect(() => {
     apiAdminGetAllCategories(rowsPerPage, page, '')
       .then((res) => {
         setListCategory(res.data.data.items);
@@ -90,7 +93,9 @@ function EditProduct() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [])
+
+
 
   function uploadAdapter(loader) {
     const accessToken = TokenService.getLocalAccessToken();
@@ -176,7 +181,7 @@ function EditProduct() {
     let data = event.target.value;
     setProductForm({
       ...productForm,
-      productColor: data.replace(' ', '').split(','),
+      color: data.replace(' ', '').split(','),
     });
   };
   const handleChangeProductImages = (event) => {
@@ -186,7 +191,7 @@ function EditProduct() {
         setImages([...images, res?.data?.data]);
         setProductForm({
           ...productForm,
-          productImages: [...images, res?.data?.data],
+          images: [...images, res?.data?.data],
         });
       })
       .catch((err) => {
@@ -219,18 +224,19 @@ function EditProduct() {
     setImages([]);
     setProductForm({
       ...productForm,
-      productImages: []
+      images: []
     });
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     dispatch(openLoadingApi());
-    apiAdminCreateProduct(productForm)
+    apiAdminUpdateProduct(id, productForm)
       .then(res => {
         dispatch(closeLoadingApi());
-        toast.success("Thêm sản phẩm thành công!", options);
+        toast.success("Cập nhật sản phẩm thành công!", options);
         setImages([]);
-        navigate('/dashboard/create-product');
+        navigate(`/dashboard/products/${id}`);
         setProductForm({
           ...productForm,
           productName: '',
@@ -266,10 +272,11 @@ function EditProduct() {
   };
 
   return (
-    <Page title="Thêm sản phẩm mới">
+    <Page title="Cập nhật thông tin sản phẩm mới">
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
-          CHỈNH SỬA THÔNG TIN SẢN PHẨM        </Typography>
+          CHỈNH SỬA THÔNG TIN SẢN PHẨM
+        </Typography>
         <Card sx={{ py: 4, px: 3 }}>
           <Grid container spacing={3}>
             <Grid item xs={6} sx={{ pl: '24px' }}>
@@ -332,7 +339,7 @@ function EditProduct() {
                 id="productColors"
                 label="Màu sản phẩm"
                 placeholder="Nhập màu sản phẩm"
-                value={productForm.productColor}
+                value={productForm.color}
                 onChange={handleChangeProductColors}
                 required
                 fullWidth

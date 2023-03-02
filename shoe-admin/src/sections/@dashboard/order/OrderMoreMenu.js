@@ -5,15 +5,17 @@ import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/mat
 // component
 import Iconify from '../../../components/Iconify';
 import { useDispatch } from 'react-redux';
-import { orderId } from 'src/redux/create-actions/OrderAction';
+import { orderDetails, orderId } from 'src/redux/create-actions/OrderAction';
 
 // ----------------------------------------------------------------------
 
 export default function OrderMoreMenu(props) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
-  const { orderDetails, orderCode, orderID } = props;
+  const {  orderCode, orderID, dataOrder } = props;
   const dispatch = useDispatch();
+
+  console.log(dataOrder)
 
   return (
     <React.Fragment>
@@ -30,13 +32,18 @@ export default function OrderMoreMenu(props) {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <MenuItem component={RouterLink} to="/dashboard/order-details" sx={{ color: 'text.secondary' }} onClick={e => dispatch(orderId(orderDetails, orderCode, orderID))}>
+        <MenuItem component={RouterLink} to="/dashboard/order-details" onClick={ ()=> {
+          dispatch(orderDetails(dataOrder))
+        }} sx={{ color: 'text.secondary' }} 
+        >
           <ListItemIcon>
             <Iconify icon="ic:twotone-remove-red-eye" width={20} height={24} />
           </ListItemIcon>
           <ListItemText primary="Xem chi tiết đơn hàng" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
-        <MenuItem component={RouterLink} to="/dashboard/order-update" sx={{ color: 'text.secondary' }} onClick={e => dispatch(orderId(orderDetails, orderCode, orderID))}>
+        <MenuItem component={RouterLink} to="/dashboard/update-order" sx={{ color: 'text.secondary' }} onClick={ ()=> {
+          dispatch(orderDetails(dataOrder))
+        }}>
           <ListItemIcon>
             <Iconify icon="material-symbols:edit" width={20} height={24} />
           </ListItemIcon>

@@ -80,3 +80,16 @@ export const apiAdminDeleteProduct = async (id) => {
 
 
 
+export const apiAdminUpdateProduct = async (id,productForm) => {
+  let url = userService + `/products/admin/update/${id}`
+  let res;
+  const accessToken = TokenService.getLocalAccessToken();
+  res = await api.post(url, productForm, {
+    headers: {
+      "Authorization": accessToken,
+      "Content-Type": "application/json"
+    }
+  });
+
+  return res;
+}
