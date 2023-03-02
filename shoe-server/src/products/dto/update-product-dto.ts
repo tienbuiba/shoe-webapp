@@ -1,8 +1,8 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { ProductStatusEnum } from '@prisma/client';
 import {
+  IsArray,
   IsEnum,
-  IsJSON,
   IsNumber,
   IsOptional,
   IsString,
@@ -42,17 +42,17 @@ export class UpdateProductDto {
   longDesc?: string;
 
   @ApiPropertyOptional()
-  @IsJSON()
+  @IsArray()
   @IsOptional()
   color?: Array<string>;
 
   @ApiPropertyOptional()
-  @IsJSON()
+  @IsArray()
   @IsOptional()
   size?: Array<string>;
 
   @ApiPropertyOptional()
-  @IsJSON()
+  @IsArray()
   @IsOptional()
   images?: Array<string>;
 
