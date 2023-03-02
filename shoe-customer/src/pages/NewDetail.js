@@ -1,5 +1,5 @@
 import Footer from "src/layouts/Footer";
-import { Avatar, Breadcrumbs, Button, Card, Container, Divider, Grid, Link, Typography } from "@mui/material";
+import { Avatar, Breadcrumbs, Button, Card, Container, Divider, Grid, Link} from "@mui/material";
 import Header from "src/layouts/Header";
 import Page from "src/components/Page";
 import { useParams } from "react-router-dom";
@@ -18,6 +18,7 @@ import TokenService from "src/services/TokenService";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
+import { useTranslation } from "react-i18next";
 
 
 const NewDetail = () => {
@@ -30,6 +31,7 @@ const NewDetail = () => {
   const deletecmtPost = useSelector(state => state.comment.data);
   const profile = JSON.parse(TokenService.getLocalProfile('profile'));
   const [edit, setEdit] = useState(false);
+  const { t } = useTranslation("translation");
 
   useEffect(() => {
     dispatch(openLoadingApi())
@@ -93,23 +95,27 @@ const NewDetail = () => {
   }
 
   return data && (
-    <Page title="New detail">
+    <Page title={t("News Details")}>
       <Header />
       <div className="newsletter" style={{ marginTop: '150px' }}>
         <div className="container">
           <div className="row">
             <div className="col-lg-6">
               <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
-                <h3> News Details</h3>
+                <h3>
+                  {t("News Details")}
+                </h3>
                 <Breadcrumbs aria-label="breadcrumb" >
                   <Link
                     underline="hover"
                     color="inherit"
                     href="/"
                   >
-                    HOME PAGE
+                    {t("HOME PAGE")}
                   </Link>
-                  <p>NEWS</p>
+                  <p>
+                    {t("News")}
+                   </p>
                 </Breadcrumbs>
               </div>
             </div>
@@ -121,13 +127,13 @@ const NewDetail = () => {
           <Grid item xs={12} md={3}>
             <aside class="col-lg-12">
               <div className="mb-3">
-                <input onChange={handleChange} value={keyword} className="form-control d-inline-block " placeholder="Search" />
+                <input onChange={handleChange} value={keyword} className="form-control d-inline-block " placeholder={t("Search...")}/>
               </div>
               <div id="aside_filter" class="collapse card d-lg-block mb-5">
                 <article class="filter-group">
                   <header class="card-header">
                     <a class="title" data-bs-toggle="collapse" data-bs-target="#collapse_aside1">
-                      BÀI VIẾT LIÊN QUAN
+                      {t("RELATED ARTICLES")}
                     </a>
                   </header>
                   <div class="collapse show" id="collapse_aside1">
@@ -155,7 +161,9 @@ const NewDetail = () => {
           </Grid>
           <Grid item xs={12} md={9}>
             <Card className="container" sx={{ px: 2, py: 3 }}>
-              <div style={{ color: '#000', fontSize: '16px', marginBottom: '12px', fontWeight: '550', }}>TIN TỨC</div>
+              <div style={{ color: '#000', fontSize: '16px', marginBottom: '12px', fontWeight: '550', }}>
+                {t("NEWS")}
+              </div>
               <div style={{ color: '#000', fontSize: '24px', fontWeight: 'bold', lineHeight: '1.6' }}>{data.shortDesc}</div>
               <div style={{
                 height: '3px',
@@ -172,7 +180,7 @@ const NewDetail = () => {
                 color: '#000',
                 marginBottom: '30px'
               }}>
-                POSTED ON
+                {t("POSTED ON")}
                 <span style={{
                   fontSize: '10px',
                   color: '#000',
@@ -183,7 +191,7 @@ const NewDetail = () => {
                     fDateLocal(data?.createdAt)
                   )}
                 </span>,
-                BY ADMIN
+                {t("BY ADMIN")}
               </div>
               <div>
                 <div className="product_images">
@@ -199,21 +207,21 @@ const NewDetail = () => {
                 <FacebookShareButton
                   url={urlWebsite}
                   quote={data.shortDesc}
-                  hashtag="#shoe"
+                  hashtag="#shoe,#meshoe.info"
                 >
                   <FacebookIcon size={32} round />
                 </FacebookShareButton>
                 <TwitterShareButton
                   url={urlWebsite}
                   quote={data.shortDesc}
-                  hashtag="#shoe"
+                  hashtag="#shoe,#meshoe.info"
                 >
                   <TwitterIcon size={32} round />
                 </TwitterShareButton>
                 <PinterestShareButton
                   url={urlWebsite}
                   quote={data.shortDesc}
-                  hashtag="#shoe"
+                  hashtag="#shoe,#meshoe.info"
                 >
                   <PinterestIcon size={32} round />
                 </PinterestShareButton>
@@ -221,100 +229,110 @@ const NewDetail = () => {
                 <WhatsappShareButton
                   url={urlWebsite}
                   quote={data.shortDesc}
-                  hashtag="#shoe"
+                  hashtag="#shoe,#meshoe.info"
                 >
                   <WhatsappIcon size={32} round />
                 </WhatsappShareButton>
               </div>
-              <Divider sx={{ mt: 3}} />         
+              <Divider sx={{ mt: 3 }} />
               {dataComment?.length > 0 ?
-                <div style={{backgroundColor: 'rgba(0,0,0,0.05)', marginTop: '30px', padding: '50px 0px 0px 20px'}}>
+                <div style={{ backgroundColor: 'rgba(0,0,0,0.05)', marginTop: '30px', padding: '50px 0px 0px 20px' }}>
                   <Grid container>
-                    <Grid item xs={7} sx={{ paddingRight: '20px'}}>
-                      <h4 style={{ color: '#000', marginBottom: '20px' }}>Recent Comments</h4>
+                    <Grid item xs={7} sx={{ paddingRight: '20px' }}>
+                      <h4 style={{ color: '#000', marginBottom: '20px' }}>
+                        {t("Recent Comments")}
+                      </h4>
                       {dataComment?.map(item => {
-                          return (
-                            <div
-                              style={{
-                                display: 'flex',
-                                alignItems: `${edit === false ? 'center' : 'flex-start'}`,
-                                justifyContent: 'space-between',
-                                flexDirection: `${edit === false ? 'row' : 'column'}`,
-                                border: '1px solid #ccc',
-                                padding: '10px 15px',
-                                width: '100%',
-                                borderRadius: '5px',
-                                marginBottom: '20px'
-                              }}>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-                                <Avatar src={item.user.avatarUrl} />
-                                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                  <div style={{ color: '#428bca', fontSize: '16px' }}>{item.content}</div>
-                                  <div style={{ fontSize: '12px' }}>
-                                    By:
-                                    <span style={{ color: '#428bca', margin: '0 5px' }}>
-                                      {item.user.username}
-                                    </span>
-                                    {fDateLocal(item.createdAt)}</div>
-                                </div>
+                        return (
+                          <div
+                            style={{
+                              display: 'flex',
+                              alignItems: `${edit === false ? 'center' : 'flex-start'}`,
+                              justifyContent: 'space-between',
+                              flexDirection: `${edit === false ? 'row' : 'column'}`,
+                              border: '1px solid #ccc',
+                              padding: '10px 15px',
+                              width: '100%',
+                              borderRadius: '5px',
+                              marginBottom: '20px'
+                            }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                              <Avatar src={item.user.avatarUrl} />
+                              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                <div style={{ color: '#428bca', fontSize: '16px' }}>{item.content}</div>
+                                <div style={{ fontSize: '12px' }}>
+                                  {t("By")}
+                                  :
+                                  <span style={{ color: '#428bca', margin: '0 5px' }}>
+                                    {item.user.username}
+                                  </span>
+                                  {fDateLocal(item.createdAt)}</div>
                               </div>
-                              {item?.userId === profile?.id ?
-                                (<div>
-                                  {edit === true ? (
-                                    <div style={{ marginTop: '10px' }}>
-                                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                        <label htmlFor="message">Message</label>
-                                        <CloseIcon size="small" onClick={() => { setEdit(false) }} sx={{ fontSize: '14px', cursor: 'pointer' }} />
-                                      </div>
-                                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                        <input value={contentEdit} onChange={(e) => { setContentEdit(e.target.value) }} className="form-control d-inline-block" />
-                                        <Button
-                                          variant="contained"
-                                          className="yellow_button_auth"
-                                          onClick={() => {
-                                            apiUserEditCommentById(item.id, contentEdit).then(res => {
-                                              setEdit(false);
-                                              dispatch(deleteCommentPost());
-                                              setContent('');
-                                              setContentEdit('');
-                                            }).catch(err => {
-                                              console.log(err);
-                                            })
-                                          }}>Edit</Button>
-                                      </div>
+                            </div>
+                            {item?.userId === profile?.id ?
+                              (<div>
+                                {edit === true ? (
+                                  <div style={{ marginTop: '10px' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                      <label htmlFor="message">Message</label>
+                                      <CloseIcon size="small" onClick={() => { setEdit(false) }} sx={{ fontSize: '14px', cursor: 'pointer' }} />
                                     </div>
-                                  ) : (
-                                    <div style={{ display: 'flex', alignItem: 'center', gap: '10px' }}>
-                                      <EditIcon
-                                        color="infor"
-                                        sx={{ cursor: 'pointer', fontSize: '16px' }}
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                      <input value={contentEdit} onChange={(e) => { setContentEdit(e.target.value) }} className="form-control d-inline-block" />
+                                      <Button
+                                        variant="contained"
+                                        className="yellow_button_auth"
                                         onClick={() => {
-                                          setEdit(true);
-                                        }} />
-                                      <DeleteIcon
-                                        color="error"
-                                        sx={{ cursor: 'pointer', fontSize: '16px' }}
-                                        onClick={() => {
-                                          apiUserCommentPostById(item.id).then((res) => {
+                                          apiUserEditCommentById(item.id, contentEdit).then(res => {
+                                            setEdit(false);
                                             dispatch(deleteCommentPost());
+                                            setContent('');
+                                            setContentEdit('');
                                           }).catch(err => {
                                             console.log(err);
                                           })
-                                        }}
-                                      />
+                                        }}>
+                                        {t("Edit")}
+                                      </Button>
                                     </div>
-                                  )
-                                  }
-                                </div>
-                                ) : (<div></div>)}
-                            </div>)
-                        })
+                                  </div>
+                                ) : (
+                                  <div style={{ display: 'flex', alignItem: 'center', gap: '10px' }}>
+                                    <EditIcon
+                                      color="infor"
+                                      sx={{ cursor: 'pointer', fontSize: '16px' }}
+                                      onClick={() => {
+                                        setEdit(true);
+                                      }} />
+                                    <DeleteIcon
+                                      color="error"
+                                      sx={{ cursor: 'pointer', fontSize: '16px' }}
+                                      onClick={() => {
+                                        apiUserCommentPostById(item.id).then((res) => {
+                                          dispatch(deleteCommentPost());
+                                        }).catch(err => {
+                                          console.log(err);
+                                        })
+                                      }}
+                                    />
+                                  </div>
+                                )
+                                }
+                              </div>
+                              ) : (<div></div>)}
+                          </div>)
+                      })
                       }
                     </Grid>
-                    <Grid item xs={5} sx={{ border: '1px solid #ccc', padding: '20px 0px 20px 20px', borderRadius: '5px', backgroundColor: 'rgba(0,0,0,0.05)'}}>
+                    <Grid item xs={5} sx={{ border: '1px solid #ccc', padding: '20px 0px 20px 20px', borderRadius: '5px', backgroundColor: 'rgba(0,0,0,0.05)' }}>
                       <div >
-                        <h4>Leave a comment</h4>
-                        <label htmlFor="message">Message</label>
+                        <h4>
+                          {t("Leave a comment")}
+
+                        </h4>
+                        <label htmlFor="message">
+                          {t("Message")}
+                        </label>
                         <textarea value={content} onChange={handleChange} rows={5} className="form-control d-inline-block " />
                       </div>
                       <div >
@@ -328,7 +346,9 @@ const NewDetail = () => {
                             }).catch(err => {
                               console.log(err);
                             })
-                          }}>Post Comment</Button>
+                          }}>
+                          {t("Post Comment")}
+                        </Button>
                       </div>
                     </Grid>
                   </Grid>
@@ -338,8 +358,12 @@ const NewDetail = () => {
                   <div style={{ marginTop: '20px', backgroundColor: 'rgba(0,0,0,0.05)', padding: '30px' }}>
                     <form id="algin-form">
                       <div className="form-group">
-                        <h4>Leave a comment</h4>
-                        <label htmlFor="message">Message</label>
+                        <h4>
+                          {t("Leave a comment")}
+                        </h4>
+                        <label htmlFor="message">
+                          {t("Message")}
+                        </label>
                         <textarea value={content} onChange={handleChange} rows={5} className="form-control d-inline-block " />
                       </div>
                       <div className="form-group">
@@ -354,7 +378,9 @@ const NewDetail = () => {
                             }).catch(err => {
                               console.log(err);
                             })
-                          }}>Post Comment</Button>
+                          }}>
+                          {t("Post Comment")}
+                        </Button>
                       </div>
                     </form>
                   </div>
@@ -369,15 +395,21 @@ const NewDetail = () => {
           <div className="row">
             <div className="col-lg-6">
               <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
-                <h4>Newsletter</h4>
-                <p>Subscribe to our newsletter and get 20% off your first purchase</p>
+                <h4>
+                  {t("Newsletter")}
+                </h4>
+                <p>
+                  {t("Subscribe to our newsletter and get 20% off your first purchase")}
+                </p>
               </div>
             </div>
             <div className="col-lg-6">
               <form action="post">
                 <div className="newsletter_form d-flex flex-md-row flex-column flex-xs-column align-items-center justify-content-lg-end justify-content-center">
                   <input id="newsletter_email" type="email" placeholder="Your email" required="required" data-error="Valid email is required." />
-                  <button id="newsletter_submit" type="submit" className="newsletter_submit_btn trans_300" value="Submit">subscribe</button>
+                  <button id="newsletter_submit" type="submit" className="newsletter_submit_btn trans_300" value="Submit">
+                    {t("subscribe")}
+                  </button>
                 </div>
               </form>
             </div>

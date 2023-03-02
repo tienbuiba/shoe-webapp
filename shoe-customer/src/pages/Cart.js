@@ -10,12 +10,15 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { NavLink } from "react-router-dom";
 import CartTotalItem from "../components/cart/CartTotalItem";
 import CartItem from "../components/cart/CartItem";
+import { useTranslation } from "react-i18next";
 
 const Cart = () => {
   const [dataCart, setDataCart] = useState([]);
   const dataAddToCart = useSelector(state => state.cart.data);
   const [hasCart, setHasCart] = useState(false);
   const [total, setTotal] = useState(0);
+  const { t } = useTranslation("translation");
+
 
   useEffect(() => {
     apiUserGetAllCartItem().then((res) => {
@@ -36,28 +39,31 @@ const Cart = () => {
   }, [dataAddToCart])
 
   return dataCart && (
-    <Page title="Cart">
+    <Page title={t("Cart")}
+    >
       <Header />
       <div className="newsletter" style={{ marginTop: '150px' }}>
         <div className="container">
           <div className="row">
             <div className="col-lg-6">
               <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
-                <h3>Cart Shopping</h3>
+                <h3>
+                  {t("Cart Shopping")}
+                </h3>
                 <Breadcrumbs aria-label="breadcrumb" >
                   <Link
                     underline="hover"
                     color="inherit"
                     href="/"
                   >
-                    HOME PAGE
+                    {t("HOME PAGE")}
                   </Link>
                   <Link
                     underline="hover"
                     color="inherit"
                     href="/cart"
                   >
-                    Cart
+                    {t("Cart")}
                   </Link>
                 </Breadcrumbs>
               </div>
@@ -72,10 +78,21 @@ const Cart = () => {
               <Grid container>
                 <Grid item xs={12} md={8} sx={{ borderRight: '1px solid #E0E4E8', paddingRight: '20px' }}>
                   <div className="cart_heading" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)' }}>
-                    <p className="cart-item-heading">Item</p>
-                    <p className="cart-price-heading">Price</p>
-                    <p className="cart-quantity-heading">Quantity</p>
-                    <p className="cart-subtotal-heading">Subtotal</p>
+                    <p className="cart-item-heading">
+                      {t("Item")}
+
+                    </p>
+                    <p className="cart-price-heading">
+
+                      {t("Price")}
+                    </p>
+                    <p className="cart-quantity-heading">
+                      {t("Quantity")}
+
+                    </p>
+                    <p className="cart-subtotal-heading">
+                      {t("Subtotal")}
+                    </p>
                   </div>
                   <Divider></Divider>
                   <div className="cart-item">
@@ -86,19 +103,21 @@ const Cart = () => {
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: '16px' }}>
                     <Button
-                      style={{ width: '220px' }}
+                      style={{ width: '280px' }}
                       className="redOutlined_button_auth"
                       component={NavLink}
                       to="/shop"
                       startIcon={<KeyboardBackspaceIcon></KeyboardBackspaceIcon>}
                     >
-                      TIẾP TỤC XEM SẢN PHẨM
+                      {t("CONTINUE VIEWING PRODUCTS")}
                     </Button>
                   </div>
                 </Grid>
                 <Grid item xs={12} md={4} sx={{ paddingLeft: '20px' }}>
                   <div className="cart_heading" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)' }}>
-                    <p className="cart-item-heading">TỔNG SỐ LƯỢNG</p>
+                    <p className="cart-item-heading">
+                    {t("TOTAL")}
+                    </p>
                   </div>
                   <Divider></Divider>
                   <div className="cart-item">
@@ -112,7 +131,7 @@ const Cart = () => {
           <div style={{ textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '200px' }}>
             <div>
               <p>
-                Chưa có sản phẩm nào trong giỏ hàng.
+                {t("There are no products in the shopping cart.")}
               </p>
               <Button
                 style={{ width: '250px' }}
@@ -120,7 +139,7 @@ const Cart = () => {
                 component={NavLink}
                 to="/shop"
                 startIcon={<KeyboardBackspaceIcon></KeyboardBackspaceIcon>}>
-                QUAY TRỞ LẠI CỬA HÀNG
+                {t("BACK TO THE STORE")}
               </Button>
             </div>
           </div>

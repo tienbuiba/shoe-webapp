@@ -10,6 +10,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import { ToastContainer, toast } from 'react-toastify';
 import PaymentInforProduct from "src/components/product/PaymentInforProduct";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const PaymentInformation = () => {
   const [cities, setCities] = useState([]);
@@ -27,6 +28,8 @@ const PaymentInformation = () => {
   const [dataListAddress, setDataListAddress] = useState(null);
   const [hasAddress, setHasAddress] = useState(false);
   const [call, setCall] = useState(false);
+  const { t } = useTranslation("translation");
+
 
   const options = {
     autoClose: 2000,
@@ -90,23 +93,26 @@ const PaymentInformation = () => {
   }
 
   return (
-    <Page title="Payment information">
+    <Page title={t("Payment information")}
+    >
       <Header />
       <div className="newsletter" style={{ marginTop: '150px' }}>
         <div className="container">
           <div className="row">
             <div className="col-lg-6">
               <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
-                <h3>Payment Information</h3>
+                <h3> {t("Payment information")}</h3>
                 <Breadcrumbs aria-label="breadcrumb" >
                   <Link
                     underline="hover"
                     color="inherit"
                     to="/"
                   >
-                    HOME PAGE
+                    {t("HOME PAGE")}
                   </Link>
-                  <p>Cart</p>
+                  <p>
+                    {t("Payment information")}
+                  </p>
                 </Breadcrumbs>
               </div>
             </div>
@@ -120,12 +126,18 @@ const PaymentInformation = () => {
               {hasAddress === true ? (
                 <Grid item xs={8} sx={{ borderRight: '1px solid #E0E4E8', paddingRight: '20px', paddingTop: '20px' }}>
                   <div className="cart_heading" style={{ display: 'flex', justifyContent: "space-between", alignItems: 'center' }}>
-                    <p className="cart-item-heading">THÔNG TIN THANH TOÁN</p>
-                    <Link to="/update-delivery-address" className="address-change-heading" style={{ textAlign: 'end' }}>Đổi địa chỉ</Link>
+                    <p className="cart-item-heading">
+                      {t("BILLING INFORMATION")}
+                    </p>
+                    <Link to="/update-delivery-address" className="address-change-heading" style={{ textAlign: 'end' }}>
+                      {t("Change address")}
+                    </Link>
                   </div>
                   <Grid container spacing={3} sx={{ my: 4 }}>
                     <Grid item xs={12} md={6} sx={{ mb: 1 }}>
-                      <label style={{ fontSize: '16px', fontWeight: '500', color: '#212529', fontFamily: 'Jost, sans-serif' }} >Full Name *</label>
+                      <label style={{ fontSize: '16px', fontWeight: '500', color: '#212529', fontFamily: 'Jost, sans-serif' }} >
+                        {t("Full Name *")}
+                      </label>
                       <TextField
                         value={dataListAddress[0].fullname}
                         variant="filled"
@@ -134,7 +146,9 @@ const PaymentInformation = () => {
                       ></TextField>
                     </Grid>
                     <Grid item xs={12} md={6} sx={{ mb: 1 }}>
-                      <label style={{ fontSize: '16px', fontWeight: '500', color: '#212529', fontFamily: 'Jost, sans-serif' }} >Số điện thoại *</label>
+                      <label style={{ fontSize: '16px', fontWeight: '500', color: '#212529', fontFamily: 'Jost, sans-serif' }} >
+                        {t("Phone number *")}
+                      </label>
                       <TextField
                         value={dataListAddress[0].phone}
                         variant="filled"
@@ -143,7 +157,9 @@ const PaymentInformation = () => {
                       ></TextField>
                     </Grid>
                     <Grid item xs={12} md={6} sx={{ mb: 1 }} >
-                      <label style={{ fontSize: '16px', fontWeight: '500', color: '#212529', fontFamily: 'Jost, sans-serif' }} >Tỉnh / Thành phố *</label>
+                      <label style={{ fontSize: '16px', fontWeight: '500', color: '#212529', fontFamily: 'Jost, sans-serif' }} >
+                        {t("Province / City *")}
+                      </label>
                       <TextField
                         value={dataListAddress[0].city.name}
                         variant="filled"
@@ -152,7 +168,9 @@ const PaymentInformation = () => {
                       ></TextField>
                     </Grid>
                     <Grid item xs={12} md={6} sx={{ mb: 1 }} >
-                      <label style={{ fontSize: '16px', fontWeight: '500', color: '#212529', fontFamily: 'Jost, sans-serif' }} >Quận / Huyện *</label>
+                      <label style={{ fontSize: '16px', fontWeight: '500', color: '#212529', fontFamily: 'Jost, sans-serif' }} >
+                        {t("District *")}
+                      </label>
                       <TextField
                         value={dataListAddress[0].district.name}
                         variant="filled"
@@ -161,7 +179,9 @@ const PaymentInformation = () => {
                       ></TextField>
                     </Grid>
                     <Grid item xs={12} md={6} sx={{ mb: 1 }} >
-                      <label style={{ fontSize: '16px', fontWeight: '500', color: '#212529', fontFamily: 'Jost, sans-serif' }} >Phường / Xã *</label>
+                      <label style={{ fontSize: '16px', fontWeight: '500', color: '#212529', fontFamily: 'Jost, sans-serif' }} >
+                        {t("Wards *")}
+                      </label>
                       <TextField
                         value={dataListAddress[0].ward.name}
                         variant="filled"
@@ -171,7 +191,9 @@ const PaymentInformation = () => {
                       ></TextField>
                     </Grid>
                     <Grid item xs={12} md={6} sx={{ mb: 1 }}>
-                      <label style={{ fontSize: '16px', fontWeight: '500', color: '#212529', fontFamily: 'Jost, sans-serif' }} >Address detail *</label>
+                      <label style={{ fontSize: '16px', fontWeight: '500', color: '#212529', fontFamily: 'Jost, sans-serif' }} >
+                        {t("Address details *")}
+                      </label>
                       <TextField
                         value={dataListAddress[0].detail}
                         variant="filled"
@@ -180,16 +202,19 @@ const PaymentInformation = () => {
                       ></TextField>
                     </Grid>
                   </Grid>
-                  <Divider sx={{mb: 3}}></Divider>
+                  <Divider sx={{ mb: 3 }}></Divider>
                 </Grid>
               ) : (
                 <Grid item xs={8} sx={{ borderRight: '1px solid #E0E4E8', paddingRight: '20px', paddingTop: '20px' }}>
                   <div className="cart_heading" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)' }}>
-                    <p className="cart-item-heading">THÔNG TIN ĐẶT HÀNG</p>
+                    <p className="cart-item-heading">                    {t("BILLING INFORMATION")}
+                    </p>
                   </div>
                   <Grid container spacing={3} sx={{ my: 4 }}>
                     <Grid item xs={12} md={6} sx={{ mb: 1 }}>
-                      <label style={{ fontSize: '16px', fontWeight: '500', color: '#212529', fontFamily: 'Jost, sans-serif' }} >Full Name *</label>
+                      <label style={{ fontSize: '16px', fontWeight: '500', color: '#212529', fontFamily: 'Jost, sans-serif' }} >
+                        {t("Full Name *")}
+                      </label>
                       <TextField
                         value={fullname}
                         onChange={(e) => {
@@ -201,7 +226,9 @@ const PaymentInformation = () => {
                       ></TextField>
                     </Grid>
                     <Grid item xs={12} md={6} sx={{ mb: 1 }}>
-                      <label style={{ fontSize: '16px', fontWeight: '500', color: '#212529', fontFamily: 'Jost, sans-serif' }} >Số điện thoại *</label>
+                      <label style={{ fontSize: '16px', fontWeight: '500', color: '#212529', fontFamily: 'Jost, sans-serif' }} >
+                        {t("Phone number *")}
+                      </label>
                       <TextField
                         value={phone}
                         onChange={(e) => {
@@ -213,7 +240,9 @@ const PaymentInformation = () => {
                       ></TextField>
                     </Grid>
                     <Grid item xs={12} md={6} sx={{ mb: 1 }} >
-                      <label style={{ fontSize: '16px', fontWeight: '500', color: '#212529', fontFamily: 'Jost, sans-serif' }} >Tỉnh / Thành phố *</label>
+                      <label style={{ fontSize: '16px', fontWeight: '500', color: '#212529', fontFamily: 'Jost, sans-serif' }} >
+                        {t("Province / City *")}
+                      </label>
                       <FormControl fullWidth>
                         <Autocomplete
                           isOptionEqualToValue={(option, value) => {
@@ -233,7 +262,9 @@ const PaymentInformation = () => {
                       </FormControl>
                     </Grid>
                     <Grid item xs={12} md={6} sx={{ mb: 1 }} >
-                      <label style={{ fontSize: '16px', fontWeight: '500', color: '#212529', fontFamily: 'Jost, sans-serif' }} >Quận / Huyện *</label>
+                      <label style={{ fontSize: '16px', fontWeight: '500', color: '#212529', fontFamily: 'Jost, sans-serif' }} >
+                        {t("District *")}
+                      </label>
                       <FormControl fullWidth>
                         <Autocomplete
                           isOptionEqualToValue={(option, value) => {
@@ -252,7 +283,9 @@ const PaymentInformation = () => {
                       </FormControl>
                     </Grid>
                     <Grid item xs={12} md={6} sx={{ mb: 1 }} >
-                      <label style={{ fontSize: '16px', fontWeight: '500', color: '#212529', fontFamily: 'Jost, sans-serif' }} >Phường / Xã *</label>
+                      <label style={{ fontSize: '16px', fontWeight: '500', color: '#212529', fontFamily: 'Jost, sans-serif' }} >
+                        {t("Wards *")}
+                      </label>
                       <FormControl fullWidth>
                         <Autocomplete
                           isOptionEqualToValue={(option, value) => {
@@ -270,7 +303,9 @@ const PaymentInformation = () => {
                       </FormControl>
                     </Grid>
                     <Grid item xs={12} md={6} sx={{ mb: 1 }}>
-                      <label style={{ fontSize: '16px', fontWeight: '500', color: '#212529', fontFamily: 'Jost, sans-serif' }} >Address detail *</label>
+                      <label style={{ fontSize: '16px', fontWeight: '500', color: '#212529', fontFamily: 'Jost, sans-serif' }} >
+                        {t("Address details *")}
+                      </label>
                       <TextField
                         value={detail}
                         onChange={(e) => {
@@ -290,14 +325,17 @@ const PaymentInformation = () => {
                       startIcon={<SaveIcon></SaveIcon>}
                       onClick={handleClick}
                     >
-                      SAVE ADDRESS
+                      {t("SAVE ADDRESS")}
                     </Button>
                   </div>
                 </Grid>
               )}
               <Grid item xs={4} sx={{ p: '20px', border: '2px solid #e32124' }}>
                 <div className="cart_heading" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)' }}>
-                  <p className="cart-item-heading">ĐƠN HÀNG CỦA BẠN</p>
+                  <p className="cart-item-heading">
+                    {t("YOUR ORDER")}
+
+                  </p>
                 </div>
                 <Divider></Divider>
                 <div className="cart-item">

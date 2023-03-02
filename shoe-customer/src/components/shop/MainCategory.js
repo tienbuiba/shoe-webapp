@@ -2,6 +2,7 @@ import { Button, Checkbox, FormControl, InputLabel, ListItemText, MenuItem, Sele
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { setCategoryId, setFilter } from 'src/redux/creates-action/CategoryAction';
 import { apiUserGetAllCategories } from 'src/services/Categories';
@@ -100,10 +101,7 @@ const MainCategory = () => {
   const [selectedPrice, setSelectedPrice] = useState([]);
   const [min, setMin] = useState('');
   const [max, setMax] = useState('');
-
-  console.log(selectedBrand.toString())
-
-
+  const { t } = useTranslation("translation");
 
   const dispatch = useDispatch();
 
@@ -137,18 +135,17 @@ const MainCategory = () => {
     setSelectedColor(typeof value === "string" ? value.split(",") : value);
   };
 
-  console.log(selectedBrand, selectedSize, selectedColor, min, max);
-
-
   return (
     <div>
       <aside class="col-lg-12">
-        <button class="btn btn-outline-secondary mb-3 w-100  d-lg-none" data-bs-toggle="collapse" data-bs-target="#aside_filter">Show filter</button>
+        <button class="btn btn-outline-secondary mb-3 w-100  d-lg-none" data-bs-toggle="collapse" data-bs-target="#aside_filter">
+          {t("Show filter")}
+        </button>
         <div id="aside_filter" class="collapse card d-lg-block mb-5">
           <article class="filter-group">
             <header class="card-header">
               <a class="title" data-bs-toggle="collapse" data-bs-target="#collapse_aside1">
-                Related items
+                {t("Related categories")}
                 <i class="icon-control fa fa-chevron-down"></i>
               </a>
             </header>
@@ -173,19 +170,23 @@ const MainCategory = () => {
           <article class="filter-group">
             <header class="card-header">
               <a class="title" data-bs-toggle="collapse" data-bs-target="#collapse_aside_brands">
-                Brands
+
+                {t("Brands")}
+
                 <i class="icon-control fa fa-chevron-down"></i>
               </a>
             </header>
             <div class="collapse show" id="collapse_aside_brands">
               <div class="card-body">
                 <FormControl fullWidth={true}>
-                  <InputLabel id="mutiple-select-label">Select Brand</InputLabel>
+                  <InputLabel id="mutiple-select-label">
+                    {t("Select Brand")}
+                  </InputLabel>
                   <Select
                     labelId="mutiple-select-label"
                     multiple
                     MenuProps={lteProps}
-                    label="Select Brand"
+                    label={t("Select Brand")}
                     value={selectedBrand}
                     onChange={handleChangeBrand}
                     renderValue={(selected) => selected.join(", ")}
@@ -204,20 +205,24 @@ const MainCategory = () => {
           <article class="filter-group">
             <header class="card-header">
               <a class="title" data-bs-toggle="collapse" data-bs-target="#collapse_aside3">
-                Size
+
+                {t("Size")}
                 <i class="icon-control fa fa-chevron-down"></i>
               </a>
             </header>
             <div class="collapse show" id="collapse_aside3">
               <div class="card-body">
                 <FormControl fullWidth={true}>
-                  <InputLabel id="mutiple-select-label">Select Size</InputLabel>
+                  <InputLabel id="mutiple-select-label">
+                    {t("Select Size")}
+                  </InputLabel>
                   <Select
                     labelId="mutiple-select-label"
                     multiple
                     MenuProps={lteProps}
-                    
-                    label="Select Size"
+
+                    label={t("Select Size")}
+
                     value={selectedSize}
                     onChange={handleChangeSize}
                     renderValue={(selected) => selected.join(", ")}
@@ -233,23 +238,24 @@ const MainCategory = () => {
               </div>
             </div>
           </article>
-
           <article class="filter-group">
             <header class="card-header">
               <a class="title" data-bs-toggle="collapse" data-bs-target="#collapse_aside3">
-                Colors
+                {t("Colors")}
                 <i class="icon-control fa fa-chevron-down"></i>
               </a>
             </header>
             <div class="collapse show" id="collapse_aside3">
               <div class="card-body">
                 <FormControl fullWidth={true}>
-                  <InputLabel id="mutiple-select-label">Select Colors</InputLabel>
+                  <InputLabel id="mutiple-select-label">
+                    {t("Select Colors")}
+                  </InputLabel>
                   <Select
                     labelId="mutiple-select-label"
                     multiple
                     MenuProps={lteProps}
-                    label="Select Colors"
+                    label={t("Select Colors")}
                     value={selectedColor}
                     onChange={handleChangeColor}
                     renderValue={(selected) => selected.join(", ")}
@@ -268,18 +274,23 @@ const MainCategory = () => {
           <article class="filter-group">
             <header class="card-header">
               <a class="title" data-bs-toggle="collapse" data-bs-target="#collapse_aside2">
-                Price  <i class="icon-control fa fa-chevron-down"></i>
+                {t("Price")}
+                <i class="icon-control fa fa-chevron-down"></i>
               </a>
             </header>
             <div class="collapse show" id="collapse_aside2">
               <div class="card-body">
                 <div class="row mb-3">
                   <div class="col-6">
-                    <label for="min" class="form-label">Min</label>
+                    <label for="min" class="form-label">
+                      {t("Min")}
+                    </label>
                     <input class="form-control" id="min" placeholder="$0" value={min} type="number" onChange={e => setMin(e.target.value)} />
                   </div>
                   <div class="col-6">
-                    <label for="max" class="form-label">Max</label>
+                    <label for="max" class="form-label">
+                      {t("Max")}
+                    </label>
                     <input class="form-control" id="max" placeholder="$1,0000" value={max} type="number" onChange={e => setMax(e.target.value)} />
                   </div>
                 </div>
@@ -288,11 +299,12 @@ const MainCategory = () => {
                   size="large"
                   variant="contained"
                   className="red_button_auth"
-                  onClick={ ()=>{       
-                  dispatch(setFilter(selectedBrand,selectedSize,selectedColor,min,max))  
+                  onClick={() => {
+                    dispatch(setFilter(selectedBrand, selectedSize, selectedColor, min, max))
                   }}
                 >
-                  Apply
+                  {t("Apply")}
+
                 </Button>
               </div>
             </div>

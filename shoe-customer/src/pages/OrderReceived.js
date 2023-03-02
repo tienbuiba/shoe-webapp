@@ -27,10 +27,8 @@ const OrderReceived = () => {
     }
   }, [])
 
-
-
   return data.details.items && (
-    <Page title={t("Order details")}  >
+    <Page title={t("Order details")}>
       <Header />
       <Wrapper>
         <div className="container" style={{ marginTop: '250px', marginBottom: '100px' }}>

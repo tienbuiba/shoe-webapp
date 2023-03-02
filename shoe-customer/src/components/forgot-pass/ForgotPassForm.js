@@ -44,13 +44,22 @@ const ForgotPassForm = ({ handleChange }) => {
           </Grid>
           <Grid sx={{ textAlign: 'center', fontSize: '12px', color: '#000', mb: 2 }}>
             <Typography align="center" sx={{ width: '400px', textAlign: 'center', fontSize: '14px', color: '#000', marginBottom: '4px', fontWeight: 500 }}>
-              No Problem! Enter your email or username below and we
+             
+            {t("No Problem! Enter your email or username below and we")}
+
+              
             </Typography>
             <Typography align="center" sx={{ textAlign: 'center', fontSize: '14px', color: '#000', marginBottom: '4px', fontWeight: 500 }}>
-              will send you an email with instruction to reset your
+              
+            {t("will send you an email with instruction to reset your")}
+
+              
             </Typography>
             <Typography align="center" sx={{ textAlign: 'center', fontSize: '14px', color: '#000', marginBottom: '4px', fontWeight: 500 }}>
-              password.
+             
+            {t("password.")}
+
+              
             </Typography>
           </Grid>
           <Formik
@@ -140,7 +149,7 @@ const ForgotPassForm = ({ handleChange }) => {
                       sx={{ backgroundColor: 'red' }}
                       className="red_button_auth"
                     >
-                      Send Reset Link
+                    {t("Send Reset Link")}                      
                     </Button>
                   </Grid>
                   <Grid item xs={12}>

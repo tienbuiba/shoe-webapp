@@ -94,19 +94,19 @@ const Profile = () => {
                 sx={{ mb: 3 }}
                 variant="h4"
               >
-                Account
+             {t("Account")}
               </Typography>
             </Grid>
             <Grid item xs={6} textAlign="right">
               <Button
                 component={NavLink}
                 variant="contained"
-                style={{ width: '180px' }}
+                style={{ width: '200px' }}
                 className="redOutlined_button_auth"
                 endIcon={<ChevronRightIcon></ChevronRightIcon>}
                 to="/change-password"
               >
-                Change Password
+           {t("Change Password")}                
               </Button>
             </Grid>
           </Grid>
@@ -190,7 +190,8 @@ const Profile = () => {
                       component="span"
                       color="error"
                     >
-                      Upload Avatar
+                    {t("Upload Avatar")}               
+                     
                     </Button>
                   </label>
                 </CardActions>

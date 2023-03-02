@@ -1,8 +1,11 @@
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 import { AiOutlineStar } from "react-icons/ai";
 import styled from "styled-components";
+import { useTranslation } from "react-i18next";
 
 const Star = ({ stars, reviews }) => {
+  const { t } = useTranslation("translation");
+
   const ratingStar = Array.from({ length: 5 }, (elem, index) => {
     let number = index + 0.5;
     // debugger;
@@ -23,7 +26,9 @@ const Star = ({ stars, reviews }) => {
     <Wrapper>
       <div className="icon-style">
         {ratingStar}
-        <p>({reviews} customer reviews)</p>
+        <p>({reviews}        
+          {t("customer reviews")}
+         )</p>
       </div>
     </Wrapper>
   );

@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import FormatPrice from "src/utils/FormatPrice";
 import { orderDetail } from "src/redux/creates-action/OrderAction";
 import { closeLoadingApi, openLoadingApi } from "src/redux/creates-action/LoadingAction";
+import { useTranslation } from "react-i18next";
 
 const PaymentInforProduct = ({ hasAddress, dataListAddress }) => {
   const [dataCart, setDataCart] = useState([]);
@@ -24,6 +25,8 @@ const PaymentInforProduct = ({ hasAddress, dataListAddress }) => {
   const navigate = useNavigate();
   const [option, setOption] = useState(1);
   const dispatch= useDispatch();
+  const { t } = useTranslation("translation");
+
 
   const options = {
     autoClose: 2000,
@@ -93,9 +96,11 @@ const PaymentInforProduct = ({ hasAddress, dataListAddress }) => {
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #e4e8e0', marginBottom: '20px', paddingBottom: '4px' }}>
             <Typography style={{ color: '#000', fontSize: '14px' }}>
-              SẢN PHẨM</Typography>
+            {t("PRODUCT")}              
+             </Typography>
             <Typography style={{ color: '#000', fontSize: '14px' }}>
-              TỔNG</Typography>
+            {t("TOTAL")}
+              </Typography>
           </div>
           <div>
             {dataCart.map((curElem) => {
@@ -107,7 +112,7 @@ const PaymentInforProduct = ({ hasAddress, dataListAddress }) => {
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #e4e8e0', padding: '15px 0' }}>
           <Typography style={{ color: '#000', fontSize: '14px', width: '250px' }}>
-            Tổng
+          {t("Total")}
           </Typography>
           <FormatPrice price={total} />
         </div>
@@ -116,8 +121,8 @@ const PaymentInforProduct = ({ hasAddress, dataListAddress }) => {
             value={option}
             onChange={handleOptionChange}
           >
-            <FormControlLabel value={1} control={<Radio />} label="Trả tiền mặt khi nhận hàng" />
-            <FormControlLabel value={2} control={<Radio />} label="Chuyển khoản ngân hàng" />
+            <FormControlLabel value={1} control={<Radio />} label=  {t("Cash on Delivery")}/>
+            <FormControlLabel value={2} control={<Radio />} label= {t("Bank transfer")} />
           </RadioGroup>
         </FormControl>
         <Divider></Divider>
@@ -126,7 +131,9 @@ const PaymentInforProduct = ({ hasAddress, dataListAddress }) => {
           size="large"
           onClick={handleOrderClick}
           variant="contained"
-          className="black_button_auth">ĐẶT HÀNG</Button>
+          className="black_button_auth">
+          {t("ORDER NOW")}          
+         </Button>
         <div>
         </div>
         <ToastContainer></ToastContainer>

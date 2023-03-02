@@ -23,6 +23,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { fDateLocal } from "src/utils/formatTime";
 import TokenService from "src/services/TokenService";
 import { closeLoadingApi, openLoadingApi } from "src/redux/creates-action/LoadingAction";
+import { useTranslation } from "react-i18next";
 
 const Button = styled.button`
   text-decoration: none;
@@ -55,7 +56,7 @@ const ProductDetail = () => {
   const [data, setData] = useState([]);
   const [dataCategory, setDataCategory] = useState([]);
   const navigate = useNavigate();
-
+  const { t } = useTranslation("translation");
 
   const edit = true;
   const profile = JSON.parse(TokenService.getLocalProfile('profile'));
@@ -78,8 +79,6 @@ const ProductDetail = () => {
   useEffect(() => {
     apiUserGetProductById(id).then((res) => {
       setData(res?.data?.data);
-      // setColor(res?.data?.data?.color[0]);
-      // setSize(res?.data?.data?.size[0]);
       setMainImage(res?.data?.data?.images[0]);
       apiUserGetCategoryById(res?.data?.data?.categoryId).then((res) => {
         setDataCategory(res?.data.data.name);
@@ -139,7 +138,7 @@ const ProductDetail = () => {
   }, [])
 
   return data && (
-    <Page title="Product detail">
+    <Page title={t("Product details")}>
       <Header />
       <div className="newsletter" style={{ marginTop: '150px' }}>
         <div className="container">
@@ -153,14 +152,14 @@ const ProductDetail = () => {
                     color="inherit"
                     href="/"
                   >
-                    HOME PAGE
+                    {t("HOME PAGE")}
                   </Link>
                   <Link
                     underline="hover"
                     color="inherit"
                     href="/shop"
                   >
-                    Shop
+                    {t("Shop")}
                   </Link>
                 </Breadcrumbs>
               </div>
@@ -207,28 +206,39 @@ const ProductDetail = () => {
                 <h3>{data.name}</h3>
                 <Star stars={data.ratingAvg} reviews={data.reviewCount} />
                 <p style={{ color: '#000', marginBottom: '4px' }}>
-                  Price Origin:
+                  {t("Price Origin")}                  :
                   <del style={{ color: '#ccc' }}>
                     <FormatPrice price={data.priceOrigin} />
                   </del>
                 </p>
                 <p style={{ color: '#000', marginBottom: '4px' }}>
-                  Deal of the Day: <FormatPrice price={data.priceSell} />
+                  {t("Deal of the Day")}
+                  : <FormatPrice price={data.priceSell} />
                 </p>
                 <div className="product-data-info">
                   <p style={{ marginBottom: '4px' }}>
-                    <p style={{ width: '150px', color: '#222', display: 'inline-block', marginBottom: '4px' }}>Available:</p>
-                    <span style={{ width: '150px', display: 'inline-block' }}> {data.status === "AVAILABLE" ? `${data.available} In Stock` : "Not Available"}</span>
+                    <p style={{ width: '150px', color: '#222', display: 'inline-block', marginBottom: '4px' }}>
+                      {t("Available")}
+                      :</p>
+                    <span style={{ width: '150px', display: 'inline-block' }}> {data.status === "AVAILABLE" ?
+                      `${data.available} ${t("In Stock")}`
+                      :
+                      t("Not Available")
+                    }
+                    </span>
                   </p>
                   <p style={{ marginBottom: '4px' }}>
-                    <p style={{ width: '150px', textAlign: 'left', color: '#222', display: 'inline-block', marginBottom: '4px' }}>Brand :</p>
+                    <p style={{ width: '150px', textAlign: 'left', color: '#222', display: 'inline-block', marginBottom: '4px' }}>
+                      {t("Brand")}
+                      :</p>
                     <span style={{ width: '150px', display: 'inline-block' }}> {data.brand} </span>
                   </p>
                 </div>
                 <Wrapper>
                   <div className="colors">
                     <p style={{ color: '#000', marginBottom: '4px' }}>
-                      Size:
+                      {t("Size")}
+                      :
                       {data?.size?.map((curSize, index) => {
                         return (
                           <btnSizeStyle
@@ -249,7 +259,7 @@ const ProductDetail = () => {
                 <Wrapper>
                   <div className="colors">
                     <p style={{ color: '#000', marginBottom: '4px' }}>
-                      Color:
+                      {t("Color")}:
                       {data?.color?.map((curColor, index) => {
                         return (
                           <btnStyle
@@ -272,7 +282,9 @@ const ProductDetail = () => {
                       setDecrease={setDecrease}
                       setIncrease={setIncrease}
                     />
-                    <Button className="btn" component={Link} to={"/cart"} size="small" onClick={handleClick}>Add To Cart</Button>
+                    <Button className="btn" component={Link} to={"/cart"} size="small" onClick={handleClick}>
+                      {t("add to cart")}
+                    </Button>
                   </div>
                 )}
               </div>
@@ -285,8 +297,12 @@ const ProductDetail = () => {
                       <div className="benefit_item d-flex flex-row align-items-center">
                         <div className="benefit_icon"><i className="fa fa-truck" aria-hidden="true"></i></div>
                         <div className="benefit_content">
-                          <h6>free shipping</h6>
-                          <p>Suffered Alteration in Some Form</p>
+                          <h6>
+                            {t("free shipping")}
+                          </h6>
+                          <p>
+                            {t("For orders 500,000 VND")}
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -294,8 +310,12 @@ const ProductDetail = () => {
                       <div className="benefit_item d-flex flex-row align-items-center">
                         <div className="benefit_icon"><i className="fa fa-money" aria-hidden="true"></i></div>
                         <div className="benefit_content">
-                          <h6>cach on delivery</h6>
-                          <p>The Internet Tend To Repeat</p>
+                          <h6>
+                            {t("cach on delivery")}
+                          </h6>
+                          <p>
+                            {t("Payment on delivery")}
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -303,8 +323,12 @@ const ProductDetail = () => {
                       <div className="benefit_item d-flex flex-row align-items-center">
                         <div className="benefit_icon"><i className="fa fa-undo" aria-hidden="true"></i></div>
                         <div className="benefit_content">
-                          <h6>45 days return</h6>
-                          <p>Making it Look Like Readable</p>
+                          <h6>
+                            {t("45 days return")}
+                          </h6>
+                          <p>
+                            {t("Refund 1 to 1 exchange")}
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -312,8 +336,12 @@ const ProductDetail = () => {
                       <div className="benefit_item d-flex flex-row align-items-center">
                         <div className="benefit_icon"><i className="fa fa-clock-o" aria-hidden="true"></i></div>
                         <div className="benefit_content">
-                          <h6>opening all week</h6>
-                          <p>8AM - 09PM</p>
+                          <h6>
+                            {t("opening all week")}
+                          </h6>
+                          <p>
+                            {t("8AM - 09PM")}
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -323,145 +351,12 @@ const ProductDetail = () => {
               <Divider />
             </div>
             <div className="row">
-              <h3>DESCRIPTION</h3>
-              <Divider sx={{ my: 5, border: '1px solid #000' }} />
+              <h3>
+                {t("DESCRIPTION")}
+                <Divider sx={{ my: 3, border: '1px solid #000' }} />
+              </h3>
               <div dangerouslySetInnerHTML={{ __html: data.longDesc }} />
             </div>
-
-            {dataComment?.length > 0 ?
-              <div style={{ backgroundColor: 'rgba(0,0,0,0.05)', marginTop: '30px', padding: '50px 0px 0px 20px' }}>
-                <Grid container>
-                  <Grid item xs={7} sx={{ paddingRight: '20px' }}>
-                    <h4 style={{ color: '#000', marginBottom: '20px' }}>Recent Comments</h4>
-                    {dataComment?.map(item => {
-                      return (
-                        <div
-                          style={{
-                            display: 'flex',
-                            alignItems: `${edit === false ? 'center' : 'flex-start'}`,
-                            justifyContent: 'space-between',
-                            flexDirection: `${edit === false ? 'row' : 'column'}`,
-                            border: '1px solid #ccc',
-                            padding: '10px 15px',
-                            width: '100%',
-                            borderRadius: '5px',
-                            marginBottom: '20px'
-                          }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-                            <Avatar src={item.user.avatarUrl} />
-                            <div style={{ display: 'flex', flexDirection: 'column' }}>
-                              <div style={{ color: '#428bca', fontSize: '16px' }}>{item.content}</div>
-                              <div style={{ fontSize: '12px' }}>
-                                By:
-                                <span style={{ color: '#428bca', margin: '0 5px' }}>
-                                  {item.user.username}
-                                </span>
-                                {fDateLocal(item.createdAt)}</div>
-                            </div>
-                          </div>
-                          {item?.userId === profile?.id ?
-                            (<div>
-                              {edit === true ? (
-                                <div style={{ marginTop: '10px' }}>
-                                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <label htmlFor="message">Message</label>
-                                    {/* <CloseIcon size="small" onClick={() => { setEdit(false) }} sx={{ fontSize: '14px', cursor: 'pointer' }} /> */}
-                                  </div>
-                                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    {/* <input value={contentEdit} onChange={(e) => { setContentEdit(e.target.value) }} className="form-control d-inline-block" /> */}
-                                    <Button
-                                      variant="contained"
-                                      className="yellow_button_auth"
-                                    // onClick={() => {
-                                    //   apiUserEditCommentById(item.id, contentEdit).then(res => {
-                                    //     setEdit(false);
-                                    //     dispatch(deleteCommentPost());
-                                    //     setContent('');
-                                    //     setContentEdit('');
-                                    //   }).catch(err => {
-                                    //     console.log(err);
-                                    //   })
-                                    // }}
-                                    >Edit</Button>
-                                  </div>
-                                </div>
-                              ) : (
-                                <div style={{ display: 'flex', alignItem: 'center', gap: '10px' }}>
-                                  <EditIcon
-                                    color="infor"
-                                    sx={{ cursor: 'pointer', fontSize: '16px' }}
-                                  // onClick={() => {
-                                  //   setEdit(true);
-                                  // }}
-                                  />
-                                  <DeleteIcon
-                                    color="error"
-                                    sx={{ cursor: 'pointer', fontSize: '16px' }}
-                                  // onClick={() => {
-                                  //   apiUserCommentPostById(item.id).then((res) => {
-                                  //     dispatch(deleteCommentPost());
-                                  //   }).catch(err => {
-                                  //     console.log(err);
-                                  //   })
-                                  // }}
-                                  />
-                                </div>
-                              )
-                              }
-                            </div>
-                            ) : (<div></div>)}
-                        </div>)
-                    })
-                    }
-                  </Grid>
-                  <Grid item xs={5} sx={{ border: '1px solid #ccc', padding: '20px 0px 20px 20px', borderRadius: '5px', backgroundColor: 'rgba(0,0,0,0.05)' }}>
-                    <div >
-                      <h4>Leave a comment</h4>
-                      <label htmlFor="message">Message</label>
-                      {/* <textarea value={content} onChange={handleChange} rows={5} className="form-control d-inline-block " /> */}
-                    </div>
-                    <div >
-                      <Button
-                        variant="contained"
-                        className="yellow_button_auth"
-                      // onClick={() => {
-                      //   apiUserCreateComment(id, content).then(res => {
-                      //     dispatch(deleteCommentPost());
-                      //     setContent('');
-                      //   }).catch(err => {
-                      //     console.log(err);
-                      //   })
-                      // }}
-                      >Post Comment</Button>
-                    </div>
-                  </Grid>
-                </Grid>
-              </div>
-              :
-              <>
-                <div style={{ marginTop: '20px', backgroundColor: 'rgba(0,0,0,0.05)', padding: '30px' }}>
-                  <form id="algin-form">
-                    <div className="form-group">
-                      <h4>Leave a comment</h4>
-                      <label htmlFor="message">Message</label>
-                      <textarea value={content} onChange={(e) => { setContent(e.target.value) }} rows={5} className="form-control d-inline-block " />
-                    </div>
-                    <div className="form-group">
-                      <Button
-                        variant="contained"
-                        className="yellow_button_auth"
-                        onClick={() => {
-                          apiUseCreateProductCommentById(id, "adsasd", 5).then(res => {
-                          }).catch(err => {
-                            console.log(err);
-                          })
-                        }}
-                      >List Danh Gia</Button>
-                    </div>
-                  </form>
-                </div>
-              </>
-            }
           </Container>
         </Wrapper>
       </div>
@@ -470,15 +365,21 @@ const ProductDetail = () => {
           <div className="row">
             <div className="col-lg-6">
               <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
-                <h4>Newsletter</h4>
-                <p>Subscribe to our newsletter and get 20% off your first purchase</p>
+                <h4>
+                  {t("Newsletter")}
+                </h4>
+                <p>
+                  {t("Subscribe to our newsletter and get 20% off your first purchase")}
+                </p>
               </div>
             </div>
             <div className="col-lg-6">
               <form action="post">
                 <div className="newsletter_form d-flex flex-md-row flex-column flex-xs-column align-items-center justify-content-lg-end justify-content-center">
-                  <input id="newsletter_email" type="email" placeholder="Your email" required="required" data-error="Valid email is required." />
-                  <button id="newsletter_submit" type="submit" className="newsletter_submit_btn trans_300" value="Submit">subscribe</button>
+                  <input id="newsletter_email" type="email" placeholder={t("Your email")} required="required" data-error="Valid email is required." />
+                  <button id="newsletter_submit" type="submit" className="newsletter_submit_btn trans_300" value="Submit">
+                    {t("subscribe")}
+                  </button>
                 </div>
               </form>
             </div>

@@ -1,6 +1,7 @@
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { urlWebsite } from 'src/constants/Constant';
 import { apiUserProfile } from 'src/services/Authenticate';
 import TokenService from 'src/services/TokenService';
 
@@ -8,7 +9,7 @@ function LoginWithGoogle() {
     const navigate = useNavigate();
     const handleLogin = async (credential) => {
         try {
-            const response = await axios.post("https://api.atroboticsvn.com/api/v1/auth/login-with-google",
+            const response = await axios.post(` ${urlWebsite}/auth/login-with-google`,
                 { credential: credential },
             );
             if (true) {

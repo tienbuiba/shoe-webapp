@@ -6,10 +6,13 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { apiUserGetDeliveryAddress } from "../../services/Address";
 import FormatPrice from "../../utils/FormatPrice";
+import { useTranslation } from "react-i18next";
 
 const CartTotalItem = ({ id, quantity, total }) => {
   const [dataListAddress, setDataListAddress] = useState([]);
   const [hasAddress, setHasAddress] = useState(false);
+  const { t } = useTranslation("translation");
+
 
   useEffect(() => {
     apiUserGetDeliveryAddress().then((res) => {
@@ -29,44 +32,53 @@ const CartTotalItem = ({ id, quantity, total }) => {
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #e4e8e0', marginBottom: '20px', paddingBottom: '4px' }}>
           <Typography style={{ color: '#000', fontSize: '14px', width: '250px' }}>
-            Tổng phụ</Typography>
+            {t("Subtotal")}
+          </Typography>
           <FormatPrice price={total} />
         </div>
         {hasAddress === true ? (
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #e4e8e0', marginBottom: '20px', paddingBottom: '4px' }}>
             <Typography style={{ color: '#000', fontSize: '14px', width: '150px' }}>
-              Giao Hàng</Typography>
+              {t("Delivery")}
+            </Typography>
             <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', flexDirection: 'column' }}>
               <Typography style={{ color: '#000', fontSize: '12px', padding: '8px 0px ' }} >
-                Giao hàng miễn phí</Typography>
+                {t("Free delivery")}
+              </Typography>
               <Typography style={{ color: '#000', fontSize: '12px', textAlign: 'center' }}>
-                Vận chuyển đến
+                {t("Transport to")}
                 <span style={{ color: '#', marginLeft: '4px', fontSize: '12px', fontWeight: 'bold', textAlign: 'center' }}>
                   {dataListAddress[0]?.detail}, {dataListAddress[0].city.name}
                 </span>
               </Typography>
               <Link to="/update-delivery-address" className="address-change-heading" style={{ color: '#000', fontSize: '12px', padding: '8px 0px' }} >
-                Đổi địa chỉ</Link>
+                {t("Change address")}
+              </Link>
             </div>
           </div>
         ) : (
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #e4e8e0', marginBottom: '20px', paddingBottom: '4px' }}>
             <Typography style={{ color: '#000', fontSize: '14px', width: '150px' }}>
-              Giao Hàng</Typography>
+              {t("Delivery")}
+            </Typography>
             <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', flexDirection: 'column' }}>
               <Typography style={{ color: '#000', fontSize: '12px', padding: '8px 0px ' }} >
-                Giao hàng miễn phí</Typography>
+                {t("Free delivery")}
+              </Typography>
               <Typography style={{ color: '#000', fontSize: '12px' }}>
-                Tùy chọn giao hàng sẽ được cập nhật trong quá trình thanh toán.</Typography>
+                {t("Shipping options will be updated during checkout.")}
+              </Typography>
               <Typography style={{ color: '#000', fontSize: '12px' }}>
-                Tính phí giao hàng</Typography>
+                {t("Delivery charge")}
+              </Typography>
             </div>
           </div>)
         }
       </div>
       <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #e4e8e0', marginBottom: '20px', paddingBottom: '4px' }}>
         <Typography style={{ color: '#000', fontSize: '14px', width: '250px' }}>
-          Tổng</Typography>
+          {t("Total")}
+        </Typography>
         <FormatPrice price={total} />
       </div>
       <Button
@@ -74,9 +86,10 @@ const CartTotalItem = ({ id, quantity, total }) => {
         size="large"
         component={NavLink}
         to="/payment-infor"
-        type="submit"
         variant="contained"
-        className="black_button_auth">Tiến Hành Thanh Toán</Button>
+        className="black_button_auth">
+        {t("Proceed to Payment")}
+      </Button>
       <div>
       </div>
       <ToastContainer></ToastContainer>

@@ -68,7 +68,9 @@ const ChangePassword = () => {
             <div className="col-lg-6">
               <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
                 <h3>
-                  Change Password                </h3>
+                {t("title_03")} 
+                  
+                               </h3>
                 <Breadcrumbs aria-label="breadcrumb">
                   <Link
                     underline="hover"
@@ -82,7 +84,8 @@ const ChangePassword = () => {
                     color="inherit"
                     href="/"
                   >
-                    Change Password                     </Link>
+                  {t("title_03")}    
+                  </Link>
                 </Breadcrumbs>
               </div>
             </div>
@@ -111,12 +114,13 @@ const ChangePassword = () => {
                 sx={{ mb: 3 }}
                 component={NavLink}
                 variant="contained"
-                style={{ width: '180px' }}
+                style={{ width: '200px' }}
                 className="redOutlined_button_auth"
                 endIcon={<ChevronRightIcon></ChevronRightIcon>}
                 to="/account-profile"
               >
-                Account Profile
+                
+                {t("Account Profile")}
               </Button>
             </Grid>
           </Grid>

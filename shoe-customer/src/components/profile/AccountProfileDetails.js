@@ -15,11 +15,14 @@ import { apiUserUpdateProfile } from 'src/services/User';
 import { closeLoadingApi, openLoadingApi } from 'src/redux/creates-action/LoadingAction';
 import { useDispatch } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 
 export const AccountProfileDetails = (props) => {
   const { images } = props;
   const profile = JSON.parse(TokenService.getLocalProfile('profile'));
+  const { t } = useTranslation("translation");
+
   const dispatch = useDispatch();
   useEffect(() => {
     setUserName(profile.username);
@@ -70,8 +73,8 @@ export const AccountProfileDetails = (props) => {
     >
       <Card>
         <CardHeader
-          subheader="The information can be edited"
-          title="Profile"
+          subheader={t("The information can be edited")} 
+          title={t("Profile")} 
         />
         <Divider />
         <CardContent>
@@ -85,10 +88,8 @@ export const AccountProfileDetails = (props) => {
             >
               <TextField
                 fullWidth
-                label="Email Address"
-                name="email"
+                label={t("Email Address")} 
                 disabled
-                required
                 value={profile.email}
                 variant="outlined"
               />
@@ -100,12 +101,9 @@ export const AccountProfileDetails = (props) => {
             >
               <TextField
                 fullWidth
-                label="User name"
-                name="userName"
+                label= {t("User name")}   
                 onChange={handleUsernameChange}
-                required
                 value={userName}
-                variant="outlined"
               />
             </Grid>
 
@@ -116,12 +114,10 @@ export const AccountProfileDetails = (props) => {
             >
               <TextField
                 fullWidth
-                label="Phone Number"
-                name="phone"
+                label={t("Phone Number")} 
                 onChange={handlePhoneChange}
                 type="number"
                 value={phone}
-                variant="outlined"
               />
             </Grid>
           </Grid>
@@ -141,7 +137,9 @@ export const AccountProfileDetails = (props) => {
             className="red_button_auth"
             onClick={handleUpdateInfor}
           >
-            Save details
+           
+            {t("Save details")}
+            
           </Button>
         </Box>
       </Card>

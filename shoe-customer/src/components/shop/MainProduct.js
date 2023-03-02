@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 import useResponsive from 'src/hooks/useResponsive';
 import { useEffect } from 'react';
@@ -32,7 +32,6 @@ const MainProduct = () => {
     setPrice(dataCategoryId.max)
   }, [dataCategoryId])
 
-  console.log(brand, size,price, color);
   const smUp = useResponsive('up', 'sm');
   useScript('../assets/js/jquery-3.2.1.min.js');
   useScript('../assets/js/popper.js');
@@ -57,7 +56,7 @@ const MainProduct = () => {
     if (dataCategoryId.id !== '') {
       let id = dataCategoryId.id;
       dispatch(openLoadingApi());
-      apiUserGetAllProductByCategoryId(rowsPerPage, page, keyword, id,brand, size, price, color).then(result => {
+      apiUserGetAllProductByCategoryId(rowsPerPage, page, keyword, id, brand, size, price, color).then(result => {
         setDataProduct(result.data.data.items);
         setTotal(result?.data?.data?.total);
         dispatch(closeLoadingApi());
@@ -80,14 +79,19 @@ const MainProduct = () => {
     setKeyword(e.target.value);
   }
 
-  // data.replace(' ', '').split(',')
 
   return (
     <div className="MainDiv">
       <header className="border-bottom mb-4 pb-3" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-        <strong className="d-block py-2">{total} Items found </strong>
+        {total === 0 ? (<strong className="d-block py-2">
+          {0}
+          {t("Items found")}
+        </strong>) : (<strong className="d-block py-2">
+          {total}
+          {t("Items found")}
+        </strong>)}
         <div className="ms-auto ">
-          <input onChange={handleChange} value={keyword} className="form-control d-inline-block " style={{ width: '175px', marginRight: '20px' }} placeholder="Search" />
+          <input onChange={handleChange} value={keyword} className="form-control d-inline-block " style={{ width: '175px', marginRight: '20px' }} placeholder={t("Search...")} />
           <div className="btn-group">
             <a href="#" className="btn btn-light active" data-bs-toggle="tooltip" title="Sort">
               <i className="fa fa-th"></i>
@@ -127,12 +131,16 @@ const MainProduct = () => {
                             <i class="fa fa-star" style={{ color: '#ffa200', fontSize: '8px' }}></i>
                             <i class="fa fa-star" style={{ fontSize: '8px' }}></i>
                           </p>
-                          <p style={{ fontSize: '10px', color: 'rgba(0,0,0,.54)' }}>{row.sold} solds</p>
+                          <p style={{ fontSize: '10px', color: 'rgba(0,0,0,.54)' }}>{row.sold}
+                            {t("solds")}
+                          </p>
                         </div>
                       </div>
                     </div>
                   </Link>
-                  <div className="red_button add_to_cart_button"><Link to={`/product-detail/${row.id}`}>add to cart</Link></div>
+                  <div className="red_button add_to_cart_button"><Link to={`/product-detail/${row.id}`}>
+                    {t("add to cart")}
+                  </Link></div>
                 </div>
               )
             })}
