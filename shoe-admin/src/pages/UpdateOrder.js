@@ -52,7 +52,7 @@ export default function UpdateOrder() {
         toast.success(res.message, options);
       })
       .catch(err => {
-        if (err.response.data.statusCode === 401){
+        if (err.response.data.statusCode === 401) {
           dispatch(closeLoadingApi());
           toast.error(err.response.data.message, options);
         } else if (err.response.data.statusCode === 400) {
@@ -66,16 +66,16 @@ export default function UpdateOrder() {
   }
 
   return (
-    <Page title="Dashboard: Product">
+    <Page title="UpdateStateOrder">
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 10 }}>
-          Cập nhật trạng thái đơn hàng
+          CẬP NHẬT TRẠNG THÁI ĐƠN HÀNG
         </Typography>
         <Grid container>
           <Grid item xs={6}>
           </Grid>
           <Grid item xs={6} sx={{ textAlign: 'right' }}>
-            <Button variant="contained" component={RouterLink} to="/dashboard/orders" startIcon={<Iconify icon="eva:arrow-back-outline" />}>
+            <Button variant="contained" color="info" component={RouterLink} to="/dashboard/orders" startIcon={<Iconify icon="eva:arrow-back-outline" />}>
               Quay lại
             </Button>
           </Grid>
@@ -85,7 +85,7 @@ export default function UpdateOrder() {
             <Grid container spacing={3}>
               <Grid container item spacing={3}>
                 <Grid item xs={6}>
-                  <Typography variant="h4">
+                  <Typography variant="h5">
                     Mã đơn hàng:
                     {data.details.code}
                   </Typography>
@@ -113,7 +113,7 @@ export default function UpdateOrder() {
                 <Grid item xs={6}>
                 </Grid>
                 <Grid item xs={6}>
-                  <Button variant="contained" onClick={handleClick} startIcon={<SaveIcon />}>
+                  <Button variant="contained" onClick={handleClick} startIcon={<SaveIcon />} color="error" sx={{ ml: 2 }}>
                     Cập Nhật
                   </Button>
                 </Grid>

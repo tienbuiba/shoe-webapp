@@ -8,6 +8,7 @@ import { fDateTimeSuffix } from "src/utils/formatTime";
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useEffect, useState } from "react";
 import { fNumber } from "src/utils/formatNumber";
+import Label from "src/components/Label";
 
 const OrderDetails = () => {
   const data = useSelector(state => state.order.data);
@@ -23,10 +24,12 @@ const OrderDetails = () => {
     }
   }, [])
 
+  console.log("sdsd", data.details.status)
+
   return data.details.items && (
     <Page title={("Chi tiết đơn hàng")}>
       <Container maxWidth="xl">
-        <Card sx={{ py:7, px:3}} style={{ marginTop: '50px', marginBottom: '100px' }}>
+        <Card sx={{ py: 7, px: 3 }} style={{ marginTop: '50px', marginBottom: '100px' }}>
           <Grid container>
             <Grid item xs={6}>
               <Typography
@@ -44,6 +47,7 @@ const OrderDetails = () => {
                 className="redOutlined_button_auth"
                 endIcon={<ChevronRightIcon></ChevronRightIcon>}
                 to="/dashboard/orders"
+                color="info"
               >
                 Lịch sử đơn hàng
               </Button>
@@ -91,13 +95,13 @@ const OrderDetails = () => {
                                     :</Typography>
                                   <div
                                     className="color-style"
-                                    style={{ backgroundColor: curElem.orderInfo.color, color: curElem.orderInfo.color, width: '20px', height:'20px', borderRadius: '20%' }}></div>
+                                    style={{ backgroundColor: curElem.orderInfo.color, color: curElem.orderInfo.color, width: '20px', height: '20px', borderRadius: '20%' }}></div>
                                 </div>
                               </div>
                             </div>
                           </div>
                           <div className="cart-hide" style={{ textAlign: 'center' }}>
-                          {fNumber(curElem?.priceSell)}
+                            {fNumber(curElem?.priceSell)}
                             x {curElem.orderInfo.quantity}
                           </div>
                         </div>
@@ -134,7 +138,7 @@ const OrderDetails = () => {
                     Tổng cộng
                     : </Typography>
                   <Typography style={{ color: '#000', fontSize: '14px', fontWeight: 'bold', marginLeft: '4px' }}>
-                  {fNumber(total) }
+                    {fNumber(total)}
                   </Typography>
                 </div>
                 <div style={{ display: 'flex', padding: '10px 0' }}>
@@ -157,6 +161,14 @@ const OrderDetails = () => {
                   <Typography style={{ color: '#000', fontSize: '14px', fontWeight: '550', marginLeft: '4px' }}>
                     {data.details.address}
                   </Typography>
+                </div>
+                <div style={{ display: 'flex', padding: '10px 0' }}>
+                  <Typography style={{ color: '#000', fontSize: '14px', width: '200px' }}>
+                    {("Trạng thái")}
+                  </Typography>
+                  <Label variant="ghost" color={(data.details.status === 'CANCEL' && 'error') || (data.details.status === 'SUCCESS' && 'success') || (data.details.status === 'PAIED' && 'info') || 'warning'}>
+                    {data.details.status}
+                  </Label>
                 </div>
                 <div>
                 </div>

@@ -1,9 +1,9 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
 // components
 import Logo from '../components/Logo';
-import { Divider } from '@mui/material';
+import { useEffect } from 'react';
 
 // ----------------------------------------------------------------------
 
@@ -22,6 +22,14 @@ const HeaderStyle = styled('header')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function LogoOnlyLayout() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      navigate('/dashboard/user', { replace: true });
+    }
+  }, [])
   return (
     <>
       <HeaderStyle>

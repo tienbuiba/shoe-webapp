@@ -183,8 +183,8 @@ const ChangePassword = () => {
                       <FormHelperText error>{errors.submit}</FormHelperText>
                     </Grid>
                   )}
-                  <Grid container item xs={12} sx={{ textAlign: 'center', mb: 3 }} >
-                    <Grid item xs={6} sm={6} >
+                  <Grid container item xs={12} sx={{ textAlign: 'center', mb: 3 }}>
+                    <Grid item xs={6} sm={6}>
                     </Grid>
                     <Grid item xs={6} sm={6} sx={{ textAlign: 'center' }}>
                       <Button
@@ -193,7 +193,9 @@ const ChangePassword = () => {
                         size="large"
                         variant="contained"
                         startIcon={<SaveIcon></SaveIcon>}
-                      >
+                        color="error"
+                        sx={{ ml: 10}}
+                        >
                         LƯU
                       </Button>
                     </Grid>

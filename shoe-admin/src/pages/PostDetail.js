@@ -30,7 +30,7 @@ const PostDetail = () => {
       <Container maxWidth="lg">
         <Card sx={{ py: 4, px: 3 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-            <Button component={Link} to="/dashboard/posts" startIcon={<ArrowBackIosIcon />} variant="contained">
+            <Button component={Link} color="info" to="/dashboard/posts" startIcon={<ArrowBackIosIcon />} variant="contained">
               Quay lại
             </Button>
             <Button component={Link} to={`/dashboard/edit-post/${id}`} startIcon={<EditIcon />} variant="outlined">

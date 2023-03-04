@@ -103,18 +103,18 @@ export default function Transactions() {
   };
 
   return (
-    <Page title="Transaction">
+    <Page title="Giao dịch">
        <Container maxWidth="xl">
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-           Transaction history
+        Lịch sử giao dịch
           </Typography>
         </Stack>
         <Card>
           <RootStyle>
             <SearchStyle
               onChange={handleSearchChange}
-              placeholder="Search transition..."
+              placeholder="Tìm kiếm giao dịch..."
               startAdornment={
                 <InputAdornment position="start">
                   <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />

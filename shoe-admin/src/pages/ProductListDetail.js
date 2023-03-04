@@ -86,7 +86,7 @@ const ProductListDetail = () => {
         <Card>
           <Box sx={{ mt: 3, mb: 2 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-              <Button component={Link} to="/dashboard/products" startIcon={<ArrowBackIosIcon />} variant="contained">
+              <Button component={Link} color="info" sx={{ ml:4}} to="/dashboard/products" startIcon={<ArrowBackIosIcon />} variant="contained">
                 Quay lại
               </Button>
             </div>

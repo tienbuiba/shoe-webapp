@@ -102,7 +102,7 @@ export default function MainPost(props) {
                     <Button size="small"
                       variant='contained'
                       color="error"
-                      onClick={(e) => dispatch(showConfirmModal('Are you sure?', 'Do you want to delete this post?', card.id, "DELETE_POST"))}
+                      onClick={(e) => dispatch(showConfirmModal('Bạn có chắc', 'Muốn xóa sản phẩm này không?', card.id, "DELETE_POST"))}
                       startIcon={<DeleteOutlineIcon></DeleteOutlineIcon>}
                     >
                       Xóa

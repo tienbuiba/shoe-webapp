@@ -90,7 +90,9 @@ const Header = () => {
             <div className="row">
               <div className="col-lg-12 text-right">
                 <div className="logo_container">
-                  <Link to="/">Me<span>Shoes</span></Link>
+                  <Link to="/">
+                  <img  src={require("../_mock/Meshoes2.png")} style={{ width: '80px', height: '80px', dislay: 'block' }} />
+                  </Link>
                 </div>
                 <nav className="navbar">
                   <ul className="navbar_menu">

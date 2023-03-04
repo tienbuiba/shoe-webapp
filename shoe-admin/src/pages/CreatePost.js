@@ -23,6 +23,7 @@ import { uploadImage } from 'src/services/UploadImage';
 import { Link } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CloseIcon from '@mui/icons-material/Close';
+import { API_URL } from 'src/constant/Constants';
 
 const Input = styled('input')({
   display: 'none',
@@ -33,8 +34,8 @@ function CreatePost() {
   const [postForm, setPostForm] = useState(initStatePostForm);
   const [images, setImages] = useState([]);
 
-  const API_URL = 'https://api.atroboticsvn.com';
-  const UPLOAD_ENDPOINT = 'api/v1/upload-files/push';
+
+  const UPLOAD_ENDPOINT = 'upload-files/push';
   const options = {
     autoClose: 2000,
     position: toast.POSITION.TOP_RIGHT,
@@ -139,8 +140,8 @@ function CreatePost() {
         <Typography variant="h3" sx={{ mb: 2 }}>
           Thêm bài viết mới
         </Typography>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px'}}>
-          <Button component={Link} to="/dashboard/posts" startIcon={<ArrowBackIosIcon />} variant="contained">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+          <Button component={Link} color="info" to="/dashboard/posts" startIcon={<ArrowBackIosIcon />} variant="contained">
             Quay lại
           </Button>
           <div>
@@ -238,6 +239,7 @@ function CreatePost() {
               size="large"
               component="span"
               onClick={handleSubmit}
+              color="error"
             >
               Tạo bài viết
             </Button>

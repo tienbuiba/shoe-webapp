@@ -39,7 +39,7 @@ function CreateProduct() {
   const [productForm, setProductForm] = useState(initStateProductForm);
   const [images, setImages] = useState([]);
   const [listCategory, setListCategory] = useState([]);
-  const UPLOAD_ENDPOINT = 'api/v1/upload-files/push';
+  const UPLOAD_ENDPOINT = 'upload-files/push';
   const [rowsPerPage, setRowsPerPage] = useState(100);
   const [page, setPage] = useState(0);
   const dispatch = useDispatch();
@@ -191,7 +191,7 @@ function CreateProduct() {
         dispatch(closeLoadingApi());
         toast.success("Thêm sản phẩm thành công!", options);
         setImages([]);
-        // navigate('/dashboard/products');
+        navigate('/dashboard/products');
         setProductForm({
           ...productForm,
           name: '',

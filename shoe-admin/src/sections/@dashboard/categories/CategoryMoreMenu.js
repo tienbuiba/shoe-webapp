@@ -30,7 +30,7 @@ export default function CategoryMoreMenu(props) {
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
         <MenuItem sx={{ color: 'text.secondary' }} 
-        onClick={(e) => dispatch(showConfirmModal('Are you sure?', 'Do you want to delete this category?', id, "DELETE_CATEGORY"))}
+        onClick={(e) => dispatch(showConfirmModal('Bạn có chắc', 'Muốn xóa loại sản phẩm này không?', id, "DELETE_CATEGORY"))}
         >
           <ListItemIcon>
             <Iconify icon="eva:trash-2-outline" width={24} height={24} style={{ color: 'red' }} />

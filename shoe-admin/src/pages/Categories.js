@@ -99,7 +99,7 @@ export default function Categories() {
   }
 
   return (
-    <Page title="User">
+    <Page title="Danh mục sản phẩm">
       <Container maxWidth="xl">
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={4}>
           <Typography variant="h4" gutterBottom>
@@ -108,7 +108,7 @@ export default function Categories() {
         </Stack>
         <Card>
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
-            <Button variant="outlined" component={RouterLink} to="/dashboard/create-category" startIcon={<Iconify icon="eva:plus-fill" />}>
+            <Button variant="outlined"  sx={{ ml:4}} component={RouterLink} to="/dashboard/create-category" startIcon={<Iconify icon="eva:plus-fill" />}>
               Thêm loại sản phẩm
             </Button>
             <RootStyle>

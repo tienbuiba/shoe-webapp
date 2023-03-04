@@ -41,8 +41,7 @@ function EditProduct() {
   const [productForm, setProductForm] = useState(initStateProductForm);
   const [images, setImages] = useState([]);
   const [listCategory, setListCategory] = useState([]);
-  // const API_URL = 'https://api.atroboticsvn.com';
-  const UPLOAD_ENDPOINT = 'api/v1/upload-files/push';
+  const UPLOAD_ENDPOINT = 'upload-files/push';
   const [rowsPerPage, setRowsPerPage] = useState(100);
   const [page, setPage] = useState(0);
   const dispatch = useDispatch();
@@ -463,6 +462,7 @@ function EditProduct() {
               size="large"
               component="span"
               onClick={handleSubmit}
+              color="error"
             >
               LƯU
             </Button>

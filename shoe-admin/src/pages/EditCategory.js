@@ -81,7 +81,7 @@ export default function EditCategory() {
           <Grid item xs={6}>
           </Grid>
           <Grid item xs={6} sx={{ textAlign: 'right' }}>
-            <Button variant="contained" component={RouterLink} to="/dashboard/Categories" startIcon={<Iconify icon="eva:arrow-back-outline" />}>
+            <Button  color="info" variant="contained" component={RouterLink} to="/dashboard/Categories" startIcon={<Iconify icon="eva:arrow-back-outline" />}>
               Quay lại
             </Button>
           </Grid>
@@ -107,7 +107,7 @@ export default function EditCategory() {
                 <Grid item xs={6}>
                 </Grid>
                 <Grid item xs={6}>
-                  <Button variant="contained" onClick={handleClick} startIcon={<SaveIcon />}>
+                  <Button variant="contained" color="error" sx={{ ml:2}} onClick={handleClick} startIcon={<SaveIcon />}>
                     Cập Nhật
                   </Button>
                 </Grid>

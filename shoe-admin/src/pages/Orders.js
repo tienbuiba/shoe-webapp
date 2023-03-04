@@ -128,7 +128,6 @@ export default function Orders() {
               />
             </RootStyle>
           </Stack>
-
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>

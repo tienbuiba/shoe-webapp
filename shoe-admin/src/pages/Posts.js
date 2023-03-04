@@ -83,7 +83,7 @@ export default function Posts() {
   };
 
   return (
-    <Page title="User">
+    <Page title="Bài viết">
       <Container maxWidth="xl">
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={4}>
           <Typography variant="h3" gutterBottom>
@@ -92,7 +92,7 @@ export default function Posts() {
         </Stack>
         <Card>
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
-            <Button variant="outlined" component={RouterLink} to="/dashboard/create-post" startIcon={<Iconify icon="eva:plus-fill" />}>
+            <Button variant="outlined"  sx={{ ml:4}} component={RouterLink} to="/dashboard/create-post" startIcon={<Iconify icon="eva:plus-fill" />}>
               Thêm bài viết
             </Button>
             <RootStyle>

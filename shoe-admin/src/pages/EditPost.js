@@ -26,6 +26,7 @@ import { Link, useParams } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import CloseIcon from '@mui/icons-material/Close';
+import { API_URL } from 'src/constant/Constants';
 
 const Input = styled('input')({
   display: 'none',
@@ -75,8 +76,8 @@ function EditPost() {
     })
   }, [])
 
-  const API_URL = 'https://api.atroboticsvn.com';
-  const UPLOAD_ENDPOINT = 'api/v1/upload-files/push';
+
+  const UPLOAD_ENDPOINT = 'upload-files/push';
   const options = {
     autoClose: 2000,
     position: toast.POSITION.TOP_RIGHT,
@@ -185,7 +186,7 @@ function EditPost() {
         <Typography variant="h4" sx={{ mb: 4 }}>
           CHỈNH SỬA BÀI VIẾT        </Typography>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-          <Button component={Link} to="/dashboard/posts" startIcon={<ArrowBackIosIcon />} variant="contained">
+          <Button component={Link} color="info" to="/dashboard/posts" startIcon={<ArrowBackIosIcon />} variant="contained">
             Quay lại          </Button>
           <Button component={Link} to={`/dashboard/post-detail/${id}`} startIcon={<VisibilityIcon />} variant="outlined">
             Xem bài viết
@@ -281,6 +282,7 @@ function EditPost() {
               size="large"
               component="span"
               onClick={handleSubmit}
+              color="error"
             >
               CẬP NHẬT BÀI VIẾT
             </Button>

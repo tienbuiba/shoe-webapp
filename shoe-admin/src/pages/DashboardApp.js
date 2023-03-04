@@ -52,7 +52,7 @@ export default function DashboardApp() {
   }, [days])
 
   return (
-    <Page title="Dashboard">
+    <Page title="Thống kê">
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 2 }}>
           Chào mừng trở lại Quản trị viên! 

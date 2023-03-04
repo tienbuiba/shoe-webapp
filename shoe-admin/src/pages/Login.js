@@ -96,7 +96,10 @@ export default function Login() {
           }).catch(error => {
             console.log(error);
             dispatch(closeLoadingApi());
-          })
+          }).finally( ()=>{
+            dispatch(closeLoadingApi());
+          }
+          )
           toast.success("Đăng nhập thành công!", options);
         } else {
           dispatch(closeLoadingApi());
@@ -214,7 +217,7 @@ export default function Login() {
                   )}
                 </FormControl>
               </Grid>
-              <LoadingButton fullWidth size="large" type="submit" variant="contained">
+              <LoadingButton fullWidth size="large" color="error" type="submit" variant="contained">
                 Đăng nhập
               </LoadingButton>
             </form>
