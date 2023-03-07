@@ -32,9 +32,9 @@ instance.interceptors.response.use(
       // Access Token was expired
       if (err.response.status === 401 && !originalConfig._retry) {
         originalConfig._retry = true;
-        alert("Phiên đăng nhập của bạn đã hết hạn, làm ơn đăng nhập lại");
+        alert("Bạn chưa đăng nhập, vui lòng đăng nhập để thực hiện hành động này");
         localStorage.clear();
-        window.location = '/';
+        window.location = '/login';
         TokenService.removeAccessToken();
         TokenService.removeLocalExpiresIn();
         TokenService.removeLocalProfile();

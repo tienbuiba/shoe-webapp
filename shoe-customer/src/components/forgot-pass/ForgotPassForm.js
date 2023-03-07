@@ -80,7 +80,7 @@ const ForgotPassForm = ({ handleChange }) => {
                   if (res.data.statusCode === 201) {
                     setStep(2);
                   }
-                  toast.error(res.data.message, options);
+                  toast.success(res.data.message, options);
                 }).catch(err => {
                   dispatch(closeLoadingApi());
                   if (err.response.data.statusCode === 400) {

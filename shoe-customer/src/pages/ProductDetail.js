@@ -24,6 +24,7 @@ import { fDateLocal } from "src/utils/formatTime";
 import TokenService from "src/services/TokenService";
 import { closeLoadingApi, openLoadingApi } from "src/redux/creates-action/LoadingAction";
 import { useTranslation } from "react-i18next";
+import Newsletter from "src/components/Newsletter";
 
 const Button = styled.button`
   text-decoration: none;
@@ -360,32 +361,7 @@ const ProductDetail = () => {
           </Container>
         </Wrapper>
       </div>
-      <div className="newsletter">
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-6">
-              <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
-                <h4>
-                  {t("Newsletter")}
-                </h4>
-                <p>
-                  {t("Subscribe to our newsletter and get 20% off your first purchase")}
-                </p>
-              </div>
-            </div>
-            <div className="col-lg-6">
-              <form action="post">
-                <div className="newsletter_form d-flex flex-md-row flex-column flex-xs-column align-items-center justify-content-lg-end justify-content-center">
-                  <input id="newsletter_email" type="email" placeholder={t("Your email")} required="required" data-error="Valid email is required." />
-                  <button id="newsletter_submit" type="submit" className="newsletter_submit_btn trans_300" value="Submit">
-                    {t("subscribe")}
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Newsletter/>   
       <ToastContainer />
       <Footer />
     </Page>

@@ -77,7 +77,7 @@ const AuthLogin = () => {
                                     apiUserProfile().then(result => {
                                         TokenService.updateLocalProfile(JSON.stringify(result.data));
                                         navigate('/', { replace: true });
-                                        toast.success(res.message, options);
+                                        toast.success("Login successful!", options);
                                     }).catch(error => {
                                         console.log(error);
                                         dispatch(closeLoadingApi());

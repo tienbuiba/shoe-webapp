@@ -187,7 +187,7 @@ const AuthRegister = () => {
                                         name="email"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        placeholder="demo@company.com"
+                                        placeholder="sale@meshoes.info"
                                         inputProps={{}}
                                         startAdornment={
                                             <InputAdornment position="start">

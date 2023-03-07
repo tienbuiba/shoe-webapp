@@ -16,6 +16,7 @@ import { closeLoadingApi, openLoadingApi } from 'src/redux/creates-action/Loadin
 import { useDispatch } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import { apiUserProfile } from 'src/services/Authenticate';
 
 
 export const AccountProfileDetails = (props) => {
@@ -39,21 +40,25 @@ export const AccountProfileDetails = (props) => {
   const [phone, setPhone] = useState(null);
 
   const handleUsernameChange = (e) => {
-    setUserName(e.target.value)
-
+    setUserName(e.target.value);
   }
 
   const handlePhoneChange = (e) => {
-    setPhone(e.target.value)
+    setPhone(e.target.value);
   }
 
   const handleUpdateInfor = (e) => {
-
     dispatch(openLoadingApi());
-    if (phone !== null && userName !== null && images !== null) {
+    if (phone !== null && userName !== null) {
       apiUserUpdateProfile(phone, userName, images).then(res => {
-        console.log(res);
         toast.success(res.data.message, options);
+        apiUserProfile().then(result => {
+          TokenService.updateLocalProfile(JSON.stringify(result.data));
+          toast.success(res.message, options);
+      }).catch(error => {
+          console.log(error);
+          dispatch(closeLoadingApi());
+      })
       }).catch(err => {
         console.log(err);
         toast.error(err.response.data.message, options);

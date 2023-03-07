@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 import useResponsive from 'src/hooks/useResponsive';
 import LanguagePopover from './LanguagePopover';
 import AccountPopover from './AccountMenu';
-import TokenService from 'src/services/TokenService';
 import { apiUserGetAllCartItem } from 'src/services/Carts';
 import { useSelector } from 'react-redux';
 import useScript from 'src/hooks/useScript';
@@ -32,13 +31,6 @@ const Header = () => {
     })
   }, [dataAddToCart])
 
-  const handleLogout = () => {
-    TokenService.removeAccessToken();
-    TokenService.removeLocalExpiresIn();
-    TokenService.removeLocalProfile();
-    navigate('/', { replace: true });
-  };
-
   return (
     <div className="MainDiv">
       <header className="header trans_300">
@@ -55,22 +47,15 @@ const Header = () => {
                   <ul className="top_nav_menu">
                     <li className="language">
                       <a href="#">
-                        <LanguagePopover />
+                        <LanguagePopover/>
                         <i className="fa fa-angle-down">
                         </i>
                       </a>
                     </li>
                     {token ? <>
                       <li className="account">
-                        <a href="#">
-                          {t("My Account")}
-                          <i className="fa fa-angle-down"></i>
-                        </a>
-                        <ul className="account_selection">
-                          <li><a onClick={handleLogout}><i className="fa fa-sign-out" aria-hidden="true" style={{ marginRight: '2px' }}></i>
-                            {t("Logout")}
-                          </a></li>
-                        </ul>
+                        <a href="tel:0376624470"> 
+                        +84-376-627-470</a>
                       </li>
                     </> : (
                       <li className="account">
@@ -91,7 +76,7 @@ const Header = () => {
               <div className="col-lg-12 text-right">
                 <div className="logo_container">
                   <Link to="/">
-                  <img  src={require("../_mock/Meshoes2.png")} style={{ width: '80px', height: '80px', dislay: 'block' }} />
+                    <img src={require("../_mock/Meshoes2.png")} style={{ width: '80px', height: '80px', dislay: 'block' }} />
                   </Link>
                 </div>
                 <nav className="navbar">

@@ -21,7 +21,7 @@ body {
   line-height: 23px;
   font-weight: 400;
   background: #ffffff;
-  color: #1e1e27;
+  color: #000;
 }
 div {
   display: block;
@@ -39,7 +39,7 @@ p {
   font-size: 14px;
   line-height: 1.7;
   font-weight: 500;
-  color: #989898;
+  color: #000;
   -webkit-font-smoothing: antialiased;
   -webkit-text-shadow: rgba(0, 0, 0, 0.01) 0 0 1px;
   text-shadow: rgba(0, 0, 0, 0.01) 0 0 1px;
@@ -1604,11 +1604,14 @@ section {
   color: #fff;
 }
 .css-6d3pg0-MuiTabs-indicator {
-  background-color: #fe4c50;
+  background-color: #fe4c50 !important;
 }
 .css-1pv4spc-MuiButtonBase-root-MuiTab-root.Mui-selected {
-  color: #fe4c50;
+  color: #fe4c50 !important;
   background-color: #fcf3f2;
+}
+.css-heg063-MuiTabs-flexContainer {
+  border-radius: 2px !important;
 }
 /* ALOALO */
 
@@ -1790,17 +1793,17 @@ label{
 
 .css-w7tncj-MuiTablePagination-selectLabel {
   /* display:none; */
-  margin-bottom: 0;
+  margin-bottom: 0 !important;
 
 }
 .css-jr9x4l-MuiTablePagination-displayedRows {
-  margin-bottom: 0;
+  margin-bottom: 0 !important;
 }
 
-.css-hrm44d-MuiButtonBase-root-MuiIconButton-root {
-  padding:  '10px';
-  background-color: '#000'
-}
+/* .css-hrm44d-MuiButtonBase-root-MuiIconButton-root {
+  padding:  10px !important;
+  background-color: #000 !important
+} */
 
 
 .css-ve0uex-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {

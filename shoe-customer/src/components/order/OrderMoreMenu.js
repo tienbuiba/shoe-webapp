@@ -32,20 +32,7 @@ export default function OrderMoreMenu(props) {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        {status === "CANCEL" || status === "SUCCESS" ? (
-          <>
-            <MenuItem component={RouterLink} to="/order-received" onClick={() => {
-              dispatch(orderDetail(dataDetails))
-            }} sx={{ color: 'text.secondary' }}
-            >
-              <ListItemIcon>
-                <Iconify icon="ic:twotone-remove-red-eye" width={20} height={24} />
-              </ListItemIcon>
-              <ListItemText primary={t("View order details >>")} primaryTypographyProps={{ variant: 'body2' }} />
-            </MenuItem>
-
-          </>
-        ) : (
+        {status === "NOT_PAY" ? (
           <>
             <MenuItem component={RouterLink} to="/order-received" onClick={() => {
               dispatch(orderDetail(dataDetails))
@@ -57,12 +44,24 @@ export default function OrderMoreMenu(props) {
               <ListItemText primary={t("View order details >>")} primaryTypographyProps={{ variant: 'body2' }} />
             </MenuItem>
             <MenuItem sx={{ color: 'text.secondary' }}
-              onClick={(e) => dispatch(showConfirmModal( t("Are you sure"), t("Do you want to cancel this order?") , id, "CANCEL_ORDER"))}
+              onClick={(e) => dispatch(showConfirmModal(t("Are you sure"), t("Do you want to cancel this order?"), id, "CANCEL_ORDER"))}
             >
               <ListItemIcon>
                 <Iconify icon="material-symbols:cancel-outline-sharp" width={20} height={24} color="error" />
               </ListItemIcon>
               <ListItemText primary={t("Cancel order")} primaryTypographyProps={{ variant: 'body2' }} />
+            </MenuItem>
+          </>
+        ) : (
+          <>
+            <MenuItem component={RouterLink} to="/order-received" onClick={() => {
+              dispatch(orderDetail(dataDetails))
+            }} sx={{ color: 'text.secondary' }}
+            >
+              <ListItemIcon>
+                <Iconify icon="ic:twotone-remove-red-eye" width={20} height={24} />
+              </ListItemIcon>
+              <ListItemText primary={t("View order details >>")} primaryTypographyProps={{ variant: 'body2' }} />
             </MenuItem>
           </>
         )}
