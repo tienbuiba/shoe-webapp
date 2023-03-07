@@ -31,6 +31,7 @@ const SignInOutContainer = () => {
         hidden={value !== index}
         id={`simple-tabpanel-${index}`}
         aria-labelledby={`simple-tab-${index}`}
+        style={{ color: 'red' }}
         {...other}
       >
         {value === index && (
@@ -42,25 +43,38 @@ const SignInOutContainer = () => {
     );
   }
 
+
   return (
     <div>
       <Header />
       <Paper elevation={20} style={paperStyle}>
         <Tabs
           value={value}
-          indicatorColor="primary"
-          textColor="primary"
+          TabIndicatorProps={{
+            style: {
+              backgroundColor: "#fe4c50"
+            }
+          }}
           variant="fullWidth"
           onChange={handleChange}
         >
-          <Tab label={t("Sign In")} />
-          <Tab label={t("Sign Up")} />
+          <Tab label={t("Sign In")} sx={{
+            "&.Mui-selected": {
+              color: '#fe4c50'
+
+            }
+          }} />
+          <Tab label={t("Sign Up")} sx={{
+            "&.Mui-selected": {
+              color: '#fe4c50'
+            }
+          }} />
         </Tabs>
         <TabPanel value={value} index={0}>
-          <Login handleChange={handleChange} />
+          <Login handleChange={handleChange}/>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <Register handleChange={handleChange} />
+          <Register handleChange={handleChange}/>
         </TabPanel>
       </Paper>
       <Footer />

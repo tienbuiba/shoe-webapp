@@ -36,14 +36,29 @@ const NavTab = () => {
       <Paper elevation={20} style={paperStyle}>
         <Tabs
           value={value}
-          indicatorColor="primary"
-          textColor="primary"
+          TabIndicatorProps={{
+            style: {
+              backgroundColor: "#fe4c50"
+            }
+          }}
           variant="fullWidth"
           onChange={handleChange}
         >
-          <Tab label="women's" />
-          <Tab label="accessories's" />
-          <Tab label="men's" />
+          <Tab label="women's" sx={{
+            "&.Mui-selected": {
+              color: '#fe4c50',
+            }
+          }} />
+          <Tab label="accessories's" sx={{
+            "&.Mui-selected": {
+              color: '#fe4c50',
+            }
+          }} />
+          <Tab label="men's" sx={{
+            "&.Mui-selected": {
+              color: '#fe4c50',
+            }
+          }} />
         </Tabs>
       </Paper>
       <TabPanel value={value} index={0}>
