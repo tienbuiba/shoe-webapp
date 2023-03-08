@@ -13,14 +13,16 @@ import { apiUserForgotPassword } from 'src/services/ForgotPassword';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
+import useResponsive from 'src/hooks/useResponsive';
 
 
 const ForgotPassForm = ({ handleChange }) => {
   const { t } = useTranslation("translation");
-
   const paperStyle = { paddingTop: 20, height: '500px', width: 430, margin: "0 auto", paddingLeft: 20, paddingRight: 20 }
-  const paperStyle2 = { paddingTop: 20, height: '35vh', width: 430, margin: "0 auto", paddingLeft: 20, paddingRight: 20 }
+  const paperStyle2 = { paddingTop: 20, height: '350px', width: 430, margin: "0 auto", paddingLeft: 20, paddingRight: 20 }
   const avatarStyle = { backgroundColor: '#1bbd7e' }
+  const paperStyle3 = { paddingTop: 20, width: 300, margin: "0 auto", paddingLeft: 10, paddingRight: 10 }
+  const smUp = useResponsive('up', 'sm');
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState('');
   const [error, setError] = useState(false);
@@ -34,7 +36,7 @@ const ForgotPassForm = ({ handleChange }) => {
   return (
     <Grid>
       {step === 1 ? (
-        <Paper style={paperStyle}>
+        <Paper style={!smUp ? paperStyle3 : paperStyle}>
           <Grid align='center'>
             <Avatar style={avatarStyle}>
               <LockOutlinedIcon />
@@ -42,26 +44,22 @@ const ForgotPassForm = ({ handleChange }) => {
             <h3>{t("Forgot password")}</h3>
             <Typography sx={{ mb: 3 }}></Typography>
           </Grid>
-          <Grid sx={{ textAlign: 'center', fontSize: '12px', color: '#000', mb: 2 }}>
-            <Typography align="center" sx={{ width: '400px', textAlign: 'center', fontSize: '14px', color: '#000', marginBottom: '4px', fontWeight: 500 }}>
-             
-            {t("No Problem! Enter your email or username below and we")}
+          {!smUp ? <Grid sx={{ textAlign: 'center', fontSize: '12px', color: '#000', mb: 2 }}>
+       
+          </Grid> :
+            <Grid sx={{ textAlign: 'center', fontSize: '12px', color: '#000', mb: 2 }}>
+              <Typography align="center" sx={{ width: '400px', textAlign: 'center', fontSize: '14px', color: '#000', marginBottom: '4px', fontWeight: 500 }}>
+                {t("No Problem! Enter your email or username below and we")}
+              </Typography>
+              <Typography align="center" sx={{ textAlign: 'center', fontSize: '14px', color: '#000', marginBottom: '4px', fontWeight: 500 }}>
+                {t("will send you an email with instruction to reset your")}
+              </Typography>
+              <Typography align="center" sx={{ textAlign: 'center', fontSize: '14px', color: '#000', marginBottom: '4px', fontWeight: 500 }}>
+                {t("password.")}
+              </Typography>
+            </Grid>
+          }
 
-              
-            </Typography>
-            <Typography align="center" sx={{ textAlign: 'center', fontSize: '14px', color: '#000', marginBottom: '4px', fontWeight: 500 }}>
-              
-            {t("will send you an email with instruction to reset your")}
-
-              
-            </Typography>
-            <Typography align="center" sx={{ textAlign: 'center', fontSize: '14px', color: '#000', marginBottom: '4px', fontWeight: 500 }}>
-             
-            {t("password.")}
-
-              
-            </Typography>
-          </Grid>
           <Formik
             initialValues={{
               email: 'info@monoshoes.com',
@@ -126,11 +124,6 @@ const ForgotPassForm = ({ handleChange }) => {
                           {errors.email}
                         </FormHelperText>
                       )}
-                      {/* {touched.email && error === true && (
-                    <FormHelperText error id="standard-weight-helper-text-email-login">
-                      {errorMessage}
-                    </FormHelperText>
-                  )} */}
                     </Stack>
                   </Grid>
                   {errors.submit && (
@@ -149,7 +142,7 @@ const ForgotPassForm = ({ handleChange }) => {
                       sx={{ backgroundColor: 'red' }}
                       className="red_button_auth"
                     >
-                    {t("Send Reset Link")}                      
+                      {t("Send Reset Link")}
                     </Button>
                   </Grid>
                   <Grid item xs={12}>
@@ -181,7 +174,7 @@ const ForgotPassForm = ({ handleChange }) => {
         </Paper>
       ) : (
         <>
-          <Paper style={paperStyle2}>
+          <Paper style={!smUp ? paperStyle3 : paperStyle2}>
             <Grid align='center'>
               <Avatar style={avatarStyle}>
                 <TaskAltIcon color="success" sx={{ fontSize: '40px', color: '#fff' }} />
@@ -191,7 +184,7 @@ const ForgotPassForm = ({ handleChange }) => {
             </Grid>
             <Grid sx={{ textAlign: 'center', fontSize: '12px', color: '#000', mb: 2 }}>
               <Typography align="center" sx={{ width: '400px', textAlign: 'center', fontSize: '14px', color: '#000', marginBottom: '4px', fontWeight: 500 }}>
-                If provided email is a registered email ID on Monoshoes
+                If provided email is a registered email 
               </Typography>
               <Typography align="center" sx={{ textAlign: 'center', fontSize: '14px', color: '#000', marginBottom: '4px', fontWeight: 500 }}>
                 you will receive an email with further instructions on how

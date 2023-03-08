@@ -28,7 +28,7 @@ const HomePage = () => {
     <Page title="Home Page">
       <div className="MainDiv">
         <Header />
-        <div className="main_slider" style={{ backgroundImage: "url(assets/images/slider_1.jpg)" }}>
+        <div className="main_slider" style={{ backgroundImage: "url(assets/images/slider_1.jpg)", height: `${ !smUp ? '250px' : ''}` }}>
           <div className="container fill_height">
             <div className="row align-items-center fill_height">
               <div className="col">

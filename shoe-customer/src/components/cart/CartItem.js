@@ -9,12 +9,14 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/creates-action/CartActions";
 import FormatPrice from "../../utils/FormatPrice";
+import useResponsive from "src/hooks/useResponsive";
 
 const CartItem = ({ id, quantity, color, size, product }) => {
   const [amount, setAmount] = useState('');
   const [dataProductId, setDataProductId] = useState('');
   const [stock, setStock] = useState('');
   const dispatch = useDispatch();
+  const smUp = useResponsive('up', 'sm');
 
   useEffect(() => {
     setAmount(quantity);
@@ -55,7 +57,7 @@ const CartItem = ({ id, quantity, color, size, product }) => {
           height: '80px',
           position: 'relative'
         }}>
-        <div style={{ display: 'flex', alignItems: 'stretch', justifyContent: 'flex-start' }}>
+        <div style={{ display: 'flex', alignItems: 'stretch', flexDirection: `${ !smUp ? 'column':''}`, justifyContent: 'flex-start' }}>
           <div>
             <img src={dataProductId?.images[0]} alt={dataProductId.name} style={{ width: '75px', height: '75px', display: 'block', marginRight: '20px' }} />
           </div>

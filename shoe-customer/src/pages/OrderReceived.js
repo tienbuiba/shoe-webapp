@@ -11,11 +11,14 @@ import { fDateTimeSuffix } from "src/utils/formatTime";
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
+import useResponsive from "src/hooks/useResponsive";
 
 const OrderReceived = () => {
   const data = useSelector(state => state.order.data);
   const { t } = useTranslation('translation');
   const [total, setTotal] = useState(0);
+  const smUp = useResponsive('up', 'sm');
+
 
   useEffect(() => {
     if (data?.details.items.length > 0) {
@@ -31,9 +34,9 @@ const OrderReceived = () => {
     <Page title={t("Order details")}>
       <Header />
       <Wrapper>
-        <div className="container" style={{ marginTop: '250px', marginBottom: '100px' }}>
+      <div className="container" style={{ marginTop: `${!smUp ? '75px': '200px'}` , marginBottom: `${!smUp ? '75px': '150px'}` }}>
           <Grid container>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <Typography
                 sx={{ mb: 3 }}
                 variant="h4"
@@ -41,7 +44,7 @@ const OrderReceived = () => {
                 {t("Order details")}
               </Typography>
             </Grid>
-            <Grid item xs={6} textAlign="right">
+            <Grid item xs={12} md={6} textAlign="right">
               <Button
                 component={NavLink}
                 variant="contained"
@@ -55,7 +58,7 @@ const OrderReceived = () => {
             </Grid>
           </Grid>
           <Grid container >
-            <Grid item xs={7.5} sx={{ paddingRight: '30px', paddingTop: '20px' }}>
+            <Grid item xs={12} md={7.5} sx={{ paddingRight: '30px', paddingTop: '20px' }}>
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #e4e8e0', paddingBottom: '8px' }}>
                   <Typography style={{ color: '#000', fontSize: '14px' }}>
@@ -111,7 +114,7 @@ const OrderReceived = () => {
                 </div>
               </div>
             </Grid>
-            <Grid item xs={4.5} sx={{ p: '20px', boxShadow: "1px 1px 3px 0px rgb(0 0 0 / 20%), 0 1px 0 rgb(0 0 0 / 7%), inset 0 0 0 1px rgb(0 0 0 / 5%);", backgroundColor: "rgba(0,0,0,0.02)", marginTop: '10px' }}>
+            <Grid item xs={12} md={4.5} sx={{ p: '20px', boxShadow: "1px 1px 3px 0px rgb(0 0 0 / 20%), 0 1px 0 rgb(0 0 0 / 7%), inset 0 0 0 1px rgb(0 0 0 / 5%);", backgroundColor: "rgba(0,0,0,0.02)", marginTop: '10px' }}>
               <div>
                 <Typography style={{ color: '#7a9c59', fontSize: '20px' }}>
                   {t("Thank you. Your order has been received")}!

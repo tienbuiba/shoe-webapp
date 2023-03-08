@@ -17,7 +17,7 @@ const Footer = () => {
           <div className="row">
             <div className="col-lg-6">
               <div className="footer_nav_container ">
-                <h6 style={{ color: '#fff', marginBottom: '30px' }}>
+                <h6 style={{ color: '#fff',marginBottom: `${!smUp ? '10px': '30px'}` }}>
                   {t("CONTACT")}
                 </h6>
               </div>
@@ -26,16 +26,16 @@ const Footer = () => {
               </p>
               <div className="footer_social d-flex flex-row align-items-center justify-content-lg-start justify-content-center">
                 <ul>
-                  <li><a href="#"><i className="fa fa-facebook" aria-hidden="true"></i></a></li>
-                  <li><a href="#"><i className="fa fa-twitter" aria-hidden="true"></i></a></li>
-                  <li><a href="#"><i className="fa fa-instagram" aria-hidden="true"></i></a></li>
-                  <li><a href="#"><i className="fa fa-skype" aria-hidden="true"></i></a></li>
+                  <li><a href="https://www.facebook.com/profile.php?id=100090517898794"><i className="fa fa-facebook" aria-hidden="true"></i></a></li>
+                  <li><a href="https://www.facebook.com/profile.php?id=100090517898794"><i className="fa fa-twitter" aria-hidden="true"></i></a></li>
+                  <li><a href="https://www.facebook.com/profile.php?id=100090517898794"><i className="fa fa-instagram" aria-hidden="true"></i></a></li>
+                  <li><a href="https://www.facebook.com/profile.php?id=100090517898794"><i className="fa fa-skype" aria-hidden="true"></i></a></li>
                 </ul>
               </div>
             </div>
             <div className="col-lg-3">
               <div className="footer_nav_container">
-                <h6 style={{ color: '#fff', marginBottom: '30px' }}>
+                <h6 style={{ color: '#fff',marginBottom: `${!smUp ? '10px': '30px'}` }}>
                   {t("CUSTOMER SUPPORT")}
                 </h6>
               </div>
@@ -47,7 +47,7 @@ const Footer = () => {
                   <li><Link to="#">
                     {t("FAQs")}
                   </Link></li>
-                  <li><a href="#">
+                  <li><a href="/shop">
                     {t("Products")}
                   </a></li>
                 </ul>
@@ -55,7 +55,7 @@ const Footer = () => {
             </div>
             <div className="col-lg-3">
               <div className="footer_nav_container">
-                <h6 style={{ color: '#fff', marginBottom: '30px' }}>
+                <h6 style={{ color: '#fff', marginBottom: `${!smUp ? '10px': '30px'}`  }}>
                   {t("STORE INFORMATION")}
                 </h6>
               </div>

@@ -47,15 +47,15 @@ const Header = () => {
                   <ul className="top_nav_menu">
                     <li className="language">
                       <a href="#">
-                        <LanguagePopover/>
+                        <LanguagePopover />
                         <i className="fa fa-angle-down">
                         </i>
                       </a>
                     </li>
                     {token ? <>
                       <li className="account">
-                        <a href="tel:0376624470"> 
-                        +84-376-627-470</a>
+                        <a href="tel:0376624470">
+                          +84-376-627-470</a>
                       </li>
                     </> : (
                       <li className="account">
@@ -115,8 +115,8 @@ const Header = () => {
                       </Link>
                     </li>
                   </ul>
-                  <div className="hamburger_container">
-                    <i className="fa fa-bars" aria-hidden="true"></i>
+                  <div className="hamburger_container" style={{ padding: '10px', cursor: 'pointer' }}>
+                    <i className="fa fa-bars" aria-hidden="true" ></i>
                   </div>
                 </nav>
               </div>
@@ -126,7 +126,7 @@ const Header = () => {
       </header>
       <div className="fs_menu_overlay"></div>
       <div className="hamburger_menu">
-        <div className="hamburger_close"><i className="fa fa-times" aria-hidden="true"></i></div>
+        <div className="hamburger_close" style={{ padding: '10px', cursor: 'pointer' }}><i className="fa fa-times" aria-hidden="true"></i></div>
         <div className="hamburger_menu_content text-right">
           <ul className="menu_top_nav">
             <li className="menu_item has-children">
@@ -135,31 +135,23 @@ const Header = () => {
                 <i className="fa fa-angle-down"></i>
               </a>
             </li>
-            <li className="menu_item has-children">
-              <a href="#">
-                {t("My Account")}
-                <i className="fa fa-angle-down"></i>
-              </a>
-              <ul className="menu_selection">
-                <li><Link to="/login"><i className="fa fa-sign-in" aria-hidden="true"></i>
-                  {t("Sign In")}
-                </Link></li>
-              </ul>
-            </li>
-            <li><Link to="/">
+            <li style={{ padding: '10px', width: '100%', dislay: 'block' }}><Link to="/">
               {t("Home Page")}
             </Link></li>
-            <li><Link to="/introduction">
+            <li style={{ padding: '10px', width: '100%', dislay: 'block' }}><Link to="/introduction">
               {t("Introduction")}
             </Link></li>
-            <li><Link to="/shop">
+            <li style={{ padding: '10px', width: '100%', dislay: 'block' }}><Link to="/shop">
               {t("Shop")}
             </Link></li>
-            <li><Link to="/news">
+            <li style={{ padding: '10px', width: '100%', dislay: 'block' }}><Link to="/news">
               {t("News")}
             </Link></li>
-            <li><Link to="/contact-us">
+            <li style={{ padding: '10px', width: '100%', dislay: 'block' }}><Link to="/contact-us">
               {t("Contact")}
+            </Link></li>
+            <li style={{ padding: '10px', width: '100%', dislay: 'block' }}><Link to="/login"><i className="fa fa-sign-in" aria-hidden="true"></i>
+              {t("Sign In")}
             </Link></li>
           </ul>
         </div>

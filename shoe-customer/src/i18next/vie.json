@@ -134,7 +134,7 @@
   "Do you want to cancel this order?": "Bạn có muốn hủy đơn hàng này không?",
   "Search for deals...": "Tìm kiếm giao dịch...",
   "Account Profile": "Thông tin tài khoản",
-  "Upload Avatar": "Tải lên Avatar",
+  "Upload Avatar": "Avatar",
   "Save details": "Lưu chi tiết",
   "Profile": "Thông tin",
   "The information can be edited": "Thông tin có thể chỉnh sửa được",
@@ -222,5 +222,7 @@
   "Waiting for transfer": " Đang chờ chuyển khoản",
   "Make a bank transfer to the account number below. Please enter the correct transfer information and wait at this page until the system reports success.": "Thực hiện chuyển khoản ngân hàng vào số tài khoản bên dưới. Vui lòng nhập đúng nội dung chuyển khoản và chờ ở trang này cho đến khi hệ thống báo thành công.",
   "We received the amount:":"Chúng tôi đã nhận được số tiền:",
-  "Continue to pay the remaining amount:":"Tiếp tục thanh toán số tiền còn lại:"
+  "Continue to pay the remaining amount:":"Tiếp tục thanh toán số tiền còn lại:",
+  "Login successful":"Đăng nhập thành công",
+  "Payment successful":"Bạn đã thanh toán đơn hàng thành công"
 }

@@ -7,9 +7,7 @@ import {
   Typography,
   Input,
   InputAdornment,
-  IconButton,
-  Breadcrumbs,
-  Link
+  IconButton
 } from '@mui/material';
 
 import * as Yup from 'yup';
@@ -28,6 +26,7 @@ import Header from '../layouts/Header';
 import Footer from '../layouts/Footer';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { Box } from '@mui/system';
+import useResponsive from 'src/hooks/useResponsive';
 
 // ============================|| CHANGE PASSWORD ||============================ //
 
@@ -37,6 +36,8 @@ const ChangePassword = () => {
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
+  const smUp = useResponsive('up', 'sm');
+
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -61,37 +62,7 @@ const ChangePassword = () => {
 
   return (
     <Page title={t("title_03")}>
-      <Header />
-      <div className="newsletter" style={{ marginTop: '150px' }}>
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-6">
-              <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
-                <h3>
-                {t("title_03")} 
-                  
-                               </h3>
-                <Breadcrumbs aria-label="breadcrumb">
-                  <Link
-                    underline="hover"
-                    color="inherit"
-                    href="/"
-                  >
-                    {t("HOME PAGE")}
-                  </Link>
-                  <Link
-                    underline="hover"
-                    color="inherit"
-                    href="/"
-                  >
-                  {t("title_03")}    
-                  </Link>
-                </Breadcrumbs>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Header />  
       <Box
         component="main"
         sx={{
@@ -99,9 +70,9 @@ const ChangePassword = () => {
           py: 8
         }}
       >
-        <div className="container">
+      <div className="container" style={{ marginTop: `${!smUp ? '75px': '200px'}` , marginBottom: `${!smUp ? '75px': '150px'}` }}>
           <Grid container>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <Typography
                 sx={{ mb: 3 }}
                 variant="h4"
@@ -109,7 +80,7 @@ const ChangePassword = () => {
                 {t("change_04")}
               </Typography>
             </Grid>
-            <Grid item xs={6} textAlign="right">
+            <Grid item xs={12} md={6} textAlign="right" sx={{ mb: `${!smUp ? '20px' : ''}` }}>
               <Button
                 sx={{ mb: 3 }}
                 component={NavLink}
@@ -119,7 +90,6 @@ const ChangePassword = () => {
                 endIcon={<ChevronRightIcon></ChevronRightIcon>}
                 to="/account-profile"
               >
-                
                 {t("Account Profile")}
               </Button>
             </Grid>

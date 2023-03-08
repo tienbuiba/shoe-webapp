@@ -1,4 +1,4 @@
-import { Box, Breadcrumbs, Button, Grid, Typography, Link, CardContent, Card, Avatar, Input, CardActions, Divider } from '@mui/material';
+import { Box, Button, Grid, Typography, CardContent, Card, Avatar, Input, CardActions, Divider } from '@mui/material';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Page from 'src/components/Page';
@@ -15,6 +15,7 @@ import { PhotoCamera } from '@mui/icons-material';
 import account from 'src/_mock/account';
 import { AccountProfileDetails } from 'src/components/profile/AccountProfileDetails';
 import { ToastContainer, toast } from 'react-toastify';
+import useResponsive from 'src/hooks/useResponsive';
 
 
 const Profile = () => {
@@ -26,6 +27,7 @@ const Profile = () => {
   const profile = JSON.parse(TokenService.getLocalProfile('profile'));
   const [dataListAddress, setDataListAddress] = useState(null);
   const [images, setImages] = useState(null);
+  const smUp = useResponsive('up', 'sm');
 
   useEffect(() => {
     apiUserGetDeliveryAddress().then((res) => {
@@ -50,36 +52,7 @@ const Profile = () => {
 
   return (
     <Page>
-      <Header />
-      <div className="newsletter" style={{ marginTop: '150px' }}>
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-6">
-              <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
-                <h3>
-                  {t("Account")}
-                </h3>
-                <Breadcrumbs aria-label="breadcrumb" >
-                  <Link
-                    underline="hover"
-                    color="inherit"
-                    href="/"
-                  >
-                    {t("HOME PAGE")}
-                  </Link>
-                  <Link
-                    underline="hover"
-                    color="inherit"
-                    href="/account-profile"
-                  >
-                    {t("Account")}
-                  </Link>
-                </Breadcrumbs>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Header />   
       <Box
         component="main"
         sx={{
@@ -87,9 +60,9 @@ const Profile = () => {
           py: 8
         }}
       >
-        <div className="container">
+      <div className="container" style={{ marginTop: `${!smUp ? '75px': '200px'}` , marginBottom: `${!smUp ? '75px': '150px'}` }}>
           <Grid container>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <Typography
                 sx={{ mb: 3 }}
                 variant="h4"
@@ -97,7 +70,7 @@ const Profile = () => {
              {t("Account")}
               </Typography>
             </Grid>
-            <Grid item xs={6} textAlign="right">
+            <Grid item xs={12} md={6} textAlign="right" sx={{ mb: `${ !smUp ? '20px': ''}`}}>
               <Button
                 component={NavLink}
                 variant="contained"

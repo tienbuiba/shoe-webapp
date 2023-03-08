@@ -5,14 +5,28 @@ import Link from '@mui/material/Link';
 import Page from 'src/components/Page';
 import Footer from 'src/layouts/Footer';
 import { useTranslation } from 'react-i18next';
+import useResponsive from 'src/hooks/useResponsive';
 
 const Introduction = () => {
   const { t } = useTranslation("translation");
+  const smUp = useResponsive('up', 'sm');
 
   return (
     <Page title="Introduction">
       <Header />
-      <div className="newsletter" style={{ marginTop: '150px' }}>
+      {!smUp ? <div className="newsletter" style={{ marginTop: '75px' }}>
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-6">
+              <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
+                <h3>
+                  {t("Introduction")}
+                </h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> : <div className="newsletter" style={{ marginTop: '150px' }}>
         <div className="container">
           <div className="row">
             <div className="col-lg-6">
@@ -40,7 +54,8 @@ const Introduction = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div>}
+
       <div className="container text-center mt-5">
         <h4>ME<span style={{ color: '#fe4c50', fontSize: '24px', fontWeight: '700' }}> SHOES</span></h4>
         <p>

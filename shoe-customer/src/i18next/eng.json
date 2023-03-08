@@ -93,8 +93,8 @@
   "shop now":"shop now",
   "New Arrivals":"New Arrivals",
   "Deal Of The Week":"Deal Of The Week" ,
-  "top selling" :"Top Selling",
-  "Latest Blogs":"Latest Blogs",
+  "top selling" :"BEST SELLER",
+  "Latest Blogs":"LATEST NEWS",
   "Newsletter":"Newsletter",
   "Subscribe to our newsletter and get 20% off your first purchase":"Subscribe to our newsletter and get 20% off your first purchase",
   "subscribe":"subscribe",
@@ -102,7 +102,6 @@
   "Order details":"Order details",
   "Order History":"Order History",
   "PRODUCT":"PRODUCT",
-  "TOTAL":"TOTAL",
   "COLOR":"COLOR",
   "Thank you. Your order has been received":"Thank you. Your order has been received",
   "Code orders":"Code orders",
@@ -216,6 +215,8 @@
   "Waiting for transfer":"Waiting for transfer",
   "Make a bank transfer to the account number below. Please enter the correct transfer information and wait at this page until the system reports success.":"Make a bank transfer to the account number below. Please enter the correct transfer information and wait at this page until the system reports success.",
   "We received the amount:":"We received the amount:",
-  "Continue to pay the remaining amount:":"Continue to pay the remaining amount:"
+  "Continue to pay the remaining amount:":"Continue to pay the remaining amount:",
+  "Login successful":"Login successful",
+  "Payment successful":"Payment successful"
   
 }

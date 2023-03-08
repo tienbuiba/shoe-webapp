@@ -92,11 +92,13 @@ const MainProduct = () => {
         </strong>)}
         <div className="ms-auto ">
           <input onChange={handleChange} value={keyword} className="form-control d-inline-block " style={{ width: '175px', marginRight: '20px' }} placeholder={t("Search...")} />
-          <div className="btn-group">
+          
+          { !smUp ? <></>:    <div className="btn-group">
             <a href="#" className="btn btn-light active" data-bs-toggle="tooltip" title="Sort">
               <i className="fa fa-th"></i>
             </a>
-          </div>
+          </div>}
+       
         </div>
       </header>
       <div className="new_arrivals">

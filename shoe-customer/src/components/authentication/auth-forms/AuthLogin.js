@@ -51,11 +51,10 @@ const AuthLogin = () => {
     };
     return (
         <>
-
             <Formik
                 initialValues={{
                     email: 'info@monoshoes.com',
-                    password: '123456',
+                    password: '123456789',
                     submit: null
                 }}
                 validationSchema={Yup.object().shape({
@@ -77,7 +76,7 @@ const AuthLogin = () => {
                                     apiUserProfile().then(result => {
                                         TokenService.updateLocalProfile(JSON.stringify(result.data));
                                         navigate('/', { replace: true });
-                                        toast.success("Login successful!", options);
+                                        toast.success(t("Login successful"), options);
                                     }).catch(error => {
                                         console.log(error);
                                         dispatch(closeLoadingApi());

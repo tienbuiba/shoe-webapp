@@ -16,6 +16,7 @@ import Iconify from 'src/components/Iconify';
 import Label from 'src/components/Label';
 import { apiUserGetTransactionList } from 'src/services/Transaction';
 import FormatPrice from 'src/utils/FormatPrice';
+import useResponsive from 'src/hooks/useResponsive';
 
 const RootStyle = styled(Toolbar)(({ theme }) => ({
   height: 96,
@@ -49,6 +50,8 @@ const AccountTransaction = () => {
   const [total, setTotal] = useState(0);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const smUp = useResponsive('up', 'sm');
+
 
   const TABLE_HEAD = [
     { id: 'thời gian', label: 'THỜI GIAN', alignRight: false },
@@ -89,9 +92,9 @@ const AccountTransaction = () => {
   return (
     <Page title={t("Transaction History")}>
       <Header />   
-      <div className="container" style={{ marginTop: '250px', marginBottom: '150px' }}>
+      <div className="container" style={{ marginTop: `${!smUp ? '125px': '250px'}` , marginBottom: `${!smUp ? '75px': '150px'}` }}>
         <Grid container>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Typography
               sx={{ mb: 3 }}
               variant="h4"
@@ -99,7 +102,7 @@ const AccountTransaction = () => {
             {t("Transaction History")}
             </Typography>
           </Grid>
-          <Grid item xs={6} textAlign="right">
+          <Grid item xs={12} md={6} textAlign="right" sx={{ mb: `${ !smUp ? '20px': ''}`}}>
             <Button
               component={NavLink}
               variant="contained"

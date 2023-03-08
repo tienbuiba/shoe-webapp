@@ -11,6 +11,7 @@ import Map from 'src/components/Map';
 import { useTranslation } from 'react-i18next';
 import { closeLoadingApi, openLoadingApi } from 'src/redux/creates-action/LoadingAction';
 import { useDispatch } from 'react-redux';
+import useResponsive from 'src/hooks/useResponsive';
 
 const Contact = () => {
   const [subject, setSubject] = React.useState('');
@@ -19,6 +20,7 @@ const Contact = () => {
   const [message, setMessage] = React.useState('');
   const { t } = useTranslation("translation");
   const dispatch = useDispatch();
+  const smUp = useResponsive('up', 'sm');
 
   const form = React.useRef();
   var templateParams = {
@@ -71,8 +73,16 @@ const Contact = () => {
   return (
     <Page title="Contact us">
       <Header />
-      <div className="newsletter" style={{ marginTop: '150px', marginBottom: '70px' }}>
-        <div className="container">
+      {!smUp ?
+        <div className="newsletter" style={{ marginTop: '75px', marginBottom: '70px' }}>
+          <div className="container">
+            <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
+        
+            </div>
+          </div>
+        </div> :
+        <div className="newsletter" style={{ marginTop: '150px', marginBottom: '70px' }}>
+          <div className="container">
             <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
               <h3>
                 {t("Contact")}
@@ -96,6 +106,8 @@ const Contact = () => {
             </div>
           </div>
         </div>
+      }
+
       <div className="container">
         <div className="row">
           <div className="col text-center">
@@ -166,7 +178,7 @@ const Contact = () => {
             </form>
           </Grid>
           <Grid item xs={12} md={6}>
-            <Map/>
+            <Map />
           </Grid>
         </Grid>
       </div>

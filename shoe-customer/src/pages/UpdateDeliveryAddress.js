@@ -10,6 +10,8 @@ import SaveIcon from '@mui/icons-material/Save';
 import { ToastContainer, toast } from 'react-toastify';
 import PaymentInforProduct from "src/components/product/PaymentInforProduct";
 import {useNavigate } from "react-router-dom";
+import useResponsive from "src/hooks/useResponsive";
+import { useTranslation } from "react-i18next";
 
 const UpdateDeliveryAddress = () => {
   const [cities, setCities] = useState([]);
@@ -27,6 +29,8 @@ const UpdateDeliveryAddress = () => {
   const [call, setCall] = useState(false);
   const [dataListAddress, setDataListAddress] = useState(null)
   const navigate = useNavigate();
+  const smUp = useResponsive('up', 'sm');
+  const { t } = useTranslation("translation");
 
   const options = {
     autoClose: 2000,
@@ -99,22 +103,27 @@ const UpdateDeliveryAddress = () => {
   return (
     <Page title="Payment information">
       <Header />
-      <div className="newsletter" style={{ marginTop: '150px' }}>
+      <div className="newsletter" style={{ marginTop: `${!smUp ? '75px' : "150px"}` }}>
         <div className="container">
           <div className="row">
             <div className="col-lg-6">
               <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
-                <h3>Payment Information</h3>
-                <Breadcrumbs aria-label="breadcrumb" >
-                  <Link
-                    underline="hover"
-                    color="inherit"
-                    href="/"
-                  >
-                    HOME PAGE
-                  </Link>
-                  <p>Cart</p>
-                </Breadcrumbs>
+                <h3> {t("Payment information")}</h3>
+                {!smUp ? <></> :
+                  <Breadcrumbs aria-label="breadcrumb" >
+                    <Link
+                      underline="hover"
+                      color="inherit"
+                      to="/"
+                    >
+                      {t("HOME PAGE")}
+                    </Link>
+                    <p>
+                      {t("Payment information")}
+                    </p>
+                  </Breadcrumbs>
+                }
+
               </div>
             </div>
           </div>
@@ -124,7 +133,7 @@ const UpdateDeliveryAddress = () => {
         <Wrapper>
           <div className="container">
             <Grid container >
-              <Grid item xs={8} sx={{ borderRight: '1px solid #E0E4E8', paddingRight: '20px', paddingTop: '20px' }}>
+              <Grid item xs={12} md={8} sx={{ borderRight: '1px solid #E0E4E8', paddingRight: '20px', paddingTop: '20px', mb: `${!smUp ?  '30px': ''}` }}>
                 <div className="cart_heading" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)' }}>
                   <p className="cart-item-heading">THÔNG TIN THANH TOÁN</p>
                 </div>
@@ -229,7 +238,7 @@ const UpdateDeliveryAddress = () => {
                   </Button>
                 </div>
               </Grid>
-              <Grid item xs={4} sx={{ p: '20px', border: '2px solid #e32124' }}>
+              <Grid item xs={12} md={4} sx={{ p: '20px', border: '2px solid #e32124' }}>
                 <div className="cart_heading" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)' }}>
                   <p className="cart-item-heading">ĐƠN HÀNG CỦA BẠN</p>
                 </div>

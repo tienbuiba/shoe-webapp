@@ -20,6 +20,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 import { useTranslation } from "react-i18next";
 import Newsletter from "src/components/Newsletter";
+import ReactHtmlParser from 'react-html-parser';
+
 
 
 const NewDetail = () => {
@@ -203,7 +205,7 @@ const NewDetail = () => {
                   </div>
                 </div>
               </div>
-              <div  dangerouslySetInnerHTML={{ __html: data.longDesc }} style={{ paddingTop: '50px'}} />
+              <div style={{ paddingTop: '50px'}}>{ ReactHtmlParser(data.longDesc) }</div>
               <div style={{ display: 'flex', gap: '14px', marginTop: '30px' }}>
                 <FacebookShareButton
                   url={urlWebsite}

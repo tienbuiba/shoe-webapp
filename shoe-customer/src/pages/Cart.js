@@ -11,6 +11,7 @@ import { NavLink } from "react-router-dom";
 import CartTotalItem from "../components/cart/CartTotalItem";
 import CartItem from "../components/cart/CartItem";
 import { useTranslation } from "react-i18next";
+import useResponsive from "src/hooks/useResponsive";
 
 const Cart = () => {
   const [dataCart, setDataCart] = useState([]);
@@ -18,7 +19,7 @@ const Cart = () => {
   const [hasCart, setHasCart] = useState(false);
   const [total, setTotal] = useState(0);
   const { t } = useTranslation("translation");
-
+  const smUp = useResponsive('up', 'sm');
 
   useEffect(() => {
     apiUserGetAllCartItem().then((res) => {
@@ -42,42 +43,56 @@ const Cart = () => {
     <Page title={t("Cart")}
     >
       <Header />
-      <div className="newsletter" style={{ marginTop: '150px' }}>
+      {!smUp ? <div className="newsletter" style={{ marginTop: '75px' }}>
         <div className="container">
           <div className="row">
             <div className="col-lg-6">
               <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
                 <h3>
                   {t("Cart Shopping")}
-                </h3>
-                <Breadcrumbs aria-label="breadcrumb" >
-                  <Link
-                    underline="hover"
-                    color="inherit"
-                    href="/"
-                  >
-                    {t("HOME PAGE")}
-                  </Link>
-                  <Link
-                    underline="hover"
-                    color="inherit"
-                    href="/cart"
-                  >
-                    {t("Cart")}
-                  </Link>
-                </Breadcrumbs>
+                </h3>            
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </div> :
+        <div className="newsletter" style={{ marginTop: '150px' }}>
+          <div className="container">
+            <div className="row">
+              <div className="col-lg-6">
+                <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
+                  <h3>
+                    {t("Cart Shopping")}
+                  </h3>
+                  <Breadcrumbs aria-label="breadcrumb" >
+                    <Link
+                      underline="hover"
+                      color="inherit"
+                      href="/"
+                    >
+                      {t("HOME PAGE")}
+                    </Link>
+                    <Link
+                      underline="hover"
+                      color="inherit"
+                      href="/cart"
+                    >
+                      {t("Cart")}
+                    </Link>
+                  </Breadcrumbs>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>}
+
       <div>
         {hasCart === true ? (<>
           <Wrapper>
             <div className="container">
               <Grid container>
                 <Grid item xs={12} md={8} sx={{ borderRight: '1px solid #E0E4E8', paddingRight: '20px' }}>
-                  <div className="cart_heading" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)' }}>
+                  <div className="cart_heading" style={{ display: 'grid', gridTemplateColumns:  `${!smUp ? '' : 'repeat(5, 1fr)'}` }}>
                     <p className="cart-item-heading">
                       {t("Item")}
 
@@ -116,7 +131,7 @@ const Cart = () => {
                 <Grid item xs={12} md={4} sx={{ paddingLeft: '20px' }}>
                   <div className="cart_heading" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)' }}>
                     <p className="cart-item-heading">
-                    {t("TOTAL")}
+                      {t("TOTAL")}
                     </p>
                   </div>
                   <Divider></Divider>
@@ -128,7 +143,7 @@ const Cart = () => {
             </div>
           </Wrapper>
         </>) : (<>
-          <div style={{ textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '200px' }}>
+          <div style={{ textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: `${!smUp ? '150px 50px' : '200px'}` }}>
             <div>
               <p>
                 {t("There are no products in the shopping cart.")}

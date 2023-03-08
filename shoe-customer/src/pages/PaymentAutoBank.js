@@ -9,6 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { apiUserCheckOrderPaid } from "src/services/Payment";
 import FormatPrice from "src/utils/FormatPrice";
 import { useTranslation } from "react-i18next";
+import useResponsive from "src/hooks/useResponsive";
 
 const PaymentAutoBank = () => {
   const { code, amount } = useParams();
@@ -18,6 +19,7 @@ const PaymentAutoBank = () => {
   const [seconds, setSeconds] = useState(600);
   const [textError, setTextError] = useState("")
   const { t } = useTranslation("translation");
+  const smUp = useResponsive('up', 'sm');
 
   useEffect(() => {
     setMoney(amount);
@@ -26,7 +28,7 @@ const PaymentAutoBank = () => {
 
   const options = {
     autoClose: 2000,
-    position: toast.POSITION.TOP_RIGHT,
+    position: toast.POSITION.TOP_CENTER,
   };
 
   const URL = 'https://img.vietqr.io/';
@@ -44,8 +46,11 @@ const PaymentAutoBank = () => {
   useEffect(() => {
     apiUserCheckOrderPaid(code).then((res) => {
       if (res.data.data.isSuccess === true) {
-        toast.success("Payment successfully!", options);
-        navigate('/account-order');
+        toast.success( t("Payment successful"), options);
+        const timeoutId = setTimeout(() => {
+          navigate('/account-order');
+        }, 1000);
+        return () => clearTimeout(timeoutId);       
       }
       else if (Math.abs(res.data.data.modAmount) - (amount) < 1) {
         const moneyGave = Math.abs(res.data.data.modAmount);
@@ -59,29 +64,28 @@ const PaymentAutoBank = () => {
     <Page title={t("Bank transfer")}
     >
       <Header />
-      <div className="newsletter" style={{ marginTop: '150px' }}>
+      <div className="newsletter" style={{ marginTop: `${!smUp ? '75px' : '150px'}` }}>
         <div className="container">
           <div className="row">
             <div className="col-lg-6">
               <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
                 <h3>
-                  {t("Payment Banking")}
+                  {t("Bank transfer")}
                 </h3>
-                <Breadcrumbs aria-label="breadcrumb" >
-                  <Link
-                    underline="hover"
-                    color="inherit"
-                    href="/"
-                  >
-                    {t("HOME PAGE")}
-
-
-                  </Link>
-                  <p>
-                    {t("Payment Banking")}
-
-                  </p>
-                </Breadcrumbs>
+                {!smUp ? <></> :
+                  <Breadcrumbs aria-label="breadcrumb" >
+                    <Link
+                      underline="hover"
+                      color="inherit"
+                      href="/"
+                    >
+                      {t("HOME PAGE")}
+                    </Link>
+                    <p>
+                      {t("Bank transfer")}
+                    </p>
+                  </Breadcrumbs>
+                }
               </div>
             </div>
           </div>
@@ -89,18 +93,18 @@ const PaymentAutoBank = () => {
       </div>
       <div>
         <div className="container">
-          <Paper style={{ marginBottom: '300px' }}>
+          <Paper style={{ marginBottom: `${ !smUp ? '100px': '300px'}`}}>
             <div style={{ textAlign: 'center', marginBottom: '30px' }}>
               <p style={{ color: '#000', fontSize: '22px', textAlign: 'center', marginBottom: '8px', fontWeight: '600', marginTop: '50px', paddingTop: '20px' }}>
-                {t("Bank Transfer")}
+                {t("Bank transfer")}
               </p>
               <p style={{ textAlign: 'center', color: '#000', margin: '0px 30px' }}>
                 {t("Make a bank transfer to the account number below. Please enter the correct transfer information and wait at this page until the system reports success.")}
               </p>
             </div>
-            <Grid container spacing={2}>
-              <Grid item xs={12} md={5}>
-                <Card sx={{ px: 3, py: 4, textAlign: 'center', boxShadow: '6px 6px 6px 6px rgb(0 0 0 / 20%)' }}>
+            <Grid container spacing={2} sx={{ px: '10px', pb: '30px'}}>
+              <Grid item xs={12} md={5} >
+                <Card sx={{ px: 3, py: 5, textAlign: 'center', boxShadow: '6px 6px 6px 6px rgb(0 0 0 / 20%)' }}>
                   <div style={{
                     backgroundColor: 'rgba(115, 103, 240, 0.12)',
                     color: '#28c76f',
@@ -122,7 +126,7 @@ const PaymentAutoBank = () => {
                     {t("Open the Banking App, scan the QRCode and enter the amount to transfer")}
                   </div>
                   <div style={{ display: 'flex', alignItem: 'center', justifyContent: 'center' }}>
-                    <img src={`${URL + SubUrl}`} style={{ height: '450px' }} />
+                    <img src={`${URL + SubUrl}`} style={{ height: `${!smUp ? '300px' : '450px'}` }} />
                   </div>
                 </Card>
               </Grid>
@@ -145,13 +149,12 @@ const PaymentAutoBank = () => {
                     </div>
                   </div>
                   <div style={{ color: '#000', marginButton: '24px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <img src={require('../_mock/mbbank.jpg')} alt="mbbank_logo" style={{ width: '200px', height: '150px' }} />
+                    <img src={require('../_mock/mbbank.jpg')} alt="mbbank_logo" style={{ width: `${!smUp ? '150px' : '200px'}`, height: `${!smUp ? '100px' : '150px'}`,  }} />
                   </div>
                   <div style={{ color: '#000', fontSize: '14px', display: 'inline-block', marginBottom: '8px', }}>
                     {t("Account holder:")}
                     <div style={{ color: '#000', fontSize: '16px', display: 'inline-block', marginLeft: '10px', fontWeight: 'bold' }}>BÙI BÁ TIẾN</div>
                   </div>
-
                   <Divider sx={{ marginBottom: '8px' }}></Divider>
                   <div style={{ color: '#000', fontSize: '14px', display: 'inline-block', marginBottom: '8px', }}>
                     {t("Account number:")}
@@ -176,8 +179,6 @@ const PaymentAutoBank = () => {
                   <Divider sx={{ marginBottom: '10px' }}></Divider>
                   <div style={{ color: '#000', fontSize: '16px', display: 'inline-block', marginBottom: '8px', }}>
                     {t("Waiting for transfer")}
-
-
                   </div>
                   <div style={{ display: 'flex', alignItem: 'center', justifyContent: 'center' }}>
                     <img src={require('../_mock/loading.gif')} alt="loading.gif" style={{ display: 'flex', alignItem: 'center', justifyContent: 'center', width: '100px', height: '100px' }} />

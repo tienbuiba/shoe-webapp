@@ -17,6 +17,7 @@ import Label from 'src/components/Label';
 import OrderMoreMenu from 'src/components/order/OrderMoreMenu';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import FormatPrice from 'src/utils/FormatPrice';
+import useResponsive from 'src/hooks/useResponsive';
 
 
 const RootStyle = styled(Toolbar)(({ theme }) => ({
@@ -47,6 +48,8 @@ const AccountOrder = () => {
   const [keyword, setKeyword] = useState('')
   const [total, setTotal] = useState(0);
   const dispatch = useDispatch();
+  const smUp = useResponsive('up', 'sm');
+
 
   const TABLE_HEAD = [
     { id: 'thời gian', label: t("TIME"), alignRight: false },
@@ -86,14 +89,12 @@ const AccountOrder = () => {
     setKeyword(e.target.value);
   };
 
-
-
   return (
     <Page title={t("Order History")}>
       <Header />
-      <div className="container" style={{ marginTop: '250px', marginBottom: '150px' }}>
-        <Grid container>
-          <Grid item xs={6}>
+      <div className="container" style={{ marginTop: `${!smUp ? '125px': '250px'}` , marginBottom: `${!smUp ? '75px': '150px'}` }}>
+        <Grid container sx={{ px: `${!smUp? '10px': ''}`}}>
+          <Grid item xs={12} md={6}>
             <Typography
               sx={{ mb: 3 }}
               variant="h4"
@@ -101,7 +102,7 @@ const AccountOrder = () => {
               {t("Order History")}
             </Typography>
           </Grid>
-          <Grid item xs={6} textAlign="right">
+          <Grid item xs={12} md={6} textAlign="right" sx={{ mb: `${ !smUp ? '20px': ''}`}}>
             <Button
               component={NavLink}
               variant="contained"

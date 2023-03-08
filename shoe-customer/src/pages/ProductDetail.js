@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import Footer from "src/layouts/Footer";
-import { Avatar, Breadcrumbs, Container, Divider, Grid, Link } from "@mui/material";
+import { Breadcrumbs, Container, Divider, Link } from "@mui/material";
 import Header from "src/layouts/Header";
 import Page from "src/components/Page";
 import { FaCheck } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { apiUseCreateProductCommentById, apiUserGetProductById, apiUserGetProductCommentById } from "src/services/Product";
+import {  apiUserGetProductById,  } from "src/services/Product";
 import { useDispatch } from "react-redux";
 import { addToCart } from "src/redux/creates-action/CartActions";
 import { apiUserCreateCart } from "src/services/Carts";
@@ -18,13 +18,11 @@ import { ToastContainer, toast } from 'react-toastify';
 import FormatPrice from "../utils/FormatPrice";
 import CartAmountToggle from "../components/cart/CartAmountToggle";
 import Star from "src/components/cart/Star";
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { fDateLocal } from "src/utils/formatTime";
-import TokenService from "src/services/TokenService";
-import { closeLoadingApi, openLoadingApi } from "src/redux/creates-action/LoadingAction";
 import { useTranslation } from "react-i18next";
 import Newsletter from "src/components/Newsletter";
+import useResponsive from "src/hooks/useResponsive";
+import ReactHtmlParser from 'react-html-parser';
+
 
 const Button = styled.button`
   text-decoration: none;
@@ -58,11 +56,8 @@ const ProductDetail = () => {
   const [dataCategory, setDataCategory] = useState([]);
   const navigate = useNavigate();
   const { t } = useTranslation("translation");
-
-  const edit = true;
-  const profile = JSON.parse(TokenService.getLocalProfile('profile'));
-  const [content, setContent] = useState('')
-
+  const smUp = useResponsive('up', 'sm');
+  
   const options = {
     autoClose: 2000,
     position: toast.POSITION.TOP_RIGHT,
@@ -97,7 +92,6 @@ const ProductDetail = () => {
   const [color, setColor] = useState('');
   const [size, setSize] = useState("");
 
-  const [dataComment, setDataComment] = useState('')
 
   const [mainImage, setMainImage] = useState('');
   const setDecrease = () => {
@@ -125,53 +119,53 @@ const ProductDetail = () => {
     }
   }
 
-
-  useEffect(() => {
-    dispatch(openLoadingApi());
-    apiUserGetProductCommentById(id).then((res) => {
-      setDataComment(res?.data?.data)
-    }).catch((err) => {
-      console.log(err);
-    })
-      .finally(() => {
-        dispatch(closeLoadingApi());
-      })
-  }, [])
-
   return data && (
     <Page title={t("Product details")}>
       <Header />
-      <div className="newsletter" style={{ marginTop: '150px' }}>
+      {!smUp ? <div className="newsletter" style={{ marginTop: '75px' }}>
         <div className="container">
           <div className="row">
             <div className="col-lg-6">
               <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
                 <h3> {dataCategory} </h3>
-                <Breadcrumbs aria-label="breadcrumb" >
-                  <Link
-                    underline="hover"
-                    color="inherit"
-                    href="/"
-                  >
-                    {t("HOME PAGE")}
-                  </Link>
-                  <Link
-                    underline="hover"
-                    color="inherit"
-                    href="/shop"
-                  >
-                    {t("Shop")}
-                  </Link>
-                </Breadcrumbs>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </div> :
+        <div className="newsletter" style={{ marginTop: '150px' }}>
+          <div className="container">
+            <div className="row">
+              <div className="col-lg-6">
+                <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
+                  <h3> {dataCategory} </h3>
+                  <Breadcrumbs aria-label="breadcrumb" >
+                    <Link
+                      underline="hover"
+                      color="inherit"
+                      href="/"
+                    >
+                      {t("HOME PAGE")}
+                    </Link>
+                    <Link
+                      underline="hover"
+                      color="inherit"
+                      href="/shop"
+                    >
+                      {t("Shop")}
+                    </Link>
+                  </Breadcrumbs>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+
       <div className="container" style={{ marginTop: '75px', marginBottom: '200px' }}>
         <Wrapper>
           <Container className="container">
-            <div style={{ display: 'flex', alignItems: 'stretch', justifyContent: 'space-between', gap: '10px' }}>
+            <div style={{ display: 'flex', alignItems: `${!smUp ? 'center' : 'stretch'}`, justifyContent: 'space-between', gap: '10px', flexDirection: `${!smUp ? 'column' : ''}` }}>
               <div className="product_images">
                 <div>
                   <div className="main-screen">
@@ -181,7 +175,7 @@ const ProductDetail = () => {
                       className="main-image-preview"
                       style={{
                         boxShadow: '0 6px 16px 0 rgb(0 0 0 / 20%)',
-                        borderRadius: '4px'
+                        borderRadius: '4px',
                       }} />
                   </div>
                   <div>
@@ -356,12 +350,13 @@ const ProductDetail = () => {
                 {t("DESCRIPTION")}
                 <Divider sx={{ my: 3, border: '1px solid #000' }} />
               </h3>
-              <div dangerouslySetInnerHTML={{ __html: data.longDesc }} />
+              <div >{ ReactHtmlParser(data.longDesc) }</div>
+
             </div>
           </Container>
         </Wrapper>
       </div>
-      <Newsletter/>   
+      <Newsletter />
       <ToastContainer />
       <Footer />
     </Page>

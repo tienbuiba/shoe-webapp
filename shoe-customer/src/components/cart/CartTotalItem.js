@@ -1,17 +1,19 @@
 import React from "react";
 import { Button, Typography } from "@mui/material";
-import { ToastContainer, toast } from 'react-toastify';
 import { Link, NavLink } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
 import { apiUserGetDeliveryAddress } from "../../services/Address";
 import FormatPrice from "../../utils/FormatPrice";
 import { useTranslation } from "react-i18next";
+import useResponsive from "src/hooks/useResponsive";
 
 const CartTotalItem = ({ id, quantity, total }) => {
   const [dataListAddress, setDataListAddress] = useState([]);
   const [hasAddress, setHasAddress] = useState(false);
   const { t } = useTranslation("translation");
+  const smUp = useResponsive('up', 'sm');
+
 
 
   useEffect(() => {
@@ -31,14 +33,14 @@ const CartTotalItem = ({ id, quantity, total }) => {
     <div className="cart_heading ">
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #e4e8e0', marginBottom: '20px', paddingBottom: '4px' }}>
-          <Typography style={{ color: '#000', fontSize: '14px', width: '250px' }}>
+          <Typography style={{ color: '#000', fontSize: '14px', width: `${!smUp  ? "" : "250px"}` }}>
             {t("Subtotal")}
           </Typography>
           <FormatPrice price={total} />
         </div>
         {hasAddress === true ? (
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #e4e8e0', marginBottom: '20px', paddingBottom: '4px' }}>
-            <Typography style={{ color: '#000', fontSize: '14px', width: '150px' }}>
+            <Typography style={{ color: '#000', fontSize: '14px', width: `${!smUp  ? "" : "150px"}` }}>
               {t("Delivery")}
             </Typography>
             <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', flexDirection: 'column' }}>
@@ -92,7 +94,6 @@ const CartTotalItem = ({ id, quantity, total }) => {
       </Button>
       <div>
       </div>
-      <ToastContainer></ToastContainer>
     </div>
   );
 }
