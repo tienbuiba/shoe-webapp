@@ -1,6 +1,6 @@
 import { Breadcrumbs, Button, Divider, Grid, Link } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Page from "src/components/Page";
 import Footer from "src/layouts/Footer";
 import Header from "src/layouts/Header";
@@ -12,6 +12,7 @@ import CartTotalItem from "../components/cart/CartTotalItem";
 import CartItem from "../components/cart/CartItem";
 import { useTranslation } from "react-i18next";
 import useResponsive from "src/hooks/useResponsive";
+import { closeLoadingApi, openLoadingApi } from "src/redux/creates-action/LoadingAction";
 
 const Cart = () => {
   const [dataCart, setDataCart] = useState([]);
@@ -20,9 +21,12 @@ const Cart = () => {
   const [total, setTotal] = useState(0);
   const { t } = useTranslation("translation");
   const smUp = useResponsive('up', 'sm');
+  const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(openLoadingApi());
     apiUserGetAllCartItem().then((res) => {
+      dispatch(closeLoadingApi());
       setDataCart(res.data.data);
       if (res.data.data?.length > 0) {
         let total = 0;
@@ -35,13 +39,13 @@ const Cart = () => {
         setHasCart(false);
       }
     }).catch((err) => {
-      console.log(err)
+      console.log(err);
+      dispatch(closeLoadingApi());
     })
   }, [dataAddToCart])
 
   return dataCart && (
-    <Page title={t("Cart")}
-    >
+    <Page title={t("Cart")}>
       <Header />
       {!smUp ? <div className="newsletter" style={{ marginTop: '75px' }}>
         <div className="container">
@@ -50,7 +54,7 @@ const Cart = () => {
               <div className="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
                 <h3>
                   {t("Cart Shopping")}
-                </h3>            
+                </h3>
               </div>
             </div>
           </div>
@@ -92,7 +96,7 @@ const Cart = () => {
             <div className="container">
               <Grid container>
                 <Grid item xs={12} md={8} sx={{ borderRight: '1px solid #E0E4E8', paddingRight: '20px' }}>
-                  <div className="cart_heading" style={{ display: 'grid', gridTemplateColumns:  `${!smUp ? '' : 'repeat(5, 1fr)'}` }}>
+                  <div className="cart_heading" style={{ display: 'grid', gridTemplateColumns: `${!smUp ? '' : 'repeat(5, 1fr)'}` }}>
                     <p className="cart-item-heading">
                       {t("Item")}
 

@@ -52,7 +52,7 @@ const Profile = () => {
 
   return (
     <Page>
-      <Header />   
+      <Header />
       <Box
         component="main"
         sx={{
@@ -60,17 +60,17 @@ const Profile = () => {
           py: 8
         }}
       >
-      <div className="container" style={{ marginTop: `${!smUp ? '75px': '200px'}` , marginBottom: `${!smUp ? '75px': '150px'}` }}>
+        <div className="container" style={{ marginTop: `${!smUp ? '75px' : '200px'}`, marginBottom: `${!smUp ? '75px' : '150px'}` }}>
           <Grid container>
             <Grid item xs={12} md={6}>
               <Typography
                 sx={{ mb: 3 }}
                 variant="h4"
               >
-             {t("Account")}
+                {t("Account")}
               </Typography>
             </Grid>
-            <Grid item xs={12} md={6} textAlign="right" sx={{ mb: `${ !smUp ? '20px': ''}`}}>
+            <Grid item xs={12} md={6} textAlign="right" sx={{ mb: `${!smUp ? '20px' : ''}` }}>
               <Button
                 component={NavLink}
                 variant="contained"
@@ -79,7 +79,7 @@ const Profile = () => {
                 endIcon={<ChevronRightIcon></ChevronRightIcon>}
                 to="/change-password"
               >
-           {t("Change Password")}                
+                {t("Change Password")}
               </Button>
             </Grid>
           </Grid>
@@ -163,8 +163,7 @@ const Profile = () => {
                       component="span"
                       color="error"
                     >
-                    {t("Upload Avatar")}               
-                     
+                      {t("Upload Avatar")}
                     </Button>
                   </label>
                 </CardActions>

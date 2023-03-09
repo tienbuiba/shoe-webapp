@@ -58,7 +58,7 @@ export default function LanguagePopover() {
         }}
       >
         {dataLanguage === 'eng' ?
-          <img src={selected.length === 0 ? LANGS[1].icon : selected.icon} alt={selected.label} />
+          <img src={selected.length === 0 ? LANGS[1].icon : selected.icon} alt={selected.label} style={{ width: 30, height: 30, borderRadius: '10px' }} />
           :
           <img src={selected.length === 0 ? LANGS[0].icon : selected.icon} alt={selected.label} style={{ width: 34, height: 34, borderRadius: '40px' }} />
         }

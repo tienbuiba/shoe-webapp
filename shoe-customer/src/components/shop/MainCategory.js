@@ -32,10 +32,6 @@ const brands = [{
   name: 'Puma'
 },
 {
-  id: 4,
-  name: '0dddd'
-},
-{
   id: 5,
   name: 'Converse'
 },
@@ -170,7 +166,6 @@ const MainCategory = () => {
           <article class="filter-group">
             <header class="card-header">
               <a class="title" data-bs-toggle="collapse" data-bs-target="#collapse_aside_brands">
-
                 {t("Brands")}
 
                 <i class="icon-control fa fa-chevron-down"></i>
@@ -285,13 +280,13 @@ const MainCategory = () => {
                     <label for="min" class="form-label">
                       {t("Min")}
                     </label>
-                    <input class="form-control" id="min" placeholder="$0" value={min} type="number" onChange={e => setMin(e.target.value)} />
+                    <input class="form-control" id="min" placeholder="0 đ" value={min} type="number" onChange={e => setMin(e.target.value)} />
                   </div>
                   <div class="col-6">
                     <label for="max" class="form-label">
                       {t("Max")}
                     </label>
-                    <input class="form-control" id="max" placeholder="$1,0000" value={max} type="number" onChange={e => setMax(e.target.value)} />
+                    <input class="form-control" id="max" placeholder="0 đ" value={max} type="number" onChange={e => setMax(e.target.value)} />
                   </div>
                 </div>
                 <Button
@@ -299,12 +294,12 @@ const MainCategory = () => {
                   size="large"
                   variant="contained"
                   className="red_button_auth"
+                  sx={{ mt:1}}
                   onClick={() => {
                     dispatch(setFilter(selectedBrand, selectedSize, selectedColor, min, max))
                   }}
                 >
                   {t("Apply")}
-
                 </Button>
               </div>
             </div>

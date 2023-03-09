@@ -12,6 +12,9 @@ import { setNewId } from 'src/redux/creates-action/NewAction';
 import Top12Sell from './Top12Sell';
 import NavTab from 'src/components/navtab/NavTab';
 import Newsletter from 'src/components/Newsletter';
+import Slider from 'react-slick'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
 
 const HomePage = () => {
   const { t } = useTranslation("translation");
@@ -22,31 +25,101 @@ const HomePage = () => {
   useEffect(() => {
     dispatch(setNewId(''))
   })
-
+  
+  var settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    autoplay: true,
+    slidesToShow: 1,
+    slidesToScroll: 1
+  };
 
   return (
     <Page title="Home Page">
       <div className="MainDiv">
         <Header />
-        <div className="main_slider" style={{ backgroundImage: "url(assets/images/slider_1.jpg)", height: `${ !smUp ? '250px' : ''}` }}>
-          <div className="container fill_height">
-            <div className="row align-items-center fill_height">
-              <div className="col">
-                <div className="main_slider_content">
-                  <h6>
-                    {t("Spring / Summer Collection 2023")}
-                  </h6>
-                  <h1>
-                    {t("Get up to 25% Off New Arrivals")}
-                  </h1>
-                  <div className="red_button shop_now_button"><Link to="/shop">
-                    {t("shop now")}
-                  </Link></div>
+        <Slider {...settings} >
+          <div className="main_slider" style={{  backgroundImage: `url(${"../_mock/slider_1.webp"})`, height: `${!smUp ? '250px' : ''}` }}>
+            <div className="container fill_height">
+              <div className="row align-items-center fill_height">
+                <div className="col">
+                  <div className="main_slider_content">
+                    <h6>
+                      {t("Spring / Summer Collection 2023")}
+                    </h6>
+                    <h1>
+                      {t("Get up to 25% Off New Arrivals")}
+                    </h1>
+                    <div className="red_button shop_now_button"><Link to="/shop">
+                      {t("shop now")}
+                    </Link></div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+
+          <div className="main_slider" style={{  backgroundImage: `url(${"../_mock/slider_1.webp"})`, height: `${!smUp ? '250px' : ''}` }}>
+            <div className="container fill_height">
+              <div className="row align-items-center fill_height">
+                <div className="col">
+                  <div className="main_slider_content">
+                    <h6>
+                      {t("Spring / Summer Collection 2023")}
+                    </h6>
+                    <h1>
+                      {t("Get up to 25% Off New Arrivals")}
+                    </h1>
+                    <div className="red_button shop_now_button"><Link to="/shop">
+                      {t("shop now")}
+                    </Link></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="main_slider" style={{  backgroundImage: `url(${"../_mock/slider_1.webp"})`, height: `${!smUp ? '250px' : ''}` }}>
+            <div className="container fill_height">
+              <div className="row align-items-center fill_height">
+                <div className="col">
+                  <div className="main_slider_content">
+                    <h6>
+                      {t("Spring / Summer Collection 2023")}
+                    </h6>
+                    <h1>
+                      {t("Get up to 25% Off New Arrivals")}
+                    </h1>
+                    <div className="red_button shop_now_button"><Link to="/shop">
+                      {t("shop now")}
+                    </Link></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="main_slider" style={{  backgroundImage: `url(${"../_mock/slider_1.webp"})`, height: `${!smUp ? '250px' : ''}` }}>
+            <div className="container fill_height">
+              <div className="row align-items-center fill_height">
+                <div className="col">
+                  <div className="main_slider_content">
+                    <h6>
+                      {t("Spring / Summer Collection 2023")}
+                    </h6>
+                    <h1>
+                      {t("Get up to 25% Off New Arrivals")}
+                    </h1>
+                    <div className="red_button shop_now_button"><Link to="/shop">
+                      {t("shop now")}
+                    </Link></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Slider>
         <div className="benefit">
           <div className="container">
             <div className="row benefit_row">
@@ -135,7 +208,7 @@ const HomePage = () => {
                     </h2>
                   </div>
                   <div className="red_button deal_ofthe_week_button"><a href="/shop">
-                  {t("shop now")}                  
+                    {t("shop now")}
                   </a></div>
                 </div>
               </div>
@@ -170,7 +243,7 @@ const HomePage = () => {
             <MainNews />
           </div>
         </div>
-        <Newsletter/>    
+        <Newsletter />
       </div>
       <Footer />
     </Page>

@@ -53,9 +53,9 @@ const ProductMain = () => {
                       <div className="product_info">
                         <h6 className="product_name">{row.name}</h6>
                         {row.id % 2 === 1 ?
-                          <div className="product_price">${row.priceSell}</div>
+                          <div className="product_price">{row.priceSell} đ</div>
                           :
-                          <div className="product_price">${row.priceSell}<span>${row.priceOrigin}</span></div>
+                          <div className="product_price">{row.priceSell} đ<span>{row.priceOrigin} đ</span></div>
                         }
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                           <p>
@@ -65,12 +65,17 @@ const ProductMain = () => {
                             <i class="fa fa-star" style={{ color: '#ffa200', fontSize: '8px' }}></i>
                             <i class="fa fa-star" style={{ fontSize: '8px' }}></i>
                           </p>
-                          <p style={{ fontSize: '10px', color: 'rgba(0,0,0,.54)' }}>{row.sold} solds</p>
+                          <p style={{ fontSize: '10px', color: 'rgba(0,0,0,.54)' }}>{row.sold}                           
+                          <span style={{ marginLeft: '4px'}}>
+                          {t("solds")}
+                          </span>                          </p>
                         </div>
                       </div>
                     </div>
                   </Link>
-                  <div className="red_button add_to_cart_button"><Link to="/cart">add to cart</Link></div>
+                  <div className="red_button add_to_cart_button"><Link to={`/product-detail/${row.id}`}>
+                  {t("add to cart")}
+                  </Link></div>
                 </div>
               )
             })}
@@ -84,17 +89,16 @@ const ProductMain = () => {
             width: '150px',
             height: '45px',
             color: 'white',
-            display: 'flex',
             position: 'absolute',
             alignItems: 'center',
             justifyContent: 'center',
             transform: 'translateX(-50%)',
             left: '50%',
             border: ' 1px solid #rgba(0,0,0,0.05)',
+            display: `${dataProduct.length > 0 ? 'flex' : 'none'}`
           }}>
-
-{t("View All")}
-            <i className="fa fa-chevron-right" style={{ marginLeft: '10px'}}></i>
+            {t("View All")}
+            <i className="fa fa-chevron-right" style={{ marginLeft: '10px' }}></i>
           </Link>
         </div>
       </div>

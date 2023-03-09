@@ -53,7 +53,7 @@ const AuthLogin = () => {
         <>
             <Formik
                 initialValues={{
-                    email: 'info@monoshoes.com',
+                    email: 'sale@meshoes.info',
                     password: '123456789',
                     submit: null
                 }}

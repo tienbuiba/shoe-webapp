@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 import {
@@ -51,8 +51,7 @@ const AuthRegister = () => {
         autoClose: 2000,
         position: toast.POSITION.TOP_RIGHT,
     };
-
-
+    const phoneRegExp = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g
     return (
         <Grid sx={{ mt: 3 }}>
             <Formik
@@ -65,7 +64,8 @@ const AuthRegister = () => {
                 }}
                 validationSchema={Yup.object().shape({
                     username: Yup.string().max(255).required(t('User name is required')),
-                    phone: Yup.string().required(t('Phone is required')),
+                    phone: Yup.string().required(t('Phone is required'))
+                        .matches(phoneRegExp, 'Phone number is not valid'),
                     email: Yup.string().email(t('Must be a valid email')).max(255).required(t('Email is required')),
                     password: Yup.string().max(255).required(t('Password is required'))
                 })}
@@ -79,11 +79,11 @@ const AuthRegister = () => {
                                 const res = result.data;
                                 if (res.statusCode === 201) {
                                     dispatch(closeLoadingApi());
-                                    toast.success(res.message, options)
+                                    toast.success(t("Register successful"), options);
                                     setTimeout(() => {
                                         dispatch(changeLoginPage(0));
                                         navigate('/login', { replace: true });
-                                    }, 2500)
+                                    }, 2000)
                                 }
                             })
                                 .catch(err => {

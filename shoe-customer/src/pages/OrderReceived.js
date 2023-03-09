@@ -12,13 +12,15 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import useResponsive from "src/hooks/useResponsive";
+import { apiUserGetDeliveryAddress } from "src/services/Address";
+import Label from "src/components/Label";
 
 const OrderReceived = () => {
   const data = useSelector(state => state.order.data);
   const { t } = useTranslation('translation');
   const [total, setTotal] = useState(0);
   const smUp = useResponsive('up', 'sm');
-
+  const [phone, setPhone] = useState("");
 
   useEffect(() => {
     if (data?.details.items.length > 0) {
@@ -30,11 +32,19 @@ const OrderReceived = () => {
     }
   }, [])
 
+  useEffect(() => {
+    apiUserGetDeliveryAddress().then((res) => {
+      setPhone(res?.data?.data[0].phone);
+    }).catch((err) => {
+      console.log(err)
+    })
+  }, [])
+
   return data.details.items && (
     <Page title={t("Order details")}>
       <Header />
       <Wrapper>
-      <div className="container" style={{ marginTop: `${!smUp ? '75px': '200px'}` , marginBottom: `${!smUp ? '75px': '150px'}` }}>
+        <div className="container" style={{ marginTop: `${!smUp ? '75px' : '200px'}`, marginBottom: `${!smUp ? '75px' : '150px'}` }}>
           <Grid container>
             <Grid item xs={12} md={6}>
               <Typography
@@ -116,9 +126,24 @@ const OrderReceived = () => {
             </Grid>
             <Grid item xs={12} md={4.5} sx={{ p: '20px', boxShadow: "1px 1px 3px 0px rgb(0 0 0 / 20%), 0 1px 0 rgb(0 0 0 / 7%), inset 0 0 0 1px rgb(0 0 0 / 5%);", backgroundColor: "rgba(0,0,0,0.02)", marginTop: '10px' }}>
               <div>
-                <Typography style={{ color: '#7a9c59', fontSize: '20px' }}>
-                  {t("Thank you. Your order has been received")}!
-                </Typography>
+
+                {(data.details.status === 'CANCEL' && (
+                  <Typography style={{ color: '#7a9c59', fontSize: '20px' }}>
+                    {t("Your order has been cancelled")}!
+                  </Typography>
+                )
+                )
+                  || (data.details.status === 'SUCCESS' && (
+                    <Typography style={{ color: '#7a9c59', fontSize: '20px' }}>
+                      {t("Thank you. Your order has been received")}!
+                    </Typography>
+                  ))
+                  || (data.details.status === 'PAIED' && (<Typography style={{ color: '#7a9c59', fontSize: '20px' }}>
+                    {t("Thank you for your order payment. We are processing orders")}!
+                  </Typography>)) ||
+                  (data.details.status === 'DELIVERING' && (<Typography style={{ color: '#7a9c59', fontSize: '20px' }}>
+                    {t("Your order is being shipped. You will receive the goods in the next 2-3 days")}!
+                  </Typography>)) || 'warning'}
               </div>
               <div className="cart_heading">
                 <div style={{ display: 'flex', padding: '10px 0' }}>
@@ -164,6 +189,38 @@ const OrderReceived = () => {
                   <Typography style={{ color: '#000', fontSize: '14px', fontWeight: '550', marginLeft: '4px' }}>
                     {data.details.address}
                   </Typography>
+                </div>
+                <div style={{ display: 'flex', padding: '10px 0' }}>
+                  <Typography style={{ color: '#000', fontSize: '14px', width: '200px' }}>
+                    {t("Delivery phone number")}
+                    : </Typography>
+                  <Typography style={{ color: '#000', fontSize: '14px', fontWeight: '550', marginLeft: '4px' }}>
+                    {phone}
+                  </Typography>
+                </div>
+                <div style={{ display: 'flex', padding: '10px 0' }}>
+                  <Typography style={{ color: '#000', fontSize: '14px', width: '200px' }}>
+                    {t("Status")}
+                    : </Typography>
+                  <Label variant="ghost" color={(data.details.status === 'CANCEL' && 'error') || (data.details.status === 'SUCCESS' && 'success') || (data.details.status === 'PAIED' && 'info') || 'warning'}>
+                    {(data.details.status === 'CANCEL' && (
+                      <Typography style={{ fontSize: '20px' }}>
+                        {t("CANCELLED")}!
+                      </Typography>
+                    )
+                    )
+                      || (data.details.status === 'SUCCESS' && (
+                        <Typography style={{ fontSize: '20px' }}>
+                          {t("SUCCESSFUL DELIVERY")}!
+                        </Typography>
+                      ))
+                      || (data.details.status === 'PAIED' && (<Typography style={{ fontSize: '20px' }}>
+                        {t("PAID")}!
+                      </Typography>)) ||
+                      (data.details.status === 'DELIVERING' && (<Typography style={{ fontSize: '20px' }}>
+                        {t("DELIVERING")}!
+                      </Typography>)) || 'warning'}
+                  </Label>
                 </div>
                 <div>
                 </div>

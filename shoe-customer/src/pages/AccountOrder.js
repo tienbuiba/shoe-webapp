@@ -92,8 +92,8 @@ const AccountOrder = () => {
   return (
     <Page title={t("Order History")}>
       <Header />
-      <div className="container" style={{ marginTop: `${!smUp ? '125px': '250px'}` , marginBottom: `${!smUp ? '75px': '150px'}` }}>
-        <Grid container sx={{ px: `${!smUp? '10px': ''}`}}>
+      <div className="container" style={{ marginTop: `${!smUp ? '125px' : '250px'}`, marginBottom: `${!smUp ? '75px' : '150px'}` }}>
+        <Grid container sx={{ px: `${!smUp ? '10px' : ''}` }}>
           <Grid item xs={12} md={6}>
             <Typography
               sx={{ mb: 3 }}
@@ -102,7 +102,7 @@ const AccountOrder = () => {
               {t("Order History")}
             </Typography>
           </Grid>
-          <Grid item xs={12} md={6} textAlign="right" sx={{ mb: `${ !smUp ? '20px': ''}`}}>
+          <Grid item xs={12} md={6} textAlign="right" sx={{ mb: `${!smUp ? '20px' : ''}` }}>
             <Button
               component={NavLink}
               variant="contained"
@@ -151,12 +151,29 @@ const AccountOrder = () => {
                       <TableCell align="left">{(row.address)}</TableCell>
                       <TableCell align="left">
                         <Label variant="ghost" color={(row.status === 'CANCEL' && 'error') || (row.status === 'SUCCESS' && 'success') || (row.status === 'PAIED' && 'info') || 'warning'}>
-                          {row.status}
-                        </Label>
+                          <Label variant="ghost" color={(row.status === 'CANCEL' && 'error') || (row.status === 'SUCCESS' && 'success') || (row.status === 'PAIED' && 'info') || 'warning'}>
+                            {(row.status === 'CANCEL' && (
+                              <Typography>
+                                {t("CANCELLED")}!
+                              </Typography>
+                            )
+                            )
+                              || (row.status === 'SUCCESS' && (
+                                <Typography>
+                                  {t("SUCCESSFUL DELIVERY")}
+                                </Typography>
+                              ))
+                              || (row.status === 'PAIED' && (<Typography>
+                                {t("PAID")}
+                              </Typography>)) ||
+                              (row.status === 'DELIVERING' && (<Typography>
+                                {t("DELIVERING")}
+                              </Typography>)) || 'warning'}
+                          </Label>                        </Label>
                       </TableCell>
-                      <TableCell align="left">{(row.paymentMethod) === "CASH" ? 
-                      t("CASH")                  
-                       :
+                      <TableCell align="left">{(row.paymentMethod) === "CASH" ?
+                        t("CASH")
+                        :
                         t("Bank transfer")
                       }</TableCell>
                       <TableCell align="left">

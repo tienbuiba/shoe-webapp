@@ -50,7 +50,7 @@ const NavTab = () => {
                 }
               }}
               variant="fullWidth"
-            >       
+            >
             </Tabs>
           </div>
           <TabPanel value={value} index={1}>
@@ -59,7 +59,7 @@ const NavTab = () => {
         </div>
         :
         <div>
-          <Paper elevation={20} style={paperStyle}>
+          <Paper elevation={20} style={paperStyle} sx={{ borderRadius: '20px !important' }}>
             <Tabs
               value={value}
               TabIndicatorProps={{

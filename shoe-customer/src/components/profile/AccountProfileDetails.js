@@ -36,8 +36,8 @@ export const AccountProfileDetails = (props) => {
     position: toast.POSITION.TOP_RIGHT,
   };
 
-  const [userName, setUserName] = useState(null);
-  const [phone, setPhone] = useState(null);
+  const [userName, setUserName] = useState('');
+  const [phone, setPhone] = useState('');
 
   const handleUsernameChange = (e) => {
     setUserName(e.target.value);
@@ -49,12 +49,11 @@ export const AccountProfileDetails = (props) => {
 
   const handleUpdateInfor = (e) => {
     dispatch(openLoadingApi());
-    if (phone !== null && userName !== null) {
+    if (phone !== '' && userName !== '') {
       apiUserUpdateProfile(phone, userName, images).then(res => {
-        toast.success(res.data.message, options);
+        toast.success(t("Update profile successful"), options);
         apiUserProfile().then(result => {
           TokenService.updateLocalProfile(JSON.stringify(result.data));
-          toast.success(res.message, options);
       }).catch(error => {
           console.log(error);
           dispatch(closeLoadingApi());
@@ -65,8 +64,19 @@ export const AccountProfileDetails = (props) => {
       }).finally(() => {
         dispatch(closeLoadingApi());
       })
+    } else if(phone === '' && userName !== '') {
+      toast.error(t("Phone field cannot be empty"), options);
+      dispatch(closeLoadingApi());
+
+    } 
+    else if(phone !== '' && userName === '') {
+      toast.error(t("Username field cannot be empty"), options);
+      dispatch(closeLoadingApi());
+
     } else {
-      alert("nhap du truong")
+      toast.error(t("Username & Phone field cannot be empty"), options);
+      dispatch(closeLoadingApi());
+
     }
   }
 

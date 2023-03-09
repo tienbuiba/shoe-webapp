@@ -1446,14 +1446,13 @@ section {
 
 .footer_nav_container {
   margin-top: 70px;
-  margin-bottom: 20px;
 }
 .cr {
   margin-right: 48px;
 }
 .footer_nav li {
   display: block;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   text-align: left;
 }
 .footer_nav li:last-child {
@@ -1574,6 +1573,7 @@ section {
 .cart-item-heading {
   width: 350px;
   color: #000;
+  font-size: 14px;
   margin-bottom: 5px;
 }
 

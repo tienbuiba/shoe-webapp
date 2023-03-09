@@ -79,26 +79,27 @@ const MainProduct = () => {
     setKeyword(e.target.value);
   }
 
-
   return (
     <div className="MainDiv">
       <header className="border-bottom mb-4 pb-3" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
         {total === 0 ? (<strong className="d-block py-2">
           {0}
-          {t("Items found")}
+          <span style={{ marginLeft: '4px' }}>
+            {t("Items found")}
+          </span>
         </strong>) : (<strong className="d-block py-2">
           {total}
-          {t("Items found")}
+          <span style={{ marginLeft: '4px' }}>
+            {t("Items found")}
+          </span>
         </strong>)}
         <div className="ms-auto ">
           <input onChange={handleChange} value={keyword} className="form-control d-inline-block " style={{ width: '175px', marginRight: '20px' }} placeholder={t("Search...")} />
-          
-          { !smUp ? <></>:    <div className="btn-group">
+          {!smUp ? <></> : <div className="btn-group">
             <a href="#" className="btn btn-light active" data-bs-toggle="tooltip" title="Sort">
               <i className="fa fa-th"></i>
             </a>
           </div>}
-       
         </div>
       </header>
       <div className="new_arrivals">
@@ -134,8 +135,9 @@ const MainProduct = () => {
                             <i class="fa fa-star" style={{ fontSize: '8px' }}></i>
                           </p>
                           <p style={{ fontSize: '10px', color: 'rgba(0,0,0,.54)' }}>{row.sold}
-                            {t("solds")}
-                          </p>
+                            <span style={{ marginLeft: '4px' }}>
+                              {t("solds")}
+                            </span>                            </p>
                         </div>
                       </div>
                     </div>

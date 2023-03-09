@@ -1,4 +1,4 @@
-import { Autocomplete, Breadcrumbs, Button, Divider, FormControl, Grid, TextField } from "@mui/material";
+import { Autocomplete, Breadcrumbs, Button, Divider, FormControl, Grid, Link, TextField } from "@mui/material";
 import { useState } from "react";
 import { useEffect } from "react";
 import Page from "src/components/Page";
@@ -9,9 +9,9 @@ import styled from "styled-components";
 import SaveIcon from '@mui/icons-material/Save';
 import { ToastContainer, toast } from 'react-toastify';
 import PaymentInforProduct from "src/components/product/PaymentInforProduct";
-import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import useResponsive from "src/hooks/useResponsive";
+import { NavLink } from "react-router-dom";
 
 const PaymentInformation = () => {
   const [cities, setCities] = useState([]);
@@ -85,12 +85,16 @@ const PaymentInformation = () => {
   }, [call])
 
   const handleClick = () => {
-    apiUserCreateDeliveryAddress(fullname, phone, cityId, wardId, districtId, detail).then((res) => {
-      toast.success(res.data.message, options);
-      setCall(!call);
-    }).catch((err) => {
-      console.log(err)
-    })
+    if(fullname !== "", phone !== "", cityId !== null, wardId !== null , districtId !==null, detail !== "" ){
+      apiUserCreateDeliveryAddress(fullname, phone, cityId, wardId, districtId, detail).then((res) => {
+        toast.success(t("Add delivery address successful"), options);
+        setCall(!call);
+      }).catch((err) => {
+        console.log(err)
+      })
+    }else {
+      toast.error( t("Please enter all payment information fields"), options);
+    }
   }
 
   return (
@@ -108,9 +112,9 @@ const PaymentInformation = () => {
                     <Link
                       underline="hover"
                       color="inherit"
-                      to="/"
+                      href="/cart"
                     >
-                      {t("HOME PAGE")}
+                      {t("Cart Shopping")}
                     </Link>
                     <p>
                       {t("Payment information")}
@@ -133,9 +137,9 @@ const PaymentInformation = () => {
                     <p className="cart-item-heading">
                       {t("BILLING INFORMATION")}
                     </p>
-                    <Link to="/update-delivery-address" className="address-change-heading" style={{ textAlign: 'end' }}>
+                    <NavLink to="/update-delivery-address" className="address-change-heading" style={{ textAlign: 'end' }}>
                       {t("Change address")}
-                    </Link>
+                    </NavLink>
                   </div>
                   <Grid container spacing={3} sx={{ my: 4 }}>
                     <Grid item xs={12} md={6} sx={{ mb: 1 }}>
@@ -225,7 +229,7 @@ const PaymentInformation = () => {
                           setFullName(e.target.value);
                         }}
                         variant="filled"
-                        placeholder="Enter your name"
+                        placeholder= {t("Enter your name")}
                         fullWidth
                       ></TextField>
                     </Grid>
@@ -238,7 +242,7 @@ const PaymentInformation = () => {
                         onChange={(e) => {
                           setPhone(e.target.value);
                         }}
-                        placeholder="Enter your phone"
+                        placeholder= {t("Enter your phone")}
                         variant="filled"
                         fullWidth
                       ></TextField>
@@ -261,7 +265,7 @@ const PaymentInformation = () => {
                             setWardId(null);
                             setNameCity(newValue);
                           }}
-                          renderInput={(params) => <TextField {...params} placeholder="Select City" variant="filled" />}
+                          renderInput={(params) => <TextField {...params} placeholder={t("Select City")} variant="filled" />}
                         />
                       </FormControl>
                     </Grid>
@@ -282,7 +286,7 @@ const PaymentInformation = () => {
                             setWardId(null);
                             setNameDistrict(newValue);
                           }}
-                          renderInput={(params) => <TextField {...params} placeholder="Select District" variant="filled" />}
+                          renderInput={(params) => <TextField {...params} placeholder={t("Select District")} variant="filled" />}
                         />
                       </FormControl>
                     </Grid>
@@ -302,7 +306,7 @@ const PaymentInformation = () => {
                             setWardId(newValue === null ? null : newValue.id);
                             setNameWard(newValue);
                           }}
-                          renderInput={(params) => <TextField {...params} placeholder="Select Ward" variant="filled" />}
+                          renderInput={(params) => <TextField {...params} placeholder= {t("Select Ward")}  variant="filled" />}
                         />
                       </FormControl>
                     </Grid>
@@ -317,7 +321,7 @@ const PaymentInformation = () => {
                         }}
                         variant="filled"
                         fullWidth
-                        placeholder="Enter your address detail"
+                        placeholder={t("Enter your address detail")}
                       ></TextField>
                     </Grid>
                   </Grid>

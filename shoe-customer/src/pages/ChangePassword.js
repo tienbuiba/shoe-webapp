@@ -62,7 +62,7 @@ const ChangePassword = () => {
 
   return (
     <Page title={t("title_03")}>
-      <Header />  
+      <Header />
       <Box
         component="main"
         sx={{
@@ -70,7 +70,7 @@ const ChangePassword = () => {
           py: 8
         }}
       >
-      <div className="container" style={{ marginTop: `${!smUp ? '75px': '200px'}` , marginBottom: `${!smUp ? '75px': '150px'}` }}>
+        <div className="container" style={{ marginTop: `${!smUp ? '75px' : '200px'}`, marginBottom: `${!smUp ? '75px' : '150px'}` }}>
           <Grid container>
             <Grid item xs={12} md={6}>
               <Typography
@@ -106,25 +106,24 @@ const ChangePassword = () => {
                 .required("Please provide a valid password"),
               newPassword: Yup.string()
                 .required("This field is required")
-                .min(8, 'Password is too short, should be at least 8 characters'),
+                .min(8, t("Password is too short, should be at least 8 characters")),
               reTypeNewPassword: Yup.string()
                 .when("newPassword", {
                   is: val => (val && val.length > 0 ? true : false),
                   then: Yup.string().oneOf(
                     [Yup.ref("newPassword")],
-                    "Both passwords need to be the same"
+                    t("Both passwords need to be the same")                    
                   )
                 })
             })}
             onSubmit={(values) => {
               dispatch(openLoadingApi());
               apiUserChangePassword(values.password, values.newPassword).then(result => {
-                let res = result.data;
-                toast.success(res.message, options);
+                toast.success(t("Change password successful"), options);
                 dispatch(closeLoadingApi());
                 setTimeout(() => {
                   navigate('/', { replace: true });
-                }, 2500)
+                }, 2000)
               })
                 .catch(err => {
                   dispatch(closeLoadingApi());

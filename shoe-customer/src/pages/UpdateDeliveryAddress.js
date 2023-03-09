@@ -9,7 +9,7 @@ import styled from "styled-components";
 import SaveIcon from '@mui/icons-material/Save';
 import { ToastContainer, toast } from 'react-toastify';
 import PaymentInforProduct from "src/components/product/PaymentInforProduct";
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useResponsive from "src/hooks/useResponsive";
 import { useTranslation } from "react-i18next";
 
@@ -90,16 +90,18 @@ const UpdateDeliveryAddress = () => {
   }, [call])
 
   const handleClick = () => {
-    apiUserUpdateDeliveryAddress(dataListAddress.id, fullname, phone, cityId, wardId, districtId, detail).then((res) => {
-      toast.success(res.data.message, options);
-      navigate('/payment-infor', { replace: true });
-      setCall(!call);
-    }).catch((err) => {
-      console.log(err)
-    })
+    if (fullname !== "", phone !== "", cityId !== null, wardId !== null, districtId !== null, detail !== "") {
+      apiUserUpdateDeliveryAddress(dataListAddress.id, fullname, phone, cityId, wardId, districtId, detail).then((res) => {
+        toast.success(t("Update delivery address successful"), options);
+        navigate('/payment-infor', { replace: true });
+        setCall(!call);
+      }).catch((err) => {
+        console.log(err)
+      })
+    } else {
+      toast.error( t("Please enter all payment information fields"), options);
+    }
   }
-
-
   return (
     <Page title="Payment information">
       <Header />
@@ -133,7 +135,7 @@ const UpdateDeliveryAddress = () => {
         <Wrapper>
           <div className="container">
             <Grid container >
-              <Grid item xs={12} md={8} sx={{ borderRight: '1px solid #E0E4E8', paddingRight: '20px', paddingTop: '20px', mb: `${!smUp ?  '30px': ''}` }}>
+              <Grid item xs={12} md={8} sx={{ borderRight: '1px solid #E0E4E8', paddingRight: '20px', paddingTop: '20px', mb: `${!smUp ? '30px' : ''}` }}>
                 <div className="cart_heading" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)' }}>
                   <p className="cart-item-heading">THÔNG TIN THANH TOÁN</p>
                 </div>
@@ -234,13 +236,15 @@ const UpdateDeliveryAddress = () => {
                     startIcon={<SaveIcon></SaveIcon>}
                     onClick={handleClick}
                   >
-                    SAVE ADDRESS
+                    {t("UPDATE ADDRESS")}
                   </Button>
                 </div>
               </Grid>
               <Grid item xs={12} md={4} sx={{ p: '20px', border: '2px solid #e32124' }}>
                 <div className="cart_heading" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)' }}>
-                  <p className="cart-item-heading">ĐƠN HÀNG CỦA BẠN</p>
+                  <p className="cart-item-heading">
+                    {t("YOUR ORDER")}
+                  </p>
                 </div>
                 <Divider></Divider>
                 <div className="cart-item">

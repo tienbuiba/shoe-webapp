@@ -71,7 +71,7 @@ const Newsletter = () => {
             </div>
             <div className="col-lg-6">
                 <div className="newsletter_form d-flex flex-md-row flex-column flex-xs-column align-items-center justify-content-lg-end justify-content-center">
-                  <input id="newsletter_email" type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Your email" required="required" data-error="Valid email is required." />
+                  <input id="newsletter_email" type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder={t("Your email")} required="required" data-error="Valid email is required." />
                   <button id="newsletter_submit" type="submit" onClick={handleClick} className="newsletter_submit_btn trans_300" value="Submit">
                     {t("subscribe")}
                   </button>

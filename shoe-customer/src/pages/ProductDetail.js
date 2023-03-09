@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import Footer from "src/layouts/Footer";
-import { Breadcrumbs, Container, Divider, Link } from "@mui/material";
+import { Breadcrumbs, Container, Divider, Grid, Link } from "@mui/material";
 import Header from "src/layouts/Header";
 import Page from "src/components/Page";
 import { FaCheck } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import {  apiUserGetProductById,  } from "src/services/Product";
+import { apiUserGetProductById, } from "src/services/Product";
 import { useDispatch } from "react-redux";
 import { addToCart } from "src/redux/creates-action/CartActions";
 import { apiUserCreateCart } from "src/services/Carts";
@@ -22,6 +22,7 @@ import { useTranslation } from "react-i18next";
 import Newsletter from "src/components/Newsletter";
 import useResponsive from "src/hooks/useResponsive";
 import ReactHtmlParser from 'react-html-parser';
+import Top12Sell from "./Top12Sell";
 
 
 const Button = styled.button`
@@ -57,7 +58,7 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const { t } = useTranslation("translation");
   const smUp = useResponsive('up', 'sm');
-  
+
   const options = {
     autoClose: 2000,
     position: toast.POSITION.TOP_RIGHT,
@@ -161,8 +162,7 @@ const ProductDetail = () => {
           </div>
         </div>
       }
-
-      <div className="container" style={{ marginTop: '75px', marginBottom: '200px' }}>
+      <div className="container" style={{ marginTop: '75px', marginBottom: '100px' }}>
         <Wrapper>
           <Container className="container">
             <div style={{ display: 'flex', alignItems: `${!smUp ? 'center' : 'stretch'}`, justifyContent: 'space-between', gap: '10px', flexDirection: `${!smUp ? 'column' : ''}` }}>
@@ -350,8 +350,24 @@ const ProductDetail = () => {
                 {t("DESCRIPTION")}
                 <Divider sx={{ my: 3, border: '1px solid #000' }} />
               </h3>
-              <div >{ ReactHtmlParser(data.longDesc) }</div>
-
+              <Grid container>
+                <Grid item xs={12} sx={{ mb: 10 }}>
+                  <div >{ReactHtmlParser(data.longDesc)}</div>
+                  <Divider></Divider>
+                </Grid>
+                <Grid item xs={12}>
+                  <div className="row">
+                    <div className="col text-center">
+                      <div className="section_title">
+                        <h2>
+                          {t("Best selling product of the week")}
+                        </h2>
+                      </div>
+                    </div>
+                  </div>
+                  <Top12Sell view={"none"} />
+                </Grid>
+              </Grid>
             </div>
           </Container>
         </Wrapper>

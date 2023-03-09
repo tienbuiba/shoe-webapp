@@ -11,7 +11,7 @@ import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 
-const Top12Sell = () => {
+const Top12Sell = (props) => {
   const { t } = useTranslation("translation");
   const [dataProduct, setDataProduct] = useState([]);
   const [page, setPage] = useState(0);
@@ -19,10 +19,10 @@ const Top12Sell = () => {
   const [rowsPerPage, setRowsPerPage] = useState(8);
   const dispatch = useDispatch();
   const smUp = useResponsive('up', 'sm');
-
+  const { view } = props;
 
   var settings = {
-    dots: false,
+    dots: true,
     infinite: true,
     speed: 500,
     autoplay: true,
@@ -34,12 +34,11 @@ const Top12Sell = () => {
     dispatch(openLoadingApi());
     apiUserGetAllTopProductSell().then(result => {
       setDataProduct(result.data.data);
-      console.log(result);
       dispatch(closeLoadingApi());
     }).catch(err => {
       dispatch(closeLoadingApi());
     })
-  }, []);
+  }, [view]);
 
   return (
     <div className="MainDiv">
@@ -65,9 +64,9 @@ const Top12Sell = () => {
                       <div className="product_info">
                         <h6 className="product_name">{row.name}</h6>
                         {row.id % 2 === 1 ?
-                          <div className="product_price">${row.priceSell}</div>
+                          <div className="product_price">{row.priceSell} đ</div>
                           :
-                          <div className="product_price">${row.priceSell}<span>${row.priceOrigin}</span></div>
+                          <div className="product_price">{row.priceSell} đ<span>${row.priceOrigin} đ</span></div>
                         }
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                           <p>
@@ -77,39 +76,44 @@ const Top12Sell = () => {
                             <i class="fa fa-star" style={{ color: '#ffa200', fontSize: '8px' }}></i>
                             <i class="fa fa-star" style={{ fontSize: '8px' }}></i>
                           </p>
-                          <p style={{ fontSize: '10px', color: 'rgba(0,0,0,.54)' }}>{row.sold} solds</p>
+                          <p style={{ fontSize: '10px', color: 'rgba(0,0,0,.54)' }}>{row.sold}
+                            <span style={{ marginLeft: '4px' }}>
+                              {t("solds")}
+                            </span>
+                          </p>
                         </div>
                       </div>
                     </div>
                   </Link>
-                  <div className="red_button add_to_cart_button"><Link to="/cart">add to cart</Link></div>
+                  <div className="red_button add_to_cart_button"><Link to={`product-detail/:${row.id}`}>
+                    {t("add to cart")}
+                  </Link></div>
                 </div>
               )
             })}
           </Slider>
         </div>
       </div>
-      <div
-        style={{ marginBottom: '150px' }}
-      >
-        <Link to="/shop" style={{
-          backgroundColor: '#fe4c50',
-          width: '150px',
-          height: '45px',
-          color: 'white',
-          display: 'flex',
-          position: 'absolute',
-          alignItems: 'center',
-          justifyContent: 'center',
-          transform: 'translateX(-50%)',
-          left: '50%',
-          border: ' 1px solid #rgba(0,0,0,0.05)',
-        }}>
-
-          {t("View All")}
-          <i className="fa fa-chevron-right" style={{ marginLeft: '10px' }}></i>
-        </Link>
-      </div>
+      {view === "none" ? <></> :
+        <div style={{ marginBottom: '150px' }}>
+          <Link to="/shop" style={{
+            backgroundColor: '#fe4c50',
+            width: '150px',
+            height: '45px',
+            color: 'white',
+            position: 'absolute',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transform: 'translateX(-50%)',
+            left: '50%',
+            border: ' 1px solid #rgba(0,0,0,0.05)',
+            display: `${dataProduct.length > 0 ? 'flex' : 'none'}`
+          }}>
+            {t("View All")}
+            <i className="fa fa-chevron-right" style={{ marginLeft: '10px' }}></i>
+          </Link>
+        </div>
+      }
     </div>
   )
 }
