@@ -104,7 +104,7 @@ const PaymentAutoBank = () => {
             </div>
             <Grid container spacing={2} sx={{ px: '10px', pb: '30px'}}>
               <Grid item xs={12} md={5} >
-                <Card sx={{ px: 3, py: 5, textAlign: 'center', boxShadow: '6px 6px 6px 6px rgb(0 0 0 / 20%)' }}>
+                <Card sx={{ px: 3, py: 5.3, textAlign: 'center', boxShadow: '6px 6px 6px 6px rgb(0 0 0 / 4%)' }}>
                   <div style={{
                     backgroundColor: 'rgba(115, 103, 240, 0.12)',
                     color: '#28c76f',
@@ -131,7 +131,7 @@ const PaymentAutoBank = () => {
                 </Card>
               </Grid>
               <Grid item xs={12} md={7} >
-                <Card sx={{ px: 3, py: 4, textAlign: 'center', boxShadow: '6px 6px 6px 6px rgb(0 0 0 / 20%)' }}>
+                <Card sx={{ px: 3, py: 4, textAlign: 'center', boxShadow: '6px 6px 6px 6px rgb(0 0 0 / 4%)' }}>
                   <div style={{
                     backgroundColor: 'rgba(115, 103, 240, 0.12)',
                     color: '#28c76f',

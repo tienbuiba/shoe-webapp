@@ -8,7 +8,8 @@ export const initialState = {
     orderDetails: [],
     orderCode: '',
     orderID: '',
-    details: null
+    details: null,
+    cancel:false
   },
 };
 
@@ -56,6 +57,16 @@ const orderReducer = (state = initialState, action) => {
           details: action.details
         }
       }
+
+
+      case actionTypes.CANCEL_ORDER:
+        return {
+          ...state,
+          data: {
+            ...state.data,
+            cancel: !state.data.cancel
+          }
+        }
     default:
       return state;
   }

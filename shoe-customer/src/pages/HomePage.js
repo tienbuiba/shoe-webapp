@@ -15,6 +15,7 @@ import Newsletter from 'src/components/Newsletter';
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
+import { Container } from '@mui/system';
 
 const HomePage = () => {
   const { t } = useTranslation("translation");
@@ -25,7 +26,7 @@ const HomePage = () => {
   useEffect(() => {
     dispatch(setNewId(''))
   })
-  
+
   var settings = {
     dots: true,
     infinite: true,
@@ -36,90 +37,17 @@ const HomePage = () => {
   };
 
   return (
-    <Page title="Home Page">
-      <div className="MainDiv">
+    <Page title={t("Home Page")}>
+      <div className="MainDiv ">
         <Header />
-        <Slider {...settings} >
-          <div className="main_slider" style={{  backgroundImage: `url(${"../_mock/slider_1.webp"})`, height: `${!smUp ? '250px' : ''}` }}>
-            <div className="container fill_height">
-              <div className="row align-items-center fill_height">
-                <div className="col">
-                  <div className="main_slider_content">
-                    <h6>
-                      {t("Spring / Summer Collection 2023")}
-                    </h6>
-                    <h1>
-                      {t("Get up to 25% Off New Arrivals")}
-                    </h1>
-                    <div className="red_button shop_now_button"><Link to="/shop">
-                      {t("shop now")}
-                    </Link></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="main_slider" style={{  backgroundImage: `url(${"../_mock/slider_1.webp"})`, height: `${!smUp ? '250px' : ''}` }}>
-            <div className="container fill_height">
-              <div className="row align-items-center fill_height">
-                <div className="col">
-                  <div className="main_slider_content">
-                    <h6>
-                      {t("Spring / Summer Collection 2023")}
-                    </h6>
-                    <h1>
-                      {t("Get up to 25% Off New Arrivals")}
-                    </h1>
-                    <div className="red_button shop_now_button"><Link to="/shop">
-                      {t("shop now")}
-                    </Link></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="main_slider" style={{  backgroundImage: `url(${"../_mock/slider_1.webp"})`, height: `${!smUp ? '250px' : ''}` }}>
-            <div className="container fill_height">
-              <div className="row align-items-center fill_height">
-                <div className="col">
-                  <div className="main_slider_content">
-                    <h6>
-                      {t("Spring / Summer Collection 2023")}
-                    </h6>
-                    <h1>
-                      {t("Get up to 25% Off New Arrivals")}
-                    </h1>
-                    <div className="red_button shop_now_button"><Link to="/shop">
-                      {t("shop now")}
-                    </Link></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="main_slider" style={{  backgroundImage: `url(${"../_mock/slider_1.webp"})`, height: `${!smUp ? '250px' : ''}` }}>
-            <div className="container fill_height">
-              <div className="row align-items-center fill_height">
-                <div className="col">
-                  <div className="main_slider_content">
-                    <h6>
-                      {t("Spring / Summer Collection 2023")}
-                    </h6>
-                    <h1>
-                      {t("Get up to 25% Off New Arrivals")}
-                    </h1>
-                    <div className="red_button shop_now_button"><Link to="/shop">
-                      {t("shop now")}
-                    </Link></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Slider>
+        <Container maxWidth="xl" style={{ height: `${!smUp ? '150px' : '500px'}`, marginTop: `${!smUp ? '75px' : '150px'}`, display: 'block' }} >
+          <Slider {...settings} >
+            <img src={require("../_mock/slider_1.webp")} style={{ height: `${!smUp ? '250px !important' : '500px !important'}`, display: 'block' }} />
+            <img src={require("../_mock/slider_4.webp")} style={{ height: `${!smUp ? '250px !important' : '500px !important'}`, display: 'block' }} />
+            <img src={require("../_mock/slider_2.webp")} style={{ height: `${!smUp ? '250px !important' : '500px !important'}`, display: 'block' }} />
+            <img src={require("../_mock/slider_3.webp")} style={{ height: `${!smUp ? '250px !important': '500px !important'}`, display: 'block' }} />
+          </Slider>
+        </Container>
         <div className="benefit">
           <div className="container">
             <div className="row benefit_row">
@@ -195,12 +123,12 @@ const HomePage = () => {
         <div className="deal_ofthe_week">
           <div className="container">
             <div className="row align-items-center">
-              <div className="col-lg-6">
+              <div className="col-md-6">
                 <div className="deal_ofthe_week_img">
-                  <img src="assets/images/deal_ofthe_week.png" alt="" />
+                  <img src="assets/images/deal_the_week.png" alt="" />
                 </div>
               </div>
-              <div className="col-lg-6 text-right deal_ofthe_week_col">
+              <div className="col-md-6 text-right deal_ofthe_week_col">
                 <div className="deal_ofthe_week_content d-flex flex-column align-items-center float-right">
                   <div className="section_title">
                     <h2>

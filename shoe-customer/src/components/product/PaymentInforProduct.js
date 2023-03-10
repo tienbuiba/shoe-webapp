@@ -24,10 +24,9 @@ const PaymentInforProduct = ({ hasAddress, dataListAddress }) => {
   const [cartIds, setCartIds] = useState([]);
   const navigate = useNavigate();
   const [option, setOption] = useState(1);
-  const dispatch= useDispatch();
+  const dispatch = useDispatch();
   const { t } = useTranslation("translation");
-
-
+  
   const options = {
     autoClose: 2000,
     position: toast.POSITION.TOP_RIGHT,
@@ -60,30 +59,30 @@ const PaymentInforProduct = ({ hasAddress, dataListAddress }) => {
         dispatch(openLoadingApi());
         apiUserCreateOrder(cartIds, dataListAddress[0].id, "CASH").then((res) => {
           dispatch(orderDetail(res.data.data))
-          toast.success(res.data.message, options);
-          navigate(`/order-received`, { replace: true });    
-            }
+          toast.success(t("You have successfully placed your order!"), options);
+          navigate(`/order-received`, { replace: true });
+        }
         ).catch((err) => {
           console.log(err);
-        }).finally( ()=>{
+        }).finally(() => {
           dispatch(closeLoadingApi());
         })
-      } 
+      }
       else {
         dispatch(openLoadingApi());
         apiUserCreateOrder(cartIds, dataListAddress[0].id, "TRANSFER").then((res) => {
-          toast.success(res.data.message, options);
+          toast.success(t("Please complete the payment process!"), options);
           dispatch(orderDetail(res.data.data));
           navigate(`/payment-autobank/${res.data.data.code}/${total}`, { replace: true });
         }
         ).catch((err) => {
           console.log(err);
-        }).finally(()=> {
+        }).finally(() => {
           dispatch(closeLoadingApi());
         })
       }
     } else {
-      toast.error('Please fill in form payment information!', options);
+      toast.error(t("Please fill in form payment information!"), options);
     }
   }
   const handleOptionChange = (e) => {
@@ -96,11 +95,11 @@ const PaymentInforProduct = ({ hasAddress, dataListAddress }) => {
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #e4e8e0', marginBottom: '20px', paddingBottom: '4px' }}>
             <Typography style={{ color: '#000', fontSize: '14px' }}>
-            {t("PRODUCT")}              
-             </Typography>
+              {t("PRODUCT")}
+            </Typography>
             <Typography style={{ color: '#000', fontSize: '14px' }}>
-            {t("TOTAL")}
-              </Typography>
+              {t("TOTAL")}
+            </Typography>
           </div>
           <div>
             {dataCart.map((curElem) => {
@@ -112,7 +111,7 @@ const PaymentInforProduct = ({ hasAddress, dataListAddress }) => {
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #e4e8e0', padding: '15px 0' }}>
           <Typography style={{ color: '#000', fontSize: '14px', width: '250px' }}>
-          {t("Total")}
+            {t("Total")}
           </Typography>
           <FormatPrice price={total} />
         </div>
@@ -121,8 +120,8 @@ const PaymentInforProduct = ({ hasAddress, dataListAddress }) => {
             value={option}
             onChange={handleOptionChange}
           >
-            <FormControlLabel value={1} control={<Radio />} label=  {t("Cash on Delivery")}/>
-            <FormControlLabel value={2} control={<Radio />} label= {t("Bank transfer")} />
+            <FormControlLabel value={1} control={<Radio />} label={t("Cash on Delivery")} />
+            <FormControlLabel value={2} control={<Radio />} label={t("Bank transfer")} />
           </RadioGroup>
         </FormControl>
         <Divider></Divider>
@@ -132,8 +131,8 @@ const PaymentInforProduct = ({ hasAddress, dataListAddress }) => {
           onClick={handleOrderClick}
           variant="contained"
           className="black_button_auth">
-          {t("ORDER NOW")}          
-         </Button>
+          {t("ORDER NOW")}
+        </Button>
         <div>
         </div>
         <ToastContainer></ToastContainer>

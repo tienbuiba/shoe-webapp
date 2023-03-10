@@ -16,7 +16,6 @@ export default function OrderMoreMenu(props) {
   const dispatch = useDispatch();
   const { t } = useTranslation('translation');
 
-
   return (
     <React.Fragment>
       <IconButton ref={ref} onClick={() => setIsOpen(true)}>

@@ -4,5 +4,7 @@ export const confirmOrder = (id, total, amount,name) => ({ type: actionTypes.CON
 export const closeConfirmOrder = () => ({ type: actionTypes.CLOSE_CONFIRM_ORDER });
 export const orderId = (orderDetails, orderCode,orderID) => ({ type: actionTypes.ORDER_ID, orderDetails: orderDetails, orderCode: orderCode,orderID:orderID });
 export const orderDetail = (details) => ({ type: actionTypes.ORDER_DETAIL, details:details });
+export const cancelOrder = () => ({ type: actionTypes.CANCEL_ORDER });
+
 
 

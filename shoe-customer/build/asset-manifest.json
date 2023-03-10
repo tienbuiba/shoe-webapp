@@ -1,7 +1,11 @@
 {
   "files": {
     "main.css": "/static/css/main.806eb917.css",
-    "main.js": "/static/js/main.6a0e2414.js",
+    "main.js": "/static/js/main.6f84482d.js",
+    "static/media/slider_2.webp": "/static/media/slider_2.c4022c0604d1607c52dd.webp",
+    "static/media/slider_1.webp": "/static/media/slider_1.ecd2e33c7030871847ed.webp",
+    "static/media/slider_3.webp": "/static/media/slider_3.24f3053f34612a969395.webp",
+    "static/media/slider_4.webp": "/static/media/slider_4.076c9e44135e986a0ec3.webp",
     "static/media/loading.gif": "/static/media/loading.c4d3151d6d6bddb8bda3.gif",
     "static/media/Meshoes2.png": "/static/media/Meshoes2.1de3c93da4d5d2dd2e95.png",
     "static/media/mbbank.jpg": "/static/media/mbbank.160d65aec66a0917cc1a.jpg",
@@ -11,10 +15,10 @@
     "static/media/slick.ttf": "/static/media/slick.c94f7671dcc99dce43e2.ttf",
     "static/media/slick.woff": "/static/media/slick.295183786cd8a1389865.woff",
     "main.806eb917.css.map": "/static/css/main.806eb917.css.map",
-    "main.6a0e2414.js.map": "/static/js/main.6a0e2414.js.map"
+    "main.6f84482d.js.map": "/static/js/main.6f84482d.js.map"
   },
   "entrypoints": [
     "static/css/main.806eb917.css",
-    "static/js/main.6a0e2414.js"
+    "static/js/main.6f84482d.js"
   ]
 }

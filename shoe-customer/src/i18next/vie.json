@@ -255,5 +255,12 @@
   "CANCELLED":"ĐÃ HỦY",
   "SUCCESSFUL DELIVERY":"THÀNH CÔNG",
   "PAID":"ĐÃ THANH TOÁN",
-  "DELIVERING":"ĐANG GIAO HÀNG"
+  "DELIVERING":"ĐANG GIAO HÀNG",
+  "NOT PAY":"CHƯA THANH TOÁN",
+  "Your order has been successfully placed. We are processing orders":"Bạn đã đặt hàng thành công. Chúng tôi đang xử lý đơn hàng",
+  "Add to cart successfully":"Thêm vào giỏ hàng thành công",
+  "Please fill in form payment information!":"Vui lòng điền thông tin thanh toán vào biểu mẫu!",
+  "Please complete the payment process!":"Hoàn tất quá trình thanh toán để đặt hàng thành công!",
+  "You have successfully placed your order!":"Bạn đã đặt hàng thành công!"
+  
 }

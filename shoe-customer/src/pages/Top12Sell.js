@@ -22,11 +22,20 @@ const Top12Sell = (props) => {
   const { view } = props;
 
   var settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     autoplay: true,
     slidesToShow: 4,
+    slidesToScroll: 1
+  };
+
+  var settings2 = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    autoplay: true,
+    slidesToShow: 2,
     slidesToScroll: 1
   };
 
@@ -38,7 +47,7 @@ const Top12Sell = (props) => {
     }).catch(err => {
       dispatch(closeLoadingApi());
     })
-  }, [view]);
+  }, []);
 
   return (
     <div className="MainDiv">
@@ -46,7 +55,7 @@ const Top12Sell = (props) => {
       </header>
       <div className="new_arrivals" style={{ paddingBottom: '45px', paddingTop: '20px' }}>
         <div className="container">
-          <Slider {...settings} style={{ display: 'flex', marginTop: '10px', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: '20px' }}>
+          {!smUp ? <Slider {...settings2} style={{ display: 'flex', marginTop: '10px', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: '20px' }}>
             {dataProduct?.map((row) => {
               return (
                 <div className="product-item" key={row.id}>
@@ -91,7 +100,53 @@ const Top12Sell = (props) => {
                 </div>
               )
             })}
-          </Slider>
+          </Slider> :
+            <Slider {...settings} style={{ display: 'flex', marginTop: '10px', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: '20px' }}>
+              {dataProduct?.map((row) => {
+                return (
+                  <div className="product-item" key={row.id}>
+                    <Link to={`/product-detail/${row.id}`}>
+                      <div className="product discount product_filter">
+                        <div className="product_image">
+                          <img src={row.images[0]} alt="image" />
+                        </div>
+                        <div className="favorite favorite_left"></div>
+                        {row.id % 2 === 1 ?
+                          <div className="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center"><span>new</span></div>
+                          :
+                          <div className="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-$20</span></div>
+                        }
+                        <div className="product_info">
+                          <h6 className="product_name">{row.name}</h6>
+                          {row.id % 2 === 1 ?
+                            <div className="product_price">{row.priceSell} đ</div>
+                            :
+                            <div className="product_price">{row.priceSell} đ<span>${row.priceOrigin} đ</span></div>
+                          }
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <p>
+                              <i class="fa fa-star" style={{ color: '#ffa200', fontSize: '8px' }}></i>
+                              <i class="fa fa-star" style={{ color: '#ffa200', fontSize: '8px' }}></i>
+                              <i class="fa fa-star" style={{ color: '#ffa200', fontSize: '8px' }}></i>
+                              <i class="fa fa-star" style={{ color: '#ffa200', fontSize: '8px' }}></i>
+                              <i class="fa fa-star" style={{ fontSize: '8px' }}></i>
+                            </p>
+                            <p style={{ fontSize: '10px', color: 'rgba(0,0,0,.54)' }}>{row.sold}
+                              <span style={{ marginLeft: '4px' }}>
+                                {t("solds")}
+                              </span>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                    <div className="red_button add_to_cart_button"><Link to={`product-detail/:${row.id}`}>
+                      {t("add to cart")}
+                    </Link></div>
+                  </div>
+                )
+              })}
+            </Slider>}
         </div>
       </div>
       {view === "none" ? <></> :

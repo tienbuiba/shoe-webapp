@@ -6,7 +6,7 @@ import Page from 'src/components/Page';
 import Footer from 'src/layouts/Footer';
 import { fDateTimeSuffix } from '../utils/formatTime';
 import { NavLink } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { closeLoadingApi, openLoadingApi } from '../redux/creates-action/LoadingAction';
 import { apiUserGetAllOrder } from '../services/Order';
@@ -49,6 +49,7 @@ const AccountOrder = () => {
   const [total, setTotal] = useState(0);
   const dispatch = useDispatch();
   const smUp = useResponsive('up', 'sm');
+  const dataCancel= useSelector( state=> state.order.data)
 
 
   const TABLE_HEAD = [
@@ -83,7 +84,7 @@ const AccountOrder = () => {
         console.log(err);
         dispatch(closeLoadingApi());
       });
-  }, [rowsPerPage, page, keyword]);
+  }, [rowsPerPage, page, keyword,dataCancel.cancel]);
 
   const handleSearchChange = (e) => {
     setKeyword(e.target.value);
@@ -154,7 +155,7 @@ const AccountOrder = () => {
                           <Label variant="ghost" color={(row.status === 'CANCEL' && 'error') || (row.status === 'SUCCESS' && 'success') || (row.status === 'PAIED' && 'info') || 'warning'}>
                             {(row.status === 'CANCEL' && (
                               <Typography>
-                                {t("CANCELLED")}!
+                                {t("CANCELLED")}
                               </Typography>
                             )
                             )
@@ -168,7 +169,9 @@ const AccountOrder = () => {
                               </Typography>)) ||
                               (row.status === 'DELIVERING' && (<Typography>
                                 {t("DELIVERING")}
-                              </Typography>)) || 'warning'}
+                              </Typography>)) || (row.status === 'NOT_PAY' && (<Typography>
+                                {t("NOT PAY")}
+                              </Typography>)) ||'warning'}
                           </Label>                        </Label>
                       </TableCell>
                       <TableCell align="left">{(row.paymentMethod) === "CASH" ?

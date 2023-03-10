@@ -6,9 +6,13 @@ import { apiUserProfile } from 'src/services/Authenticate';
 import TokenService from 'src/services/TokenService';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useTranslation } from 'react-i18next';
 
 function LoginWithGoogle() {
     const navigate = useNavigate();
+    const { t } = useTranslation("translation");
+
+
     const options = {
         autoClose: 2000,
         position: toast.POSITION.TOP_RIGHT,
@@ -23,7 +27,7 @@ function LoginWithGoogle() {
                 TokenService.updateLocalExpiresIn(response.data.data.expiresIn);
                 apiUserProfile().then(result => {
                     TokenService.updateLocalProfile(JSON.stringify(result.data));
-                    toast.success("Login successful!", options);
+                    toast.success(t("Login successful"), options);
                     navigate('/', { replace: true });
                 }).catch(error => {
                     console.log(error);
@@ -33,8 +37,10 @@ function LoginWithGoogle() {
             console.log('err: ', err);
         }
     };
+
+    // 10239177832-9iaplfgg6uqohtsga13l2bs3d540vi24.apps.googleusercontent.com
     return (
-        <GoogleOAuthProvider clientId={"10239177832-9iaplfgg6uqohtsga13l2bs3d540vi24.apps.googleusercontent.com"}>
+        <GoogleOAuthProvider clientId={"547899704167-jg4gc84qtvtsrrn23sda7furlk0dl52s.apps.googleusercontent.com"}>
             <GoogleLogin
                 onSuccess={async (credentialResponse) => {
                     handleLogin(credentialResponse.credential);

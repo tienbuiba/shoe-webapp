@@ -103,7 +103,7 @@ export const AccountProfileDetails = (props) => {
             >
               <TextField
                 fullWidth
-                label={t("Email Address")} 
+                label={t("Email Address*")} 
                 disabled
                 value={profile.email}
                 variant="outlined"

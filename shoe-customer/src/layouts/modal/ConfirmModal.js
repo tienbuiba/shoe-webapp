@@ -13,6 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { closeLoadingApi, openLoadingApi } from 'src/redux/creates-action/LoadingAction';
 import { apiUserCancelOrder } from 'src/services/Order';
 import { closeConfirmModal } from 'src/redux/creates-action/ConfirmAction';
+import { cancelOrder } from 'src/redux/creates-action/OrderAction';
 
 export default function ConfirmModal() {
   const theme = useTheme();
@@ -33,7 +34,7 @@ export default function ConfirmModal() {
           if (res.statusCode === 200) {
             toast.success(res.message, options);
             dispatch(closeLoadingApi());
-            // dispatch(blockUserSuccess())
+            dispatch(cancelOrder())
           } else {
             toast.error(res.message, options);
           }

@@ -93,7 +93,6 @@ const ProductDetail = () => {
   const [color, setColor] = useState('');
   const [size, setSize] = useState("");
 
-
   const [mainImage, setMainImage] = useState('');
   const setDecrease = () => {
     amount > 0 ? setAmount(amount - 1) : setAmount(0);
@@ -106,7 +105,7 @@ const ProductDetail = () => {
     e.preventDefault();
     if (id !== '' && size !== '' && color !== '') {
       apiUserCreateCart(parseInt(id), amount, (size).toString(), color).then((res) => {
-        toast.success(res.data.message, options);
+        toast.success(t("Add to cart successfully"), options);
         dispatch(addToCart());
         setSize('');
         setColor('');

@@ -126,23 +126,21 @@ const OrderReceived = () => {
             </Grid>
             <Grid item xs={12} md={4.5} sx={{ p: '20px', boxShadow: "1px 1px 3px 0px rgb(0 0 0 / 20%), 0 1px 0 rgb(0 0 0 / 7%), inset 0 0 0 1px rgb(0 0 0 / 5%);", backgroundColor: "rgba(0,0,0,0.02)", marginTop: '10px' }}>
               <div>
-
                 {(data.details.status === 'CANCEL' && (
                   <Typography style={{ color: '#7a9c59', fontSize: '20px' }}>
                     {t("Your order has been cancelled")}!
-                  </Typography>
-                )
-                )
+                  </Typography>))
                   || (data.details.status === 'SUCCESS' && (
                     <Typography style={{ color: '#7a9c59', fontSize: '20px' }}>
                       {t("Thank you. Your order has been received")}!
-                    </Typography>
-                  ))
+                    </Typography>))
                   || (data.details.status === 'PAIED' && (<Typography style={{ color: '#7a9c59', fontSize: '20px' }}>
                     {t("Thank you for your order payment. We are processing orders")}!
                   </Typography>)) ||
                   (data.details.status === 'DELIVERING' && (<Typography style={{ color: '#7a9c59', fontSize: '20px' }}>
                     {t("Your order is being shipped. You will receive the goods in the next 2-3 days")}!
+                  </Typography>)) || (data.details.status === 'NOT_PAY' && (<Typography style={{ color: '#7a9c59', fontSize: '20px' }}>
+                    {t("Your order has been successfully placed. We are processing orders")}!
                   </Typography>)) || 'warning'}
               </div>
               <div className="cart_heading">
@@ -206,9 +204,7 @@ const OrderReceived = () => {
                     {(data.details.status === 'CANCEL' && (
                       <Typography style={{ fontSize: '20px' }}>
                         {t("CANCELLED")}!
-                      </Typography>
-                    )
-                    )
+                      </Typography>))
                       || (data.details.status === 'SUCCESS' && (
                         <Typography style={{ fontSize: '20px' }}>
                           {t("SUCCESSFUL DELIVERY")}!
@@ -219,6 +215,8 @@ const OrderReceived = () => {
                       </Typography>)) ||
                       (data.details.status === 'DELIVERING' && (<Typography style={{ fontSize: '20px' }}>
                         {t("DELIVERING")}!
+                      </Typography>)) || (data.details.status === 'NOT_PAY' && (<Typography>
+                        {t("NOT PAY")}
                       </Typography>)) || 'warning'}
                   </Label>
                 </div>

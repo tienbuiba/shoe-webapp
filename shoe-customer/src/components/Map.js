@@ -19,7 +19,7 @@ export default function Map() {
         frameBorder="0"
         width="100%"
         height={iframeHeight}
-        src="https://maps.google.com/maps?width=505&amp;height=401&amp;hl=en&amp;q=84%20Duy%20Tan%20Hanoi+(Titan%20Power)&amp;t=&amp;z=12&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe>
+        src="https://maps.google.com/maps?width=505&amp;height=401&amp;hl=en&amp;q=286%20Thai%20Ha%20Hanoi+(MeShoes%20info)&amp;t=&amp;z=12&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe>
     </Grid>
   )
 
