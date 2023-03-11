@@ -177,15 +177,10 @@ const HomePage = () => {
             <div class="hotline-phone-ring-circle-fill"></div>
             <div class="hotline-phone-ring-img-circle">
               <a href="tel:0986909682" class="pps-btn-img">
-                <img src={require("../_mock/icon-call.png")} alt="Gọi điện thoại" width="50" />
+                <img src={require("../_mock/icon-call.png")} alt="Gọi điện thoại" style={{ width: '50px !important', height: '50px !important', display: 'block'}} />
               </a>
             </div>
-          </div>
-          <div class="hotline-bar">
-            <a href="tel:0986909682">
-              <span class="text-hotline">0986.909.682</span>
-            </a>
-          </div>
+          </div>       
         </div>
         <Newsletter />
       </div>
