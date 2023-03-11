@@ -12,7 +12,7 @@ const Introduction = () => {
   const smUp = useResponsive('up', 'sm');
 
   return (
-    <Page title="Introduction">
+    <Page title= {t("Introduction")}>
       <Header />
       {!smUp ? <div className="newsletter" style={{ marginTop: '75px' }}>
         <div className="container">

@@ -71,7 +71,7 @@ const Contact = () => {
     }
   }
   return (
-    <Page title="Contact us">
+    <Page title={t("Contact")}>
       <Header />
       {!smUp ?
         <div className="newsletter" style={{ marginTop: '75px', marginBottom: '70px' }}>

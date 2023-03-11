@@ -16,6 +16,7 @@ import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { Container } from '@mui/system';
+import { Box } from '@mui/material';
 
 const HomePage = () => {
   const { t } = useTranslation("translation");
@@ -171,16 +172,20 @@ const HomePage = () => {
             <MainNews />
           </div>
         </div>
-        <div class="hotline-phone-ring-wrap">
-          <div class="hotline-phone-ring">
-            <div class="hotline-phone-ring-circle"></div>
-            <div class="hotline-phone-ring-circle-fill"></div>
-            <div class="hotline-phone-ring-img-circle">
-              <a href="tel:0986909682" class="pps-btn-img">
-                <img src={require("../_mock/icon-call.png")} alt="Gọi điện thoại" style={{ width: '50px !important', height: '50px !important', display: 'block'}} />
+        <div className="hotline-phone-ring-wrap">
+          <div className="hotline-phone-ring">
+            <div className="hotline-phone-ring-circle"></div>
+            <div className="hotline-phone-ring-circle-fill"></div>
+            <div className="hotline-phone-ring-img-circle">
+              <a href="tel:0986909682" className="pps-btn-img">
+                <Box
+                  component="img"
+                  src={require("../_mock/icon-call.png")}
+                  sx={{ minWidth: '50px !important', minHeight: '50px !important', display: 'block' }}
+                />
               </a>
             </div>
-          </div>       
+          </div>
         </div>
         <Newsletter />
       </div>
