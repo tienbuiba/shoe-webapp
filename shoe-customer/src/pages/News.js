@@ -55,7 +55,6 @@ const News = () => {
           </div>
         </div>
       }
-
       <div className="container">
         <div className="row mb-5">
           <div className="col text-center">

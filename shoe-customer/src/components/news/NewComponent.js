@@ -85,7 +85,7 @@ const NewComponent = () => {
                           <div className="blog_content d-flex flex-column align-items-center justify-content-center text-center">
                             <h4 className="blog_title">{dataPost.shortDesc}</h4>
                             <span className="blog_meta">
-                              {t("by admin")}
+                              {t("by MeShoes.info")}
                               |{fDateLocal(dataPost.createdAt)}</span>
                             <a className="blog_more" href="#">
                               {t("Read more")}

@@ -172,7 +172,7 @@ const HomePage = () => {
             <MainNews />
           </div>
         </div>
-        <div className="hotline-phone-ring-wrap">
+        {/* <div className="hotline-phone-ring-wrap">
           <div className="hotline-phone-ring">
             <div className="hotline-phone-ring-circle"></div>
             <div className="hotline-phone-ring-circle-fill"></div>
@@ -186,7 +186,7 @@ const HomePage = () => {
               </a>
             </div>
           </div>
-        </div>
+        </div> */}
         <Newsletter />
       </div>
       <Footer />

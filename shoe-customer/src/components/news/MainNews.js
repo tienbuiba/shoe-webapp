@@ -32,7 +32,7 @@ const MainNews = () => {
                     <div className="blog_background" style={{ backgroundImage: `url(${dataPost.images[0]})` }}></div>
                     <div className="blog_content d-flex flex-column align-items-center justify-content-center text-center">
                       <h4 className="blog_title">{dataPost.shortDesc}</h4>
-                      <span className="blog_meta">by admin |{fDateLocal(dataPost.createdAt)}</span>
+                      <span className="blog_meta">by MeShoes.info |{fDateLocal(dataPost.createdAt)}</span>
                       <a className="blog_more" href="#">Read more </a>
                     </div>
                   </div>

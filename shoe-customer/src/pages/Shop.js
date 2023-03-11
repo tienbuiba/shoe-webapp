@@ -14,9 +14,9 @@ const Shop = () => {
   const { t } = useTranslation("translation");
   const smUp = useResponsive('up', 'sm');
 
-
   return (
-    <Page title="Shop">
+    <Page title={t("Shop")}
+    >
       <Header />
       {!smUp ? <div className="newsletter" style={{ marginTop: '75px' }}>
         <div className="container">
@@ -26,7 +26,6 @@ const Shop = () => {
                 <h3>
                   {t("Shop")}
                 </h3>
-
               </div>
             </div>
           </div>
