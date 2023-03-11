@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 import useResponsive from 'src/hooks/useResponsive';
 
@@ -16,11 +16,11 @@ const Footer = () => {
           <div className="row">
             <div className="col-lg-6">
               <div className="footer_nav_container">
-                <h6 style={{ color: '#fff',marginBottom: `${!smUp ? '10px': '30px'}` }}>
+                <h6 style={{ color: '#fff', marginBottom: `${!smUp ? '10px' : '30px'}` }}>
                   {t("CONTACT")}
                 </h6>
               </div>
-              <p style={{ color: '#fff', marginBottom: '50px' }}>
+              <p style={{ color: '#fff', marginBottom: `${!smUp ? '30px' : '30px'}` }}>
                 {t("We specialize in providing good quality genuine products that meet international standards")}
               </p>
               <div className="footer_social d-flex flex-row align-items-center justify-content-lg-start justify-content-center">
@@ -31,10 +31,18 @@ const Footer = () => {
                   <li><a href="https://www.facebook.com/profile.php?id=100090517898794" target="_blank"><i className="fa fa-skype" aria-hidden="true"></i></a></li>
                 </ul>
               </div>
+              <h6 style={{ color: '#fff', marginBottom: `${!smUp ? '10px' : '30px'}`, marginTop: `${!smUp ? '20px' : '40px'}` }}>
+              {t("SUPPORT PAYMENT")}
+              </h6>
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '10px' }}>
+                <img src={require("../_mock/payment/payment1.webp")} style={{ width: '45px', height: '40px', borderRadius: '4px' }} />
+                <img src={require("../_mock/payment/payment2.webp")} style={{ width: '45px', height: '40px', borderRadius: '4px' }} />
+                <img src={require("../_mock/payment/payment3.jfif")} style={{ width: '45px', height: '40px', borderRadius: '4px' }} />
+              </div>
             </div>
             <div className="col-lg-3">
               <div className="footer_nav_container">
-                <h6 style={{ color: '#fff',marginBottom: `${!smUp ? '10px': '30px'}` }}>
+                <h6 style={{ color: '#fff', marginBottom: `${!smUp ? '10px' : '30px'}` }}>
                   {t("CUSTOMER SUPPORT")}
                 </h6>
               </div>
@@ -43,18 +51,21 @@ const Footer = () => {
                   <li><Link to="/news">
                     {t("News")}
                   </Link></li>
-                  <li><Link to="/shop">
+                  <li><Link to="/contact-us">
                     {t("FAQs")}
                   </Link></li>
                   <li><a href="/shop">
                     {t("Products")}
+                  </a></li>
+                  <li><a href="/contact-us">
+                    {t("Feedback")}
                   </a></li>
                 </ul>
               </div>
             </div>
             <div className="col-lg-3">
               <div className="footer_nav_container">
-                <h6 style={{ color: '#fff', marginBottom: `${!smUp ? '10px': '30px'}`  }}>
+                <h6 style={{ color: '#fff', marginBottom: `${!smUp ? '10px' : '30px'}` }}>
                   {t("STORE INFORMATION")}
                 </h6>
               </div>

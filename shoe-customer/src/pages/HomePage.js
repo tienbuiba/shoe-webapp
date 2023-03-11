@@ -45,7 +45,7 @@ const HomePage = () => {
             <img src={require("../_mock/slider_1.webp")} style={{ height: `${!smUp ? '250px !important' : '500px !important'}`, display: 'block' }} />
             <img src={require("../_mock/slider_4.webp")} style={{ height: `${!smUp ? '250px !important' : '500px !important'}`, display: 'block' }} />
             <img src={require("../_mock/slider_2.webp")} style={{ height: `${!smUp ? '250px !important' : '500px !important'}`, display: 'block' }} />
-            <img src={require("../_mock/slider_3.webp")} style={{ height: `${!smUp ? '250px !important': '500px !important'}`, display: 'block' }} />
+            <img src={require("../_mock/slider_3.webp")} style={{ height: `${!smUp ? '250px !important' : '500px !important'}`, display: 'block' }} />
           </Slider>
         </Container>
         <div className="benefit">

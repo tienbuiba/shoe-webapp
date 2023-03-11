@@ -109,7 +109,6 @@ const MainCategory = () => {
     })
   }, [])
 
-
   const handleChangeBrand = (event) => {
     const {
       target: { value }
@@ -167,7 +166,6 @@ const MainCategory = () => {
             <header class="card-header">
               <a class="title" data-bs-toggle="collapse" data-bs-target="#collapse_aside_brands">
                 {t("Brands")}
-
                 <i class="icon-control fa fa-chevron-down"></i>
               </a>
             </header>
@@ -181,6 +179,7 @@ const MainCategory = () => {
                     labelId="mutiple-select-label"
                     multiple
                     MenuProps={lteProps}
+                    sx={{ borderRadius: '4px' }}                    
                     label={t("Select Brand")}
                     value={selectedBrand}
                     onChange={handleChangeBrand}
@@ -200,7 +199,6 @@ const MainCategory = () => {
           <article class="filter-group">
             <header class="card-header">
               <a class="title" data-bs-toggle="collapse" data-bs-target="#collapse_aside3">
-
                 {t("Size")}
                 <i class="icon-control fa fa-chevron-down"></i>
               </a>
@@ -215,9 +213,10 @@ const MainCategory = () => {
                     labelId="mutiple-select-label"
                     multiple
                     MenuProps={lteProps}
+                    sx={{ borderRadius: '4px' }}
+                    
 
                     label={t("Select Size")}
-
                     value={selectedSize}
                     onChange={handleChangeSize}
                     renderValue={(selected) => selected.join(", ")}
@@ -249,6 +248,8 @@ const MainCategory = () => {
                   <Select
                     labelId="mutiple-select-label"
                     multiple
+                    sx={{ borderRadius: '4px' }}
+                    
                     MenuProps={lteProps}
                     label={t("Select Colors")}
                     value={selectedColor}
@@ -294,7 +295,7 @@ const MainCategory = () => {
                   size="large"
                   variant="contained"
                   className="red_button_auth"
-                  sx={{ mt:1}}
+                  sx={{ mt: 1 }}
                   onClick={() => {
                     dispatch(setFilter(selectedBrand, selectedSize, selectedColor, min, max))
                   }}
