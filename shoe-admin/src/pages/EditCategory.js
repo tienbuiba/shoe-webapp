@@ -52,7 +52,7 @@ export default function EditCategory() {
           let res = result.data;
           dispatch(closeLoadingApi());
           navigate('/dashboard/Categories', { replace: true });
-          toast.success(res.message, options);
+          toast.success("Cập nhật danh mục thành công", options);
         })
         .catch(err => {
           if (err.response.data.statusCode === 401) {
@@ -67,7 +67,7 @@ export default function EditCategory() {
           }
         })
     } else {
-      toast.error("lack field", options);
+      toast.error("Vui Lòng điền đủ các trường", options);
     }
   }
 

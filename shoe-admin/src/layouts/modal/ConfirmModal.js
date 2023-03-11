@@ -30,7 +30,6 @@ export default function ConfirmModal() {
     autoClose: 2000,
     position: toast.POSITION.TOP_RIGHT,
   };
-
   
   const handleConfirm = () => {
     switch (data.feature) {
@@ -39,7 +38,7 @@ export default function ConfirmModal() {
         apiAdminBlockUser(data.id).then(result => {
           const res = result.data;
           if (res.statusCode === 200) {
-            toast.success(res.message, options);
+            toast.success("Đã khóa tài khoản thành công", options);
             dispatch(closeLoadingApi());
             dispatch(blockUserSuccess())
           } else {
@@ -62,7 +61,7 @@ export default function ConfirmModal() {
         apiAdminDeleteCategory(data.id).then(result => {
           const res = result.data;
           if (res.statusCode === 200) {
-            toast.success(res.message, options);
+            toast.success("Đã xóa danh mục thành công", options);
             dispatch(closeLoadingApi());
             dispatch(deleteCategory())
           } else {
@@ -86,7 +85,7 @@ export default function ConfirmModal() {
         apiAdminDeletePost(data.id).then(result => {
           const res = result.data;
           if (res.statusCode === 200) {
-            toast.success(res.message, options);
+            toast.success("Đã xóa bài viết thành công", options);
             dispatch(closeLoadingApi());
             dispatch(deletePost())
           } else {
@@ -110,7 +109,7 @@ export default function ConfirmModal() {
         apiAdminDeleteProduct(data.id).then(result => {
           const res = result.data;
           if (res.statusCode === 200) {
-            toast.success(res.message, options);
+            toast.success("Đã xóa sản phẩm thành công", options);
             dispatch(closeLoadingApi());
             dispatch(deleteProduct())
           } else {

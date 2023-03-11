@@ -34,7 +34,6 @@ function CreatePost() {
   const [postForm, setPostForm] = useState(initStatePostForm);
   const [images, setImages] = useState([]);
 
-
   const UPLOAD_ENDPOINT = 'upload-files/push';
   const options = {
     autoClose: 2000,
@@ -127,7 +126,7 @@ function CreatePost() {
           longDesc: ''
         });
         setImages([]);
-        toast.success('Create Post Successfully', options);
+        toast.success('Tạo bài viết mới thành công', options);
       })
       .catch((err) => {
         console.log(err);

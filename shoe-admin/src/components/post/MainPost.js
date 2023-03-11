@@ -37,7 +37,7 @@ export default function MainPost(props) {
                     image={card.images === null ? `https:source.unsplash.com/random` : card.images}
                     alt="random"
                   />
-                  <CardContent sx={{ flexGrow: 1}}>
+                  <CardContent sx={{ flexGrow: 1 }}>
                     <Typography gutterBottom variant="h5" component="h2"
                       style={{
                         whiteSpace: 'nowrap',
@@ -64,7 +64,7 @@ export default function MainPost(props) {
                       color: '#000',
                       marginBottom: '10px',
                     }}>
-                      POSTED ON
+                      Đăng lúc
                       <span style={{
                         fontSize: '10px',
                         color: '#000',
@@ -73,10 +73,9 @@ export default function MainPost(props) {
                       }}>
                         {card.createdAt && (
                           fDateLocal(card?.createdAt)
-                        )}
-                      </span>,
-                      BY ADMIN
-                    </div>
+                        )},
+                      </span>
+                      MeShoes.info                    </div>
                   </CardContent>
                   <CardActions sx={{ display: 'flex', gap: '20px' }}>
                     <Button
@@ -97,7 +96,7 @@ export default function MainPost(props) {
                       component={Link} to={`/dashboard/edit-post/${card.id}`}
                       startIcon={<EditIcon></EditIcon>}
                     >
-                     Sửa
+                      Sửa
                     </Button>
                     <Button size="small"
                       variant='contained'

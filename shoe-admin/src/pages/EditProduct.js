@@ -27,9 +27,11 @@ import TokenService from 'src/services/TokenService';
 import { closeLoadingApi, openLoadingApi } from 'src/redux/create-actions/LoadingAction';
 import { useDispatch } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
 import { API_URL } from 'src/constant/Constants';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 
 const Input = styled('input')({
@@ -47,19 +49,21 @@ function EditProduct() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
+  const [dataProduct, setDataProduct]= useState(null);
+  const [seconds,setSeconds]=useState(6);
 
   const options = {
     autoClose: 2000,
     position: toast.POSITION.TOP_RIGHT,
   };
 
-
   useEffect(() => {
     dispatch(openLoadingApi());
     apiAdminGetProductById(id).then((res) => {
       const result = res?.data?.data;
-      setImages(res?.data?.data.images);
-      if( result){
+      setDataProduct(result);
+      setImages(res?.data?.data.images);      
+      if(result){
         setProductForm({
           ...productForm,
           name: result?.name,
@@ -77,8 +81,7 @@ function EditProduct() {
           ratingAvg: result?.ratingAvg,
           brand: result?.brand,
         });
-      }
-    
+      }  
     }).catch((err) => {
       console.log(err)
     }).finally(() => {
@@ -95,6 +98,37 @@ function EditProduct() {
   }, [])
 
 
+  useEffect(() => {
+    if (seconds > 0) {
+      const timeoutId = setTimeout(() => setSeconds(seconds - 1), 2000);
+      return () => clearTimeout(timeoutId);
+    } else {
+      setSeconds(0);
+    }
+  }, [seconds]);
+
+    useEffect( ()=>{
+      if(dataProduct !== null){
+        if(true){
+          setProductForm({
+            ...productForm,
+            name: dataProduct?.name,
+            size: dataProduct?.size,
+            priceOrigin: dataProduct?.priceOrigin,
+            priceSell: dataProduct?.priceSell,
+            color: dataProduct?.color,
+            images: dataProduct?.images,
+            shortDesc: dataProduct?.shortDesc,
+            categoryId: dataProduct?.categoryId,
+            sold: dataProduct?.sold,
+            available: dataProduct?.available,
+            reviewCount: dataProduct?.reviewCount,
+            ratingAvg: dataProduct?.ratingAvg,
+            brand: dataProduct?.brand,
+          });
+        }  
+      }
+    }, [seconds])
 
   function uploadAdapter(loader) {
     const accessToken = TokenService.getLocalAccessToken();
@@ -235,7 +269,7 @@ function EditProduct() {
         dispatch(closeLoadingApi());
         toast.success("Cập nhật sản phẩm thành công!", options);
         setImages([]);
-        navigate(`/dashboard/products/${id}`);
+        navigate(`/dashboard/products`);
         setProductForm({
           ...productForm,
           productName: '',
@@ -276,6 +310,13 @@ function EditProduct() {
         <Typography variant="h4" sx={{ mb: 5 }}>
           CHỈNH SỬA THÔNG TIN SẢN PHẨM
         </Typography>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+          <Button component={Link} color="info" to="/dashboard/products" startIcon={<ArrowBackIosIcon />} variant="contained">
+            Quay lại          </Button>
+          <Button component={Link} to={`/dashboard/product-detail/${id}`} startIcon={<VisibilityIcon />} variant="outlined">
+            Xem sản phẩm
+          </Button>
+        </div>
         <Card sx={{ py: 4, px: 3 }}>
           <Grid container spacing={3}>
             <Grid item xs={6} sx={{ pl: '24px' }}>

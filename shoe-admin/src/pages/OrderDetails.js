@@ -24,8 +24,6 @@ const OrderDetails = () => {
     }
   }, [])
 
-  console.log("sdsd", data.details.status)
-
   return data.details.items && (
     <Page title={("Chi tiết đơn hàng")}>
       <Container maxWidth="xl">
@@ -113,9 +111,19 @@ const OrderDetails = () => {
             </Grid>
             <Grid item xs={4.5} sx={{ p: '20px', boxShadow: "1px 1px 3px 0px rgb(0 0 0 / 20%), 0 1px 0 rgb(0 0 0 / 7%), inset 0 0 0 1px rgb(0 0 0 / 5%);", backgroundColor: "rgba(0,0,0,0.02)", marginTop: '10px' }}>
               <div>
-                <Typography style={{ color: '#7a9c59', fontSize: '20px' }}>
-                  Đơn đặt hàng của bạn đã được nhận
-                </Typography>
+                {(data.details.status === 'CANCEL' && (
+                  <Typography style={{ color: '#7a9c59', fontSize: '20px' }}>
+                    Đặt hàng này đã bị hủy!
+                  </Typography>))
+                  || (data.details.status === 'SUCCESS' && (
+                    <Typography style={{ color: '#7a9c59', fontSize: '20px' }}>
+                      Đơn hàng đã giao thành công!
+                    </Typography>))
+                  || (data.details.status === 'PAIED' && (<Typography style={{ color: '#7a9c59', fontSize: '20px' }}>
+                    Khách đã thanh toán đơn hàng. Đơn hàng đang chờ xử lý              </Typography>)) ||
+                  (data.details.status === 'DELIVERING' && (<Typography style={{ color: '#7a9c59', fontSize: '20px' }}>
+                    Đơn hàng đang được vận chuyển. Khách sẽ nhận được hàng trong 2-3 ngày tới                  </Typography>)) || (data.details.status === 'NOT_PAY' && (<Typography style={{ color: '#7a9c59', fontSize: '20px' }}>
+                      Đặt hàng thành công. Chúng tôi đã tiếp nhận đơn hàng           </Typography>)) || 'warning'}
               </div>
               <div className="cart_heading">
                 <div style={{ display: 'flex', padding: '10px 0' }}>
@@ -164,10 +172,27 @@ const OrderDetails = () => {
                 </div>
                 <div style={{ display: 'flex', padding: '10px 0' }}>
                   <Typography style={{ color: '#000', fontSize: '14px', width: '200px' }}>
-                    {("Trạng thái")}
+                    {("Số điện thoại giao hàng")}                    : </Typography>
+                  <Typography style={{ color: '#000', fontSize: '14px', fontWeight: '550', marginLeft: '4px' }}>
+                    0376624470
                   </Typography>
+                </div>
+                <div style={{ display: 'flex', padding: '10px 0' }}>
+                  <Typography style={{ color: '#000', fontSize: '14px', width: '200px' }}>
+                    Trạng thái đơn hàng                    : </Typography>
                   <Label variant="ghost" color={(data.details.status === 'CANCEL' && 'error') || (data.details.status === 'SUCCESS' && 'success') || (data.details.status === 'PAIED' && 'info') || 'warning'}>
-                    {data.details.status}
+                    {(data.details.status === 'CANCEL' && (
+                      <Typography style={{ fontSize: '20px' }}>
+                        {("ĐÃ HỦY")}!                      </Typography>))
+                      || (data.details.status === 'SUCCESS' && (
+                        <Typography style={{ fontSize: '20px' }}>
+                          {("GIAO HÀNG THÀNH CÔNG")}!                        </Typography>
+                      ))
+                      || (data.details.status === 'PAIED' && (<Typography style={{ fontSize: '20px' }}>
+                        {("ĐÃ THANH TOÁN")}!                      </Typography>)) ||
+                      (data.details.status === 'DELIVERING' && (<Typography style={{ fontSize: '20px' }}>
+                        {("ĐANG GIAO HÀNG")}!                      </Typography>)) || (data.details.status === 'NOT_PAY' && (<Typography>
+                          {("CHƯA THANH TOÁN")}                      </Typography>)) || 'warning'}
                   </Label>
                 </div>
                 <div>

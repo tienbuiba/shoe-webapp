@@ -173,7 +173,7 @@ function EditPost() {
           longDesc: longDesc,
         });
         setImages([]);
-        toast.success('Update Post Successfully', options);
+        toast.success('Cập nhật bài viết thành công', options);
       })
       .catch((err) => {
         console.log(err);

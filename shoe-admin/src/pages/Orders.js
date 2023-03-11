@@ -19,7 +19,6 @@ import { UserListHead } from '../sections/@dashboard/user';
 import { useDispatch } from 'react-redux';
 import { blockUserSuccessContinue } from 'src/redux/create-actions/UserAction';
 import { apiAdminGetAllOrder } from 'src/services/Order';
-import { fNumber } from 'src/utils/formatNumber';
 import OrderMoreMenu from 'src/sections/@dashboard/order/OrderMoreMenu';
 import { fDateLocal } from '../utils/formatTime';
 import { Toolbar, OutlinedInput, InputAdornment } from '@mui/material';
@@ -30,11 +29,11 @@ import { closeLoadingApi, openLoadingApi } from 'src/redux/create-actions/Loadin
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'id', label: 'ID', alignRight: false },
+  { id: 'id', label: 'SỐ', alignRight: false },
   { id: 'đơn hàng số', label: 'ĐƠN HÀNG SỐ', alignRight: false },
   { id: 'số lượng', label: 'TỔNG TIỀN', alignRight: false },
-  { id: 'loại mail', label: 'THÔNG TIN KHÁCH HÀNG', alignRight: false },
-  { id: 'loại mail', label: 'ĐẠI CHỈ ĐƠN HÀNG', alignRight: false },
+  { id: 'loại mail', label: 'PHƯƠNG THỨC THANH TOÁN', alignRight: false },
+  { id: 'loại mail', label: 'ĐỊA CHỈ ĐƠN HÀNG', alignRight: false },
   { id: 'số lượng', label: 'TRẠNG THÁI', alignRight: false },
   { id: 'thời gian', label: 'TẠO LÚC', alignRight: false },
   { id: 'thời gian', label: 'CẬP NHẬT LÚC', alignRight: false },
@@ -136,28 +135,39 @@ export default function Orders() {
                   rowCount={total}
                 />
                 <TableBody>
-                  {data?.map((row) => {
+                  {data?.map((row, index) => {
                     return (
                       <TableRow key={row.id}>
                         <TableCell align="left"></TableCell>
                         <TableCell align="left">
-                          {row.id}
+                          {(page) * rowsPerPage + index + 1}  
                         </TableCell>
                         <TableCell align="left">{row.code}</TableCell>
                         <TableCell align="left">
-                        {row?.items.length >= 2 ? ((row?.items[0].priceSell * row?.items[0].orderInfo.quantity) + (row?.items[1].priceSell * row?.items[1].orderInfo.quantity)) : (row?.items[0].priceSell * row?.items[0].orderInfo.quantity)}
-                       </TableCell>
-                        <TableCell align="left">{(row.userId)}</TableCell>
+                          {row?.items.length >= 2 ? ((row?.items[0].priceSell * row?.items[0].orderInfo.quantity) + (row?.items[1].priceSell * row?.items[1].orderInfo.quantity)) : (row?.items[0].priceSell * row?.items[0].orderInfo.quantity)}
+                        </TableCell>
+                        <TableCell align="left">{(row.paymentMethod === 'TRANSFER' ? 'Chuyển khoản' : 'Tiền mặt')}</TableCell>
                         <TableCell align="left">{(row.address)}</TableCell>
                         <TableCell align="left">
-                        <Label variant="ghost" color={(row.status === 'CANCEL' && 'error') || (row.status === 'SUCCESS' && 'success') || (row.status === 'PAIED' && 'info') || 'warning'}>
-                            {row.status}
+                          <Label variant="ghost" color={(row.status === 'CANCEL' && 'error') || (row.status === 'SUCCESS' && 'success') || (row.status === 'PAIED' && 'info') || 'warning'}>
+                            {(row.status === 'CANCEL' && (
+                              <Typography style={{ fontSize: '20px' }}>
+                                {("ĐÃ HỦY")}!                      </Typography>))
+                              || (row.status === 'SUCCESS' && (
+                                <Typography style={{ fontSize: '20px' }}>
+                                  {("GIAO HÀNG THÀNH CÔNG")}!                        </Typography>
+                              ))
+                              || (row.status === 'PAIED' && (<Typography style={{ fontSize: '20px' }}>
+                                {("ĐÃ THANH TOÁN")}!                      </Typography>)) ||
+                              (row.status === 'DELIVERING' && (<Typography style={{ fontSize: '20px' }}>
+                                {("ĐANG GIAO HÀNG")}!                      </Typography>)) || (row.status === 'NOT_PAY' && (<Typography>
+                                  {("CHƯA THANH TOÁN")}                      </Typography>)) || 'warning'}
                           </Label>
                         </TableCell>
                         <TableCell align="left">{fDateLocal(row.createdAt)}</TableCell>
                         <TableCell align="left">{fDateLocal(row.updatedAt)}</TableCell>
                         <TableCell align="left">
-                          <OrderMoreMenu orderId={row.id} userId={row.userId} dataOrder={row}/>
+                          <OrderMoreMenu orderId={row.id} userId={row.userId} dataOrder={row} />
                         </TableCell>
                       </TableRow>
                     );

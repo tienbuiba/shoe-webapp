@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Button, Card, Container, Divider, } from "@mui/material";
 import Page from "src/components/Page";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
@@ -11,13 +11,15 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import EditIcon from '@mui/icons-material/Edit';
 import Star from "src/components/product/Star";
 import { fNumber } from "src/utils/formatNumber";
+import { closeLoadingApi, openLoadingApi } from "src/redux/create-actions/LoadingAction";
+import { useDispatch } from "react-redux";
 
 const ProductSingleDetail = () => {
   const { id } = useParams();
   const [data, setData] = useState([]);
-  const navigate = useNavigate();
+  const dispatch =useDispatch();
 
-  var settings = {
+    var settings = {
     dots: true,
     infinite: true,
     speed: 500,
@@ -27,11 +29,14 @@ const ProductSingleDetail = () => {
   };
 
   useEffect(() => {
+    dispatch(openLoadingApi());
     apiAdminGetProductById(id).then((res) => {
       setData(res?.data?.data);
       setMainImage(res?.data?.data?.images[0]);
+      dispatch(closeLoadingApi());
     }).catch((err) => {
       console.log(err);
+      dispatch(closeLoadingApi());
     })
   }, [])
 

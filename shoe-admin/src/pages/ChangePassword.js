@@ -75,7 +75,7 @@ const ChangePassword = () => {
                 let res = result.data;
                 navigate('/dashboard/home', { replace: true });
                 dispatch(closeLoadingApi());
-                toast.success(res.message, options);
+                toast.success("Thay đổi mật khẩu thành công", options);
               })
                 .catch(err => {
                   if (err.response.data.statusCode === 401) {

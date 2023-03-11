@@ -29,7 +29,7 @@ import { closeLoadingApi, openLoadingApi } from 'src/redux/create-actions/Loadin
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'ID', label: 'ID', alignRight: false },
+  { id: 'ID', label: 'SỐ', alignRight: false },
   { id: 'NAME', label: 'TÊN LOẠI', alignRight: false },
   { id: 'Created at', label: 'THỜI GIAN TẠO', alignRight: false },
   { id: 'Created at', label: 'THỜI GIAN CẬP NHẬT', alignRight: false },
@@ -108,7 +108,7 @@ export default function Categories() {
         </Stack>
         <Card>
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
-            <Button variant="outlined"  sx={{ ml:4}} component={RouterLink} to="/dashboard/create-category" startIcon={<Iconify icon="eva:plus-fill" />}>
+            <Button variant="outlined" sx={{ ml: 4 }} component={RouterLink} to="/dashboard/create-category" startIcon={<Iconify icon="eva:plus-fill" />}>
               Thêm loại sản phẩm
             </Button>
             <RootStyle>
@@ -131,13 +131,15 @@ export default function Categories() {
                   rowCount={total}
                 />
                 <TableBody>
-                  {data?.map((row) => {
+                  {data?.map((row, index) => {
                     return (
                       <TableRow
                         key={row.id}
                         hover >
                         <TableCell align="left"></TableCell>
-                        <TableCell align="left">{row.id}</TableCell>
+                        <TableCell align="left">  
+                        {(page) * rowsPerPage + index + 1}
+                        </TableCell>
                         <TableCell align="left">{row.name}</TableCell>
                         <TableCell align="left">
                           {fDateLocal(row.createdAt)}

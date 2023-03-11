@@ -31,13 +31,13 @@ import { closeLoadingApi, openLoadingApi } from 'src/redux/create-actions/Loadin
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
+  { id: 'name', label: 'SỐ', alignRight: false },
   { id: 'name', label: 'TÊN', alignRight: false },
   { id: 'Email', label: 'EMAIL', alignRight: false },
   { id: 'phone', label: 'ĐIỆN THOẠI', alignRight: false },
   { id: 'role', label: 'TRẠNG THÁI', alignRight: false },
   { id: 'Created at', label: 'NGÀY ĐĂNG KÝ', alignRight: false },
   { id: 'a', label: '', alignRight: false },
-
 ];
 const RootStyle = styled(Toolbar)(({ theme }) => ({
   height: 96,
@@ -75,8 +75,6 @@ export default function User() {
       navigate('/login', { replace: true });
     }
   }, [])
-
-
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -140,13 +138,16 @@ export default function User() {
                   rowCount={total}
                 />
                 <TableBody>
-                  {data?.map((row) => {
+                  {data?.map((row, index) => {
                     return (
                       <TableRow
                         key={row.id}
                         hover={true}
                       >
                         <TableCell align="left"></TableCell>
+                        <TableCell align="left">  
+                        {(page) * rowsPerPage + index + 1}
+                        </TableCell>
                         <TableCell align="left">{row.username}</TableCell>
                         <TableCell align="left">{row.email}</TableCell>
                         <TableCell align="left">{row.phone}</TableCell>

@@ -53,7 +53,7 @@ const PostDetail = () => {
             color: '#000',
             marginBottom: '30px',
           }}>
-            POSTED ON
+           Đăng lúc
             <span style={{
               fontSize: '10px',
               color: '#000',
@@ -62,9 +62,9 @@ const PostDetail = () => {
             }}>
               {data.createdAt && (
                 fDateLocal(data?.createdAt)
-              )}
-            </span>,
-            BY ADMIN
+              )},
+            </span>
+            bởi MeShoes.info
           </div>
           <div>
             {/* <div className="product_images">
@@ -101,7 +101,7 @@ const PostDetail = () => {
                 fDateLocal(data?.updatedAt)
               )}
             </span>,
-            BY ADMIN
+          MeShoes.info
           </div>
         </Card>
       </Container>
