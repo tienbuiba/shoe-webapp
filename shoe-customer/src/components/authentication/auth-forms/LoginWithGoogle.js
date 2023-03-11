@@ -40,7 +40,7 @@ function LoginWithGoogle() {
 
     // 10239177832-9iaplfgg6uqohtsga13l2bs3d540vi24.apps.googleusercontent.com
     return (
-        <GoogleOAuthProvider clientId={"547899704167-jg4gc84qtvtsrrn23sda7furlk0dl52s.apps.googleusercontent.com"}>
+        <GoogleOAuthProvider clientId={"668838443562-uh0mbor1tfnopv075pe0t3vhq8v8kv29.apps.googleusercontent.com"}>
             <GoogleLogin
                 onSuccess={async (credentialResponse) => {
                     handleLogin(credentialResponse.credential);
