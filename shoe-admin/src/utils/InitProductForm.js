@@ -1,4 +1,4 @@
-export function initProduct( name, size, priceOrigin, priceSell, color, images, shortDesc, longDesc, categoryId, sold,brand) {
+export function initProduct( name, size, priceOrigin, priceSell, color, images, shortDesc, longDesc, categoryId, sold,available,brand) {
   return {
     name: name,
     size: size,
@@ -10,15 +10,15 @@ export function initProduct( name, size, priceOrigin, priceSell, color, images, 
     longDesc: longDesc,
     categoryId: categoryId,
     sold: sold,
-    available: 1,
-    reviewCount: 0,
-    ratingAvg: 0,
+    available: available,
+    reviewCount: 1,
+    ratingAvg: 5,
     brand: brand
     }
 };
 
 
-export function initEditProduct( name, size, priceOrigin, priceSell, color, images, shortDesc, longDesc, categoryId, sold,brand) {
+export function initEditProduct( name, size, priceOrigin, priceSell, color, images, shortDesc, longDesc, categoryId, sold,available, brand) {
   return {
     name: name,
     size: size,
@@ -30,9 +30,9 @@ export function initEditProduct( name, size, priceOrigin, priceSell, color, imag
     longDesc: longDesc,
     categoryId: categoryId,
     sold: sold,
-    available: 1,
-    reviewCount: 0,
-    ratingAvg: 0,
+    available: available,
+    reviewCount: 1,
+    ratingAvg: 5,
     brand: brand
     }
 };

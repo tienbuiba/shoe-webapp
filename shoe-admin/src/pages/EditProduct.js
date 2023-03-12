@@ -33,13 +33,12 @@ import { API_URL } from 'src/constant/Constants';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
-
 const Input = styled('input')({
   display: 'none',
 });
 
 function EditProduct() {
-  const initStateProductForm = initEditProduct('', [], '', '', [], [], '', '', '', 0, '');
+  const initStateProductForm = initEditProduct('', [], '', '', [], [], '', '', '', '', '', '', '', '');
   const [productForm, setProductForm] = useState(initStateProductForm);
   const [images, setImages] = useState([]);
   const [listCategory, setListCategory] = useState([]);
@@ -49,8 +48,8 @@ function EditProduct() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
-  const [dataProduct, setDataProduct]= useState(null);
-  const [seconds,setSeconds]=useState(6);
+  const [dataProduct, setDataProduct] = useState(null);
+  const [seconds, setSeconds] = useState(2);
 
   const options = {
     autoClose: 2000,
@@ -62,8 +61,8 @@ function EditProduct() {
     apiAdminGetProductById(id).then((res) => {
       const result = res?.data?.data;
       setDataProduct(result);
-      setImages(res?.data?.data.images);      
-      if(result){
+      setImages(res?.data?.data.images);
+      if (result) {
         setProductForm({
           ...productForm,
           name: result?.name,
@@ -81,7 +80,7 @@ function EditProduct() {
           ratingAvg: result?.ratingAvg,
           brand: result?.brand,
         });
-      }  
+      }
     }).catch((err) => {
       console.log(err)
     }).finally(() => {
@@ -107,28 +106,28 @@ function EditProduct() {
     }
   }, [seconds]);
 
-    useEffect( ()=>{
-      if(dataProduct !== null){
-        if(true){
-          setProductForm({
-            ...productForm,
-            name: dataProduct?.name,
-            size: dataProduct?.size,
-            priceOrigin: dataProduct?.priceOrigin,
-            priceSell: dataProduct?.priceSell,
-            color: dataProduct?.color,
-            images: dataProduct?.images,
-            shortDesc: dataProduct?.shortDesc,
-            categoryId: dataProduct?.categoryId,
-            sold: dataProduct?.sold,
-            available: dataProduct?.available,
-            reviewCount: dataProduct?.reviewCount,
-            ratingAvg: dataProduct?.ratingAvg,
-            brand: dataProduct?.brand,
-          });
-        }  
+  useEffect(() => {
+    if (dataProduct !== null) {
+      if (true) {
+        setProductForm({
+          ...productForm,
+          name: dataProduct?.name,
+          size: dataProduct?.size,
+          priceOrigin: dataProduct?.priceOrigin,
+          priceSell: dataProduct?.priceSell,
+          color: dataProduct?.color,
+          images: dataProduct?.images,
+          shortDesc: dataProduct?.shortDesc,
+          categoryId: dataProduct?.categoryId,
+          sold: dataProduct?.sold,
+          available: dataProduct?.available,
+          reviewCount: dataProduct?.reviewCount,
+          ratingAvg: dataProduct?.ratingAvg,
+          brand: dataProduct?.brand,
+        });
       }
-    }, [seconds])
+    }
+  }, [seconds])
 
   function uploadAdapter(loader) {
     const accessToken = TokenService.getLocalAccessToken();
@@ -210,6 +209,15 @@ function EditProduct() {
       sold: Number(data),
     });
   };
+
+  const handleChangeProductAvailable = (event) => {
+    let data = event.target.value;
+    setProductForm({
+      ...productForm,
+      available: Number(data),
+    });
+  };
+
   const handleChangeProductColors = (event) => {
     let data = event.target.value;
     setProductForm({
@@ -428,6 +436,17 @@ function EditProduct() {
                 fullWidth
               />
             </Grid>
+            <Grid item xs={6} sx={{ pl: '24px' }}>
+              <TextField
+                id="productSold"
+                label="Số sản phẩm còn lại"
+                placeholder="Nhập số lượng sản phẩm còn trong kho"
+                value={productForm.available}
+                onChange={handleChangeProductAvailable}
+                required
+                fullWidth
+              />
+            </Grid>          
             <Grid item xs={12} sx={{ pl: '24px' }}>
               <label htmlFor="contained-button-file-font">
                 <Input

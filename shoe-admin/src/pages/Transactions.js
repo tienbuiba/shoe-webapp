@@ -56,7 +56,7 @@ export default function Transactions() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('name');
-  const [rowsPerPage, setRowsPerPage] = useState(50);
+  const [rowsPerPage, setRowsPerPage] = useState(25);
   const [data, setData] = useState([]);
   const [total, setTotal] = useState(0);
   const [keyword, setKeyword] = useState('');

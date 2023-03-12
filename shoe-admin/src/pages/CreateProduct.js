@@ -35,7 +35,7 @@ const Input = styled('input')({
 });
 
 function CreateProduct() {
-  const initStateProductForm = initProduct('', [], '', '', [], [], '', '', '', 0, '');
+  const initStateProductForm = initProduct('', [], '', '', [], [], '', '', '', '', '', '', '', '');
   const [productForm, setProductForm] = useState(initStateProductForm);
   const [images, setImages] = useState([]);
   const [listCategory, setListCategory] = useState([]);
@@ -140,6 +140,13 @@ function CreateProduct() {
       sold: Number(data),
     });
   };
+  const handleChangeProductAvailable = (event) => {
+    let data = event.target.value;
+    setProductForm({
+      ...productForm,
+      available: Number(data),
+    });
+  };
   const handleChangeProductColors = (event) => {
     let data = event.target.value;
     setProductForm({
@@ -204,9 +211,9 @@ function CreateProduct() {
           longDesc: '',
           categoryId: '',
           sold: '',
-          available: 1,
-          reviewCount: 0,
-          ratingAvg: 0,
+          available: '',
+          reviewCount: 1,
+          ratingAvg: 5,
           brand: ''
         });
       })
@@ -343,6 +350,17 @@ function CreateProduct() {
                 fullWidth
               />
             </Grid>
+            <Grid item xs={6} sx={{ pl: '24px' }}>
+              <TextField
+                id="productSold"
+                label="Số sản phẩm có sẵn"
+                placeholder="Nhập số lượng sản phẩm có sẵn"
+                value={productForm.available}
+                onChange={handleChangeProductAvailable}
+                required
+                fullWidth
+              />
+            </Grid>
             <Grid item xs={12} sx={{ pl: '24px' }}>
               <label htmlFor="contained-button-file-font">
                 <Input
@@ -399,6 +417,7 @@ function CreateProduct() {
               startIcon={<AddIcon></AddIcon>}
               size="large"
               component="span"
+              color="error"
               onClick={handleSubmit}
             >
               Thêm sản phẩm
