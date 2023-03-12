@@ -192,9 +192,9 @@ const NewDetail = () => {
                 }}>
                   {data.createdAt && (
                     fDateLocal(data?.createdAt)
-                  )}
-                </span>,
-                {t("BY ADMIN")}
+                  )},
+                </span>
+                {t("By MeShoes.info")}
               </div>
               <div>
                 <div className="product_images">

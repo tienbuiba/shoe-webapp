@@ -19,7 +19,7 @@ const MainProduct = () => {
   const dispatch = useDispatch();
   const [total, setTotal] = useState(0);
   const dataCategoryId = useSelector(state => state.category.data);
-  const id = 16;
+  const id = 30;
   const [color, setColor] = useState('');
   const [price, setPrice] = useState('');
   const [size, setSize] = useState('');

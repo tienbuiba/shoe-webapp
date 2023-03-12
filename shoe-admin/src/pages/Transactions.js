@@ -20,14 +20,13 @@ import { UserListHead } from '../sections/@dashboard/user';
 import { styled } from '@mui/material/styles';
 import { Toolbar, OutlinedInput, InputAdornment } from '@mui/material';
 import { apiAdminGetListTransaction } from 'src/services/Transaction';
-import { fDateTime } from 'src/utils/formatTime';
 import { fNumber } from 'src/utils/formatNumber';
 import { fDateLocal } from '../utils/formatTime';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Loại giao dịch', alignRight: false },
+  { id: 'name', label: 'Mã đơn hàng', alignRight: false },
   { id: 'role', label: 'Số tiền (VND)', alignRight: false },
   { id: 'adadasd', label: 'Nội dung giao dịch', alignRight: false },
   { id: 'Email', label: 'Phương thức giao dịch', alignRight: false },
@@ -61,7 +60,6 @@ export default function Transactions() {
   const [data, setData] = useState([]);
   const [total, setTotal] = useState(0);
   const [keyword, setKeyword] = useState('');
-
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -104,10 +102,10 @@ export default function Transactions() {
 
   return (
     <Page title="Giao dịch">
-       <Container maxWidth="xl">
+      <Container maxWidth="xl">
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-        Lịch sử giao dịch
+            Lịch sử giao dịch
           </Typography>
         </Stack>
         <Card>
@@ -138,13 +136,13 @@ export default function Transactions() {
                       <TableRow key={row.id}>
                         <TableCell align="left"></TableCell>
                         <TableCell align="left">
-                          <Label variant="ghost" color={(row.type !== 'MINUS' && 'success') || 'error'}>
-                            {row.type}
+                          <Label variant="ghost" color={(row.orderCode !== 'BANK' && 'success') || 'error'}>
+                            {row.orderCode}
                           </Label>
                         </TableCell>
                         <TableCell align="left">{fNumber(row.amount)}</TableCell>
                         <TableCell align="left">{row.message}</TableCell>
-                        <TableCell align="left">{row.type === 'MINUS' ? '' : row.type.substring(4)}</TableCell>
+                        <TableCell align="left">{row.type === 'BANK' ? 'Chuyển khoản ngân hàng' : "Tiền mặt"}</TableCell>
                         <TableCell align="left">{fDateLocal(row.createdAt)}</TableCell>
                       </TableRow>
                     );
@@ -154,7 +152,7 @@ export default function Transactions() {
             </TableContainer>
           </Scrollbar>
           <TablePagination
-            rowsPerPageOptions={[10, 20,30]}
+            rowsPerPageOptions={[10, 20, 30]}
             component="div"
             count={total}
             rowsPerPage={rowsPerPage}

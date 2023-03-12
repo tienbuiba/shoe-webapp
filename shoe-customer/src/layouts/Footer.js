@@ -32,12 +32,12 @@ const Footer = () => {
                 </ul>
               </div>
               <h6 style={{ color: '#fff', marginBottom: `${!smUp ? '10px' : '30px'}`, marginTop: `${!smUp ? '20px' : '40px'}` }}>
-              {t("SUPPORT PAYMENT")}
+                {t("SUPPORT PAYMENT")}
               </h6>
               <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '10px' }}>
-                <img src={require("../_mock/payment/payment1.webp")} style={{ width: '45px', height: '40px', borderRadius: '4px' }} />
-                <img src={require("../_mock/payment/payment2.webp")} style={{ width: '45px', height: '40px', borderRadius: '4px' }} />
-                <img src={require("../_mock/payment/payment3.jfif")} style={{ width: '45px', height: '40px', borderRadius: '4px' }} />
+                <img src={require("../_mock/payment/payment1.webp")} style={{ width: '50px', height: '40px', borderRadius: '4px' }} />
+                <img src={require("../_mock/payment/payment2.webp")} style={{ width: '50px', height: '40px', borderRadius: '4px' }} />
+                <img src={require("../_mock/payment/payment3.jfif")} style={{ width: '50px', height: '40px', borderRadius: '4px' }} />
               </div>
             </div>
             <div className="col-lg-3">

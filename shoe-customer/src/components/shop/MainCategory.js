@@ -21,7 +21,7 @@ const lteProps = {
 
 const brands = [{
   id: 1,
-  name: 'NIKE',
+  name: 'Nike',
 
 }, {
   id: 2,
@@ -30,10 +30,6 @@ const brands = [{
 {
   id: 3,
   name: 'Puma'
-},
-{
-  id: 5,
-  name: 'Converse'
 },
 {
   id: 6,
@@ -61,10 +57,7 @@ const sizes = [{
   id: 5,
   name: '42'
 },
-{
-  id: 6,
-  name: '43'
-}
+
 ]
 
 const colors = [{
@@ -85,7 +78,7 @@ const colors = [{
 },
 {
   id: 5,
-  name: 'yellow'
+  name: 'green'
 }
 ]
 
@@ -179,7 +172,7 @@ const MainCategory = () => {
                     labelId="mutiple-select-label"
                     multiple
                     MenuProps={lteProps}
-                    sx={{ borderRadius: '4px' }}                    
+                    sx={{ borderRadius: '4px' }}
                     label={t("Select Brand")}
                     value={selectedBrand}
                     onChange={handleChangeBrand}
@@ -214,8 +207,6 @@ const MainCategory = () => {
                     multiple
                     MenuProps={lteProps}
                     sx={{ borderRadius: '4px' }}
-                    
-
                     label={t("Select Size")}
                     value={selectedSize}
                     onChange={handleChangeSize}
@@ -249,7 +240,7 @@ const MainCategory = () => {
                     labelId="mutiple-select-label"
                     multiple
                     sx={{ borderRadius: '4px' }}
-                    
+
                     MenuProps={lteProps}
                     label={t("Select Colors")}
                     value={selectedColor}

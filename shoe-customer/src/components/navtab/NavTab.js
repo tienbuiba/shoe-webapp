@@ -4,6 +4,8 @@ import ProductMen from '../shop/ProductMen';
 import ProductWomen from '../shop/ProductWomen';
 import ProductMain from '../shop/ProductMain';
 import useResponsive from 'src/hooks/useResponsive';
+import { useTranslation } from 'react-i18next';
+import { t } from 'i18next';
 
 
 const NavTab = () => {
@@ -19,6 +21,8 @@ const NavTab = () => {
 
   function TabPanel(props) {
     const { children, value, index, ...other } = props;
+    const { t } = useTranslation("translation");
+
     return (
       <div
         role="tabpanel"
@@ -70,17 +74,19 @@ const NavTab = () => {
               variant="fullWidth"
               onChange={handleChange}
             >
-              <Tab label="women's" sx={{
+              <Tab label= {t("accessories's")} sx={{
                 "&.Mui-selected": {
                   color: '#fe4c50',
                 }
               }} />
-              <Tab label="accessories's" sx={{
-                "&.Mui-selected": {
-                  color: '#fe4c50',
-                }
-              }} />
-              <Tab label="men's" sx={{
+
+              <Tab label={t("men's")}
+                sx={{
+                  "&.Mui-selected": {
+                    color: '#fe4c50',
+                  }
+                }} />
+              <Tab label= {t("women's")} sx={{
                 "&.Mui-selected": {
                   color: '#fe4c50',
                 }
@@ -88,13 +94,13 @@ const NavTab = () => {
             </Tabs>
           </Paper>
           <TabPanel value={value} index={0}>
-            <ProductMen />
-          </TabPanel>
-          <TabPanel value={value} index={1}>
             <ProductMain />
           </TabPanel>
-          <TabPanel value={value} index={2}>
+          <TabPanel value={value} index={1}>
             <ProductWomen />
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            <ProductMen />
           </TabPanel>
         </div>
       }

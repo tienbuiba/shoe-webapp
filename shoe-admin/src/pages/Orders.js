@@ -25,6 +25,7 @@ import { Toolbar, OutlinedInput, InputAdornment } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Iconify from '../components/Iconify';
 import { closeLoadingApi, openLoadingApi } from 'src/redux/create-actions/LoadingAction';
+import { fNumber } from 'src/utils/formatNumber';
 
 // ----------------------------------------------------------------------
 
@@ -140,11 +141,11 @@ export default function Orders() {
                       <TableRow key={row.id}>
                         <TableCell align="left"></TableCell>
                         <TableCell align="left">
-                          {(page) * rowsPerPage + index + 1}  
+                          {(page) * rowsPerPage + index + 1}
                         </TableCell>
                         <TableCell align="left">{row.code}</TableCell>
                         <TableCell align="left">
-                          {row?.items.length >= 2 ? ((row?.items[0].priceSell * row?.items[0].orderInfo.quantity) + (row?.items[1].priceSell * row?.items[1].orderInfo.quantity)) : (row?.items[0].priceSell * row?.items[0].orderInfo.quantity)}
+                          {row?.items.length >= 2 ? fNumber((row?.items[0].priceSell * row?.items[0].orderInfo.quantity) + (row?.items[1].priceSell * row?.items[1].orderInfo.quantity)) : fNumber(row?.items[0].priceSell * row?.items[0].orderInfo.quantity)}
                         </TableCell>
                         <TableCell align="left">{(row.paymentMethod === 'TRANSFER' ? 'Chuyển khoản' : 'Tiền mặt')}</TableCell>
                         <TableCell align="left">{(row.address)}</TableCell>

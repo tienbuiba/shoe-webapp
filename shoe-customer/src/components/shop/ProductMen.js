@@ -20,7 +20,7 @@ const ProductMen = () => {
 
   useEffect(() => {
     dispatch(openLoadingApi());
-    apiUserGetAllProductByCategoryId(rowsPerPage, page, keyword, 16).then(result => {
+    apiUserGetAllProductByCategoryId(rowsPerPage, page, keyword, 19).then(result => {
       setDataProduct(result.data.data.items);
       dispatch(closeLoadingApi());
     }).catch(err => {
